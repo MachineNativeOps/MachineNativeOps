@@ -5,8 +5,12 @@ import { tmpdir } from 'os';
 
 // Define a safe root directory for allowed file operations
 const SAFE_ROOT = path.resolve(process.cwd(), 'safefiles');
-// In test environment, also allow OS temp directory for test files
-const ALLOWED_ABSOLUTE_PREFIXES = process.env.NODE_ENV === 'test' ? [tmpdir()] : [];
+// Allowed absolute path prefixes based on environment
+// In test: allow tmpdir for test files
+// In production: allow project workspace and safefiles directory only
+const ALLOWED_ABSOLUTE_PREFIXES = process.env.NODE_ENV === 'test' 
+  ? [tmpdir(), process.cwd()] 
+  : [process.cwd()];
 import { SLSAAttestationService, SLSAProvenance, BuildMetadata } from './attestation';
 
 export interface BuildAttestation {
@@ -94,18 +98,13 @@ export class ProvenanceService {
     // Handle absolute vs relative paths
     let resolvedPath: string;
     if (path.isAbsolute(subjectPath)) {
-      // For absolute paths in test environment, validate against allowed prefixes
-      if (process.env.NODE_ENV === 'test') {
-        resolvedPath = path.normalize(subjectPath);
-        const isAllowed = ALLOWED_ABSOLUTE_PREFIXES.some(prefix => 
-          resolvedPath.startsWith(prefix + path.sep) || resolvedPath === prefix
-        );
-        if (!isAllowed) {
-          throw new Error('Invalid file path: Absolute paths must be within allowed directories.');
-        }
-      } else {
-        // In production, use absolute paths as-is (file existence check will fail if invalid)
-        resolvedPath = path.normalize(subjectPath);
+      // For absolute paths, validate against allowed prefixes (security check)
+      resolvedPath = path.normalize(subjectPath);
+      const isAllowed = ALLOWED_ABSOLUTE_PREFIXES.some(prefix => 
+        resolvedPath.startsWith(prefix + path.sep) || resolvedPath === prefix
+      );
+      if (!isAllowed) {
+        throw new Error('Invalid file path: Absolute paths must be within allowed directories.');
       }
     } else {
       // For relative paths, resolve against SAFE_ROOT
