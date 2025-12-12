@@ -48,7 +48,7 @@ interface SankeyDiagramProps {
  * the system: from source layers → languages → violation types → fix targets.
  *
  * Features:
- * - **Security**: Uses mermaid.render with cryptographically secure unique IDs
+ * - **Security**: Uses mermaid.render with cryptographically secure unique IDs when available, with a timestamp-based fallback if necessary
  * - **XSS Prevention**: All user inputs are sanitized before rendering
  * - **Dark Theme**: Custom dark theme variables matching application design
  * - **Error Handling**: Graceful fallback message on render errors
