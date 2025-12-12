@@ -234,7 +234,7 @@ export const errorMiddleware = (
  * //     "code": "NOT_FOUND",
  * //     "message": "Route GET /undefined-route not found",
  * //     "traceId": "a1b2c3d4-...",
- * //     "timestamp": "2024-01-15T10:30:00.000Z"
+ * //     "timestamp": "2025-12-01T10:00:00.000Z"
  * //   }
  * // }
  */
