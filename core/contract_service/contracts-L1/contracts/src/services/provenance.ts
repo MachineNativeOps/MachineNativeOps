@@ -12,12 +12,6 @@ const SAFE_ROOT =
     ? path.resolve(process.cwd()) // Allow access to cwd and subdirectories in test
     : path.resolve(process.cwd(), 'safefiles');
 
-// Allowed absolute path prefixes based on environment
-// In test: allow tmpdir for test files
-// In production: allow project workspace and safefiles directory only
-const ALLOWED_ABSOLUTE_PREFIXES =
-  process.env.NODE_ENV === 'test' ? [tmpdir(), process.cwd()] : [process.cwd(), SAFE_ROOT];
-
 /**
  * Validates and normalizes a file path to prevent path traversal attacks.
  * Ensures the resolved path is within the SAFE_ROOT directory or is an absolute path
@@ -176,37 +170,8 @@ export class ProvenanceService {
     metadata: Partial<MetadataInfo> = {}
   ): Promise<BuildAttestation> {
     // Use secure path validation that resolves symlinks via realpath
-    let validatedPath: string;
-
-    // Handle absolute paths in test environment
-    if (path.isAbsolute(subjectPath) && process.env.NODE_ENV === 'test') {
-      // Allow tmpdir and process.cwd() in test mode
-      const normalizedPath = path.normalize(subjectPath);
-      // Use realpath to resolve symlinks for security
-      try {
-        validatedPath = await realpath(normalizedPath);
-        // Verify the canonical path is within allowed prefixes
-        const isAllowed = ALLOWED_ABSOLUTE_PREFIXES.some(
-          (prefix) => validatedPath.startsWith(prefix + path.sep) || validatedPath === prefix
-        );
-        if (!isAllowed) {
-          throw new Error('Invalid file path: Absolute paths must be within allowed directories.');
-        }
-      } catch (error) {
-        // If realpath fails, check if the normalized path would be allowed
-        const isAllowed = ALLOWED_ABSOLUTE_PREFIXES.some(
-          (prefix) => normalizedPath.startsWith(prefix + path.sep) || normalizedPath === prefix
-        );
-        if (!isAllowed) {
-          throw new Error('Invalid file path: Absolute paths must be within allowed directories.');
-        }
-        // Re-throw the original error (e.g., ENOENT)
-        throw error;
-      }
-    } else {
-      // For relative paths or production absolute paths, use validateAndNormalizePath
-      validatedPath = await validateAndNormalizePath(subjectPath);
-    }
+    // The validateAndNormalizePath function handles all cases including test environment
+    const validatedPath = await validateAndNormalizePath(subjectPath);
 
     const stats = await stat(validatedPath);
     if (!stats.isFile()) {
