@@ -18,7 +18,7 @@
 
 **Important 重要**: 不得假設 repo 外還存在其他隱形系統架構。
 
-### 2. Actual Repository Surface (2025-12-12) 實際目錄快照
+### 2. Actual Repository Surface Snapshot 實際目錄快照
 
 > 來源: repository root 的目錄列表（例如 `ls` 或 `dir`）  
 > 作用: 提供 AI 代理與開發者快速對照「真實存在的目錄」與上層語義邊界
@@ -26,7 +26,7 @@
 | 分類 | 主要目錄 (僅列核心) | 備註 |
 | --- | --- | --- |
 | 核心平台 | `core/`, `runtime/`, `shared/` | AI 決策、整合層、運行時、共用資源 |
-| 自動化 | `automation/` | 智能/超自動化、架構骨架、零觸及部署（含 `automation/pipelines/` 子模組） |
+| 自動化 | `automation/` | 智能/超自動化、架構骨架、零接觸部署（含 `automation/pipelines/` 子模組） |
 | 自主/無人 | `autonomous/`, `v1-python-drones/`, `v2-multi-islands/` | 無人機與多島嶼框架 |
 | 服務/代理 | `services/`, `agent/`, `mcp-servers/` | 長生命週期代理、MCP 工具端點 |
 | 前端/應用 | `frontend/`, `apps/` | UI 套件與 Web 應用 |
