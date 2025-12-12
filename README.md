@@ -1,4 +1,4 @@
-# 🏝️ Unmanned Island System
+# 🏝️ Unmanned Island
 
 <div align="center">
 
