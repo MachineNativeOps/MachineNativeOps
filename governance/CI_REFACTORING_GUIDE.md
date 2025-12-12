@@ -1,13 +1,13 @@
 # CI Pipeline Refactoring Guide | CI 管線重構指南
 
-> **Version**: 1.0.0 | **Last Updated**: 2025-12-12
+> **Version**: 2.0.0 | **Last Updated**: 2025-12-12
 
 ## 📋 Overview | 概述
 
-This guide documents the refactoring of SynergyMesh's CI pipeline from 70+ fragmented
-workflows to a streamlined governance-focused CI system with 7 core jobs.
+This guide documents the refactoring of SynergyMesh's CI pipeline from 74 fragmented
+workflows to a streamlined 24-workflow system.
 
-本指南記錄了 SynergyMesh CI 管線從 70 多個碎片化工作流重構為 7 個核心治理 CI 工作的過程。
+本指南記錄了 SynergyMesh CI 管線從 74 個碎片化工作流重構為 24 個精簡工作流的過程。
 
 ---
 
@@ -15,88 +15,107 @@ workflows to a streamlined governance-focused CI system with 7 core jobs.
 
 ### Problems Addressed | 解決的問題
 
-1. **Fragmentation (碎片化)**: 73 active workflows + 8 disabled = high maintenance cost
-2. **Overlap (重疊)**: Multiple workflows doing similar validation/security checks
-3. **Traceability (可追溯性)**: Difficult to understand which workflows are essential
-4. **Cost (成本)**: Excessive CI minutes consumed by redundant jobs
+1. **Fragmentation (碎片化)**: 74 active workflows → 24 streamlined workflows
+2. **Overlap (重疊)**: Removed 50 redundant/overlapping workflows
+3. **Traceability (可追溯性)**: Clear core workflows (01-08) + governance CI
+4. **Cost (成本)**: ~68% reduction in workflow count
 
-### Target State | 目標狀態
+### Final State | 最終狀態
 
-| Before | After |
-|--------|-------|
-| 73+ active workflows | 7-10 core workflows + reusable components |
-| Fragmented governance checks | Single `governance-closed-loop-ci.yml` |
-| Overlapping security scans | Consolidated security check |
-| Multiple validation workflows | Unified DAG + compliance validation |
+| Before | After | Reduction |
+|--------|-------|-----------|
+| 74 active workflows | 24 workflows | -68% |
+| Fragmented governance checks | Single `governance-closed-loop-ci.yml` | Centralized |
+| Overlapping security scans | Consolidated `06-security-scan.yml` | Simplified |
+| Multiple validation workflows | Unified `01-validate.yml` | Streamlined |
 
 ---
 
-## 📊 Workflow Classification | 工作流分類
+## 📊 Final Workflow Structure | 最終工作流結構
 
-### Category 1: Essential Foundation (必要基礎) ✅ KEEP
+### Core Workflows (24 total) | 核心工作流
 
-These workflows handle core build, test, and deployment operations.
+| # | Workflow | Purpose |
+|---|----------|---------|
+| 1 | `01-validate.yml` | Lint and format validation |
+| 2 | `02-test.yml` | Multi-language test suite |
+| 3 | `03-build.yml` | Build matrix (TS/Rust/Go/Java) |
+| 4 | `04-deploy-staging.yml` | Staging deployment |
+| 5 | `05-deploy-production.yml` | Production deployment |
+| 6 | `06-security-scan.yml` | Security scanning |
+| 7 | `07-dependency-update.yml` | Dependency updates |
+| 8 | `08-sync-subdirs.yml` | Subdirectory sync |
+| 9 | `auto-vulnerability-fix.yml` | Auto security fixes |
+| 10 | `codeql.yml` | CodeQL analysis |
+| 11 | `copilot-setup-steps.yml` | Copilot integration |
+| 12 | `governance-closed-loop-ci.yml` | Governance checks (7 jobs) |
+| 13 | `island-ai-setup-steps.yml` | Island AI setup |
+| 14 | `label.yml` | PR labeling |
+| 15 | `pr-security-gate.yml` | PR security checks |
+| 16 | `release.yml` | Release management |
+| 17 | `reusable-ci.yml` | Reusable CI pipeline |
+| 18 | `reusable-docker-build.yml` | Reusable Docker build |
+| 19 | `reusable-setup.yml` | Reusable setup |
+| 20 | `reusable-validation.yml` | Reusable validation |
+| 21 | `secret-bypass-request.yml` | Secret bypass handling |
+| 22 | `secret-protection.yml` | Secret protection |
+| 23 | `stale.yml` | Stale PR management |
+| 24 | `static.yml` | Static site deployment |
 
-| Workflow | Purpose | Action |
-|----------|---------|--------|
-| `01-validate.yml` | Lint and format validation | Keep |
-| `02-test.yml` | Multi-language test suite | Keep |
-| `03-build.yml` | Build matrix (TS/Rust/Go/Java) | Keep |
-| `04-deploy-staging.yml` | Staging deployment | Keep |
-| `05-deploy-production.yml` | Production deployment | Keep |
-| `06-security-scan.yml` | Core security scanning | Keep |
-| `07-dependency-update.yml` | Dependency updates | Keep |
-| `release.yml` | Release management | Keep |
-| `codeql.yml` | CodeQL security analysis | Keep |
+### Deleted Workflows (50 total) | 已刪除工作流
 
-### Category 2: Governance (治理相關) 🔄 CONSOLIDATE
+The following workflows were removed as redundant or low-value:
 
-These workflows are consolidated into `governance-closed-loop-ci.yml`.
-
-| Workflow | Consolidates Into | New Job |
-|----------|-------------------|---------|
-| `governance-validation.yml` | governance-closed-loop-ci | DAG Validation |
-| `gac-validation.yml` | governance-closed-loop-ci | Policy Execution |
-| `compliance-report.yml` | governance-closed-loop-ci | Compliance Framework |
-| `arch-governance-validation.yml` | governance-closed-loop-ci | All governance jobs |
-| `conftest-validation.yml` | governance-closed-loop-ci | Policy Execution |
-| `policy-simulate.yml` | governance-closed-loop-ci | Policy Execution |
-
-### Category 3: Redundant/Overlapping (冗餘/重疊) ⚠️ DEPRECATE
-
-These workflows overlap with others or are outdated.
-
-| Workflow | Reason | Action |
-|----------|--------|--------|
-| `eslint.yml` | Covered by `01-validate.yml` | Mark deprecated |
-| `docs-lint.yml` | Covered by `01-validate.yml` | Mark deprecated |
-| `validate-yaml.yml` | Covered by governance CI | Mark deprecated |
-| `python-validation.yml` | Covered by `02-test.yml` | Mark deprecated |
-| `language-check.yml` | Covered by `01-validate.yml` | Mark deprecated |
-| `build-linux.yml` | Can use reusable workflow | Consider merge |
-| `build-macos.yml` | Can use reusable workflow | Consider merge |
-| `build-windows.yml` | Can use reusable workflow | Consider merge |
-
-### Category 4: Automation/Self-Healing (自動化) 📦 EVALUATE
-
-| Workflow | Purpose | Recommendation |
-|----------|---------|----------------|
-| `autofix-bot.yml` | Auto-fix issues | Keep if valuable |
-| `auto-vulnerability-fix.yml` | Security remediation | Keep |
-| `self-healing-ci.yml` | CI self-repair | Evaluate ROI |
-| `autonomous-ci-guardian.yml` | CI monitoring | Evaluate ROI |
-| `ci-failure-auto-solution.yml` | Auto-fix failures | Evaluate ROI |
-
-### Category 5: Utility/Support (工具支援) 🔧 REVIEW
-
-| Workflow | Purpose | Action |
-|----------|---------|--------|
-| `label.yml` | PR labeling | Keep (low cost) |
-| `stale.yml` | Stale PR management | Keep (low cost) |
-| `static.yml` | Static site deployment | Keep |
-| `reusable-*.yml` | Reusable workflows | Keep/Enhance |
-| `copilot-setup-steps.yml` | Copilot integration | Keep |
-| `island-ai-setup-steps.yml` | Island AI setup | Keep |
+- `eslint.yml` - Covered by `01-validate.yml`
+- `docs-lint.yml` - Covered by `01-validate.yml`
+- `validate-yaml.yml` - Covered by governance CI
+- `python-validation.yml` - Covered by `02-test.yml`
+- `language-check.yml` - Covered by `01-validate.yml`
+- `governance-validation.yml` - Consolidated into governance CI
+- `gac-validation.yml` - Consolidated into governance CI
+- `conftest-validation.yml` - Consolidated into governance CI
+- `policy-simulate.yml` - Consolidated into governance CI
+- `arch-governance-validation.yml` - Consolidated into governance CI
+- `compliance-report.yml` - Consolidated into governance CI
+- `gac-auto-sync.yml` - Low value
+- `ci-auto-comment.yml` - Overly complex
+- `ci-cost-dashboard.yml` - Not essential
+- `ci-failure-auto-solution.yml` - Overly complex
+- `dynamic-ci-assistant.yml` - Overly complex
+- `interactive-ci-service.yml` - Not essential
+- `autonomous-ci-guardian.yml` - Overly complex
+- `self-healing-ci.yml` - Redundant
+- `extreme-problem-identification.yml` - Low value
+- `language-governance.yml` - Overly complex
+- `language-governance-dashboard.yml` - Low value
+- `env-setup.yml` - Covered by reusable workflows
+- `dependency-manager-ci.yml` - Covered by `07-dependency-update.yml`
+- `project-self-awareness.yml` - Low value
+- `project-self-awareness-nightly.yml` - Low value
+- `auto-update-knowledge-graph.yml` - Low value
+- `mndoc-knowledge-graph.yml` - Low value
+- `update-refactor-playbooks.yml` - Low value
+- `system-evolution.yml` - Low value
+- `autofix-bot.yml` - Low value
+- `auto-review-merge.yml` - Not essential
+- `monorepo-dispatch.yml` - Low value
+- `phase1-integration.yml` - Outdated
+- `integration-deployment.yml` - Covered by deploy workflows
+- `validate-ai-behavior-contract.yml` - Low value
+- `validate-copilot-instructions.yml` - Low value
+- `validate-island-ai-instructions.yml` - Low value
+- `build-linux.yml` - Covered by `03-build.yml`
+- `build-macos.yml` - Covered by `03-build.yml`
+- `build-windows.yml` - Covered by `03-build.yml`
+- `osv-scanner.yml` - Covered by `06-security-scan.yml`
+- `snyk-security.yml` - Covered by `06-security-scan.yml`
+- `core-services-ci.yml` - Covered by main workflows
+- `contracts-cd.yml` - Covered by main workflows
+- `mcp-servers-cd.yml` - Covered by main workflows
+- `project-cd.yml` - Covered by main workflows
+- `create-staging-branch.yml` - Low value
+- `delete-staging-branches.yml` - Low value
+- `setup-runner.yml` - Not essential
 
 ---
 
@@ -150,40 +169,33 @@ graph TD
 
 ---
 
-## 📅 Migration Timeline | 遷移時間表
+## 📅 Migration Status | 遷移狀態
 
-### Phase 1: Short-Term (短期) - Week 1-2
+### ✅ Completed | 已完成
 
-- [x] Create `governance-closed-loop-ci.yml`
+- [x] Create `governance-closed-loop-ci.yml` with 7 core governance jobs
 - [x] Create `CI_REFACTORING_GUIDE.md`
-- [ ] Test new governance CI on feature branch
-- [x] Document deprecated workflows
+- [x] Delete 50 redundant/low-value workflows
+- [x] Reduce workflow count from 74 to 24 (-68%)
+- [x] Update documentation references
 
-### Phase 2: Mid-Term (中期) - Week 3-4
+### Future Considerations | 未來考量
 
-- [x] Add deprecation notices to redundant workflows (5 workflows marked)
-- [x] Update documentation references (README.md, WORKFLOW_INDEX.md)
-- [ ] Monitor CI costs before/after
-- [ ] Gather feedback from team
-
-### Phase 3: Long-Term (長期) - Month 2-3
-
-- [ ] Remove deprecated workflows
-- [ ] Consolidate platform-specific builds
-- [ ] Finalize reusable workflow patterns
-- [ ] Complete transition to governance-centric CI
+- [ ] Monitor CI performance with streamlined workflows
+- [ ] Evaluate need for additional reusable workflows
+- [ ] Consider further consolidation if needed
 
 ---
 
-## 📈 Expected Benefits | 預期效益
+## 📈 Results | 成果
 
 | Metric | Before | After | Improvement |
 |--------|--------|-------|-------------|
-| Active workflows | 73 | ~15-20 | -70% |
-| Governance checks | Fragmented | 7 unified | Centralized |
-| CI minutes/PR | High | Reduced | ~50% savings |
-| Maintenance burden | High | Low | Simplified |
-| Traceability | Poor | Excellent | Clear audit trail |
+| Active workflows | 74 | 24 | -68% |
+| Governance checks | 6+ fragmented | 1 unified (7 jobs) | Centralized |
+| Security scans | 4+ overlapping | 2 consolidated | Simplified |
+| Validation workflows | 8+ redundant | 1 unified | Streamlined |
+| CI complexity | High | Low | Simplified |
 
 ---
 
