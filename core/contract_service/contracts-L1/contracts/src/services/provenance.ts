@@ -1,15 +1,9 @@
 import { createHash, randomUUID } from 'crypto';
-import { readFile, stat, realpath } from 'fs/promises';
-import { tmpdir } from 'os';
+import { readFile, stat } from 'fs/promises';
 import * as path from 'path';
 
-// Define a safe root directory for allowed file operations
-const SAFE_ROOT = path.resolve(process.cwd(), 'safefiles');
-// Allowed absolute path prefixes based on environment
-// In test: allow tmpdir for test files
-// In production: allow project workspace and safefiles directory only
-const ALLOWED_ABSOLUTE_PREFIXES =
-  process.env.NODE_ENV === 'test' ? [tmpdir(), process.cwd()] : [process.cwd(), SAFE_ROOT];
+import { PathValidator } from '../utils/path-validator';
+
 import { SLSAAttestationService, SLSAProvenance, BuildMetadata } from './attestation';
 
 export interface BuildAttestation {
@@ -71,90 +65,12 @@ export interface Dependency {
 }
 
 export class ProvenanceService {
-  private slsaService: SLSAAttestationService;
+  private readonly slsaService: SLSAAttestationService;
+  private readonly pathValidator: PathValidator;
 
-  constructor() {
+  constructor(pathValidator?: PathValidator) {
     this.slsaService = new SLSAAttestationService();
-  }
-
-  /**
-   * Validate and resolve an absolute path with symlink protection
-   */
-  private async validateAbsolutePath(subjectPath: string): Promise<string> {
-    // Use realpath to resolve symlinks and get canonical path
-    let resolvedPath: string;
-    try {
-      resolvedPath = await realpath(path.normalize(subjectPath));
-    } catch (error) {
-      // Re-throw ENOENT errors as-is so they can be handled properly by the controller
-      const nodeError = error as NodeJS.ErrnoException;
-      if (nodeError.code === 'ENOENT') {
-        throw error;
-      }
-      throw new Error(
-        `Invalid file path: Unable to resolve path. ${error instanceof Error ? error.message : String(error)}`
-      );
-    }
-
-    // Canonicalize allowed prefixes to handle symlinks in them as well
-    const canonicalPrefixes = await Promise.all(
-      ALLOWED_ABSOLUTE_PREFIXES.map(async (prefix) => {
-        try {
-          return await realpath(prefix);
-        } catch {
-          // If realpath fails (e.g., directory doesn't exist), use normalized path
-          return path.normalize(prefix);
-        }
-      })
-    );
-
-    const isAllowed = canonicalPrefixes.some(
-      (prefix) => resolvedPath.startsWith(prefix + path.sep) || resolvedPath === prefix
-    );
-    if (!isAllowed) {
-      throw new Error('Invalid file path: Absolute paths must be within allowed directories.');
-    }
-
-    return resolvedPath;
-  }
-
-  /**
-   * Validate and resolve a relative path with symlink protection
-   */
-  private async validateRelativePath(subjectPath: string): Promise<string> {
-    // Resolve against SAFE_ROOT
-    let resolvedPath = path.resolve(SAFE_ROOT, subjectPath);
-
-    // Canonicalize both the resolved path and SAFE_ROOT to prevent symlink bypass
-    try {
-      resolvedPath = await realpath(resolvedPath);
-    } catch (error) {
-      // Re-throw ENOENT errors as-is so they can be handled properly by the controller
-      const nodeError = error as NodeJS.ErrnoException;
-      if (nodeError.code === 'ENOENT') {
-        throw error;
-      }
-      throw new Error(
-        `Invalid file path: Unable to resolve path. ${error instanceof Error ? error.message : String(error)}`
-      );
-    }
-
-    let canonicalSafeRoot: string;
-    try {
-      canonicalSafeRoot = await realpath(SAFE_ROOT);
-    } catch {
-      // If SAFE_ROOT doesn't exist yet, use normalized path
-      canonicalSafeRoot = path.normalize(SAFE_ROOT);
-    }
-
-    // Ensure the resolved path is within SAFE_ROOT
-    if (
-      !(resolvedPath === canonicalSafeRoot || resolvedPath.startsWith(canonicalSafeRoot + path.sep))
-    ) {
-      throw new Error('Invalid file path: Access outside of allowed directory is not permitted.');
-    }
-
-    return resolvedPath;
+    this.pathValidator = pathValidator || new PathValidator();
   }
 
   /**
@@ -176,9 +92,7 @@ export class ProvenanceService {
     metadata: Partial<MetadataInfo> = {}
   ): Promise<BuildAttestation> {
     // Validate and resolve path with symlink protection
-    const resolvedPath = path.isAbsolute(subjectPath)
-      ? await this.validateAbsolutePath(subjectPath)
-      : await this.validateRelativePath(subjectPath);
+    const resolvedPath = await this.pathValidator.validateAndResolvePath(subjectPath);
     const stats = await stat(resolvedPath);
     if (!stats.isFile()) {
       throw new Error(`Subject path must be a file: ${subjectPath}`);
