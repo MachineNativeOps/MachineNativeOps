@@ -148,8 +148,8 @@ class GovernanceScanner:
         if dir_name.startswith('_'):
             return ('deprecated', None)
         
-        # Known shared resources
-        shared_names = ['ci', 'policies', 'schemas', 'dimensions', 'packages', 'examples']
+        # Known shared resources (from governance-map.yaml shared_resources section)
+        shared_names = ['ci', 'policies', 'schemas', 'scripts', 'dimensions', 'packages', 'examples', 'index']
         if dir_name in shared_names:
             return ('shared', None)
             

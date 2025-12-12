@@ -535,15 +535,15 @@ dimensions:
     - 68-visualization
   purpose: Visualization dashboards, reporting interfaces, and metrics display governance
   status: active
-- name: 55-sli-slo
+- name: 55-slo-sli
   type: dimension
   category: observability
   owner: sre-team
-  path: governance/55-sli-slo
+  path: governance/55-slo-sli
   depends_on:
     - 09-performance
     - 50-monitoring
-  purpose: Service Level Indicators, Service Level Objectives, and SLA governance
+  purpose: Service Level Objectives, Service Level Indicators, and SLA governance
   status: active
   execution: required
 - name: 57-postmortems
@@ -889,6 +889,15 @@ shared_resources:
   consumers:
   - governance-bot
   - validation-pipeline
+- name: index
+  type: shared
+  owner: governance-bot
+  path: governance/index
+  purpose: Central index files (dimensions.json, events.json, compliance.json, etc.)
+  consumers:
+  - governance-bot
+  - validation-pipeline
+  - all dimensions
 - name: _scratch
   type: shared
   owner: development-team
