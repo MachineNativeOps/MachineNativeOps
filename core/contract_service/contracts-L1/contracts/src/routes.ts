@@ -59,13 +59,16 @@ const router: RouterType = Router();
  *
  * ## Exceeding the Limit
  * - When a client exceeds the limit, the server responds with HTTP 429 (Too Many Requests).
- * - The response body is a JSON object:
+ * - The response body is a JSON object following the standard error format:
  *   ```json
  *   {
- *     "status": "error",
- *     "error": "rate_limit_exceeded",
- *     "message": "Too many requests, please try again later.",
- *     "timestamp": "2025-12-01T10:00:00.000Z"
+ *     "error": {
+ *       "code": "RATE_LIMIT",
+ *       "message": "Too many requests, please try again later.",
+ *       "status": 429,
+ *       "traceId": "uuid-v4",
+ *       "timestamp": "2025-12-01T10:00:00.000Z"
+ *     }
  *   }
  *   ```
  * - Standard rate limit headers are included in the response to inform clients of their status.
