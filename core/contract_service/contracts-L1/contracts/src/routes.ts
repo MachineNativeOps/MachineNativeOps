@@ -28,7 +28,8 @@
 
 import { Router, Request, Response } from 'express';
 import type { Router as RouterType } from 'express';
-import rateLimit from 'express-rate-limit';
+
+import rateLimit, { type RateLimitRequestHandler } from 'express-rate-limit';
 
 import { AssignmentController } from './controllers/assignment';
 import { EscalationController } from './controllers/escalation';
@@ -75,19 +76,20 @@ const router: RouterType = Router();
  * ## Modifying the Policy
  * - To change the rate limiting policy, modify the `max` and `windowMs` values below.
  */
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 100,
-  standardHeaders: true,
-  legacyHeaders: false,
-  handler: (req: Request, res: Response /*, next: NextFunction*/) => {
-    res.status(429).json({
-      status: 'error',
-      error: 'rate_limit_exceeded',
-      message: 'Too many requests, please try again later.',
-      timestamp: new Date().toISOString(),
-    });
-  },
+const limiter: RateLimitRequestHandler = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 100,
+    standardHeaders: true,
+    legacyHeaders: false,
+    message: 'Too many requests, please try again later.',
+    handler: (req: Request, res: Response /*, next: NextFunction*/) => {
+        res.status(429).json({
+            status: 'error',
+            error: 'rate_limit_exceeded',
+            message: 'Too many requests, please try again later.',
+            timestamp: new Date().toISOString(),
+        });
+    },
 });
 
 /** Controller instances */
