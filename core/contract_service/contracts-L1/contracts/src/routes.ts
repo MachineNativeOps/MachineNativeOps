@@ -30,8 +30,9 @@ import { randomUUID } from 'crypto';
 
 import { Router, Request, Response } from 'express';
 import type { Router as RouterType } from 'express';
-
 import rateLimit, { type RateLimitRequestHandler } from 'express-rate-limit';
+import { Redis } from 'ioredis';
+import rateLimitRedisStore from 'rate-limit-redis';
 
 import { AssignmentController } from './controllers/assignment';
 import { EscalationController } from './controllers/escalation';
@@ -43,17 +44,97 @@ import { ErrorCode } from './errors';
 const router: RouterType = Router();
 
 /**
+ * Configure Redis client for rate limiting store (if enabled).
+ *
+ * Redis is used as a shared store for rate limiting across multiple instances/containers
+ * in production deployments. If Redis is not configured, falls back to in-memory store
+ * (suitable only for single-instance development environments).
+ *
+ * Environment variables:
+ * - REDIS_RATE_LIMIT_ENABLED: Set to 'true' to enable Redis store
+ * - REDIS_HOST: Redis server hostname (default: localhost)
+ * - REDIS_PORT: Redis server port (default: 6379)
+ * - REDIS_PASSWORD: Redis authentication password (optional)
+ * - REDIS_DB: Redis database number (default: 0)
+ * - REDIS_TLS_ENABLED: Set to 'true' to enable TLS (for managed Redis services)
+ */
+const redisClient =
+  process.env.REDIS_RATE_LIMIT_ENABLED === 'true'
+    ? new Redis({
+        host: process.env.REDIS_HOST || 'localhost',
+        port: parseInt(process.env.REDIS_PORT || '6379', 10),
+        password: process.env.REDIS_PASSWORD,
+        db: parseInt(process.env.REDIS_DB || '0', 10),
+        tls: process.env.REDIS_TLS_ENABLED === 'true' ? {} : undefined,
+        retryStrategy: (times: number) => {
+          // Exponential backoff with max delay of 3 seconds
+          const delay = Math.min(times * 50, 3000);
+          console.warn(`Redis connection attempt ${times}, retrying in ${delay}ms...`);
+          return delay;
+        },
+        maxRetriesPerRequest: 3,
+        enableReadyCheck: true,
+        lazyConnect: false,
+      })
+    : null;
+
+// Log Redis connection status
+if (redisClient) {
+  redisClient.on('connect', () => {
+    console.log('Redis client connected for rate limiting');
+  });
+  redisClient.on('error', (err: Error) => {
+    console.error('Redis client error:', err);
+    console.warn('Rate limiting will fail open if Redis is unavailable');
+  });
+  redisClient.on('ready', () => {
+    console.log('Redis client ready for rate limiting');
+  });
+} else {
+  console.warn(
+    'Redis rate limiting disabled - using in-memory store. ' +
+      'This is not suitable for production deployments with multiple instances.'
+  );
+}
+
+/**
  * Rate limiter middleware: limits each IP to 100 requests per 15-minute window.
  *
- * Rationale: These limits are intended to balance normal user activity with protection
- * against abuse (e.g., brute-force or denial-of-service attacks). Adjust `max` and
- * `windowMs` below as needed for your deployment or traffic patterns.
+ * ## Store Configuration
+ * - **Production (multi-instance)**: Uses Redis as a shared store across all instances.
+ *   Enable by setting REDIS_RATE_LIMIT_ENABLED=true and configuring Redis connection.
+ * - **Development (single-instance)**: Uses in-memory store when Redis is not configured.
+ *   WARNING: In-memory store does NOT work correctly with multiple instances/containers
+ *   as each instance maintains its own separate counter.
+ *
+ * ## Rate Limit Policy
+ * - Window: 15 minutes (900,000ms)
+ * - Max requests per window: 100 requests per IP
+ * - Headers: RFC-standard RateLimit-* headers
+ *
+ * ## Adjusting Limits
+ * Modify `windowMs` and `max` values below based on:
+ * - Expected traffic patterns
+ * - API usage requirements
+ * - Security/abuse prevention needs
+ *
+ * @see {@link https://www.npmjs.com/package/express-rate-limit}
+ * @see {@link https://www.npmjs.com/package/rate-limit-redis}
  */
-const limiter = rateLimit({
+const limiter: RateLimitRequestHandler = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 100,
   standardHeaders: true,
   legacyHeaders: false,
+  // Use Redis store if configured, otherwise fall back to in-memory store
+  // @ts-expect-error - Type compatibility issue between workspace versions of express-rate-limit
+  store: redisClient
+    ? new rateLimitRedisStore({
+        // @ts-expect-error - ioredis client is compatible with rate-limit-redis
+        sendCommand: (...args: string[]) => redisClient.call(...args),
+        prefix: 'rl:', // Key prefix for rate limit entries
+      })
+    : undefined, // express-rate-limit uses in-memory store by default
   handler: (req: Request, res: Response /*, next: NextFunction*/) => {
     const traceId = req.traceId || randomUUID();
     res.status(429).json({
