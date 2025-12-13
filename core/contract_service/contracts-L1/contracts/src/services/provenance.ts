@@ -53,7 +53,7 @@ async function validateAndNormalizePath(
     const canonicalPath = await realpath(resolvedPath);
 
     // Ensure the canonical path is within its expected root
-      // Inside tmpdir for test environment, OK
+    // Inside tmpdir for test environment, OK
     if (process.env.NODE_ENV === 'test' && canonicalPath.startsWith(systemTmpDir)) {
       return canonicalPath;
     }
