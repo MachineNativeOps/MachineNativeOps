@@ -1,0 +1,49 @@
+name: Governance Trigger
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+  push:
+    branches: [main]
+
+jobs:
+  trigger-governance:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install governance tool dependencies
+        run: npm install --prefix governance/dimensions/81-auto-comment/scripts
+
+      - name: Run governance tool
+        continue-on-error: true
+        env:
+          WORKFLOW_NAME: "GitHub CI Trigger"
+          COMMIT_SHA: ${{ github.sha }}
+          PR_NUMBER: ${{ github.event.pull_request.number || '' }}
+          BRANCH_NAME: ${{ github.ref_name }}
+        run: |
+          npx --prefix governance/dimensions/81-auto-comment/scripts ts-node \
+            governance/dimensions/81-auto-comment/scripts/generate-comment.ts \
+            --workflow "${WORKFLOW_NAME}" \
+            --run-id "${{ github.run_id }}" \
+            --commit "${COMMIT_SHA}" \
+            --branch "${BRANCH_NAME}" \
+            --pr-number "${PR_NUMBER}"
+
+          node governance/dimensions/81-auto-comment/scripts/update-registry.js \
+            --event-id "auto-comment-${{ github.run_id }}" \
+            --status "triggered" \
+            --workflow "${WORKFLOW_NAME}" \
+            --commit "${COMMIT_SHA}" \
+            --branch "${BRANCH_NAME}" \
+            --pr-number "${PR_NUMBER}"
