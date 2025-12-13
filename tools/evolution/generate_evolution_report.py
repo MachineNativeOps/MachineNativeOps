@@ -72,15 +72,14 @@ def safe_load_yaml(path: Path) -> dict[str, Any]:
             return {}
 
 
-def load_json(path: Path) -> dict[str, Any]:
+def load_json(path: Path) -> Any:
     """Load JSON data if available.
 
     Args:
         path: Absolute path to the JSON document.
 
     Returns:
-        Parsed JSON data or an empty dictionary when the file is missing or
-        cannot be decoded.
+        Parsed JSON content (could be a dict, list, etc.), or an empty dictionary when the file is missing or cannot be decoded.
     """
     if not path.exists():
         return {}
