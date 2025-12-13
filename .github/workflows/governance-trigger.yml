@@ -12,6 +12,11 @@
 # - 降低 CI 失敗率：CI 不再因為治理錯誤而標紅
 # - 治理閉環仍存在：錯誤與修復由工具紀錄在 registry
 # - 彈性高：可隨時更新工具邏輯，不用改 CI workflow
+#
+# 注意：
+# - 工具執行錯誤會記錄到 summary，但不會導致 CI 失敗
+# - 這是設計決策：讓 CI 作為觸發器而非驗證者
+# - 治理閉環和審計追蹤由工具自身維護
 # =============================================================================
 
 name: Governance Trigger
@@ -56,6 +61,9 @@ jobs:
     name: "🔄 Trigger Governance Tools"
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    outputs:
+      generator_status: ${{ steps.generate.outputs.status }}
+      registry_status: ${{ steps.registry.outputs.status }}
 
     steps:
       - name: 📥 Checkout repository
@@ -63,60 +71,106 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: 🔍 Validate governance tools path
+        id: validate
+        run: |
+          if [ -d "${{ env.GOVERNANCE_TOOLS_PATH }}" ]; then
+            echo "✅ Governance tools path exists"
+            echo "path_valid=true" >> $GITHUB_OUTPUT
+          else
+            echo "⚠️ Governance tools path not found: ${{ env.GOVERNANCE_TOOLS_PATH }}"
+            echo "path_valid=false" >> $GITHUB_OUTPUT
+          fi
+
       - name: 🟢 Setup Node.js
+        if: steps.validate.outputs.path_valid == 'true'
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: "npm"
 
       - name: 📦 Install dependencies
+        if: steps.validate.outputs.path_valid == 'true'
         run: |
-          npm install -g typescript ts-node
-          npm install minimist @types/node
+          npm install -g typescript@5 ts-node@10
+          npm install minimist@1.2.8 @types/node@20
 
       - name: 🔧 Run governance comment generator
         id: generate
+        if: steps.validate.outputs.path_valid == 'true'
         run: |
           cd ${{ env.GOVERNANCE_TOOLS_PATH }}
           
-          # 執行評論生成工具
-          npx ts-node generate-comment.ts \
+          # 執行評論生成工具，捕獲錯誤但不中斷 CI
+          if npx ts-node generate-comment.ts \
             --workflow "GitHub CI Trigger" \
             --run-id "${{ github.run_id }}" \
             --commit "${{ github.sha }}" \
             --branch "${{ github.ref_name }}" \
-            --pr-number "${{ github.event.pull_request.number || '' }}" || true
-          
-          echo "✅ Comment generator executed"
+            --pr-number "${{ github.event.pull_request.number || '' }}"; then
+            echo "status=success" >> $GITHUB_OUTPUT
+            echo "✅ Comment generator executed successfully"
+          else
+            echo "status=failed" >> $GITHUB_OUTPUT
+            echo "⚠️ Comment generator failed (non-blocking)"
+          fi
 
       - name: 📝 Update governance registry
+        id: registry
+        if: steps.validate.outputs.path_valid == 'true'
         run: |
           cd ${{ env.GOVERNANCE_TOOLS_PATH }}
           
-          # 更新事件 registry
-          node update-registry.js \
+          # 更新事件 registry，捕獲錯誤但不中斷 CI
+          if node update-registry.js \
             --event-id "auto-comment-${{ github.run_id }}" \
             --status "triggered" \
             --workflow "GitHub CI Trigger" \
             --commit "${{ github.sha }}" \
             --branch "${{ github.ref_name }}" \
-            --from-file || true
-          
-          echo "✅ Registry updated"
+            --from-file; then
+            echo "status=success" >> $GITHUB_OUTPUT
+            echo "✅ Registry updated successfully"
+          else
+            echo "status=failed" >> $GITHUB_OUTPUT
+            echo "⚠️ Registry update failed (non-blocking)"
+          fi
 
       - name: 📊 Generate workflow summary
         if: always()
         run: |
-          cat >> $GITHUB_STEP_SUMMARY << 'EOF'
+          # 設定狀態顯示
+          GEN_STATUS="${{ steps.generate.outputs.status || 'skipped' }}"
+          REG_STATUS="${{ steps.registry.outputs.status || 'skipped' }}"
+          PATH_VALID="${{ steps.validate.outputs.path_valid }}"
+          
+          if [ "$GEN_STATUS" = "success" ] && [ "$REG_STATUS" = "success" ]; then
+            OVERALL="✅ 成功"
+          elif [ "$PATH_VALID" = "false" ]; then
+            OVERALL="⚠️ 路徑無效"
+          else
+            OVERALL="⚠️ 部分失敗 (非阻塞)"
+          fi
+          
+          cat >> $GITHUB_STEP_SUMMARY << EOF
           ## 🔄 Governance Trigger Summary
           
           | 項目 | 值 |
           |------|-----|
+          | 整體狀態 | $OVERALL |
           | 事件類型 | ${{ github.event_name }} |
           | 分支 | ${{ github.ref_name }} |
-          | Commit | `${{ github.sha }}` |
-          | 執行 ID | `${{ github.run_id }}` |
+          | Commit | \`${{ github.sha }}\` |
+          | 執行 ID | \`${{ github.run_id }}\` |
           | PR 編號 | ${{ github.event.pull_request.number || 'N/A' }} |
+          
+          ### 工具執行狀態
+          
+          | 工具 | 狀態 |
+          |------|------|
+          | 路徑驗證 | ${{ steps.validate.outputs.path_valid == 'true' && '✅ 有效' || '❌ 無效' }} |
+          | 評論生成器 | ${{ steps.generate.outputs.status == 'success' && '✅ 成功' || (steps.generate.outputs.status == 'failed' && '⚠️ 失敗' || '⏭️ 跳過') }} |
+          | Registry 更新 | ${{ steps.registry.outputs.status == 'success' && '✅ 成功' || (steps.registry.outputs.status == 'failed' && '⚠️ 失敗' || '⏭️ 跳過') }} |
           
           ---
           
@@ -124,9 +178,13 @@ jobs:
           
           此 workflow 只負責**觸發**治理工具，不做驗證邏輯：
           
-          - ✅ CI 永遠成功（除非工具本身出錯）
+          - ✅ CI 作為觸發器，不作為驗證者
+          - ✅ 工具錯誤被記錄但不阻塞 CI（設計決策）
           - ✅ 治理閉環由工具維護
-          - ✅ 事件追蹤記錄在 `governance/index/events/registry.json`
+          - ✅ 事件追蹤記錄在 \`governance/index/events/registry.json\`
+          
+          > **注意**：如果工具執行失敗，請檢查 registry 和工具日誌。
+          > 這是有意設計：CI 不應因治理工具錯誤而失敗。
           
           ---
           
