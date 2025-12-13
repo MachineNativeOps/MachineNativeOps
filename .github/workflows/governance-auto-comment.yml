@@ -14,11 +14,7 @@ name: Governance Auto Comment Engine
 on:
   workflow_run:
     workflows:
-      - "CI Pipeline"
-      - "Core Services CI"
-      - "Integration & Deployment"
-      - "Python Validation"
-      - "ESLint"
+      - "Governance Closed-Loop CI"
     types:
       - completed
 
