@@ -43,11 +43,44 @@ import { ErrorCode } from './errors';
 const router: RouterType = Router();
 
 /**
- * Rate limiter middleware: limits each IP to 100 requests per 15-minute window.
+ * Configure rate limiter middleware.
  *
- * Rationale: These limits are intended to balance normal user activity with protection
- * against abuse (e.g., brute-force or denial-of-service attacks). Adjust `max` and
- * `windowMs` below as needed for your deployment or traffic patterns.
+ * ## Policy
+ * - Limits each IP address to a maximum of 100 requests per 15-minute window.
+ *   - `windowMs`: 15 * 60 * 1000 (15 minutes)
+ *   - `max`: 100 requests per window per IP
+ *
+ * ## Headers
+ * - `standardHeaders: true` enables the [RFC-standard rate limit headers](https://tools.ietf.org/id/draft-polli-ratelimit-headers-03.html):
+ *   - `RateLimit-Limit`: The request limit for the window.
+ *   - `RateLimit-Remaining`: Requests remaining in the current window.
+ *   - `RateLimit-Reset`: Time (in seconds) until the window resets.
+ * - `legacyHeaders: false` disables the older, non-standard headers (`X-RateLimit-*`).
+ *
+ * ## Exceeding the Limit
+ * - When a client exceeds the limit, the server responds with HTTP 429 (Too Many Requests).
+ * - The response body is a JSON object following the standard error format:
+ *   ```json
+ *   {
+ *     "error": {
+ *       "code": "RATE_LIMIT",
+ *       "message": "Too many requests, please try again later.",
+ *       "status": 429,
+ *       "traceId": "uuid-v4",
+ *       "timestamp": "2025-12-01T10:00:00.000Z"
+ *     }
+ *   }
+ *   ```
+ * - Standard rate limit headers are included in the response to inform clients of their status.
+ *
+ * ## Rationale
+ * - The limit of 100 requests per 15 minutes is intended to balance normal user activity
+ *   with protection against abuse (e.g., brute-force or denial-of-service attacks).
+ * - These values are a starting point and may need adjustment based on observed traffic
+ *   patterns, deployment environment, or specific API usage requirements.
+ *
+ * ## Modifying the Policy
+ * - To change the rate limiting policy, modify the `max` and `windowMs` values below.
  */
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
