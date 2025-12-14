@@ -96,7 +96,6 @@ async function validateAndNormalizePath(
       }
       return canonicalPath;
     }
-    // Fallback for non-existent file, use normalized path and re-check boundaries
 
     if (!isPathContained(canonicalPath, safeRoot)) {
       throw new Error('Invalid file path: Access outside of allowed directory is not permitted');
@@ -104,6 +103,7 @@ async function validateAndNormalizePath(
 
     return canonicalPath;
   } catch (error) {
+    // Fallback for non-existent file, use normalized path and re-check boundaries
     const normalizedPath = path.normalize(resolvedPath);
 
     if (isInTestTmpDir(normalizedPath, systemTmpDir)) {
