@@ -84,7 +84,7 @@ class ExtremeProblemIdentifier:
         self.stats = defaultdict(int)
         
     def log(self, message: str, level: str = "info"):
-        """Log message with color. Redacts obvious secrets in logs."""
+        """Log message with color. Redacts obvious secrets in logs. Suppresses possible sensitive data logs."""
         def redact_sensitive(msg: str) -> str:
             # Remove common possible secret substrings (passwords/keys/tokens) from msg (rudimentary)
             patterns = [
@@ -92,11 +92,23 @@ class ExtremeProblemIdentifier:
                 r'(api[_-]?key\s*=\s*)(["\']?)[^"\',]+(\2)',
                 r'(secret\s*=\s*)(["\']?)[^"\',]+(\2)',
                 r'(token\s*=\s*)(["\']?)[^"\',]+(\2)',
+                r'([pP]assword:?\s*)([^,;"\']+)',
+                r'([sS]ecret:?\s*)([^,;"\']+)',
+                r'([tT]oken:?\s*)([^,;"\']+)',
+                r'([Kk]ey:?\s*)([^,;"\']+)',
             ]
             redacted = msg
             for p in patterns:
-                redacted = re.sub(p, r'\1***\3', redacted, flags=re.IGNORECASE)
+                redacted = re.sub(p, r'\1***', redacted, flags=re.IGNORECASE)
             return redacted
+        
+        # Suppress logging if the message contains indications of sensitive value exposure
+        sensitive_indicative = ["hardcoded password", "hardcoded api key", "hardcoded secret", "hardcoded token"]
+        lowered_message = message.lower()
+        # If log message contains a typical secret alert phrase, log a generic message only
+        if any(ph in lowered_message for ph in sensitive_indicative):
+            print(f"{Colors.FAIL}❌ HIGH: Sensitive secret detected at specified location. (details not shown for security){Colors.ENDC}")
+            return
 
         redacted_message = redact_sensitive(message)
         if level == "critical":
