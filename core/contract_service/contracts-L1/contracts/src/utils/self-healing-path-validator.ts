@@ -38,6 +38,8 @@ export class SelfHealingPathValidator extends PathValidator {
   private currentSnapshot: StructureSnapshot | null = null;
   private dagNodes: Map<string, DAGNodeState> = new Map();
   private recoveryAttempts: Map<string, number> = new Map();
+  private snapshotIntervalId: NodeJS.Timeout | null = null;
+  private logger: Console = console; // Can be replaced with structured logger
 
   constructor(config: SelfHealingConfig = {}) {
     super(config);
@@ -67,7 +69,7 @@ export class SelfHealingPathValidator extends PathValidator {
     pathValidationEvents.on(PathValidationEventType.STRUCTURE_MISSING, (event) => {
       if (this.config.enableAutoRecovery) {
         this.handleStructureMissing(event.data).catch((error) => {
-          console.error('Error handling structure missing event:', error);
+          this.logger.error('Error handling structure missing event:', error);
         });
       }
     });
@@ -76,7 +78,7 @@ export class SelfHealingPathValidator extends PathValidator {
     pathValidationEvents.on(PathValidationEventType.DAG_NODE_MISSING, (event) => {
       if (this.config.dagEnabled) {
         this.handleDAGNodeMissing(event.data).catch((error) => {
-          console.error('Error handling DAG node missing event:', error);
+          this.logger.error('Error handling DAG node missing event:', error);
         });
       }
     });
@@ -128,7 +130,7 @@ export class SelfHealingPathValidator extends PathValidator {
               return await this.validateAndResolvePath(filePath);
             }
           } catch (recoveryError) {
-            console.error('Recovery attempt failed:', recoveryError);
+            this.logger.error('Recovery attempt failed:', recoveryError);
           }
         }
       }
@@ -184,7 +186,7 @@ export class SelfHealingPathValidator extends PathValidator {
    * Handle structure missing event
    */
   private async handleStructureMissing(data: PathValidationEventData): Promise<void> {
-    console.log(`Handling structure missing for: ${data.filePath}`);
+    this.logger.log(`Handling structure missing for: ${data.filePath}`);
     // Additional recovery logic can be added here
   }
 
@@ -205,7 +207,7 @@ export class SelfHealingPathValidator extends PathValidator {
         });
       }
     } catch (error) {
-      console.error(`Failed to rebuild DAG node ${data.dagNodeId}:`, error);
+      this.logger.error(`Failed to rebuild DAG node ${data.dagNodeId}:`, error);
     }
   }
 
@@ -324,7 +326,7 @@ export class SelfHealingPathValidator extends PathValidator {
         return true;
       }
     } catch (error) {
-      console.error(`Failed to rebuild DAG node ${nodeId}:`, error);
+      this.logger.error(`Failed to rebuild DAG node ${nodeId}:`, error);
       return false;
     }
   }
@@ -333,11 +335,25 @@ export class SelfHealingPathValidator extends PathValidator {
    * Start periodic snapshotting
    */
   private startPeriodicSnapshotting(): void {
-    setInterval(() => {
+    if (this.snapshotIntervalId) {
+      clearInterval(this.snapshotIntervalId);
+    }
+    
+    this.snapshotIntervalId = setInterval(() => {
       this.createSnapshot().catch((error) => {
-        console.error('Error creating periodic snapshot:', error);
+        this.logger.error('Error creating periodic snapshot:', error);
       });
     }, this.config.snapshotInterval || 60000);
+  }
+
+  /**
+   * Stop periodic snapshotting and cleanup resources
+   */
+  dispose(): void {
+    if (this.snapshotIntervalId) {
+      clearInterval(this.snapshotIntervalId);
+      this.snapshotIntervalId = null;
+    }
   }
 
   /**
