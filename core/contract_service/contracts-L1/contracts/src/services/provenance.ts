@@ -33,6 +33,51 @@ function isInTestTmpDir(targetPath: string, systemTmpDir: string): boolean {
 }
 
 /**
+ * Validates that the file path does not contain directory traversal patterns.
+ */
+function validateNoTraversal(filePath: string): void {
+  if (
+    filePath.includes('\0') ||
+    filePath.includes('..') ||
+    filePath.includes('//') ||
+    filePath.split(path.sep).includes('..')
+  ) {
+    throw new Error('Invalid file path: Directory traversal patterns are not permitted.');
+  }
+}
+
+/**
+ * Validates absolute paths are only allowed in test mode within tmpdir.
+ */
+function validateAbsolutePath(filePath: string, systemTmpDir: string): void {
+  if (!path.isAbsolute(filePath)) {
+    return;
+  }
+
+  const isTestMode = process.env.NODE_ENV === 'test';
+  const isInTmpDir = filePath === systemTmpDir || filePath.startsWith(systemTmpDir + path.sep);
+
+  if (!isTestMode || !isInTmpDir) {
+    throw new Error('Invalid file path: Absolute paths outside test tmpdir are not permitted.');
+  }
+}
+
+/**
+ * Validates that the path is contained within the allowed root directory.
+ */
+function validatePathContainment(
+  pathToValidate: string,
+  safeRoot: string,
+  systemTmpDir: string
+): void {
+  const allowedRoot = isInTestTmpDir(pathToValidate, systemTmpDir) ? systemTmpDir : safeRoot;
+
+  if (!isPathContained(pathToValidate, allowedRoot)) {
+    throw new Error('Invalid file path: Access outside of allowed directory is not permitted');
+  }
+}
+
+/**
  * Resolves a file path based on whether it's absolute and in test environment.
  */
 function resolveFilePath(filePath: string, safeRoot: string, systemTmpDir: string): string {
@@ -67,28 +112,14 @@ async function validateAndNormalizePath(
 
   const systemTmpDir = tmpdir();
 
-  // Reject obvious traversal patterns and null bytes
-  if (filePath.includes('\0') || filePath.includes('..')) {
-    throw new Error('Invalid file path: Directory traversal patterns are not permitted.');
-  }
-
-  // For relative paths, resolve against safe root
-  // For absolute paths in test mode within tmpdir, allow them to be resolved
-  // Otherwise, reject absolute paths
-  if (path.isAbsolute(filePath)) {
-    const isTestMode = process.env.NODE_ENV === 'test';
-    const isInTmpDir = filePath === systemTmpDir || filePath.startsWith(systemTmpDir + path.sep);
-
-    if (!isTestMode || !isInTmpDir) {
-      throw new Error('Invalid file path: Absolute paths outside test tmpdir are not permitted.');
-    }
-  }
+  // Validate input path for traversal patterns and absolute path restrictions
+  validateNoTraversal(filePath);
+  validateAbsolutePath(filePath, systemTmpDir);
 
   const resolvedPath = resolveFilePath(filePath, safeRoot, systemTmpDir);
 
-  // Determine the path to validate and the appropriate root directory
+  // Determine the path to validate
   let pathToValidate: string;
-  let allowedRoot: string;
 
   try {
     // Try to resolve to canonical path (follows symlinks)
@@ -97,26 +128,16 @@ async function validateAndNormalizePath(
     // If file doesn't exist or can't be resolved, use normalized path
     pathToValidate = path.normalize(resolvedPath);
 
-    // Determine the appropriate root for validation
-    allowedRoot = isInTestTmpDir(pathToValidate, systemTmpDir) ? systemTmpDir : safeRoot;
-
     // Validate path containment before re-throwing error
-    if (!isPathContained(pathToValidate, allowedRoot)) {
-      throw new Error('Invalid file path: Access outside of allowed directory is not permitted');
-    }
+    validatePathContainment(pathToValidate, safeRoot, systemTmpDir);
 
     // Path is valid but file doesn't exist - re-throw original error
     throw error;
   }
 
-  // Determine the appropriate root for validation
-  allowedRoot = isInTestTmpDir(pathToValidate, systemTmpDir) ? systemTmpDir : safeRoot;
-
   // FINAL GUARD: Validate that the resolved path is contained within the allowed root
   // This applies to both test (tmpdir) and non-test (safeRoot) scenarios
-  if (!isPathContained(pathToValidate, allowedRoot)) {
-    throw new Error('Invalid file path: Access outside of allowed directory is not permitted');
-  }
+  validatePathContainment(pathToValidate, safeRoot, systemTmpDir);
 
   return pathToValidate;
 }
