@@ -6,39 +6,47 @@ import config from '../config';
 import { AppError, ErrorCode, createError } from '../errors';
 
 /**
- * Whitelist of safe error message patterns that can be exposed to clients
- * These are generic messages that don't reveal internal implementation details
+ * Pre-compiled regex patterns for error message sanitization.
+ * These patterns are compiled once at module load time for optimal performance.
  */
-const SAFE_ERROR_PATTERNS = [
-  /^Invalid input/i,
-  /^Validation failed/i,
-  /^Authentication required/i,
-  /^Access denied/i,
-  /^Resource not found/i,
-  /^Too many requests/i,
-  /^Service unavailable/i,
-  /^Unauthorized/i,
-  /^Forbidden/i,
-  /^Bad request/i,
-  /^Conflict/i,
-  /^Request timeout/i,
-];
+class ErrorSanitizationPatterns {
+  /**
+   * Whitelist of safe error message patterns that can be exposed to clients.
+   * These are generic messages that don't reveal internal implementation details.
+   */
+  static readonly SAFE_PATTERNS: ReadonlyArray<RegExp> = Object.freeze([
+    /^Invalid input/i,
+    /^Validation failed/i,
+    /^Authentication required/i,
+    /^Access denied/i,
+    /^Resource not found/i,
+    /^Too many requests/i,
+    /^Service unavailable/i,
+    /^Unauthorized/i,
+    /^Forbidden/i,
+    /^Bad request/i,
+    /^Conflict/i,
+    /^Request timeout/i,
+  ]);
 
-/**
- * Patterns that indicate sensitive information that should be removed
- */
-const SENSITIVE_PATTERNS = [
-  /at\s+[^\n:]+:\d+(?::\d+)?/gi, // Stack trace locations (at file.ts:10:5 or at file.ts:10)
-  /\/(?:[\w\-.]+\/)+[\w\-.]+\.(?:js|ts|py|java|go|rb|json|yaml|yml|env|config)/gi, // Unix file paths (require at least one directory)
-  /(?:[a-zA-Z]:)?\\(?:[\w\-.]+\\)+[\w\-.]+\.(?:js|ts|py|java|go|rb|json|yaml|yml|env|config)/gi, // Windows file paths (require drive or UNC and at least one directory)
-  /\/(?:etc|proc|var|usr|home)\/[^\s]*/gi, // System paths
-  /Error:\s+[\w\s]+\n\s+at/gi, // Stack trace beginnings
-  /\w+:\/\/[^\s]+/gi, // Generic connection strings (mongodb://, postgres://, etc.)
-  /password[=:]\s*\S+/gi, // Password parameters
-  /token[=:]\s*\S+/gi, // Token parameters
-  /api[_-]?key[=:]\s*\S+/gi, // API key parameters
-  /secret[=:]\s*\S+/gi, // Secret parameters
-];
+  /**
+   * Patterns that indicate sensitive information that should be removed.
+   * These patterns use the global flag (g) for efficiency with String.prototype.replace(),
+   * which creates a new regex iteration context for each call, making them safe to reuse.
+   */
+  static readonly SENSITIVE_PATTERNS: ReadonlyArray<RegExp> = Object.freeze([
+    /at\s+[^\n:]+:\d+(?::\d+)?/gi, // Stack trace locations (at file.ts:10:5 or at file.ts:10)
+    /\/(?:[\w\-.]+\/)+[\w\-.]+\.(?:js|ts|py|java|go|rb|json|yaml|yml|env|config)/gi, // Unix file paths (require at least one directory)
+    /(?:[a-zA-Z]:)?\\(?:[\w\-.]+\\)+[\w\-.]+\.(?:js|ts|py|java|go|rb|json|yaml|yml|env|config)/gi, // Windows file paths (require drive or UNC and at least one directory)
+    /\/(?:etc|proc|var|usr|home)\/[^\s]*/gi, // System paths
+    /Error:\s+[\w\s]+\n\s+at/gi, // Stack trace beginnings
+    /\w+:\/\/[^\s]+/gi, // Generic connection strings (mongodb://, postgres://, etc.)
+    /password[=:]\s*\S+/gi, // Password parameters
+    /token[=:]\s*\S+/gi, // Token parameters
+    /api[_-]?key[=:]\s*\S+/gi, // API key parameters
+    /secret[=:]\s*\S+/gi, // Secret parameters
+  ]);
+}
 
 /**
  * Maximum length for error messages exposed to clients
@@ -57,14 +65,14 @@ function sanitizeErrorMessage(message: string): string {
   }
 
   // Check if message matches any safe pattern
-  const isSafe = SAFE_ERROR_PATTERNS.some((pattern) => pattern.test(message));
+  const isSafe = ErrorSanitizationPatterns.SAFE_PATTERNS.some((pattern) => pattern.test(message));
   if (isSafe) {
     return message;
   }
 
-  // Remove sensitive information
+  // Remove sensitive information using pre-compiled patterns
   let sanitized = message;
-  for (const pattern of SENSITIVE_PATTERNS) {
+  for (const pattern of ErrorSanitizationPatterns.SENSITIVE_PATTERNS) {
     sanitized = sanitized.replace(pattern, '[REDACTED]');
   }
 
