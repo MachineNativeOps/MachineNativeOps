@@ -4,7 +4,9 @@
  */
 
 import { EscalationEngine } from '../services/escalation/escalation-engine';
-import { EscalationContext } from '../types/escalation';
+import {
+  EscalationContext
+} from '../types/escalation';
 
 describe('EscalationEngine', () => {
   let engine: EscalationEngine;
@@ -13,7 +15,7 @@ describe('EscalationEngine', () => {
     engine = new EscalationEngine({
       autoRetryLimit: 3,
       enableSmartRouting: true,
-      notificationEnabled: false, // 測試時關閉通知
+      notificationEnabled: false // 測試時關閉通知
     });
   });
 
@@ -25,7 +27,7 @@ describe('EscalationEngine', () => {
         errorDetails: {
           message: 'Auto-fix failed after 3 attempts',
           affectedComponents: ['flight-controller'],
-          impactLevel: 'HIGH',
+          impactLevel: 'HIGH'
         },
         autoFixAttempts: [
           {
@@ -34,9 +36,9 @@ describe('EscalationEngine', () => {
             startedAt: new Date(),
             completedAt: new Date(),
             success: false,
-            errorMessage: 'Service failed to restart',
-          },
-        ],
+            errorMessage: 'Service failed to restart'
+          }
+        ]
       };
 
       const escalation = engine.createEscalation(
@@ -61,9 +63,9 @@ describe('EscalationEngine', () => {
         errorDetails: {
           message: 'Critical safety system failure',
           affectedComponents: ['braking-system', 'collision-detection'],
-          impactLevel: 'HIGH',
+          impactLevel: 'HIGH'
         },
-        autoFixAttempts: [],
+        autoFixAttempts: []
       };
 
       const escalation = engine.createEscalation(
@@ -78,7 +80,7 @@ describe('EscalationEngine', () => {
       expect(escalation.assignedTo).toBeDefined();
       // 檢查客服人員是否有相關專業（可能是 Customer Support 或 Technical Support）
       const hasCustomerServiceExpertise = escalation.assignedTo?.specialties.some(
-        (s) => s.includes('Customer') || s.includes('Technical') || s.includes('Support')
+        s => s.includes('Customer') || s.includes('Technical') || s.includes('Support')
       );
       expect(hasCustomerServiceExpertise).toBe(true);
     });
@@ -90,15 +92,15 @@ describe('EscalationEngine', () => {
         errorDetails: {
           message: 'Multiple auto-fix failures',
           affectedComponents: ['api-service'],
-          impactLevel: 'MEDIUM',
+          impactLevel: 'MEDIUM'
         },
         autoFixAttempts: Array.from({ length: attemptCount }, (_, i) => ({
           attemptNumber: i + 1,
           strategy: 'restart',
           startedAt: new Date(),
           completedAt: new Date(),
-          success: false,
-        })),
+          success: false
+        }))
       });
 
       // 少於 3 次嘗試
@@ -129,9 +131,9 @@ describe('EscalationEngine', () => {
         errorDetails: {
           message: 'Test error',
           affectedComponents: ['test'],
-          impactLevel: 'LOW',
+          impactLevel: 'LOW'
         },
-        autoFixAttempts: [],
+        autoFixAttempts: []
       };
 
       const escalation = engine.createEscalation(
@@ -142,9 +144,12 @@ describe('EscalationEngine', () => {
       );
 
       // 稍微延遲以確保時間戳不同
-      await new Promise((resolve) => setTimeout(resolve, 10));
+      await new Promise(resolve => setTimeout(resolve, 10));
 
-      const updated = engine.updateEscalationStatus(escalation.id, 'IN_PROGRESS');
+      const updated = engine.updateEscalationStatus(
+        escalation.id,
+        'IN_PROGRESS'
+      );
 
       expect(updated).toBeDefined();
       expect(updated!.status).toBe('IN_PROGRESS');
@@ -152,7 +157,10 @@ describe('EscalationEngine', () => {
     });
 
     test('當升級事件不存在時應該返回 null', () => {
-      const updated = engine.updateEscalationStatus('non-existent-id', 'IN_PROGRESS');
+      const updated = engine.updateEscalationStatus(
+        'non-existent-id',
+        'IN_PROGRESS'
+      );
 
       expect(updated).toBeNull();
     });
@@ -166,9 +174,9 @@ describe('EscalationEngine', () => {
         errorDetails: {
           message: 'Flight controller error',
           affectedComponents: ['flight-controller'],
-          impactLevel: 'MEDIUM',
+          impactLevel: 'MEDIUM'
         },
-        autoFixAttempts: [],
+        autoFixAttempts: []
       };
 
       const escalation = engine.createEscalation(
@@ -186,13 +194,13 @@ describe('EscalationEngine', () => {
           name: 'John Doe',
           email: 'john@example.com',
           specialties: ['Flight Systems'],
-          timezone: 'UTC',
+          timezone: 'UTC'
         },
         implementedAt: new Date(),
         changes: {
           files: ['flight_controller.py'],
-          description: 'Restarted service and updated configuration',
-        },
+          description: 'Restarted service and updated configuration'
+        }
       };
 
       const resolved = engine.resolveEscalation(escalation.id, resolution);
@@ -210,9 +218,9 @@ describe('EscalationEngine', () => {
         errorDetails: {
           message: 'Critical issue',
           affectedComponents: ['system'],
-          impactLevel: 'HIGH',
+          impactLevel: 'HIGH'
         },
-        autoFixAttempts: [],
+        autoFixAttempts: []
       };
 
       const escalation = engine.createEscalation(
@@ -225,7 +233,7 @@ describe('EscalationEngine', () => {
       // 獲取分派的客服人員
       const agentBefore = escalation.assignedTo;
       const agentsBefore = engine.getAvailableCustomerServiceAgents();
-      const assignedAgent = agentsBefore.find((a) => a.id === agentBefore?.id);
+      const assignedAgent = agentsBefore.find(a => a.id === agentBefore?.id);
       const currentCasesBefore = assignedAgent?.availability.currentCases || 0;
 
       // 解決升級事件
@@ -236,15 +244,15 @@ describe('EscalationEngine', () => {
         implementedAt: new Date(),
         changes: {
           files: [],
-          description: 'Manual fix applied',
-        },
+          description: 'Manual fix applied'
+        }
       };
 
       engine.resolveEscalation(escalation.id, resolution);
 
       // 檢查工作負載是否減少
       const agentsAfter = engine.getAvailableCustomerServiceAgents();
-      const assignedAgentAfter = agentsAfter.find((a) => a.id === agentBefore?.id);
+      const assignedAgentAfter = agentsAfter.find(a => a.id === agentBefore?.id);
       const currentCasesAfter = assignedAgentAfter?.availability.currentCases || 0;
 
       expect(currentCasesAfter).toBeLessThanOrEqual(currentCasesBefore);
@@ -259,9 +267,9 @@ describe('EscalationEngine', () => {
         errorDetails: {
           message: 'Unresolved issue',
           affectedComponents: ['api'],
-          impactLevel: 'MEDIUM',
+          impactLevel: 'MEDIUM'
         },
-        autoFixAttempts: [],
+        autoFixAttempts: []
       };
 
       const initialEscalation = engine.createEscalation(
@@ -290,9 +298,9 @@ describe('EscalationEngine', () => {
         errorDetails: {
           message: 'Critical safety issue',
           affectedComponents: ['safety-system'],
-          impactLevel: 'HIGH',
+          impactLevel: 'HIGH'
         },
-        autoFixAttempts: [],
+        autoFixAttempts: []
       };
 
       const escalation = engine.createEscalation(
@@ -304,7 +312,10 @@ describe('EscalationEngine', () => {
 
       expect(escalation.level).toBe('L5_CUSTOMER_SERVICE');
 
-      const furtherEscalation = engine.escalateFurther(escalation.id, 'Need higher level');
+      const furtherEscalation = engine.escalateFurther(
+        escalation.id,
+        'Need higher level'
+      );
 
       expect(furtherEscalation).toBeNull();
     });
@@ -318,12 +329,17 @@ describe('EscalationEngine', () => {
         errorDetails: {
           message: 'Test error',
           affectedComponents: ['test'],
-          impactLevel: 'LOW',
+          impactLevel: 'LOW'
         },
-        autoFixAttempts: [],
+        autoFixAttempts: []
       };
 
-      const escalation = engine.createEscalation('incident-010', 'MANUAL_REQUEST', 'LOW', context);
+      const escalation = engine.createEscalation(
+        'incident-010',
+        'MANUAL_REQUEST',
+        'LOW',
+        context
+      );
 
       const retrieved = engine.getEscalation(escalation.id);
 
@@ -339,26 +355,21 @@ describe('EscalationEngine', () => {
         errorDetails: {
           message: 'Test error',
           affectedComponents: ['test'],
-          impactLevel: 'MEDIUM',
+          impactLevel: 'MEDIUM'
         },
-        autoFixAttempts: [],
+        autoFixAttempts: []
       };
 
       // 創建多個升級事件
-      const esc1 = engine.createEscalation(
-        'incident-011',
-        'TIMEOUT_NO_RESPONSE',
-        'MEDIUM',
-        context
-      );
+      const esc1 = engine.createEscalation('incident-011', 'TIMEOUT_NO_RESPONSE', 'MEDIUM', context);
       engine.createEscalation('incident-011', 'TIMEOUT_NO_PROGRESS', 'MEDIUM', context);
       const esc3 = engine.createEscalation('incident-012', 'MANUAL_REQUEST', 'LOW', context);
 
       const escalationsForIncident = engine.getEscalationsByIncident('incident-011');
 
       expect(escalationsForIncident).toHaveLength(2);
-      expect(escalationsForIncident.map((e) => e.id)).toContain(esc1.id);
-      expect(escalationsForIncident.map((e) => e.id)).not.toContain(esc3.id);
+      expect(escalationsForIncident.map(e => e.id)).toContain(esc1.id);
+      expect(escalationsForIncident.map(e => e.id)).not.toContain(esc3.id);
     });
 
     test('應該能夠取得可用的客服人員', () => {
@@ -366,8 +377,8 @@ describe('EscalationEngine', () => {
 
       expect(agents).toBeDefined();
       expect(agents.length).toBeGreaterThan(0);
-
-      agents.forEach((agent) => {
+      
+      agents.forEach(agent => {
         expect(agent.availability.status).toBe('AVAILABLE');
         expect(agent.role).toBe('CUSTOMER_SERVICE');
         expect(agent.expertise.technical).toBe(true);
@@ -383,9 +394,9 @@ describe('EscalationEngine', () => {
         errorDetails: {
           message: 'Test error',
           affectedComponents: ['test'],
-          impactLevel: 'LOW',
+          impactLevel: 'LOW'
         },
-        autoFixAttempts: [],
+        autoFixAttempts: []
       };
 
       // 創建多個升級事件
@@ -402,13 +413,13 @@ describe('EscalationEngine', () => {
           name: 'System',
           email: 'system@example.com',
           specialties: ['Automation'],
-          timezone: 'UTC',
+          timezone: 'UTC'
         },
         implementedAt: new Date(),
         changes: {
           files: [],
-          description: 'Auto-resolved',
-        },
+          description: 'Auto-resolved'
+        }
       });
 
       const startDate = new Date(Date.now() - 24 * 60 * 60 * 1000);
@@ -431,9 +442,9 @@ describe('EscalationEngine', () => {
         errorDetails: {
           message: 'Drone system failure',
           affectedComponents: ['navigation'],
-          impactLevel: 'HIGH',
+          impactLevel: 'HIGH'
         },
-        autoFixAttempts: [],
+        autoFixAttempts: []
       };
 
       const escalation = engine.createEscalation(
@@ -446,10 +457,9 @@ describe('EscalationEngine', () => {
       expect(escalation.assignedTo).toBeDefined();
       // 客服人員應該有無人機相關專業
       const hasDroneExpertise = escalation.assignedTo?.specialties.some(
-        (s) =>
-          s.toLowerCase().includes('drone') ||
-          s.toLowerCase().includes('customer') ||
-          s.toLowerCase().includes('technical')
+        s => s.toLowerCase().includes('drone') || 
+             s.toLowerCase().includes('customer') ||
+             s.toLowerCase().includes('technical')
       );
       expect(hasDroneExpertise).toBe(true);
     });
@@ -463,9 +473,9 @@ describe('EscalationEngine', () => {
         errorDetails: {
           message: 'Safety system malfunction',
           affectedComponents: ['braking'],
-          impactLevel: 'HIGH',
+          impactLevel: 'HIGH'
         },
-        autoFixAttempts: [],
+        autoFixAttempts: []
       };
 
       const escalation = engine.createEscalation(
@@ -485,9 +495,9 @@ describe('EscalationEngine', () => {
         errorDetails: {
           message: 'Repeated failures detected',
           affectedComponents: ['api'],
-          impactLevel: 'MEDIUM',
+          impactLevel: 'MEDIUM'
         },
-        autoFixAttempts: [],
+        autoFixAttempts: []
       };
 
       const escalation = engine.createEscalation(
@@ -507,9 +517,9 @@ describe('EscalationEngine', () => {
         errorDetails: {
           message: 'No progress timeout',
           affectedComponents: ['service'],
-          impactLevel: 'LOW',
+          impactLevel: 'LOW'
         },
-        autoFixAttempts: [],
+        autoFixAttempts: []
       };
 
       const escalation = engine.createEscalation(

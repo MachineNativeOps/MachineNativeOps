@@ -123,6 +123,7 @@ class LogicalConsistencyEngine:
         visited = set()
         rec_stack = set()
         
+            """TODO: Add function documentation"""
         def has_cycle(node):
             visited.add(node)
             rec_stack.add(node)

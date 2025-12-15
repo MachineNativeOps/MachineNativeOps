@@ -6,16 +6,12 @@
 
 ## 📋 Overview
 
-Complete implementation of API contract governance framework for multi-module
-systems. Provides contract definition, validation, boundary enforcement,
-dependency management, and comprehensive reporting.
+Complete implementation of API contract governance framework for multi-module systems. Provides contract definition, validation, boundary enforcement, dependency management, and comprehensive reporting.
 
 ## 🎯 Core Features
 
 ### 1. Contract Definition ✅
-
 Define complete API contracts with:
-
 - Input/output JSON schemas
 - Latency requirements (SLA enforcement)
 - Authorization rules (allowed callers)
@@ -23,18 +19,14 @@ Define complete API contracts with:
 - Version control
 
 ### 2. Boundary Enforcement ✅
-
 Enforce strict boundaries:
-
 - Language restrictions per module
 - Protocol isolation
 - Cross-contamination prevention
 - Architectural integrity validation
 
 ### 3. Automated Validation ✅
-
 Runtime validation of:
-
 - API call authorization
 - Input schema compliance
 - Output schema compliance
@@ -42,18 +34,14 @@ Runtime validation of:
 - Type safety
 
 ### 4. Dependency Management ✅
-
 Comprehensive dependency tracking:
-
 - Module dependency graph
 - Circular dependency detection
 - Dependency chain analysis
 - Visual dependency reports
 
 ### 5. Governance Reporting ✅
-
 Detailed reports including:
-
 - Contract registry status
 - Call history and statistics
 - Success/failure rates
@@ -116,9 +104,7 @@ print(f"Warnings: {result.warnings}")
 ### Classes
 
 #### `ModuleRole` (Enum)
-
 Module responsibility categories:
-
 - `DATA_PROCESSOR`: Data processing modules
 - `DECISION_ENGINE`: Decision-making modules
 - `CONTROL_SYSTEM`: Control system modules
@@ -131,9 +117,7 @@ Module responsibility categories:
 - `USER_INTERFACE`: UI modules
 
 #### `ErrorCategory` (Enum)
-
 Error classification types:
-
 - `CONTRACT_VIOLATION`: Contract violations
 - `BOUNDARY_VIOLATION`: Boundary violations
 - `TIMEOUT`: Timeout errors
@@ -145,9 +129,7 @@ Error classification types:
 - `RUNTIME_ERROR`: Runtime errors
 
 #### `APIContract` (Dataclass)
-
 Contract specification:
-
 ```python
 @dataclass
 class APIContract:
@@ -163,9 +145,7 @@ class APIContract:
 ```
 
 #### `ValidationResult` (Dataclass)
-
 Validation outcome:
-
 ```python
 @dataclass
 class ValidationResult:
@@ -177,31 +157,25 @@ class ValidationResult:
 ```
 
 #### `GovernanceValidator` (Class)
-
 Main validator with methods:
 
 **Contract Management:**
-
 - `register_contract()` - Register new API contract
 - `export_contracts()` - Export contracts to JSON
 - `import_contracts()` - Import contracts from JSON
 
 **Validation:**
-
 - `validate_call()` - Validate API call
 - `validate_boundary()` - Validate language boundary
 
 **Dependency Management:**
-
 - `add_dependency()` - Add module dependency
 - `detect_circular_dependencies()` - Find circular dependencies
 
 **Boundary Rules:**
-
 - `set_boundary_rule()` - Set language restrictions
 
 **Reporting:**
-
 - `generate_governance_report()` - Generate complete report
 
 ## 💡 Usage Examples
@@ -390,7 +364,6 @@ pytest governance/28-tests/unit/test_api_contract.py::TestGovernanceValidator::t
 ```
 
 **Test Coverage:**
-
 - ✅ Contract registration and serialization
 - ✅ Call validation (success and failure cases)
 - ✅ Authorization checking
@@ -424,7 +397,6 @@ pytest governance/28-tests/unit/test_api_contract.py::TestGovernanceValidator::t
 ### Schema Validation
 
 Supports JSON Schema validation for:
-
 - Object types with properties
 - Required fields
 - Array types
@@ -505,7 +477,6 @@ print('✅ API contracts validated')
 ### Common Issues
 
 **Issue**: Contract validation fails
-
 ```python
 # Check if contract exists
 if module_name not in validator.contracts:
@@ -513,7 +484,6 @@ if module_name not in validator.contracts:
 ```
 
 **Issue**: Circular dependency detected
-
 ```python
 # Find and print cycles
 cycles = validator.detect_circular_dependencies()
@@ -522,7 +492,6 @@ for cycle in cycles:
 ```
 
 **Issue**: Latency violations
-
 ```python
 # Review latency statistics
 report = validator.generate_governance_report()
@@ -533,7 +502,6 @@ if 'latency' in report['call_statistics']:
 ## 🎯 Roadmap
 
 Future enhancements:
-
 - [ ] Advanced JSON Schema validation with jsonschema library
 - [ ] WebSocket/gRPC protocol support
 - [ ] Distributed tracing integration

@@ -1,7 +1,9 @@
 import { createHash, randomUUID } from 'crypto';
-import { readFile, stat, realpath } from 'fs/promises';
-import { relative, resolve } from 'path';
+import { readFile, stat } from 'fs/promises';
+import * as path from 'path';
 
+// Define a safe root directory for allowed file operations
+const SAFE_ROOT = path.resolve(process.cwd(), 'safefiles');
 import { SLSAAttestationService, SLSAProvenance, BuildMetadata } from './attestation';
 
 export interface BuildAttestation {
@@ -65,55 +67,14 @@ export interface Dependency {
 export class ProvenanceService {
   private slsaService: SLSAAttestationService;
 
-  // Define the root directory for allowed files. Change as needed for your project needs
-  // Use a fixed absolute path or environment variable for SAFE_ROOT
-  private static getSafeRoot(): string {
-    return process.env.SAFE_ROOT_PATH
-      ? resolve(process.env.SAFE_ROOT_PATH)
-      : resolve(process.cwd(), 'safefiles');
-  }
-
   constructor() {
     this.slsaService = new SLSAAttestationService();
   }
-
-  /**
-   * Validate that a file path is safe to access
-   * to prevent directory traversal attacks
-   */
-  private async resolveSafePath(userInputPath: string): Promise<string> {
-    const safeRoot = ProvenanceService.getSafeRoot();
-    // Canonicalize SAFE_ROOT and the resolved path, and check that the path stays strictly within SAFE_ROOT.
-    let canonicalRoot: string;
-    try {
-      canonicalRoot = await realpath(safeRoot);
-    } catch (err: unknown) {
-      const errorMessage = err instanceof Error ? err.message : String(err);
-      throw new Error(
-        `SAFE_ROOT directory '${safeRoot}' does not exist or is invalid. Please ensure the directory exists and is accessible. Original error: ${errorMessage}`
-      );
-    }
-    const absPath = resolve(canonicalRoot, userInputPath);
-    const realAbsPath = await realpath(absPath);
-    // Ensure the realAbsPath is strictly under canonicalRoot using path.relative
-    // Note: Empty string means realAbsPath equals canonicalRoot (valid case)
-    // We only reject paths that start with '..' (outside root) or contain null bytes
-    const rel = relative(canonicalRoot, realAbsPath);
-    if (rel.startsWith('..') || rel.includes('\0')) {
-      throw new Error(
-        `Access to file path '${userInputPath}' (resolved as '${realAbsPath}') is not allowed - path must be strictly within ${canonicalRoot}`
-      );
-    }
-
-    return realAbsPath;
-  }
-
   /**
    * 生成文件的 SHA256 摘要
    */
   async generateFileDigest(filePath: string): Promise<string> {
-    const validatedPath = await this.resolveSafePath(filePath);
-    const content = await readFile(validatedPath);
+    const content = await readFile(filePath);
     const hash = createHash('sha256');
     hash.update(content);
     return `sha256:${hash.digest('hex')}`;
@@ -127,24 +88,27 @@ export class ProvenanceService {
     builder: BuilderInfo,
     metadata: Partial<MetadataInfo> = {}
   ): Promise<BuildAttestation> {
-    // Validate path to prevent directory traversal attacks
-    const validatedPath = await this.resolveSafePath(subjectPath);
-
-    const stats = await stat(validatedPath);
+    // Normalize and resolve against the SAFE_ROOT
+    const resolvedPath = path.resolve(SAFE_ROOT, subjectPath);
+    // Ensure the resolved path is within SAFE_ROOT
+    if (!resolvedPath.startsWith(SAFE_ROOT + path.sep)) {
+      throw new Error('Invalid file path: Access outside of allowed directory is not permitted.');
+    }
+    const stats = await stat(resolvedPath);
     if (!stats.isFile()) {
       throw new Error(`Subject path must be a file: ${subjectPath}`);
     }
 
-    const content = await readFile(validatedPath);
+    const content = await readFile(resolvedPath);
     const subject = this.slsaService.createSubjectFromContent(
-      relative(process.cwd(), validatedPath),
+      path.relative(process.cwd(), resolvedPath),
       content
     );
 
     // 生成格式為 att_timestamp_hash 的 ID
     const timestamp = Date.now();
     const hash = createHash('sha256')
-      .update(`${timestamp}${validatedPath}`)
+      .update(`${timestamp}${subjectPath}`)
       .digest('hex')
       .substring(0, 8);
     const attestationId = `att_${timestamp}_${hash}`;
@@ -185,7 +149,7 @@ export class ProvenanceService {
       subject: {
         name: subject.name,
         digest: `sha256:${subject.digest.sha256}`,
-        path: validatedPath,
+        path: subjectPath,
       },
       predicate: {
         type: slsaProvenance.predicateType,

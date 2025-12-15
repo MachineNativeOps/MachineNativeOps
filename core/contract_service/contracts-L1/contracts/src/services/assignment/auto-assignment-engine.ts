@@ -157,10 +157,11 @@ export class AutoAssignmentEngine {
   /**
    * 更新分派狀態
    * Update assignment status
-   * Note: This method is synchronous as it only performs in-memory Map operations.
-   * Controllers may still use `await` for consistency in async flow.
    */
-  updateAssignmentStatus(assignmentId: string, status: AssignmentStatus): Assignment {
+  async updateAssignmentStatus(
+    assignmentId: string,
+    status: AssignmentStatus
+  ): Promise<Assignment> {
     const assignment = this.assignments.get(assignmentId);
 
     if (!assignment) {

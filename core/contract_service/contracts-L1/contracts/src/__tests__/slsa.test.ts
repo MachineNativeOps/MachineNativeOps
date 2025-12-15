@@ -43,8 +43,8 @@ describe('SLSA API Endpoints', () => {
           subjectPath: testFilePath,
           builder: {
             id: 'https://github.com/synergymesh/builder',
-            version: '1.0.0',
-          },
+            version: '1.0.0'
+          }
         });
 
       expect(response.status).toBe(201);
@@ -53,7 +53,7 @@ describe('SLSA API Endpoints', () => {
         provenance: expect.any(Object),
         attestationId: expect.any(String),
         subjects: 1,
-        buildType: expect.any(String),
+        buildType: expect.any(String)
       });
       expect(response.body.message).toContain('successfully');
     });
@@ -66,8 +66,8 @@ describe('SLSA API Endpoints', () => {
           subjectName: 'test-artifact.tar.gz',
           builder: {
             id: 'https://github.com/synergymesh/builder',
-            version: '2.0.0',
-          },
+            version: '2.0.0'
+          }
         });
 
       expect(response.status).toBe(201);
@@ -81,8 +81,8 @@ describe('SLSA API Endpoints', () => {
         .send({
           builder: {
             id: 'test-builder',
-            version: '1.0.0',
-          },
+            version: '1.0.0'
+          }
         });
 
       expect(response.status).toBe(400);
@@ -91,9 +91,11 @@ describe('SLSA API Endpoints', () => {
     });
 
     it('should return 400 for missing builder', async () => {
-      const response = await request(app).post('/api/v1/slsa/attestations').send({
-        subjectPath: testFilePath,
-      });
+      const response = await request(app)
+        .post('/api/v1/slsa/attestations')
+        .send({
+          subjectPath: testFilePath
+        });
 
       expect(response.status).toBe(400);
       expect(response.body.success).toBe(false);
@@ -109,21 +111,23 @@ describe('SLSA API Endpoints', () => {
           subjectPath: testFilePath,
           builder: {
             id: 'test-builder',
-            version: '1.0.0',
-          },
+            version: '1.0.0'
+          }
         });
 
       const { provenance } = createResponse.body.data;
 
       // Then verify it
-      const verifyResponse = await request(app).post('/api/v1/slsa/verify').send({ provenance });
+      const verifyResponse = await request(app)
+        .post('/api/v1/slsa/verify')
+        .send({ provenance });
 
       expect(verifyResponse.status).toBe(200);
       expect(verifyResponse.body.success).toBe(true);
       expect(verifyResponse.body.data).toMatchObject({
         valid: expect.any(Boolean),
         timestamp: expect.any(String),
-        provenanceType: expect.any(String),
+        provenanceType: expect.any(String)
       });
     });
 
@@ -132,8 +136,8 @@ describe('SLSA API Endpoints', () => {
         .post('/api/v1/slsa/verify')
         .send({
           provenance: {
-            invalid: 'structure',
-          },
+            invalid: 'structure'
+          }
         });
 
       expect(response.status).toBe(200);
@@ -142,7 +146,9 @@ describe('SLSA API Endpoints', () => {
     });
 
     it('should return 400 for missing provenance', async () => {
-      const response = await request(app).post('/api/v1/slsa/verify').send({});
+      const response = await request(app)
+        .post('/api/v1/slsa/verify')
+        .send({});
 
       expect(response.status).toBe(400);
       expect(response.body.success).toBe(false);
@@ -151,9 +157,11 @@ describe('SLSA API Endpoints', () => {
 
   describe('POST /api/v1/slsa/digest', () => {
     it('should generate digest for content', async () => {
-      const response = await request(app).post('/api/v1/slsa/digest').send({
-        content: 'Hello, World!',
-      });
+      const response = await request(app)
+        .post('/api/v1/slsa/digest')
+        .send({
+          content: 'Hello, World!'
+        });
 
       expect(response.status).toBe(200);
       expect(response.body.success).toBe(true);
@@ -162,22 +170,28 @@ describe('SLSA API Endpoints', () => {
         digest: expect.any(Object),
         sha256: expect.stringMatching(/^[a-f0-9]{64}$/),
         algorithm: 'sha256',
-        timestamp: expect.any(String),
+        timestamp: expect.any(String)
       });
     });
 
     it('should return consistent digest for same content', async () => {
       const content = 'Consistent test content';
 
-      const response1 = await request(app).post('/api/v1/slsa/digest').send({ content });
+      const response1 = await request(app)
+        .post('/api/v1/slsa/digest')
+        .send({ content });
 
-      const response2 = await request(app).post('/api/v1/slsa/digest').send({ content });
+      const response2 = await request(app)
+        .post('/api/v1/slsa/digest')
+        .send({ content });
 
       expect(response1.body.data.sha256).toBe(response2.body.data.sha256);
     });
 
     it('should return 400 for missing content', async () => {
-      const response = await request(app).post('/api/v1/slsa/digest').send({});
+      const response = await request(app)
+        .post('/api/v1/slsa/digest')
+        .send({});
 
       expect(response.status).toBe(400);
       expect(response.body.success).toBe(false);
@@ -186,14 +200,15 @@ describe('SLSA API Endpoints', () => {
 
   describe('POST /api/v1/slsa/contracts', () => {
     it('should create contract attestation', async () => {
-      const response = await request(app).post('/api/v1/slsa/contracts').send({
-        contractName: 'TestContract',
-        contractVersion: '1.0.0',
-        deployerAddress: '0x1234567890abcdef',
-        contractCode:
-          'contract TestContract { function test() public pure returns (bool) { return true; } }',
-        deploymentTxHash: '0xabcdef1234567890',
-      });
+      const response = await request(app)
+        .post('/api/v1/slsa/contracts')
+        .send({
+          contractName: 'TestContract',
+          contractVersion: '1.0.0',
+          deployerAddress: '0x1234567890abcdef',
+          contractCode: 'contract TestContract { function test() public pure returns (bool) { return true; } }',
+          deploymentTxHash: '0xabcdef1234567890'
+        });
 
       expect(response.status).toBe(201);
       expect(response.body.success).toBe(true);
@@ -205,16 +220,18 @@ describe('SLSA API Endpoints', () => {
           deployerAddress: '0x1234567890abcdef',
           deploymentTxHash: '0xabcdef1234567890',
           codeHash: expect.stringMatching(/^[a-f0-9]{64}$/),
-          attestationId: expect.any(String),
-        },
+          attestationId: expect.any(String)
+        }
       });
     });
 
     it('should create contract attestation with minimal fields', async () => {
-      const response = await request(app).post('/api/v1/slsa/contracts').send({
-        contractName: 'MinimalContract',
-        contractCode: 'contract Minimal {}',
-      });
+      const response = await request(app)
+        .post('/api/v1/slsa/contracts')
+        .send({
+          contractName: 'MinimalContract',
+          contractCode: 'contract Minimal {}'
+        });
 
       expect(response.status).toBe(201);
       expect(response.body.success).toBe(true);
@@ -222,18 +239,22 @@ describe('SLSA API Endpoints', () => {
     });
 
     it('should return 400 for missing contract name', async () => {
-      const response = await request(app).post('/api/v1/slsa/contracts').send({
-        contractCode: 'contract Test {}',
-      });
+      const response = await request(app)
+        .post('/api/v1/slsa/contracts')
+        .send({
+          contractCode: 'contract Test {}'
+        });
 
       expect(response.status).toBe(400);
       expect(response.body.success).toBe(false);
     });
 
     it('should return 400 for missing contract code', async () => {
-      const response = await request(app).post('/api/v1/slsa/contracts').send({
-        contractName: 'TestContract',
-      });
+      const response = await request(app)
+        .post('/api/v1/slsa/contracts')
+        .send({
+          contractName: 'TestContract'
+        });
 
       expect(response.status).toBe(400);
       expect(response.body.success).toBe(false);
@@ -249,14 +270,16 @@ describe('SLSA API Endpoints', () => {
           subjectPath: testFilePath,
           builder: {
             id: 'test-builder',
-            version: '1.0.0',
-          },
+            version: '1.0.0'
+          }
         });
 
       const { provenance } = createResponse.body.data;
 
       // Get summary
-      const summaryResponse = await request(app).post('/api/v1/slsa/summary').send({ provenance });
+      const summaryResponse = await request(app)
+        .post('/api/v1/slsa/summary')
+        .send({ provenance });
 
       expect(summaryResponse.status).toBe(200);
       expect(summaryResponse.body.success).toBe(true);
@@ -268,12 +291,14 @@ describe('SLSA API Endpoints', () => {
         buildType: expect.any(String),
         builder: expect.any(String),
         timestamp: expect.any(String),
-        invocationId: expect.any(String),
+        invocationId: expect.any(String)
       });
     });
 
     it('should return 400 for missing provenance', async () => {
-      const response = await request(app).post('/api/v1/slsa/summary').send({});
+      const response = await request(app)
+        .post('/api/v1/slsa/summary')
+        .send({});
 
       expect(response.status).toBe(400);
       expect(response.body.success).toBe(false);
@@ -296,7 +321,7 @@ describe('Health Check Endpoints', () => {
       expect(response.body).toMatchObject({
         status: 'healthy',
         timestamp: expect.any(String),
-        service: 'contracts-l1',
+        service: 'contracts-l1'
       });
     });
   });
@@ -309,7 +334,7 @@ describe('Health Check Endpoints', () => {
       expect(response.body).toMatchObject({
         status: 'ready',
         timestamp: expect.any(String),
-        checks: expect.any(Object),
+        checks: expect.any(Object)
       });
     });
   });
@@ -322,7 +347,7 @@ describe('Health Check Endpoints', () => {
       expect(response.body).toMatchObject({
         version: expect.any(String),
         build: expect.any(String),
-        timestamp: expect.any(String),
+        timestamp: expect.any(String)
       });
     });
   });
@@ -337,7 +362,7 @@ describe('Health Check Endpoints', () => {
         status: 'running',
         uptime: expect.any(Number),
         memory: expect.any(Object),
-        timestamp: expect.any(String),
+        timestamp: expect.any(String)
       });
     });
   });
@@ -359,8 +384,8 @@ describe('Health Check Endpoints', () => {
           provenance: expect.any(Object),
           slsa: expect.any(Object),
           assignment: expect.any(Object),
-          escalation: expect.any(Object),
-        },
+          escalation: expect.any(Object)
+        }
       });
     });
   });

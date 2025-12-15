@@ -133,7 +133,7 @@ export class InternalError extends AppError {
 export const createError = {
   validation: (message: string, errors?: Array<{ field: string; message: string; code: string }>) =>
     new ValidationError(message, errors),
-  notFound: (message: string) => new NotFoundError(message),
+  notFound: (resource: string) => new NotFoundError(resource),
   unauthorized: (message?: string) => new UnauthorizedError(message),
   forbidden: (message?: string) => new ForbiddenError(message),
   conflict: (message: string) => new ConflictError(message),

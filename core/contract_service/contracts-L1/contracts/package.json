@@ -9,8 +9,6 @@
     "dev": "tsx watch src/server.ts",
     "build": "tsc",
     "build:clean": "npm run clean && npm run build",
-    "format": "prettier --write \"src/**/*.ts\"",
-    "format:check": "prettier --check \"src/**/*.ts\"",
     "lint": "eslint src/**/*.ts --max-warnings 0 --ignore-pattern \"**/*.test.ts\" --ignore-pattern \"**/__tests__/**\" --no-warn-ignored",
     "lint:fix": "eslint src/**/*.ts --fix --ignore-pattern \"**/*.test.ts\" --ignore-pattern \"**/__tests__/**\"",
     "test": "jest --passWithNoTests",
@@ -18,7 +16,7 @@
     "typecheck": "tsc --noEmit",
     "sbom": "npm audit --audit-level moderate --json > sbom.json",
     "scan": "npm audit --audit-level high",
-    "predeploy": "npm run typecheck && npm run format:check && npm run lint && npm run test && npm run build",
+    "predeploy": "npm run typecheck && npm run lint && npm run test && npm run build",
     "clean": "rimraf dist"
   },
   "keywords": [

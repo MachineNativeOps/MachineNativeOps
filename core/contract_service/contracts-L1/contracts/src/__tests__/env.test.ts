@@ -1,4 +1,9 @@
-import { getRequiredEnv, getWeTonke, getOptionalEnv, validateRequiredEnvs } from '../config/env';
+import {
+  getRequiredEnv,
+  getWeTonke,
+  getOptionalEnv,
+  validateRequiredEnvs,
+} from '../config/env';
 
 describe('Environment Variable Utilities', () => {
   // Store original env values
@@ -37,7 +42,9 @@ describe('Environment Variable Utilities', () => {
 
     it('should handle special characters in value', () => {
       process.env.TEST_SPECIAL_CHARS = 'value!@#$%^&*()_+-=[]{}|;:,.<>?';
-      expect(getRequiredEnv('TEST_SPECIAL_CHARS')).toBe('value!@#$%^&*()_+-=[]{}|;:,.<>?');
+      expect(getRequiredEnv('TEST_SPECIAL_CHARS')).toBe(
+        'value!@#$%^&*()_+-=[]{}|;:,.<>?'
+      );
     });
 
     it('should handle whitespace in value', () => {
@@ -54,12 +61,16 @@ describe('Environment Variable Utilities', () => {
 
     it('should throw error when WE_TONKE is not set', () => {
       delete process.env.WE_TONKE;
-      expect(() => getWeTonke()).toThrow('Environment variable WE_TONKE is not set.');
+      expect(() => getWeTonke()).toThrow(
+        'Environment variable WE_TONKE is not set.'
+      );
     });
 
     it('should throw error when WE_TONKE is empty', () => {
       process.env.WE_TONKE = '';
-      expect(() => getWeTonke()).toThrow('Environment variable WE_TONKE is not set.');
+      expect(() => getWeTonke()).toThrow(
+        'Environment variable WE_TONKE is not set.'
+      );
     });
   });
 
