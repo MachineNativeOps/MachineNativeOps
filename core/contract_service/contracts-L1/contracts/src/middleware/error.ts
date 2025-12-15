@@ -25,6 +25,7 @@ const UNKNOWN_ERROR_FALLBACK = 'Unknown error';
  * Ensures patterns are compiled once and reused.
  */
 export class ErrorCleanupPatterns {
+  // Matches ANSI escape sequences to strip terminal color/style codes from error messages
   public static readonly ansiEscapePattern: RegExp = /\x1B\[[0-?]*[ -/]*[@-~]/g;
 
   public static sanitizeMessage(message: string): string {
