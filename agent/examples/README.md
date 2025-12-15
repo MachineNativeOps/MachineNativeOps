@@ -36,6 +36,9 @@ examples/
 """
 basic_usage.py - 展示代理基本使用方式
 Demonstrates basic agent usage patterns.
+
+Note: Import paths assume the agent package is installed.
+See Prerequisites section for installation instructions.
 """
 
 from agent.orchestrator import AgentOrchestrator
@@ -44,7 +47,7 @@ from agent.code_analyzer import CodeAnalyzer
 # 初始化編排器
 orchestrator = AgentOrchestrator()
 
-# 註冊代理
+# 註冊代理 (提供代理名稱和實例)
 orchestrator.register_agent('code-analyzer', CodeAnalyzer())
 
 # 執行簡單任務
@@ -70,7 +73,8 @@ from agent.orchestrator import AgentOrchestrator
 # 初始化編排器
 orchestrator = AgentOrchestrator()
 
-# 註冊多個代理
+# 註冊多個代理 (使用代理名稱，編排器會自動創建實例)
+# 也可以傳入實例: orchestrator.register_agent('code-analyzer', CodeAnalyzer())
 orchestrator.register_agent('code-analyzer')
 orchestrator.register_agent('vulnerability-detector')
 orchestrator.register_agent('auto-repair')

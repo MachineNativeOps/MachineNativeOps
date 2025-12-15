@@ -22,8 +22,8 @@ scripts/
 │   ├── deploy.sh         # 部署腳本 - Deployment script
 │   └── rollback.sh       # 回滾腳本 - Rollback script
 ├── testing/               # 測試腳本 - Testing scripts
-│   ├── run-unit-tests.sh # 運行單元測試 - Run unit tests
-│   └── run-integration.sh# 運行整合測試 - Run integration tests
+│   ├── run-unit-tests.sh  # 運行單元測試 - Run unit tests
+│   └── run-integration.sh # 運行整合測試 - Run integration tests
 └── operations/            # 運維腳本 - Operations scripts
     ├── health-check.sh   # 健康檢查 - Health check
     └── cleanup.sh        # 清理腳本 - Cleanup script
