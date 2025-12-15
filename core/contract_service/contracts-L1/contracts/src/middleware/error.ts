@@ -19,7 +19,7 @@ class FilePathPatterns {
 
   /**
    * Unix-style file path pattern (forward slashes).
-   * Matches paths like: /app/src/file.ts, ./utils/helper.js
+   * Matches paths like: /app/src/file.ts, /utils/helper.js
    * Requires at least one directory separator to avoid false positives.
    */
   static readonly UNIX_FILE_PATH = new RegExp(
