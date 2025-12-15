@@ -41,7 +41,8 @@ const SENSITIVE_PATTERNS = [
 ];
 
 /**
- * Maximum length for sanitized error messages to prevent information disclosure
+ * Maximum length for error messages before they are considered unsafe to expose
+ * Messages longer than this threshold are replaced with a generic error message
  */
 const MAX_SAFE_ERROR_MESSAGE_LENGTH = 100;
 
