@@ -311,8 +311,9 @@ class Scheduler {
     const history = this.executionHistory.get(name)!;
     history.unshift(execution);
 
-    // Keep only recent executions (default: 1000)
-    if (history.length > 1000) {
+    // Keep only recent executions
+    const MAX_HISTORY_SIZE = 1000;
+    if (history.length > MAX_HISTORY_SIZE) {
       history.pop();
     }
   }
@@ -321,13 +322,14 @@ class Scheduler {
    * Get priority value for BullMQ
    */
   private getPriorityValue(priority: string): number {
-    const priorities: Record<string, number> = {
+    const PRIORITY_VALUES: Record<string, number> = {
       critical: 1,
       high: 2,
       normal: 3,
       low: 4
     };
-    return priorities[priority] || 3;
+    const DEFAULT_PRIORITY = PRIORITY_VALUES.normal;
+    return PRIORITY_VALUES[priority] || DEFAULT_PRIORITY;
   }
 
   /**

@@ -53,10 +53,12 @@ authRouter.post('/register', (req, res) => {
     return res.status(409).json({ error: 'User already exists' });
   }
 
+  // TODO: SECURITY - Replace with proper bcrypt hashing before production
+  // Example: const hashedPassword = await bcrypt.hash(password, 10);
   const newUser = {
     id: String(users.size + 1),
     email,
-    password: 'hashed_' + password, // Replace with bcrypt
+    password: 'hashed_' + password, // INSECURE - placeholder only
     role: 'user'
   };
 
