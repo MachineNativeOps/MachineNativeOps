@@ -115,7 +115,7 @@ export class SelfHealingPathValidator extends PathValidator {
 
       pathValidationEvents.emitValidationFailed(eventData);
 
-      // Emit structure missing for any validation failure to drive recovery flows
+      // Emit structure missing only for missing/invalid structure to drive recovery flows
       pathValidationEvents.emitStructureMissing(eventData);
 
       // Check if this is a structure missing error (ENOENT)

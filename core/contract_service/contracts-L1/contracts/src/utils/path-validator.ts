@@ -31,7 +31,13 @@ export class PathValidator {
       throw new PathValidationError('Invalid file path');
     }
 
-    if (filePath.includes('\0') || filePath.split(path.sep).includes('..')) {
+    const normalizedInput = path.normalize(filePath);
+    if (
+      filePath.includes('\0') ||
+      filePath.split(path.sep).includes('..') ||
+      normalizedInput.includes(`..${path.sep}`) ||
+      normalizedInput.startsWith('..')
+    ) {
       throw new PathValidationError('Invalid file path');
     }
 

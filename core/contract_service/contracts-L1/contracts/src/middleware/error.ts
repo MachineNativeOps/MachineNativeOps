@@ -100,7 +100,6 @@ function sanitizeErrorMessage(message: string, isProduction: boolean): string {
     return 'Internal server error';
   }
 
-  const isSafe = ErrorSanitizationPatterns.SAFE_PATTERNS.some((pattern) => pattern.test(cleaned));
   const hasSensitive = ErrorSanitizationPatterns.SENSITIVE_PATTERNS.some((pattern) =>
     pattern.test(cleaned)
   );
@@ -109,7 +108,7 @@ function sanitizeErrorMessage(message: string, isProduction: boolean): string {
     return 'Internal server error';
   }
 
-  return isSafe ? cleaned : cleaned;
+  return cleaned;
 }
 
 /**
@@ -130,10 +129,11 @@ export function errorMiddleware(
     normalizedError instanceof AppError && normalizedError.traceId
       ? normalizedError.traceId
       : randomUUID();
-  const message = sanitizeErrorMessage(
-    normalizedError.message || UNKNOWN_ERROR_FALLBACK,
-    isProduction
-  );
+  const rawMessage = normalizedError.message || UNKNOWN_ERROR_FALLBACK;
+  const message =
+    normalizedError instanceof AppError && !isProduction
+      ? rawMessage
+      : sanitizeErrorMessage(rawMessage, isProduction);
 
   res.status(status).json({
     error: {
