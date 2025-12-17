@@ -243,6 +243,80 @@ progress:
 
 ---
 
+## 📂 專案結構 | Project Structure
+
+> **⚠️ 重要通知**: 專案正在進行架構重構以解決目錄混亂問題。詳見 [docs/ARCHITECTURE_RESTRUCTURING_PLAN.md](./docs/ARCHITECTURE_RESTRUCTURING_PLAN.md)
+
+### 目標架構 (Target Structure)
+
+本專案採用**模組化、分層設計**，遵循「統一入口」和「關注點分離」原則：
+
+```
+/
+├── src/                        # 🎯 應用程式主代碼 (即將建立)
+│   ├── core/                   # SynergyMesh 核心引擎
+│   ├── governance/             # 結構治理系統
+│   ├── autonomous/             # 自主系統框架
+│   ├── ai/                     # AI 決策與代理系統
+│   ├── services/               # 微服務 (MCP servers等)
+│   └── apps/                   # 應用程式 (Web, CLI)
+│
+├── config/                     # 📝 所有配置文件
+│   ├── dev/                    # 開發環境配置
+│   ├── staging/                # 測試環境配置
+│   └── prod/                   # 生產環境配置
+│
+├── scripts/                    # 🔧 所有自動化腳本
+│   ├── dev/                    # 開發腳本
+│   ├── ci/                     # CI/CD 腳本
+│   └── ops/                    # 運維腳本
+│
+├── docs/                       # 📚 完整文檔
+├── tests/                      # 🧪 測試套件
+├── .github/                    # ⚙️ GitHub 配置與 AI 規範
+│
+├── machinenativeops.yaml       # 🎛️ 統一入口配置 (單一真實來源)
+└── README.md                   # 📖 專案主文檔
+```
+
+### 核心原則
+
+| 原則 | 說明 |
+|------|------|
+| **統一入口** | `machinenativeops.yaml` 作為所有配置的單一真實來源 (Single Source of Truth) |
+| **模組化設計** | 三大核心子系統（Core、Governance、Autonomous）獨立運作，透過統一接口協作 |
+| **關注點分離** | 應用代碼 (`src/`)、配置 (`config/`)、腳本 (`scripts/`)、文檔 (`docs/`) 清晰分離 |
+| **標準化命名** | 強制使用 `kebab-case` 命名，禁止同義詞並存（如 infra/infrastructure） |
+
+### 當前狀態 (Current State)
+
+⚠️ **技術債務**: 52+ 個頂層目錄導致導航困難與維護成本高
+
+**識別的問題**:
+- 🔴 架構混亂 - 過度扁平化結構
+- 🔴 命名不一致 - PascalCase、kebab-case、snake_case 混用
+- 🔴 重複目錄 - `infra/` & `infrastructure/`, `deployment/` & `deploy/`, `script/` & `scripts/`
+- 🔴 配置分散 - `.config/`, `config/`, `.devcontainer/` 分散在多處
+- 🔴 版本管理不清晰 - 缺乏與 Git tags 的整合
+
+**重構計劃**: 正在實施 5 步整合計劃，預計建立 `src/` 主目錄並合併重複目錄。詳見 [架構重構計劃](./docs/ARCHITECTURE_RESTRUCTURING_PLAN.md)。
+
+### 貢獻指南
+
+在添加新代碼或文件時，請遵循 [CONTRIBUTING.md](./CONTRIBUTING.md) 中的目錄結構規範：
+
+- **核心引擎代碼** → `src/core/`（即將建立）
+- **治理相關代碼** → `src/governance/`（即將建立）
+- **自主系統代碼** → `src/autonomous/`（即將建立）
+- **AI 系統代碼** → `src/ai/`（即將建立）
+- **配置文件** → `config/{dev,staging,prod}/`
+- **腳本** → `scripts/{dev,ci,ops}/`
+- **文檔** → `docs/`
+
+**命名規範**: 一律使用 `kebab-case`（小寫 + 連字符）
+
+---
+
 ## 🔷 核心子系統
 
 ### 1️⃣ SynergyMesh Core Engine（核心引擎）
