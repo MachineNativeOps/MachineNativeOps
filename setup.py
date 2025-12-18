@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-SynergyMesh Workflow System Setup
-==================================
+MachineNativeOps Workflow System Setup
+=======================================
 
 Production-ready workflow orchestration platform with AI governance,
 multi-layer validation, and automated deployment capabilities.
@@ -27,18 +27,19 @@ if requirements_path.exists():
 setup(
     name="machinenativeops-workflow",
     version="2.0.0",
-    author="SynergyMesh Team",
+    author="MachineNativeOps Team",
     author_email="team@machinenativeops.io",
     description="Production-ready workflow orchestration platform",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/synergymesh/SynergyMesh",
+    url="https://github.com/MachineNativeOps/MachineNativeOps",
     project_urls={
-        "Bug Reports": "https://github.com/synergymesh/SynergyMesh/issues",
-        "Source": "https://github.com/synergymesh/SynergyMesh",
-        "Documentation": "https://github.com/synergymesh/SynergyMesh/tree/main/docs",
+        "Bug Reports": "https://github.com/MachineNativeOps/MachineNativeOps/issues",
+        "Source": "https://github.com/MachineNativeOps/MachineNativeOps",
+        "Documentation": "https://github.com/MachineNativeOps/MachineNativeOps/tree/main/docs",
     },
-    packages=find_packages(include=["core", "core.*", "automation", "automation.*", "tools", "tools.*"]),
+    packages=find_packages(where="src", include=["core", "core.*", "automation", "automation.*", "ai", "ai.*", "governance", "governance.*"]),
+    package_dir={"": "src"},
     classifiers=[
         "Development Status :: 4 - Beta",
         "Intended Audience :: Developers",
