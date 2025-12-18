@@ -699,7 +699,7 @@ cross_layer_bridges:
       
       - name: deployment_attestation
         trigger: "deployment_complete"  
-        predicate_type: "https://isynergymesh.com/deployment/v1"
+        predicate_type: "https://isynergymesh.com/src/autonomous/deployment/v1"
         command: |
           python cross-layer-bridges/evidence-to-trust/generate_attestation.py \
             --type deployment \

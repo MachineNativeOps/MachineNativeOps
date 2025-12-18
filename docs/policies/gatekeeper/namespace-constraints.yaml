@@ -361,7 +361,7 @@ spec:
 # 使用說明和測試指南
 #
 # 1. 安裝 Gatekeeper (如果尚未安裝)
-# kubectl apply -f https://raw.githubusercontent.com/open-policy-agent/gatekeeper/release-3.14/deploy/gatekeeper.yaml
+# kubectl apply -f https://raw.githubusercontent.com/open-policy-agent/gatekeeper/release-3.14/src/autonomous/deployment/gatekeeper.yaml
 #
 # 2. 部署此 ConstraintTemplate 和 Constraint
 # kubectl apply -f policies/gatekeeper/namespace-constraints.yaml

@@ -246,35 +246,35 @@ entities:
 - id: file:mcp-servers:deploy:pdb.yaml
   type: ConfigParam
   label: pdb.yaml
-  path: mcp-servers/deploy/pdb.yaml
+  path: mcp-servers/src/autonomous/deployment/pdb.yaml
   meta:
     source: knowledge-graph
     label_zh: 設定
 - id: file:mcp-servers:deploy:deployment.yaml
   type: ConfigParam
   label: deployment.yaml
-  path: mcp-servers/deploy/deployment.yaml
+  path: mcp-servers/src/autonomous/deployment/deployment.yaml
   meta:
     source: knowledge-graph
     label_zh: 設定
 - id: file:mcp-servers:deploy:service.yaml
   type: ConfigParam
   label: service.yaml
-  path: mcp-servers/deploy/service.yaml
+  path: mcp-servers/src/autonomous/deployment/service.yaml
   meta:
     source: knowledge-graph
     label_zh: 設定
 - id: file:mcp-servers:deploy:hpa.yaml
   type: ConfigParam
   label: hpa.yaml
-  path: mcp-servers/deploy/hpa.yaml
+  path: mcp-servers/src/autonomous/deployment/hpa.yaml
   meta:
     source: knowledge-graph
     label_zh: 設定
 - id: file:mcp-servers:deploy:rbac.yaml
   type: ConfigParam
   label: rbac.yaml
-  path: mcp-servers/deploy/rbac.yaml
+  path: mcp-servers/src/autonomous/deployment/rbac.yaml
   meta:
     source: knowledge-graph
     label_zh: 設定
@@ -1471,14 +1471,14 @@ entities:
 - id: dir:_codeql_detected_source_root:deployment:docker
   type: Directory
   label: docker
-  path: _codeql_detected_source_root/deployment/docker
+  path: _codeql_detected_source_root/src/autonomous/deployment/docker
   meta:
     source: knowledge-graph
     label_zh: 目錄
 - id: dir:_codeql_detected_source_root:deployment:kubernetes
   type: Directory
   label: kubernetes
-  path: _codeql_detected_source_root/deployment/kubernetes
+  path: _codeql_detected_source_root/src/autonomous/deployment/kubernetes
   meta:
     source: knowledge-graph
     label_zh: 目錄
@@ -4607,21 +4607,21 @@ entities:
 - id: dir:deployment:docker
   type: Directory
   label: docker
-  path: deployment/docker
+  path: src/autonomous/deployment/docker
   meta:
     source: knowledge-graph
     label_zh: 目錄
 - id: dir:deployment:kubernetes
   type: Directory
   label: kubernetes
-  path: deployment/kubernetes
+  path: src/autonomous/deployment/kubernetes
   meta:
     source: knowledge-graph
     label_zh: 目錄
 - id: file:deployment:kubernetes:workflow-deployment.yaml
   type: ConfigParam
   label: workflow-deployment.yaml
-  path: deployment/kubernetes/workflow-deployment.yaml
+  path: src/autonomous/deployment/kubernetes/workflow-deployment.yaml
   meta:
     source: knowledge-graph
     label_zh: 設定

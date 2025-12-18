@@ -88,7 +88,7 @@ services:
   workflow-system:
     build:
       context: .
-      dockerfile: deployment/docker/Dockerfile.workflow
+      dockerfile: src/autonomous/deployment/docker/Dockerfile.workflow
     container_name: synergymesh-workflow
     ports:
       - "8081:8080"

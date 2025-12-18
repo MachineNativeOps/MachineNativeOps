@@ -434,8 +434,8 @@ rollback:
     timeline: "< 5 minutes"
   
   manual:
-    command: "kubectl rollout undo deployment/<name> -n governance"
-    validation: "kubectl rollout status deployment/<name> -n governance"
+    command: "kubectl rollout undo src/autonomous/deployment/<name> -n governance"
+    validation: "kubectl rollout status src/autonomous/deployment/<name> -n governance"
   
   disaster_recovery:
     backup_location: "S3 bucket: s3://synergymesh-governance-backup/"
