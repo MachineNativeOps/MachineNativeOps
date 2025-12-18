@@ -1,4 +1,4 @@
-# 🏗️ MachineNativeOps 改进架构设计
+# 🏗️ SynergyMesh 改进架构设计
 
 ## 核心问题分析
 
@@ -77,17 +77,17 @@
 #### 1. 系统级Watchdog (systemd)
 
 ```ini
-# /etc/systemd/system/machinenativeops-watchdog.service
+# /etc/systemd/system/synergymesh-watchdog.service
 [Unit]
-Description=MachineNativeOps Watchdog Service
+Description=SynergyMesh Watchdog Service
 After=network.target
 
 [Service]
 Type=simple
-ExecStart=/usr/local/bin/machinenativeops_watchdog
+ExecStart=/usr/local/bin/synergymesh_watchdog
 Restart=always
 RestartSec=10
-User=machinenativeops
+User=synergymesh
 StandardOutput=journal
 StandardError=journal
 
@@ -104,7 +104,7 @@ WantedBy=multi-user.target
 ```python
 #!/usr/bin/env python3
 """
-machinenativeops_watchdog.py - 看门狗守护进程
+synergymesh_watchdog.py - 看门狗守护进程
 
 职责：
 1. 监控所有关键进程（Launcher、Orchestrator、Engines）
@@ -126,7 +126,7 @@ import sys
 class ProcessWatchdog:
     """进程看门狗"""
     
-    def __init__(self, config_path: str = "/etc/machinenativeops/watchdog.json"):
+    def __init__(self, config_path: str = "/etc/synergymesh/watchdog.json"):
         self.config = self._load_config(config_path)
         self.monitored_processes = {}
         self.recovery_count = {}
@@ -144,14 +144,14 @@ class ProcessWatchdog:
                 {
                     "name": "automation_launcher",
                     "command": ["python", "automation_launcher.py", "start"],
-                    "cwd": "/opt/machinenativeops",
+                    "cwd": "/opt/synergymesh",
                     "critical": True,
                     "restart_delay": 5
                 },
                 {
                     "name": "master_orchestrator",
                     "command": ["python", "-m", "master_orchestrator"],
-                    "cwd": "/opt/machinenativeops/tools/automation",
+                    "cwd": "/opt/synergymesh/tools/automation",
                     "critical": True,
                     "restart_delay": 3
                 }
@@ -265,7 +265,7 @@ class ProcessWatchdog:
             "timestamp": datetime.now().isoformat(),
             "severity": severity,
             "message": message,
-            "source": "MachineNativeOps Watchdog"
+            "source": "SynergyMesh Watchdog"
         }
         
         print(f"🚨 告警: [{severity.upper()}] {message}")
@@ -314,7 +314,7 @@ class ProcessWatchdog:
     
     async def start(self):
         """启动看门狗"""
-        print("🐕 MachineNativeOps Watchdog 启动中...")
+        print("🐕 SynergyMesh Watchdog 启动中...")
         self.running = True
         
         # 注册信号处理
@@ -645,7 +645,7 @@ class StateManager:
 ```python
 #!/usr/bin/env python3
 """
-machinenativeops_cluster.py - 集群启动脚本
+synergymesh_cluster.py - 集群启动脚本
 
 启动完整的高可用集群：
 1. Watchdog
@@ -659,8 +659,8 @@ import asyncio
 import argparse
 from typing import List
 
-class MachineNativeOpsCluster:
-    """MachineNativeOps 集群管理器"""
+class SynergyMeshCluster:
+    """SynergyMesh 集群管理器"""
     
     def __init__(self, config_path: str):
         self.config = self._load_config(config_path)
@@ -668,7 +668,7 @@ class MachineNativeOpsCluster:
     
     async def start_watchdog(self):
         """启动Watchdog"""
-        from machinenativeops_watchdog import ProcessWatchdog
+        from synergymesh_watchdog import ProcessWatchdog
         
         watchdog = ProcessWatchdog(self.config["watchdog"])
         self.components["watchdog"] = watchdog
@@ -716,7 +716,7 @@ class MachineNativeOpsCluster:
     
     async def start_all(self):
         """启动所有组件"""
-        print("🚀 MachineNativeOps 集群启动中...")
+        print("🚀 SynergyMesh 集群启动中...")
         print("=" * 60)
         
         # 按顺序启动各层
@@ -726,7 +726,7 @@ class MachineNativeOpsCluster:
         await self.start_orchestrators()
         
         print("=" * 60)
-        print("🎉 MachineNativeOps 集群启动完成！")
+        print("🎉 SynergyMesh 集群启动完成！")
         
         # 保持运行
         try:
@@ -751,11 +751,11 @@ class MachineNativeOpsCluster:
                 print(f"  ✓ {name} 已停止")
 
 async def main():
-    parser = argparse.ArgumentParser(description="MachineNativeOps 集群管理")
-    parser.add_argument("--config", default="/etc/machinenativeops/cluster.json", help="配置文件路径")
+    parser = argparse.ArgumentParser(description="SynergyMesh 集群管理")
+    parser.add_argument("--config", default="/etc/synergymesh/cluster.json", help="配置文件路径")
     args = parser.parse_args()
     
-    cluster = MachineNativeOpsCluster(args.config)
+    cluster = SynergyMeshCluster(args.config)
     await cluster.start_all()
 
 if __name__ == "__main__":
@@ -789,7 +789,7 @@ services:
   # Watchdog (主)
   watchdog-primary:
     build: .
-    command: python machinenativeops_watchdog.py
+    command: python synergymesh_watchdog.py
     environment:
       - NODE_ID=watchdog-1
       - REDIS_URL=redis://redis:6379
@@ -896,7 +896,7 @@ volumes:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: machinenativeops-config
+  name: synergymesh-config
 data:
   cluster.json: |
     {
@@ -925,21 +925,21 @@ data:
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: machinenativeops-scheduler
+  name: synergymesh-scheduler
 spec:
   serviceName: scheduler
   replicas: 3
   selector:
     matchLabels:
-      app: machinenativeops-scheduler
+      app: synergymesh-scheduler
   template:
     metadata:
       labels:
-        app: machinenativeops-scheduler
+        app: synergymesh-scheduler
     spec:
       containers:
       - name: scheduler
-        image: machinenativeops/scheduler:latest
+        image: synergymesh/scheduler:latest
         env:
         - name: POD_NAME
           valueFrom:
@@ -949,7 +949,7 @@ spec:
           value: "redis://redis-service:6379"
         volumeMounts:
         - name: config
-          mountPath: /etc/machinenativeops
+          mountPath: /etc/synergymesh
         livenessProbe:
           httpGet:
             path: /healthz
@@ -965,26 +965,26 @@ spec:
       volumes:
       - name: config
         configMap:
-          name: machinenativeops-config
+          name: synergymesh-config
 
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: machinenativeops-orchestrator
+  name: synergymesh-orchestrator
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: machinenativeops-orchestrator
+      app: synergymesh-orchestrator
   template:
     metadata:
       labels:
-        app: machinenativeops-orchestrator
+        app: synergymesh-orchestrator
     spec:
       containers:
       - name: orchestrator
-        image: machinenativeops/orchestrator:latest
+        image: synergymesh/orchestrator:latest
         env:
         - name: POD_NAME
           valueFrom:
@@ -1013,7 +1013,7 @@ metadata:
   name: orchestrator-service
 spec:
   selector:
-    app: machinenativeops-orchestrator
+    app: synergymesh-orchestrator
   ports:
   - protocol: TCP
     port: 8080

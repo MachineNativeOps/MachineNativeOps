@@ -1,22 +1,22 @@
 {
-  "name": "machinenativeops",
+  "name": "synergymesh",
   "version": "1.0.0",
-  "description": "MachineNativeOps - Next-generation cloud-native platform for intelligent business automation and seamless data orchestration",
+  "description": "SynergyMesh - Next-generation cloud-native platform for intelligent business automation and seamless data orchestration",
   "private": true,
   "workspaces": [
-    "src/mcp-servers",
-    "src/core/contract_service/contracts-L1/contracts",
-    "src/core/advisory-database",
-    "src/apps/web",
-    "src/ai/src/ai",
-    "archive/unmanned-engineer-ceo/80-skeleton-configs"
+    "mcp-servers",
+    "core/contract_service/contracts-L1/contracts",
+    "core/advisory-database",
+    "apps/web",
+    "island-ai",
+    "unmanned-engineer-ceo/80-skeleton-configs"
   ],
   "scripts": {
     "lint": "npm run lint --workspaces --if-present",
     "test": "npm run test --workspaces --if-present",
     "build": "npm run build --workspaces --if-present",
     "install:all": "npm install --workspaces",
-    "dev:stack": "bash scripts/start-machinenativeops-dev.sh",
+    "dev:stack": "bash scripts/start-synergymesh-dev.sh",
     "docs:lint": "markdownlint \"**/*.md\"",
     "clean": "npm run clean --workspaces --if-present && rm -rf node_modules"
   },
@@ -30,11 +30,11 @@
     "security",
     "sigstore"
   ],
-  "author": "MachineNativeOps Team",
+  "author": "SynergyMesh Team",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/MachineNativeOps/MachineNativeOps.git"
+    "url": "https://github.com/SynergyMesh/SynergyMesh.git"
   },
   "engines": {
     "node": ">=18.0.0",

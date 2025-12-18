@@ -19,9 +19,9 @@ compose_files:
     usage: "docker-compose -f config/docker/compose.dev.yaml up -d"
 
   devcontainer:
-    path: "./composeconfig/dev.yaml"
+    path: "./compose.devcontainer.yaml"
     description: "VS Code Dev Container 配置"
-    original: "/config/dev/docker-compose.yml"
+    original: "/.devcontainer/docker-compose.yml"
     usage: "由 VS Code 自動調用"
 
   architect:

@@ -290,7 +290,7 @@ notifications:
     email:
       enabled: false  # Enable when configured
       smtp_server: "${SMTP_SERVER}"
-      from_address: "phoenix@machinenativeops.ai"
+      from_address: "phoenix@synergymesh.ai"
       to_addresses: []
       
     pagerduty:

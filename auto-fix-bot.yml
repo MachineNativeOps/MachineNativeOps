@@ -42,10 +42,10 @@ metadata:
     maintainability: "易於理解和維護"
 
 project:
-  name: "machinenativeops"
+  name: "synergymesh"
   description: "SLA Solve - Auto-Fix Bot Integration"
   language: "multi-language"
-  repository: "https://github.com/we-can-fix/machinenativeops"
+  repository: "https://github.com/we-can-fix/synergymesh"
 
 # 基本設置
 settings:

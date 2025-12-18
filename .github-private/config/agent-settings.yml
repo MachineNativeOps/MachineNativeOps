@@ -134,7 +134,7 @@ integrations:
     enabled: false
     smtp_host: "${SMTP_HOST}"
     recipients:
-      - platform@machinenativeops.com
+      - platform@synergymesh.com
 
 # Rate limiting
 rate_limits:

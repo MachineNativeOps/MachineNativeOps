@@ -188,7 +188,7 @@ ci_configuration:
     
     docker:
       registry: "ghcr.io"
-      image_prefix: "machinenativeops-admin"
+      image_prefix: "synergymesh-admin"
       tag_strategy: "git-sha"
     
     kubernetes:

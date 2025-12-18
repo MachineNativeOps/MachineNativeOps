@@ -7,7 +7,7 @@ version: "1.0.0"
 metadata:
   category: "automation"
   tags: ["refactor", "evolution", "optimization", "autonomous"]
-  owner: "machinenativeops-core"
+  owner: "synergymesh-core"
 
 config:
   mode: "autonomous"

@@ -8,7 +8,14 @@ set -euo pipefail
 
 PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 EXIT_CODE=0
-CONFIG_TARGET="machinenativeops.yaml"
+PRIMARY_CONFIG="machine-native-ops.yaml"
+LEGACY_CONFIG="synergymesh.yaml"
+CONFIG_TARGET="${PRIMARY_CONFIG}"
+
+if [ ! -f "${PROJECT_ROOT}/${CONFIG_TARGET}" ] && [ -f "${PROJECT_ROOT}/${LEGACY_CONFIG}" ]; then
+  CONFIG_TARGET="${LEGACY_CONFIG}"
+  echo "⚠ Using legacy config path \"${LEGACY_CONFIG}\" (primary missing)"
+fi
 
 echo "════════════════════════════════════════════════════════════════════════"
 echo "  PR #351 Consistency Validation"

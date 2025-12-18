@@ -81,10 +81,10 @@ vocabulary_scanner:
         - "(?i)island[-_]?ai"
         - "(?i)synergy[-_]?mesh"
       mapping:
-        "axiom-system": "machinenativeops"
-        "axiom_system": "machinenativeops"
-        "unmanned-island": "machinenativeops"
-        "unmanned_island": "machinenativeops"
+        "axiom-system": "synergymesh"
+        "axiom_system": "synergymesh"
+        "unmanned-island": "synergymesh"
+        "unmanned_island": "synergymesh"
 
     # 模組類型關鍵字
     module_types:
@@ -369,10 +369,10 @@ placement_rules:
   # 基於命名空間的規則
   namespace_based:
     - namespace: "axiom"
-      description: "Axiom 系統相關 → 需要適配到 machinenativeops"
+      description: "Axiom 系統相關 → 需要適配到 synergymesh"
       adaptation:
         rename_namespace: true
-        target_namespace: "machinenativeops"
+        target_namespace: "synergymesh"
         path_prefix: "core/"
 
     - namespace: "hlp-executor"
