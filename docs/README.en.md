@@ -67,6 +67,17 @@ platform that integrates three core subsystems:
 Phases 1–3 (core foundation, intelligent automation, distribution) are completed; the roadmap below shows the extension from Phase 4 onward.
 Phases 4 → 6 are a single continuum: Phase 4 productionized the stack; Phase 5 hardens it for enterprise use (multi-tenancy/HA/IAM/cost/SLA); Phase 6 layers ecosystem expansion on top of the Phase 5 baselines (marketplace, third-party integrations, SaaS, training, community).
 
+Roadmap at a glance (architecture + budget guardrails):
+
+| Phase | Scope focus | Architecture pillar | Budget guardrail (T-shirt) |
+| --- | --- | --- | --- |
+| 1 | Core foundation | Core engine, governance schemas | S |
+| 2 | Intelligent automation | AI agents, language governance | M |
+| 3 | Distribution & deploy | Build/release, multi-platform | M |
+| 4 | Productionization | Observability, performance, CI/CD | M |
+| 5 | Enterprise hardening | Multi-tenancy, HA, IAM, cost, SLA | L |
+| 6 | Ecosystem expansion | Marketplace, third-party, SaaS | L |
+
 ### ✅ Phase 4: Productionization & Scale (instant, unscheduled)
 
 - [x] Island AI Stage 2-4 (collaboration, self-learning, production)
