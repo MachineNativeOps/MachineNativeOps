@@ -42,60 +42,28 @@ spec:
     - id: naming-governance
       name: "命名治理标准"
       description: "统一的资源命名规范、验证规则和自动化工具"
-      docs:
-        - "docs/governance/04-naming-standards.md"
-        - "governance/29-docs/canonical-naming-governance-report.md"
-        - "governance/29-docs/05-implementation-templates-and-enforcement.md"
+      doc: "docs/governance/04-naming-standards.md"
       category: "standards"
       status: "stable"
-      version: "2.0.0"
+      version: "1.0.0"
       schemas:
         - "schemas/naming-policy.schema.yaml"
         - "schemas/resource-name.schema.yaml"
-        - "governance/34-config/naming/canonical-naming-machine-spec.yaml"
-        - "governance/34-config/naming/namespace-mapping.yaml"
       policies:
         - "policies/naming/k8s-deployment-naming.yaml"
         - "policies/naming/api-naming.yaml"
         - "policies/naming/pipeline-naming.yaml"
-        - "governance/23-policies/conftest/naming_policy.rego"
-        - "governance/23-policies/conftest/urn_validation.rego"
-        - "governance/23-policies/gatekeeper/constraint-templates/k8srequiredlabels.yaml"
-        - "governance/23-policies/gatekeeper/constraint-templates/k8snamingpattern.yaml"
-        - "governance/23-policies/gatekeeper/constraints/require-canonical-labels.yaml"
-        - "governance/23-policies/gatekeeper/constraints/enforce-naming-pattern.yaml"
       tools:
         - "tools/governance/bash/generate_resource_name.sh"
         - "tools/governance/python/validate_naming.py"
-        - "governance/35-scripts/migration/migrate-to-canonical-naming.sh"
-        - "governance/35-scripts/validation/generate-compliance-report.sh"
-        - "governance/35-scripts/hooks/pre-commit-naming-check.sh"
       templates:
         - "templates/governance/k8s/deployment.template.yaml"
         - "templates/governance/ci/github-actions-naming-check.yml"
         - "templates/governance/ci/gitlab-ci-naming-check.yml"
-        - "governance/27-templates/k8s/namespace-minimal.yaml"
-        - "governance/27-templates/k8s/namespace-strict.yaml"
-        - "governance/27-templates/k8s/namespace-template.yaml"
-        - "governance/27-templates/k8s/deployment-canonical.yaml"
-        - "governance/27-templates/k8s/service-canonical.yaml"
-        - "governance/27-templates/k8s/rbac-minimal.yaml"
-        - "governance/27-templates/k8s/rbac-strict.yaml"
-        - "governance/27-templates/k8s/resourcequota-minimal.yaml"
-        - "governance/27-templates/k8s/resourcequota-strict.yaml"
-        - "governance/27-templates/k8s/networkpolicy-minimal.yaml"
-        - "governance/27-templates/k8s/networkpolicy-strict.yaml"
-        - "governance/27-templates/helm/_helpers.tpl"
-        - "governance/27-templates/kustomize/canonical-labels/kustomization.yaml"
-        - "governance/35-scripts/ci/github-actions-naming-validation.yaml"
-        - "governance/35-scripts/ci/gitlab-ci-naming-validation.yaml"
       examples:
         - "examples/governance/naming/good-vs-bad-naming.yaml"
         - "examples/governance/naming/sample-k8s-deployment.yaml"
-        - "examples/governance/naming/sample-namespace.yaml"
-        - "examples/governance/naming/sample-naming-modes.yaml"
-        - "examples/governance/naming/sample-ci-violations.yaml"
-      tags: ["naming", "standards", "validation", "gatekeeper", "conftest", "opa"]
+      tags: ["naming", "standards", "validation"]
 
     # Change management
     - id: change-management
