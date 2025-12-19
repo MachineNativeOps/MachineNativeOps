@@ -272,7 +272,8 @@ function runSafeCommand(
       throw result.error;
     }
     if (typeof result.status === "number" && result.status !== 0) {
-      throw new Error(result.stderr?.toString() || `Command failed: ${segment}`);
+      const commandLabel = args.join(" ");
+      throw new Error(result.stderr?.toString() || `Command failed: ${commandLabel}`);
     }
     if (stdio === "pipe" && result.stdout) {
       output += result.stdout;

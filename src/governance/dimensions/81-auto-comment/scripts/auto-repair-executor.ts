@@ -226,7 +226,8 @@ export class AutoRepairExecutor {
         throw result.error;
       }
       if (lastStatus !== 0) {
-        const error = new Error(result.stderr || `Command failed: ${segment}`);
+        const commandLabel = args.join(" ");
+        const error = new Error(result.stderr || `Command failed: ${commandLabel}`);
         (error as any).status = lastStatus;
         throw error;
       }
