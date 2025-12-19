@@ -131,7 +131,6 @@ jobs:
               echo "检查脚本: $script"
               if python3 -m py_compile "$script"; then
                 echo "✅ $script 语法正确"
-                rm -f "${script%.py}.pyc"
               else
                 echo "❌ $script 语法错误"
                 exit 1
@@ -182,7 +181,7 @@ jobs:
             fi
           done
           if [ ${#EXISTING_DIRS[@]} -eq 0 ]; then
-            echo "ℹ️ 未找到 YAML 搜索目錄"
+            echo "ℹ️ 未找到 YAML 搜索目录"
             yaml_files=()
           else
             mapfile -t yaml_files < <(find "${EXISTING_DIRS[@]}" -type f \( -name "*.yaml" -o -name "*.yml" \))
@@ -213,7 +212,7 @@ jobs:
             fi
           done
           if [ ${#EXISTING_DIRS[@]} -eq 0 ]; then
-            echo "ℹ️ 未找到 JSON 搜索目錄"
+            echo "ℹ️ 未找到 JSON 搜索目录"
             json_files=()
           else
             mapfile -t json_files < <(find "${EXISTING_DIRS[@]}" -type f -name "*.json")
