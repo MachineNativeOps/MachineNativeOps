@@ -49,7 +49,6 @@ const assertPathValid = (filePath: string): void => {
     throw new PathValidationError('Invalid file path');
   }
 };
-};
 
 async function resolveSafePath(userInputPath: string): Promise<string> {
   assertPathValid(userInputPath);
@@ -61,13 +60,13 @@ async function resolveSafePath(userInputPath: string): Promise<string> {
   let canonicalSafeRoot: string;
   try {
     // Canonicalize the safe root directory for robust prefix checking.
+    canonicalSafeRoot = await realpath(safeRoot);
 
     // Always resolve user input relative to the canonical safe root.
     const resolvedCandidate = path.resolve(canonicalSafeRoot, normalizedInput);
 
     // Canonicalize the candidate to resolve any symlinks.
     canonicalPath = await realpath(resolvedCandidate);
-    canonicalSafeRoot = await realpath(safeRoot);
   } catch (error) {
     // Allow caller to handle missing files (ENOENT) or root misconfiguration.
     throw error;
