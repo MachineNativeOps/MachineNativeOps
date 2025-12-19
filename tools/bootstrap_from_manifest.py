@@ -100,7 +100,7 @@ class BootstrapContext:
         if self.apply:
             # Security: Only execute scripts from trusted YAML manifests
             # The manifest file should be version-controlled and reviewed
-            tmp_path = ""
+            tmp_path: str | None = None
             old_umask = os.umask(0o077)
             try:
                 with tempfile.NamedTemporaryFile(
@@ -111,11 +111,11 @@ class BootstrapContext:
             finally:
                 os.umask(old_umask)
             try:
-                if tmp_path:
+                if tmp_path is not None:
                     os.chmod(tmp_path, 0o600)
                     subprocess.run(["/bin/bash", tmp_path], check=True, cwd=self.repo_root)
             finally:
-                if tmp_path:
+                if tmp_path is not None:
                     try:
                         Path(tmp_path).unlink()
                     except OSError:

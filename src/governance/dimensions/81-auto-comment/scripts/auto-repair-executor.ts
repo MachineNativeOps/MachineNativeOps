@@ -267,11 +267,12 @@ export class AutoRepairExecutor {
           output: result.output || "命令執行成功",
           duration: Date.now() - startTime,
         };
-      } catch (error: any) {
-        lastError = error.message || error.toString();
+      } catch (error: unknown) {
+        lastError = error instanceof Error ? error.message : String(error);
 
         // 某些命令失敗但實際上是成功的（如 eslint --fix 可能返回非零）
-        if (step.action.includes("fix") && error.status === 1) {
+        const status = (error as { status?: number }).status;
+        if (step.action.includes("fix") && status === 1) {
           // 檢查是否實際有修改
           const gitStatus = execSync("git status --porcelain", { encoding: "utf-8" });
           if (gitStatus.trim()) {

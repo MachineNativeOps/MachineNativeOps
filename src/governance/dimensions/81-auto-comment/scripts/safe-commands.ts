@@ -1,13 +1,57 @@
-const UNSAFE_PATTERN = /[;&|`$><()\\]/;
+const UNSAFE_PATTERN = /[;&|`$><()\\[\]{}\r\n]/;
+
+type Pattern = {
+  regex: RegExp;
+  buildArgs: (match: RegExpMatchArray) => string[];
+};
+
+const COMMAND_PATTERNS: Pattern[] = [
+  { regex: /^git status --porcelain$/, buildArgs: () => ["git", "status", "--porcelain"] },
+  { regex: /^git add \.$/, buildArgs: () => ["git", "add", "."] },
+  { regex: /^git rev-parse HEAD$/, buildArgs: () => ["git", "rev-parse", "HEAD"] },
+  { regex: /^git rev-parse --abbrev-ref HEAD$/, buildArgs: () => ["git", "rev-parse", "--abbrev-ref", "HEAD"] },
+  { regex: /^git stash push -m ['"]?(.+?)['"]?$/, buildArgs: m => ["git", "stash", "push", "-m", m[1]] },
+  { regex: /^git stash pop$/, buildArgs: () => ["git", "stash", "pop"] },
+  { regex: /^git reset --hard ([A-Za-z0-9._-]+)$/, buildArgs: m => ["git", "reset", "--hard", m[1]] },
+  { regex: /^git push -u origin ([A-Za-z0-9._/-]+)$/, buildArgs: m => ["git", "push", "-u", "origin", m[1]] },
+  { regex: /^git commit -m (.+)$/, buildArgs: m => buildCommitArgs(m[1]) },
+  { regex: /^npm run lint$/, buildArgs: () => ["npm", "run", "lint"] },
+  { regex: /^npm run build$/, buildArgs: () => ["npm", "run", "build"] },
+  { regex: /^npm test$/, buildArgs: () => ["npm", "test"] },
+  { regex: /^npm run type-check$/, buildArgs: () => ["npm", "run", "type-check"] },
+  { regex: /^npm run format$/, buildArgs: () => ["npm", "run", "format"] },
+  { regex: /^npx eslint --fix \.$/, buildArgs: () => ["npx", "eslint", "--fix", "."] },
+  { regex: /^npx eslint --fix --ext \.ts,\.tsx,\.js,\.jsx \.$/, buildArgs: () => ["npx", "eslint", "--fix", "--ext", ".ts,.tsx,.js,.jsx", "."] },
+  { regex: /^npx prettier --write \.$/, buildArgs: () => ["npx", "prettier", "--write", "."] },
+  { regex: /^npx yaml-lint --fix \.$/, buildArgs: () => ["npx", "yaml-lint", "--fix", "."] },
+  { regex: /^npx markdownlint --fix \.$/, buildArgs: () => ["npx", "markdownlint", "--fix", "."] },
+];
 
 function stripWrappingQuotes(value: string): string {
   if (!value) return value;
-
   const first = value[0];
   if ((first === "'" || first === '"') && value.endsWith(first)) {
     return value.slice(1, -1);
   }
   return value;
+}
+
+function buildCommitArgs(rawMessage: string): string[] {
+  const startsWithQuote = rawMessage.startsWith("'") || rawMessage.startsWith('"');
+  if (startsWithQuote && rawMessage.length < 2) {
+    throw new Error("Invalid commit message quoting");
+  }
+  if (
+    (rawMessage.startsWith("'") && !rawMessage.endsWith("'")) ||
+    (rawMessage.startsWith('"') && !rawMessage.endsWith('"'))
+  ) {
+    throw new Error("Unbalanced commit message quotes");
+  }
+  const message = stripWrappingQuotes(rawMessage);
+  if (UNSAFE_PATTERN.test(message)) {
+    throw new Error("Unsafe commit message content");
+  }
+  return ["git", "commit", "-m", message];
 }
 
 function parseSegment(segment: string): string[] {
@@ -16,53 +60,10 @@ function parseSegment(segment: string): string[] {
   }
 
   const trimmed = segment.trim();
-  switch (trimmed) {
-    case "git status --porcelain":
-      return ["git", "status", "--porcelain"];
-    case "git add .":
-      return ["git", "add", "."];
-    case "git rev-parse HEAD":
-      return ["git", "rev-parse", "HEAD"];
-    case "npm run lint":
-      return ["npm", "run", "lint"];
-    case "npm run build":
-      return ["npm", "run", "build"];
-    case "npm test":
-      return ["npm", "test"];
-    case "npm run type-check":
-      return ["npm", "run", "type-check"];
-    case "npm run format":
-      return ["npm", "run", "format"];
-    case "npx eslint --fix .":
-      return ["npx", "eslint", "--fix", "."];
-    case "npx eslint --fix --ext .ts,.tsx,.js,.jsx .":
-      return ["npx", "eslint", "--fix", "--ext", ".ts,.tsx,.js,.jsx", "."];
-    case "npx prettier --write .":
-      return ["npx", "prettier", "--write", "."];
-    case "npx yaml-lint --fix .":
-      return ["npx", "yaml-lint", "--fix", "."];
-    case "npx markdownlint --fix .":
-      return ["npx", "markdownlint", "--fix", "."];
-    default: {
-      if (trimmed.startsWith("git commit -m ")) {
-        const rawMessage = trimmed.replace(/^git commit -m\s+/, "");
-        const startsWithQuote = rawMessage.startsWith("'") || rawMessage.startsWith('"');
-        if (startsWithQuote && rawMessage.length < 2) {
-          throw new Error("Invalid commit message quoting");
-        }
-        if (
-          (rawMessage.startsWith("'") && !rawMessage.endsWith("'")) ||
-          (rawMessage.startsWith('"') && !rawMessage.endsWith('"'))
-        ) {
-          throw new Error("Unbalanced commit message quotes");
-        }
-        const message = stripWrappingQuotes(rawMessage);
-        if (UNSAFE_PATTERN.test(message)) {
-          throw new Error("Unsafe commit message content");
-        }
-        return ["git", "commit", "-m", message];
-      }
-      break;
+  for (const pattern of COMMAND_PATTERNS) {
+    const match = trimmed.match(pattern.regex);
+    if (match) {
+      return pattern.buildArgs(match);
     }
   }
 
