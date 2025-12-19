@@ -46,6 +46,16 @@ function parseSegment(segment: string): string[] {
     default: {
       if (trimmed.startsWith("git commit -m ")) {
         const rawMessage = trimmed.replace(/^git commit -m\s+/, "");
+        const startsWithQuote = rawMessage.startsWith("'") || rawMessage.startsWith('"');
+        if (startsWithQuote && rawMessage.length < 2) {
+          throw new Error("Invalid commit message quoting");
+        }
+        if (
+          (rawMessage.startsWith("'") && !rawMessage.endsWith("'")) ||
+          (rawMessage.startsWith('"') && !rawMessage.endsWith('"'))
+        ) {
+          throw new Error("Unbalanced commit message quotes");
+        }
         const message = stripWrappingQuotes(rawMessage);
         if (UNSAFE_PATTERN.test(message)) {
           throw new Error("Unsafe commit message content");
