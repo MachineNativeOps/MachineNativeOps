@@ -109,7 +109,8 @@ class CodeRunner(Tool):
 
     def _build_execution_command(self, lang_config: dict[str, str], temp_file: str) -> list[str]:
         """
-        Construct an execution command using an allowlist to avoid user-controlled binaries.
+        Construct an execution command from the validated language configuration sourced from
+        SUPPORTED_LANGUAGES.
         """
         return [lang_config["cmd"], temp_file]
 
