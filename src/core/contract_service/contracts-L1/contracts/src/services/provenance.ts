@@ -23,12 +23,19 @@ const assertPathValid = (filePath: string): void => {
     throw new PathValidationError('Invalid file path: Path must be a non-empty string');
   }
 
+  // Disallow null bytes which can truncate paths at the OS level.
   if (filePath.includes('\0')) {
+    throw new PathValidationError('Invalid file path');
+  }
+
+  // Reject absolute paths; all user input must be relative to the safe root.
+  if (path.isAbsolute(filePath)) {
     throw new PathValidationError('Invalid file path');
   }
 
   const hasDirectorySeparators = filePath.includes('/') || filePath.includes(path.sep);
   if (!hasDirectorySeparators) {
+    // Treat as a simple filename; sanitize and require that it does not change.
     const sanitized = sanitize(filePath);
     if (sanitized !== filePath || !sanitized) {
       throw new PathValidationError('Invalid file path');
@@ -36,9 +43,12 @@ const assertPathValid = (filePath: string): void => {
     return;
   }
 
-  if (filePath.split(path.sep).includes('..') || filePath.includes('//')) {
+  // For multi-component paths, perform basic syntactic validation and forbid traversal segments and duplicate separators.
+  const segments = filePath.split(/[\\/]+/);
+  if (segments.includes('..') || filePath.includes('//') || filePath.includes('\\\\')) {
     throw new PathValidationError('Invalid file path');
   }
+};
 };
 
 async function resolveSafePath(userInputPath: string): Promise<string> {
@@ -46,30 +56,28 @@ async function resolveSafePath(userInputPath: string): Promise<string> {
 
   const safeRoot = getSafeRoot();
   const normalizedInput = path.normalize(userInputPath);
-  const root = path.parse(normalizedInput).root || '/';
-  const relativeToRoot = path.relative(root, normalizedInput);
-  const resolvedCandidate = path.isAbsolute(normalizedInput)
-    ? path.resolve(safeRoot, relativeToRoot)
-    : path.resolve(safeRoot, normalizedInput);
 
   let canonicalPath: string;
   let canonicalSafeRoot: string;
   try {
+    // Canonicalize the safe root directory for robust prefix checking.
+
+    // Always resolve user input relative to the canonical safe root.
+    const resolvedCandidate = path.resolve(canonicalSafeRoot, normalizedInput);
+
+    // Canonicalize the candidate to resolve any symlinks.
     canonicalPath = await realpath(resolvedCandidate);
-    // Canonicalize the safe root directory as well for robust prefix checking
     canonicalSafeRoot = await realpath(safeRoot);
   } catch (error) {
-    // Allow caller to handle missing files (ENOENT)
+    // Allow caller to handle missing files (ENOENT) or root misconfiguration.
     throw error;
   }
 
-  // Check that canonicalPath is within canonicalSafeRoot using path.relative
-  // This prevents directory traversal and symlink attacks robustly, regardless of separator/casing.
+  // Ensure the canonical path is strictly within the canonical safe root.
   const rel = path.relative(canonicalSafeRoot, canonicalPath);
   if (
     rel.startsWith('..') ||
-    path.isAbsolute(rel) ||
-    rel === '' // Optionally, disallow accessing the root directory itself. Remove or comment this line to allow.
+    path.isAbsolute(rel)
   ) {
     throw new PathValidationError('Invalid file path');
   }
