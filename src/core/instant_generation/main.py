@@ -345,7 +345,7 @@ if __name__ == "__main__":
     
     async def main():
         if len(sys.argv) < 2:
-            print("Usage: python main.py &quot;<user_input>&quot;")
+            print('Usage: python main.py "<user_input>"')
             return
         
         user_input = " ".join(sys.argv[1:])
