@@ -309,11 +309,15 @@ class RealTimeMonitor:
             # 更新計數器 - 需要查找對應的session_id
             diff = old_count - new_count
             if diff > 0:
-                # 檢查這個key屬於哪個session
+                # 查找最長匹配的session_id以處理包含下劃線的情況
+                matched_session = None
+                max_length = 0
                 for session_id in list(self.metrics_count.keys()):
-                    if key.startswith(f"{session_id}_"):
-                        self.metrics_count[session_id] -= diff
-                        break
+                    if key.startswith(f"{session_id}_") and len(session_id) > max_length:
+                        matched_session = session_id
+                        max_length = len(session_id)
+                if matched_session:
+                    self.metrics_count[matched_session] -= diff
         
         # 清理舊警報
         self.alerts = [a for a in self.alerts if a.timestamp > cutoff_time]
