@@ -115,9 +115,8 @@ class CodeRunner(Tool):
         if working_dir is None:
             return None
 
-        try:
-            normalized = Path(working_dir).resolve(strict=True)
-        except FileNotFoundError:
+        normalized = Path(working_dir).resolve()
+        if not normalized.exists():
             raise ValueError(f"Working directory '{working_dir}' does not exist.")
         if not self.config.allowed_paths:
             raise ValueError(
@@ -126,10 +125,10 @@ class CodeRunner(Tool):
 
         allowed_roots: list[Path] = []
         for allowed in self.config.allowed_paths:
-            try:
-                allowed_roots.append(Path(allowed).resolve(strict=True))
-            except FileNotFoundError:
+            resolved_allowed = Path(allowed).resolve()
+            if not resolved_allowed.exists():
                 raise ValueError(f"Configured allowed path '{allowed}' does not exist.")
+            allowed_roots.append(resolved_allowed)
 
         for base in allowed_roots:
             if normalized.is_relative_to(base):
