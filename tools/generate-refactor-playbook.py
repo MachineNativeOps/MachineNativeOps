@@ -184,7 +184,7 @@ class RefactorPlaybookGenerator:
 
 ### 受影響目錄
 - services/gateway/
-- core/contract_service/
+- core/machinenativenops.contracts/
 - automation/intelligent/
 
 ### 結構示意（僅涵蓋變更區域）

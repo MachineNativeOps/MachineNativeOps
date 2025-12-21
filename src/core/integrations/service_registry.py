@@ -137,7 +137,7 @@ class ServiceMetadata:
 @dataclass
 class RegistryConfig:
     """Configuration for the service registry"""
-    name: str = 'synergymesh-registry'
+    name: str = 'machinenativenops-registry'
     health_check_interval_seconds: int = 30
     heartbeat_timeout_seconds: int = 90
     max_consecutive_failures: int = 3

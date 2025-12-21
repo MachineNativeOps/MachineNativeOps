@@ -251,7 +251,7 @@ class TemplateBuilder:
         from datetime import datetime
 
         # Define registry path
-        registry_dir = Path.home() / ".synergymesh" / "templates"
+        registry_dir = Path.home() / ".machinenativenops" / "templates"
         registry_file = registry_dir / "registry.json"
         template_dir = registry_dir / name
 

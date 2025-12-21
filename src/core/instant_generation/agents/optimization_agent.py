@@ -328,7 +328,7 @@ class OptimizationAgent(BaseAgent):
                 "Architecture review",
                 "Scalability testing",
                 "Technology stack evaluation"
-            }
+            ]
         }
     
     async def _calculate_improvement_metrics(self, results: Dict[str, Any]) -> Dict[str, Any]:

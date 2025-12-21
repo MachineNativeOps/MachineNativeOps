@@ -404,7 +404,7 @@ class SignatureVerifier:
             fingerprint = hashlib.sha256(pem.encode()).hexdigest()
             
             return Certificate(
-                subject='CN=synergymesh-build',
+                subject='CN=machinenativenops-build',
                 issuer='CN=Fulcio,O=sigstore.dev',
                 not_before=datetime.now(timezone.utc),
                 not_after=datetime(2030, 12, 31, tzinfo=timezone.utc),
@@ -423,7 +423,7 @@ class SignatureVerifier:
             fingerprint = hashlib.sha256(der_bytes).hexdigest()
             
             return Certificate(
-                subject='CN=synergymesh-build',
+                subject='CN=machinenativenops-build',
                 issuer='CN=Fulcio,O=sigstore.dev',
                 not_before=datetime.now(timezone.utc),
                 not_after=datetime(2030, 12, 31, tzinfo=timezone.utc),

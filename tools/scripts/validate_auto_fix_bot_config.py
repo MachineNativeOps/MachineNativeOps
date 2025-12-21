@@ -66,7 +66,7 @@ def validate_metadata(metadata: Dict[str, Any]) -> List[str]:
     if 'labels' in metadata and len(metadata['labels']) < 2:
         issues.append("metadata.labels 至少需要 2 個標籤")
     
-    allowed_compliance_tags = ['slsa-l3', 'in-toto', 'audit-trail', 'axiom-free', 'deep-validation']
+    allowed_compliance_tags = ['slsa-l3', 'in-toto', 'audit-trail', 'machinenativenops-free', 'deep-validation']
     if 'compliance_tags' in metadata:
         for tag in metadata['compliance_tags']:
             if tag not in allowed_compliance_tags:

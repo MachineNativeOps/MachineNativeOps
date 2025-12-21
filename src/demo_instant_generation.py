@@ -17,7 +17,7 @@ logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 )
 
-from core.instant_generation.main import InstantGenerationSystem, quick_generate
+from core.machinenativenops.instant_generation.main import InstantGenerationSystem, quick_generate
 
 async def demo_basic_generation():
     """演示基礎系統生成"""

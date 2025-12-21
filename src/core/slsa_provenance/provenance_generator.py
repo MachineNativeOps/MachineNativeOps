@@ -322,7 +322,7 @@ class ProvenanceGenerator:
         # Create builder
         builder = Builder(
             id=self.builder_id,
-            version={'synergymesh': self.builder_version} if self.builder_version else None
+            version={'machinenativenops': self.builder_version} if self.builder_version else None
         )
         
         # Create build metadata

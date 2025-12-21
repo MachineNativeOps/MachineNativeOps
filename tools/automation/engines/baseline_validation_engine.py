@@ -53,7 +53,7 @@ class BaselineValidationEngine:
         # Kubernetes namespace must match RFC 1123 label: lowercase alphanumerics and '-', 1-63 chars
         return bool(re.fullmatch(r"[a-z0-9]([-a-z0-9]{0,61}[a-z0-9])?", namespace))
 
-    def __init__(self, namespace: str = "synergymesh-system"):
+    def __init__(self, namespace: str = "machinenativenops-system"):
         self.namespace = namespace
         self.validation_results: list[ValidationResult] = []
         timestamp_str = datetime.now().strftime("%Y%m%d-%H%M%S")
@@ -449,7 +449,7 @@ def main():
         description="SynergyMesh Baseline Validation Engine with Auto-Evolution"
     )
     parser.add_argument(
-        "--namespace", default="synergymesh-system", help="Kubernetes namespace to validate"
+        "--namespace", default="machinenativenops-system", help="Kubernetes namespace to validate"
     )
     parser.add_argument(
         "--auto-evolve",

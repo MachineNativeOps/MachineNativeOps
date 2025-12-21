@@ -209,7 +209,7 @@ class CrossReferenceReport:
 @dataclass
 class WorkConfigManagerConfig:
     """Configuration for the Work Configuration Manager"""
-    name: str = 'synergymesh-work-config'
+    name: str = 'machinenativenops-work-config'
     config_base_path: str = 'config/'
     enable_auto_validation: bool = True
     enable_cross_reference_check: bool = True

@@ -198,7 +198,7 @@ class TestIntegrationHub:
         
     def test_initialization(self, hub):
         """Test hub initialization"""
-        assert hub.config.name == 'synergymesh-hub'
+        assert hub.config.name == 'machinenativenops-hub'
         assert not hub._is_running
         
     @pytest.mark.asyncio
@@ -301,7 +301,7 @@ class TestSystemOrchestrator:
         
     def test_initialization(self, orchestrator):
         """Test orchestrator initialization"""
-        assert orchestrator.config.name == 'synergymesh-orchestrator'
+        assert orchestrator.config.name == 'machinenativenops-orchestrator'
         assert not orchestrator._is_running
         
     @pytest.mark.asyncio

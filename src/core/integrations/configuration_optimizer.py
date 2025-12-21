@@ -190,7 +190,7 @@ class DriftReport:
 @dataclass
 class OptimizerConfig:
     """Configuration for the optimizer"""
-    name: str = 'synergymesh-optimizer'
+    name: str = 'machinenativenops-optimizer'
     enable_auto_optimization: bool = False
     enable_drift_detection: bool = True
     drift_check_interval_seconds: int = 300

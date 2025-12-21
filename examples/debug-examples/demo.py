@@ -12,12 +12,12 @@ from pathlib import Path
 # 添加專案路徑
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
-from src.core.run_debug.engine import (
+from src.core.machinenativenops.run_debug.engine import (
     get_engine, ConfigurationManager, LaunchConfiguration,
     DebugState, BreakpointType
 )
-from src.core.run_debug.adapters.python_adapter import PythonDebugAdapter
-from src.core.run_debug.chat_interface import ChatDebugInterface
+from src.core.machinenativenops.run_debug.adapters.python_adapter import PythonDebugAdapter
+from src.core.machinenativenops.run_debug.chat_interface import ChatDebugInterface
 
 
 async def demo_basic_debugging():
@@ -140,7 +140,7 @@ async def demo_error_analysis():
     print("示範 4: 智能錯誤分析")
     print("=" * 60)
     
-    from src.core.run_debug.chat_interface import ErrorAnalyzer
+    from src.core.machinenativenops.run_debug.chat_interface import ErrorAnalyzer
     
     analyzer = ErrorAnalyzer()
     
@@ -173,7 +173,7 @@ async def demo_code_optimization():
     print("示範 5: 程式碼優化建議")
     print("=" * 60)
     
-    from src.core.run_debug.chat_interface import CodeOptimizer
+    from src.core.machinenativenops.run_debug.chat_interface import CodeOptimizer
     
     optimizer = CodeOptimizer()
     

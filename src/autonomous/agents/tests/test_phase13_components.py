@@ -392,7 +392,7 @@ class TestSLSACompliance:
     def test_provenance_generation(self):
         """Test provenance generation"""
         generator = SLSAProvenanceGenerator(
-            builder_id="synergymesh/builder",
+            builder_id="machinenativenops/builder",
             builder_version="1.0.0",
         )
         
@@ -553,7 +553,7 @@ class TestPhase13Integration:
         )
         
         # Generate SLSA provenance
-        provenance_gen = SLSAProvenanceGenerator("synergymesh/builder")
+        provenance_gen = SLSAProvenanceGenerator("machinenativenops/builder")
         provenance = provenance_gen.generate_from_module(
             module.to_dict(),
             {"build_type": "yaml-module"},
@@ -564,7 +564,7 @@ class TestPhase13Integration:
         signed_provenance = signer.sign_provenance(provenance)
         
         # Generate SBOM
-        sbom_gen = SBOMGenerator("synergymesh")
+        sbom_gen = SBOMGenerator("machinenativenops")
         sbom = sbom_gen.generate_from_module(module.to_dict())
         
         # Log to audit

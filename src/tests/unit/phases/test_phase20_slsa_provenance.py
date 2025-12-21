@@ -31,14 +31,14 @@ class TestProvenanceGenerator:
     @pytest.fixture
     def generator(self):
         return ProvenanceGenerator(
-            builder_id='https://synergymesh.dev/builder',
+            builder_id='https://machinenativenops.dev/builder',
             builder_version='1.0.0'
         )
         
     def test_start_build(self, generator):
         """Test starting a build"""
         invocation_id = generator.start_build(
-            build_type='https://synergymesh.dev/build',
+            build_type='https://machinenativenops.dev/build',
             external_parameters={'source': 'git://repo'}
         )
         

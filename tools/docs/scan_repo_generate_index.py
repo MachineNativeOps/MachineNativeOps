@@ -45,7 +45,7 @@ DOMAIN_MAPPING = {
     'agent': ['agent/'],
     'shared': ['shared/'],
     'bridges': ['bridges/'],
-    'contracts': ['contracts/', 'core/contract_service/'],
+    'contracts': ['contracts/', 'core/machinenativenops.contracts/'],
     'runtime': ['runtime/'],
     'github': ['.github/'],
     'architecture': ['docs/architecture/'],
@@ -315,8 +315,8 @@ def generate_index(items: list[dict[str, Any]]) -> dict[str, Any]:
     ]
     
     return {
-        '$schema': 'https://schema.synergymesh.io/docs-index/v1',
-        'namespace': 'synergymesh.docs',
+        '$schema': 'https://schema.machinenativenops.io/docs-index/v1',
+        'namespace': 'machinenativenops.docs',
         'version': '1.0.0',
         'last_updated': datetime.now().strftime('%Y-%m-%d'),
         'categories': categories,

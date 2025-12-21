@@ -164,10 +164,10 @@ def generate_spdx_sbom(
     relationships = []
     
     # Root package
-    root_id = "SPDXRef-Package-synergymesh-docs"
+    root_id = "SPDXRef-Package-machinenativenops-docs"
     packages.append({
         "SPDXID": root_id,
-        "name": "synergymesh-docs",
+        "name": "machinenativenops-docs",
         "versionInfo": "1.0.0",
         "downloadLocation": "https://github.com/Unmanned-Island-admin/SynergyMesh",
         "filesAnalyzed": True,
@@ -224,7 +224,7 @@ def generate_spdx_sbom(
         "spdxVersion": "SPDX-2.3",
         "dataLicense": "CC0-1.0",
         "SPDXID": "SPDXRef-DOCUMENT",
-        "name": "synergymesh-docs-sbom",
+        "name": "machinenativenops-docs-sbom",
         "documentNamespace": f"https://github.com/Unmanned-Island-admin/SynergyMesh/sbom/{uuid4()}",
         "creationInfo": {
             "created": now.isoformat(),

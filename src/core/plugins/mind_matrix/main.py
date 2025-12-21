@@ -194,7 +194,7 @@ class MindMatrix:
         """
         return self.model.executive_layer.roles
 
-    def get_ceo_mission(self, ceo_id: str = "synergymesh.ceo") -> list[str] | None:
+    def get_ceo_mission(self, ceo_id: str = "machinenativenops.ceo") -> list[str] | None:
         """
         取得特定執行長的使命 (Get mission for a specific executive).
 
@@ -324,7 +324,7 @@ class MindMatrix:
         # 輸出角色摘要（相容現有使用者習慣）
         for role in mm.get_executive_roles():
             print(f"🎯 {role.title} ({role.id}) | 領域: {', '.join(role.domains)}")
-            if role.id == "synergymesh.ceo":
+            if role.id == "machinenativenops.ceo":
                 print(f"   使命: {', '.join(role.mission)}")
 
         return mm

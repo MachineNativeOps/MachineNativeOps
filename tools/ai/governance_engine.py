@@ -354,11 +354,11 @@ class AIGovernanceEngine:
         
         # Add default values if missing
         if "namespace" not in optimized:
-            optimized["namespace"] = "synergymesh-system"
+            optimized["namespace"] = "machinenativenops-system"
         
         if "labels" not in optimized:
             optimized["labels"] = {
-                "app.kubernetes.io/managed-by": "synergymesh",
+                "app.kubernetes.io/managed-by": "machinenativenops",
                 "app.kubernetes.io/part-of": "instant-execution"
             }
         
@@ -395,9 +395,9 @@ def main():
         "impact_scope": "namespace",
         "affected_resources": 5,
         "resources": [
-            {"name": "synergymesh-api-v1"},
-            {"name": "synergymesh-worker-v1"},
-            {"name": "synergymesh-db-config"},
+            {"name": "machinenativenops-api-v1"},
+            {"name": "machinenativenops-worker-v1"},
+            {"name": "machinenativenops-db-config"},
             {"name": "prod-ingress-controller"},
             {"name": "monitoring-stack"},
         ]

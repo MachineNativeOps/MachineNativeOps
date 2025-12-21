@@ -15,13 +15,13 @@ with open('requirements.txt', 'r') as f:
     requirements = [line.strip() for line in f if line.strip() and not line.startswith('#')]
 
 setup(
-    name='synergymesh-governance',
+    name='machinenativenops-governance',
     version=version,
     description='SynergyMesh 23-Dimension Enterprise Governance Framework',
     long_description=long_description,
     long_description_content_type='text/markdown',
     author='SynergyMesh Governance Team',
-    author_email='governance-team@synergymesh.io',
+    author_email='governance-team@machinenativenops.io',
     url=os.environ.get('REPOSITORY_URL', ''),
     packages=find_packages('src'),
     package_dir={'': 'src'},

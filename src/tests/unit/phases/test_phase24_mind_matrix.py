@@ -104,21 +104,21 @@ class TestExecutiveRoles:
         ids = {r.id for r in roles}
 
         # CEO role must exist
-        assert "synergymesh.ceo" in ids
+        assert "machinenativenops.ceo" in ids
 
         # CISO role must exist
-        assert "synergymesh.ciso" in ids
+        assert "machinenativenops.ciso" in ids
 
     def test_ceo_mission_exists(self, mind_matrix: MindMatrix) -> None:
         """Test that CEO has defined missions."""
-        mission = mind_matrix.get_ceo_mission("synergymesh.ceo")
+        mission = mind_matrix.get_ceo_mission("machinenativenops.ceo")
 
         assert mission is not None
         assert len(mission) > 0
 
     def test_ceo_mission_content(self, mind_matrix: MindMatrix) -> None:
         """Test CEO mission content."""
-        mission = mind_matrix.get_ceo_mission("synergymesh.ceo")
+        mission = mind_matrix.get_ceo_mission("machinenativenops.ceo")
 
         assert mission is not None
         # Should contain key mission elements

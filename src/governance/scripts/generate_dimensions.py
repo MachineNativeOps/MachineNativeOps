@@ -116,7 +116,7 @@ def generate_dimension_yaml(dim_id, name, name_zh, name_en, description, tags, c
 # Validation: JSON Schema Enforced
 # =============================================================================
 
-apiVersion: governance.synergymesh.io/v2
+apiVersion: governance.machinenativenops.io/v2
 kind: DimensionModule
 metadata:
   id: "{dim_id}-{name}"
@@ -261,7 +261,7 @@ def generate_schema_json(dim_id, name, name_en, description, tags):
     """Generate schema.json content"""
     schema = {
         "$schema": "http://json-schema.org/draft-07/schema#",
-        "$id": f"https://synergymesh.io/governance/dimensions/{dim_id}-{name}/schema.json",
+        "$id": f"https://machinenativenops.io/governance/dimensions/{dim_id}-{name}/schema.json",
         "title": f"{name_en} Schema",
         "description": description,
         "type": "object",

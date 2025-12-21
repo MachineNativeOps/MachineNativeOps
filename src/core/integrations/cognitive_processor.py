@@ -157,7 +157,7 @@ class CognitiveContext:
 @dataclass
 class ProcessorConfig:
     """Configuration for the cognitive processor"""
-    name: str = 'synergymesh-cognitive'
+    name: str = 'machinenativenops-cognitive'
     enable_perception: bool = True
     enable_reasoning: bool = True
     enable_execution: bool = True

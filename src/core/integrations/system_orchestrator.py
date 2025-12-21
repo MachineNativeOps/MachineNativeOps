@@ -40,7 +40,7 @@ class TaskType(Enum):
 @dataclass
 class OrchestratorConfig:
     """Configuration for the system orchestrator"""
-    name: str = 'synergymesh-orchestrator'
+    name: str = 'machinenativenops-orchestrator'
     max_concurrent_workflows: int = 10
     max_concurrent_tasks: int = 50
     default_task_timeout_seconds: int = 300

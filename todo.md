@@ -1,45 +1,32 @@
-# 執行與偵錯系統設計任務清單
+# 🎯 Root Layer Specifications & Validation System Implementation
 
-## 📋 階段一：需求分析與架構設計
-- [x] 分析現有 VS Code 的執行與偵錯功能
-- [x] 設計支援多語言的執行與偵錯架構
-- [x] 設計 launch.json 配置系統
-- [x] 規劃終端機命令偵錯介面
-- [x] 規劃互動式聊天偵錯介面
+## 階段1：規範檔案建立 (Specification Files Creation)
+- [x] 建立 root.specs.naming.yaml - 鍵名與值名規範
+- [x] 建立 root.specs.mapping.yaml - 映射規範
+- [x] 建立 root.specs.references.yaml - 引用規範
+- [x] 建立 root.specs.logic.yaml - 邏輯一致性規範
+- [x] 建立 root.specs.context.yaml - 上下文一致性規範
 
-## 🏗️ 階段二：核心系統實作
+## 階段2：註冊表建立 (Registry Creation)
+- [x] 建立 root.registry.modules.yaml - 模組註冊表（SSOT）
+- [x] 建立 root.registry.urns.yaml - URN 註冊表
 
-- [x] 建立執行引擎核心模組
-- [x] 實作偵錯協議適配器
-- [x] 建立配置解析系統
-- [x] 實作多語言支援層
-- [x] 建立會話管理系統
+## 階段3：驗證閘門建立 (Validation Gate Creation)
+- [x] 建立 .github/workflows/gate-root-specs.yml - 規範驗證工作流
+- [x] 建立驗證腳本 scripts/validation/validate-root-specs.py
 
-## 🔧 階段三：終端機整合
-- [x] 實作終端機命令執行器
-- [x] 建立偵錯命令解析器
-- [x] 實作斷點管理系統
-- [x] 建立變數檢視器
-- [x] 實作堆疊追蹤功能
+## 階段4：整合與測試 (Integration & Testing)
+- [x] 更新 gates.map.yaml 整合新的規範閘門
+- [x] 執行完整性測試
+- [x] 建立驗證報告
 
-## 💬 階段四：聊天介面整合
+## 階段5：文檔與提交 (Documentation & Commit)
+- [x] 建立 ROOT_SPECS_GUIDE.md 完整說明文檔
+- [x] 提交所有變更至 Git
+- [x] 推送至 main 分支（已完成）
 
-- [x] 設計自然語言偵錯介面
-- [x] 實作智能錯誤診斷
-- [x] 建立互動式問題解決系統
-- [x] 實作程式碼建議引擎
-- [x] 建立學習與改進機制
+---
 
-## 📚 階段五：文檔與測試
-- [x] 撰寫使用者指南
-- [x] 建立範例配置
-- [x] 撰寫 API 文檔
-- [x] 建立測試套件
-- [x] 撰寫故障排除指南
-
-## 🚀 階段六：部署與整合
-- [x] 整合到現有 CI/CD 流程
-- [x] 建立監控與日誌系統
-- [x] 實作效能優化
-- [x] 建立安全性檢查
-- [x] 完成最終驗證
+**目標**: 建立可機器驗證的規範系統，確保所有 root 層配置符合治理標準
+**範圍**: root.*.yaml 配置檔案
+**強制執行**: GitHub Actions 自動阻擋不符合規範的 PR

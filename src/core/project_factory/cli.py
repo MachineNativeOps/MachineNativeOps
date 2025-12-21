@@ -6,9 +6,9 @@ Command-line interface for generating complete projects.
 用於生成完整專案的命令行接口。
 
 Usage:
-    synergymesh generate project --type microservice --name user-service --language python --framework fastapi
-    synergymesh generate project --spec project-spec.yaml
-    synergymesh list templates
+    machinenativenops generate project --type microservice --name user-service --language python --framework fastapi
+    machinenativenops generate project --spec project-spec.yaml
+    machinenativenops list templates
 """
 
 import sys

@@ -35,7 +35,7 @@ SECTION_H3_RE = re.compile(r"^###\s+(.+)$", re.MULTILINE)
 
 # Subsystem detection keywords
 SUBSYSTEM_KEYWORDS = {
-    "synergymesh": ["SynergyMesh", "Core Engine", "核心引擎"],
+    "machinenativenops": ["SynergyMesh", "Core Engine", "核心引擎"],
     "governance": ["Governance", "治理", "Schema"],
     "autonomous": ["Autonomous", "自主", "五骨架", "Framework"],
 }

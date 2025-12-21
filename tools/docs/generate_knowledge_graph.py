@@ -306,7 +306,7 @@ class KnowledgeGraphGenerator:
         seen_targets: set[Path] = set()
         config_files = [
             "machinenativeops.yaml",
-            "synergymesh.yaml",
+            "machinenativenops.yaml",
             "config/system-manifest.yaml",
             "config/system-module-map.yaml",
             "config/unified-config-index.yaml",

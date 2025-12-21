@@ -36,7 +36,7 @@ class MessageType(Enum):
 @dataclass
 class IntegrationConfig:
     """Configuration for the integration hub"""
-    name: str = 'synergymesh-hub'
+    name: str = 'machinenativenops-hub'
     max_queue_size: int = 10000
     message_timeout_seconds: int = 30
     enable_logging: bool = True

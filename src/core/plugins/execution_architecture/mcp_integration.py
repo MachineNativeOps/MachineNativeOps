@@ -90,7 +90,7 @@ class MCPToolProvider:
     Exposes internal tools via MCP protocol
     """
 
-    def __init__(self, server_name: str = "synergymesh"):
+    def __init__(self, server_name: str = "machinenativenops"):
         self.server_name = server_name
         self._tools: dict[str, MCPTool] = {}
         self._handlers: dict[str, Callable] = {}

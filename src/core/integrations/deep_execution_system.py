@@ -204,7 +204,7 @@ class AuditEntry:
 @dataclass
 class DeepExecutionConfig:
     """Configuration for the deep execution system"""
-    name: str = 'synergymesh-deep-execution'
+    name: str = 'machinenativenops-deep-execution'
     max_concurrent_operations: int = 20
     max_context_depth: int = 10
     default_timeout_seconds: float = 60.0

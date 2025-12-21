@@ -169,7 +169,7 @@ class VocabularyScanner:
             "hlp": ["hlp", "executor", "core", "HLP_EXECUTOR"],
             "kg": ["kg", "knowledge", "graph", "builder", "KG_BUILDER"],
             "quantum": ["quantum", "qsign", "signature"],
-            "axiom": ["axiom", "architecture", "foundation"],
+            "machinenativenops": ["machinenativenops", "architecture", "foundation"],
             "k8s": ["kubernetes", "k8s", "deployment", "rbac", "helm"],
             "refactor": ["refactor", "playbook", "migration"],
         }
@@ -492,7 +492,7 @@ class DecisionEngine:
             "hlp": "03_refactor/hlp-executor-core/",
             "kg": "03_refactor/kg-builder/",
             "quantum": "03_refactor/quantum/",
-            "axiom": "03_refactor/axiom/",
+            "machinenativenops": "03_refactor/machinenativenops/",
             "k8s": "02_integration/k8s/",
             "deconstruction": "01_deconstruction/",
             "integration": "02_integration/",

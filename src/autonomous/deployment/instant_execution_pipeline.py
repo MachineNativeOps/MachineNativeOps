@@ -88,7 +88,7 @@ class StageResult:
 class PipelineContext:
     """Execution context for pipeline"""
     config_file: Optional[Path] = None
-    namespace: str = "synergymesh-system"
+    namespace: str = "machinenativenops-system"
     baseline_dir: Optional[Path] = None
     dry_run: bool = False
     skip_validation: bool = False
@@ -596,7 +596,7 @@ async def main():
     )
     parser.add_argument(
         "--namespace",
-        default="synergymesh-system",
+        default="machinenativenops-system",
         help="Kubernetes namespace"
     )
     parser.add_argument(
