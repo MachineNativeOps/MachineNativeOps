@@ -187,7 +187,7 @@ class SSOManager:
         # Discover OIDC endpoints
         discovery_url = f"{issuer_url.rstrip('/')}/.well-known/openid-configuration"
         try:
-            discovery = await self.http_client.get(discovery_url)
+            await self.http_client.get(discovery_url)
         except Exception as e:
             raise ValueError(f"Failed to discover OIDC configuration: {e}")
 
