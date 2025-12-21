@@ -17,6 +17,7 @@ This document provides comprehensive risk assessment for the governance complian
   - Rollback plan documented
 
 #### 2. PR Template Structure Changes
+
 - **Risk Description**: Major template restructuring could confuse contributors and break existing workflows
 - **Impact Level**: Medium - Affects developer experience and productivity
 - **Probability**: Medium - New structure requires adaptation period
