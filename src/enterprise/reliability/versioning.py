@@ -14,6 +14,7 @@ from datetime import datetime
 from typing import Optional, Dict, Any, List, Set, Tuple
 from uuid import UUID, uuid4
 from enum import Enum
+import functools
 import re
 import logging
 
@@ -37,6 +38,7 @@ class CompatibilityLevel(Enum):
     NONE = "none"              # Not compatible
 
 
+@functools.total_ordering
 @dataclass
 class SemanticVersion:
     """Semantic version (SemVer)"""
