@@ -9,6 +9,7 @@ namespace: axiom-system
 labels:
 - pairs:
     environment: prod
+  includeSelectors: false
 
 replicas:
 - name: super-agent
@@ -23,9 +24,10 @@ patches:
     kind: HorizontalPodAutoscaler
     name: super-agent-hpa
   patch: |-
-    - op: replace
-      path: /spec/minReplicas
-      value: 3
-    - op: replace
-      path: /spec/maxReplicas
-      value: 10
+    apiVersion: autoscaling/v2
+    kind: HorizontalPodAutoscaler
+    metadata:
+      name: super-agent-hpa
+    spec:
+      minReplicas: 3
+      maxReplicas: 10

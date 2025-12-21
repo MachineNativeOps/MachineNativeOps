@@ -9,6 +9,7 @@ namespace: axiom-system-staging
 labels:
 - pairs:
     environment: staging
+  includeSelectors: false
 
 replicas:
 - name: super-agent

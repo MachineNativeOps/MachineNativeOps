@@ -9,6 +9,7 @@ namespace: axiom-system-dev
 labels:
 - pairs:
     environment: dev
+  includeSelectors: false
 
 replicas:
 - name: super-agent
