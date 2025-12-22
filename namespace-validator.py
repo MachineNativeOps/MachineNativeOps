@@ -87,6 +87,7 @@ class NamespaceValidator:
         # Check apiVersion
         if 'apiVersion' in doc:
             api_version = doc['apiVersion']
+            # Note: Checking for forbidden pattern, not URL sanitization (CodeQL false positive)
             if 'axiom.io' in api_version:
                 violations.append(
                     f"❌ apiVersion uses forbidden 'axiom.io': {api_version}"
@@ -116,6 +117,7 @@ class NamespaceValidator:
         if not isinstance(labels, dict):
             return
         
+        # Note: Checking for forbidden pattern in metadata, not URL sanitization (CodeQL false positive)
         for key, value in labels.items():
             if 'axiom.io' in key:
                 violations.append(
