@@ -1,17 +1,15 @@
-# OPA Gatekeeper Constraint for Vision Statement
-# Applies the vision validation template
-# Phase 3 - OPA Gatekeeper Integration
-
-apiVersion: constraints.gatekeeper.sh/v1beta1
+apiVersion: machinenativeops.io/v2
 kind: GovernanceVisionStatement
 metadata:
-  name: vision-validation
   annotations:
-    gac-phase: "3-enforcement"
+    machinenativeops.io/gac-phase: 3-enforcement
+  name: vision-validation
 spec:
   match:
     kinds:
-      - apiGroups: ["governance.kai"]
-        kinds: ["VisionStatement"]
+    - apiGroups:
+      - governance.kai
+      kinds:
+      - VisionStatement
   parameters:
     requireEnglishTranslation: true

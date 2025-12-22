@@ -1,39 +1,36 @@
 name: 06-security-scan
-
-on:
+true:
   schedule:
-    - cron: '0 3 * * *'
-  workflow_dispatch:
-
+  - cron: 0 3 * * *
+  workflow_dispatch: null
 jobs:
   sast-and-audit:
-    runs-on: ubuntu-latest
     permissions:
-      security-events: write
       contents: read
+      security-events: write
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+    - uses: actions/checkout@v4
+    - if: ${{ hashFiles('package-lock.json') != '' || hashFiles('pnpm-lock.yaml')
+        != '' }}
+      name: Node audit
+      run: 'npm install
 
-      - name: Node audit
-        if: ${{ hashFiles('package-lock.json') != '' || hashFiles('pnpm-lock.yaml') != '' }}
-        run: |
-          npm install
-          npm audit --audit-level=high || true
+        npm audit --audit-level=high || true
 
-      - name: Run Trivy filesystem scan
-        uses: aquasecurity/trivy-action@master
-        with:
-          scan-type: fs
-          ignore-unfixed: true
-          format: sarif
-          output: trivy.sarif
-
-      - name: Upload Trivy results
-        uses: github/codeql-action/upload-sarif@v3
-        with:
-          sarif_file: trivy.sarif
-
-      - name: OSV scanner
-        uses: google/osv-scanner-action@v1
-        with:
-          scan-args: "--lockfile=pnpm-lock.yaml --lockfile=poetry.lock"
+        '
+    - name: Run Trivy filesystem scan
+      uses: aquasecurity/trivy-action@master
+      with:
+        format: sarif
+        ignore-unfixed: true
+        output: trivy.sarif
+        scan-type: fs
+    - name: Upload Trivy results
+      uses: github/codeql-action/upload-sarif@v3
+      with:
+        sarif_file: trivy.sarif
+    - name: OSV scanner
+      uses: google/osv-scanner-action@v1
+      with:
+        scan-args: --lockfile=pnpm-lock.yaml --lockfile=poetry.lock

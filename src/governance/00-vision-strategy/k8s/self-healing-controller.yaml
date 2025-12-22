@@ -1,30 +1,17 @@
-# Auto-generated Self-Healing Controller
-# Phase 4: Autonomous self-repair capability
-# Execution: INSTANT, CONTINUOUS
-
-apiVersion: v1
+apiVersion: machinenativeops.io/v2
+data:
+  auto_fix_enabled: 'true'
+  healing_delay: 0s
+  max_healing_attempts: '3'
+  rules.yaml: "rules:\n  - condition: \"missing_annotation\"\n    action: \"add_annotation\"\
+    \n    execution: \"instant\"\n  - condition: \"policy_violation\"\n    action:\
+    \ \"auto_remediate\"\n    execution: \"instant\"\n  - condition: \"resource_drift\"\
+    \n    action: \"sync_state\"\n    execution: \"continuous\"\n"
 kind: ConfigMap
 metadata:
-  name: self-healing-config
-  namespace: governance
   annotations:
-    governance.kai/phase: "4"
-    governance.kai/feature: "self-healing"
-    governance.kai/execution: "instant"
-data:
-  auto_fix_enabled: "true"
-  healing_delay: "0s"  # INSTANT
-  max_healing_attempts: "3"
-  
-  # Self-healing rules (machine-readable)
-  rules.yaml: |
-    rules:
-      - condition: "missing_annotation"
-        action: "add_annotation"
-        execution: "instant"
-      - condition: "policy_violation"
-        action: "auto_remediate"
-        execution: "instant"
-      - condition: "resource_drift"
-        action: "sync_state"
-        execution: "continuous"
+    machinenativeops.io/execution: instant
+    machinenativeops.io/feature: self-healing
+    machinenativeops.io/phase: '4'
+  name: self-healing-config
+  namespace: machinenativenops

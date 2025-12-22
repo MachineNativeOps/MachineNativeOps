@@ -1,21 +1,13 @@
----
-# ==============================================================================
-# Drift Detection CronJob
-# ==============================================================================
-# 用途: 定期掃描配置差異並產生報告
-# 語言: 繁體中文
-# ==============================================================================
-apiVersion: batch/v1
+apiVersion: machinenativeops.io/v2
 kind: CronJob
 metadata:
   name: drift-detector
-  namespace: platform
+  namespace: machinenativenops
   labels:
-    app: drift-detector
-    component: governance
+    machinenativeops.io/app: drift-detector
+    machinenativeops.io/component: governance
 spec:
-  # 每15分鐘執行一次
-  schedule: "*/15 * * * *"
+  schedule: '*/15 * * * *'
   successfulJobsHistoryLimit: 3
   failedJobsHistoryLimit: 3
   concurrencyPolicy: Forbid
@@ -40,39 +32,19 @@ spec:
             image: drift-detector:latest@sha256:placeholder
             imagePullPolicy: IfNotPresent
             command:
-              - /bin/bash
-              - -c
-              - |
-                echo "🔍 開始 Drift 掃描..."
-                echo "時間: $(date)"
-                
-                # 載入配置
-                kubectl get configmap drift-rules -n platform -o jsonpath='{.data.rules\.yaml}' > /tmp/rules.yaml
-                
-                # 掃描 Deployments
-                echo "掃描 Deployments..."
-                kubectl get deployments --all-namespaces -o yaml > /tmp/current-deployments.yaml
-                
-                # 從 Git 取得期望配置
-                if [ -d "/config" ]; then
-                  echo "比對 Git 配置..."
-                  # 這裡應該比對 /config 與實際配置的差異
-                fi
-                
-                # 生成報告
-                REPORT_FILE="drift-report-$(date +%Y%m%d-%H%M%S).json"
-                cat > "/reports/$REPORT_FILE" << EOF
-                {
-                  "timestamp": "$(date -u +"%Y-%m-%dT%H:%M:%SZ")",
-                  "scan_duration": "5s",
-                  "total_resources_scanned": 0,
-                  "drifts_detected": 0,
-                  "violations": []
-                }
-                EOF
-                
-                echo "✅ Drift 掃描完成"
-                echo "報告: $REPORT_FILE"
+            - /bin/bash
+            - -c
+            - "echo \"\U0001F50D 開始 Drift 掃描...\"\necho \"時間: $(date)\"\n\n# 載入配置\n\
+              kubectl get configmap drift-rules -n platform -o jsonpath='{.data.rules\\\
+              .yaml}' > /tmp/rules.yaml\n\n# 掃描 Deployments\necho \"掃描 Deployments...\"\
+              \nkubectl get deployments --all-namespaces -o yaml > /tmp/current-deployments.yaml\n\
+              \n# 從 Git 取得期望配置\nif [ -d \"/config\" ]; then\n  echo \"比對 Git 配置...\"\
+              \n  # 這裡應該比對 /config 與實際配置的差異\nfi\n\n# 生成報告\nREPORT_FILE=\"drift-report-$(date\
+              \ +%Y%m%d-%H%M%S).json\"\ncat > \"/reports/$REPORT_FILE\" << EOF\n{\n\
+              \  \"timestamp\": \"$(date -u +\"%Y-%m-%dT%H:%M:%SZ\")\",\n  \"scan_duration\"\
+              : \"5s\",\n  \"total_resources_scanned\": 0,\n  \"drifts_detected\"\
+              : 0,\n  \"violations\": []\n}\nEOF\n\necho \"✅ Drift 掃描完成\"\necho \"\
+              報告: $REPORT_FILE\"\n"
             env:
             - name: KUBECONFIG
               value: /var/run/secrets/kubernetes.io/serviceaccount
@@ -103,28 +75,48 @@ spec:
               name: drift-rules
               optional: true
 ---
-apiVersion: v1
+apiVersion: machinenativeops.io/v2
 kind: ServiceAccount
 metadata:
   name: drift-detector
-  namespace: platform
+  namespace: machinenativenops
 ---
-apiVersion: rbac.authorization.k8s.io/v1
+apiVersion: machinenativeops.io/v2
 kind: ClusterRole
 metadata:
   name: drift-detector
 rules:
-- apiGroups: [""]
-  resources: ["pods", "services", "configmaps"]
-  verbs: ["get", "list", "watch"]
-- apiGroups: ["apps"]
-  resources: ["deployments", "statefulsets", "daemonsets"]
-  verbs: ["get", "list", "watch"]
-- apiGroups: ["networking.k8s.io"]
-  resources: ["ingresses", "networkpolicies"]
-  verbs: ["get", "list", "watch"]
+- apiGroups:
+  - ''
+  resources:
+  - pods
+  - services
+  - configmaps
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - apps
+  resources:
+  - deployments
+  - statefulsets
+  - daemonsets
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - networking.k8s.io
+  resources:
+  - ingresses
+  - networkpolicies
+  verbs:
+  - get
+  - list
+  - watch
 ---
-apiVersion: rbac.authorization.k8s.io/v1
+apiVersion: machinenativeops.io/v2
 kind: ClusterRoleBinding
 metadata:
   name: drift-detector
@@ -136,19 +128,3 @@ subjects:
 - kind: ServiceAccount
   name: drift-detector
   namespace: platform
-
-# ==============================================================================
-# 使用說明
-# ==============================================================================
-# 部署:
-#   kubectl apply -f drift/scan-cronjob.yaml
-#
-# 手動觸發:
-#   kubectl create job drift-scan-manual --from=cronjob/drift-detector -n platform
-#
-# 查看日誌:
-#   kubectl logs -l app=drift-detector -n platform
-#
-# 查看報告:
-#   kubectl exec -it $(kubectl get pods -l app=drift-detector -n platform -o name | head -1) -- cat /reports/drift-report-*.json
-# ==============================================================================

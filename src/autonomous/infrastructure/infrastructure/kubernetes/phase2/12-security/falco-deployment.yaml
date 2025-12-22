@@ -1,8 +1,8 @@
-apiVersion: apps/v1
+apiVersion: machinenativeops.io/v2
 kind: DaemonSet
 metadata:
   name: falco
-  namespace: autofix
+  namespace: machinenativenops
 spec:
   selector:
     matchLabels:
@@ -12,29 +12,29 @@ spec:
       labels:
         app: falco
     spec:
-      hostNetwork: true
-      hostPID: true
       containers:
-      - name: falco
-        image: falcosecurity/falco:latest
+      - image: falcosecurity/falco:latest
+        name: falco
         securityContext:
           privileged: true
         volumeMounts:
-        - name: dev
-          mountPath: /host/dev
-        - name: proc
-          mountPath: /host/proc
+        - mountPath: /host/dev
+          name: dev
+        - mountPath: /host/proc
+          name: proc
           readOnly: true
-        - name: boot
-          mountPath: /host/boot
+        - mountPath: /host/boot
+          name: boot
           readOnly: true
+      hostNetwork: true
+      hostPID: true
       volumes:
-      - name: dev
-        hostPath:
+      - hostPath:
           path: /dev
-      - name: proc
-        hostPath:
+        name: dev
+      - hostPath:
           path: /proc
-      - name: boot
-        hostPath:
+        name: proc
+      - hostPath:
           path: /boot
+        name: boot

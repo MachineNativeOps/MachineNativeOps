@@ -1,109 +1,110 @@
-version: '3.8'
-
-# SynergyMesh Governance Framework
-# Docker Compose Configuration
-# Version: 1.0.0
-
+networks:
+  governance-network:
+    driver: bridge
 services:
+  governance-cli:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command:
+    - python
+    - tools/governance-cli.py
+    - --help
+    container_name: machinenativeops-governance-cli
+    environment:
+    - GOVERNANCE_ROOT=/app/governance
+    networks:
+    - governance-network
+    profiles:
+    - cli
+    volumes:
+    - ./:/app/governance
+    - governance-data:/app/data
   governance-dashboard:
     build:
       context: .
       dockerfile: Dockerfile
     container_name: machinenativeops-governance-dashboard
-    ports:
-      - "8080:8080"
     environment:
-      - FLASK_APP=tools/governance-dashboard.py
-      - FLASK_ENV=production
-      - GOVERNANCE_ROOT=/app/governance
-    volumes:
-      - ./:/app/governance:ro
-      - governance-data:/app/data
-    networks:
-      - governance-network
-    restart: unless-stopped
+    - FLASK_APP=tools/governance-dashboard.py
+    - FLASK_ENV=production
+    - GOVERNANCE_ROOT=/app/governance
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
       interval: 30s
-      timeout: 10s
       retries: 3
       start_period: 40s
-
-  governance-cli:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: machinenativeops-governance-cli
-    environment:
-      - GOVERNANCE_ROOT=/app/governance
-    volumes:
-      - ./:/app/governance
-      - governance-data:/app/data
+      test:
+      - CMD
+      - curl
+      - -f
+      - http://localhost:8080/health
+      timeout: 10s
     networks:
-      - governance-network
-    command: ["python", "tools/governance-cli.py", "--help"]
-    profiles:
-      - cli
-
+    - governance-network
+    ports:
+    - 8080:8080
+    restart: unless-stopped
+    volumes:
+    - ./:/app/governance:ro
+    - governance-data:/app/data
   governance-validator:
     build:
       context: .
       dockerfile: Dockerfile
+    command:
+    - python
+    - -m
+    - pytest
+    - tests/
+    - -v
     container_name: machinenativeops-governance-validator
     environment:
-      - GOVERNANCE_ROOT=/app/governance
-    volumes:
-      - ./:/app/governance:ro
+    - GOVERNANCE_ROOT=/app/governance
     networks:
-      - governance-network
-    command: ["python", "-m", "pytest", "tests/", "-v"]
+    - governance-network
     profiles:
-      - test
-
-  prometheus:
-    image: prom/prometheus:latest
-    container_name: machinenativeops-prometheus
-    ports:
-      - "9090:9090"
+    - test
     volumes:
-      - ./integration/prometheus.yml:/etc/prometheus/prometheus.yml:ro
-      - prometheus-data:/prometheus
-    networks:
-      - governance-network
-    command:
-      - '--config.file=/etc/prometheus/prometheus.yml'
-      - '--storage.tsdb.path=/prometheus'
-    restart: unless-stopped
-    profiles:
-      - monitoring
-
+    - ./:/app/governance:ro
   grafana:
-    image: grafana/grafana:latest
     container_name: machinenativeops-grafana
-    ports:
-      - "3000:3000"
-    environment:
-      - GF_SECURITY_ADMIN_PASSWORD=admin
-      - GF_USERS_ALLOW_SIGN_UP=false
-    volumes:
-      - grafana-data:/var/lib/grafana
-      - ./integration/grafana-dashboards:/etc/grafana/provisioning/dashboards:ro
-    networks:
-      - governance-network
     depends_on:
-      - prometheus
-    restart: unless-stopped
+    - prometheus
+    environment:
+    - GF_SECURITY_ADMIN_PASSWORD=admin
+    - GF_USERS_ALLOW_SIGN_UP=false
+    image: grafana/grafana:latest
+    networks:
+    - governance-network
+    ports:
+    - 3000:3000
     profiles:
-      - monitoring
-
-networks:
-  governance-network:
-    driver: bridge
-
+    - monitoring
+    restart: unless-stopped
+    volumes:
+    - grafana-data:/var/lib/grafana
+    - ./integration/grafana-dashboards:/etc/grafana/provisioning/dashboards:ro
+  prometheus:
+    command:
+    - --config.file=/etc/prometheus/prometheus.yml
+    - --storage.tsdb.path=/prometheus
+    container_name: machinenativeops-prometheus
+    image: prom/prometheus:latest
+    networks:
+    - governance-network
+    ports:
+    - 9090:9090
+    profiles:
+    - monitoring
+    restart: unless-stopped
+    volumes:
+    - ./integration/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    - prometheus-data:/prometheus
+version: '3.8'
 volumes:
   governance-data:
     driver: local
-  prometheus-data:
-    driver: local
   grafana-data:
+    driver: local
+  prometheus-data:
     driver: local

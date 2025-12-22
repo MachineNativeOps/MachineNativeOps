@@ -1,6 +1,12 @@
 """
-Configuration management for MachineNativeOps Auto Monitor
-Following AAPS configuration standards
+Configuration management for MachineNativeOps Auto-Monitor
+
+對齊 MachineNativeOps 標準的配置管理：
+- namespace: machinenativenops
+- registry: registry.machinenativeops.io
+- certificate: etc/machinenativeops/pkl
+- cluster token: super-agent-etcd-cluster
+Following AAPS configuration standards with full compliance
 """
 
 import os

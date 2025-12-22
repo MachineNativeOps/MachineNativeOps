@@ -1,22 +1,22 @@
-apiVersion: networking.k8s.io/v1
+apiVersion: machinenativeops.io/v2
 kind: NetworkPolicy
 metadata:
   name: result-aggregator-netpol
-  namespace: autofix
+  namespace: machinenativenops
 spec:
+  egress:
+  - to:
+    - podSelector:
+        matchLabels:
+          app: postgres
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          app: orchestrator
   podSelector:
     matchLabels:
       app: result-aggregator
   policyTypes:
   - Ingress
   - Egress
-  ingress:
-  - from:
-    - podSelector:
-        matchLabels:
-          app: orchestrator
-  egress:
-  - to:
-    - podSelector:
-        matchLabels:
-          app: postgres

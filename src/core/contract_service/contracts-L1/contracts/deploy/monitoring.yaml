@@ -1,13 +1,11 @@
----
-# ServiceMonitor for Prometheus Operator
-apiVersion: monitoring.coreos.com/v1
+apiVersion: machinenativeops.io/v2
 kind: ServiceMonitor
 metadata:
   name: contracts-service
   labels:
-    app: contracts-service
-    namespace.io/team: contracts-team
-    namespace.io/monitoring: prometheus
+    machinenativeops.io/app: contracts-service
+    machinenativeops.io/team: contracts-team
+    machinenativeops.io/monitoring: prometheus
 spec:
   selector:
     matchLabels:
@@ -20,25 +18,26 @@ spec:
     scrapeTimeout: 10s
     honorLabels: true
     relabelings:
-    - sourceLabels: [__meta_kubernetes_pod_name]
+    - sourceLabels:
+      - __meta_kubernetes_pod_name
       targetLabel: pod
-    - sourceLabels: [__meta_kubernetes_pod_node_name]
+    - sourceLabels:
+      - __meta_kubernetes_pod_node_name
       targetLabel: node
-    - sourceLabels: [__meta_kubernetes_namespace]
+    - sourceLabels:
+      - __meta_kubernetes_namespace
       targetLabel: namespace
   namespaceSelector:
     matchNames:
-    - default  # 根據實際命名空間調整
-
+    - default
 ---
-# PodMonitor (替代方案)
-apiVersion: monitoring.coreos.com/v1
+apiVersion: machinenativeops.io/v2
 kind: PodMonitor
 metadata:
   name: contracts-service
   labels:
-    app: contracts-service
-    namespace.io/team: contracts-team
+    machinenativeops.io/app: contracts-service
+    machinenativeops.io/team: contracts-team
 spec:
   selector:
     matchLabels:

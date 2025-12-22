@@ -1,6 +1,10 @@
 """
-MachineNativeOps Auto Monitor CLI Entry Point
-Provides multiple command modes for different use cases
+MachineNativeOps Auto-Monitor CLI Entry Point
+
+對齊 MachineNativeOps 標準的 CLI 進入點
+- namespace: machinenativenops
+- registry: registry.machinenativeops.io
+- cluster token: super-agent-etcd-cluster
 """
 
 import argparse
@@ -8,9 +12,9 @@ import sys
 import logging
 from pathlib import Path
 
-from .app import MachineNativeOpsAutoMonitor
-from .config import Config, load_config
-from .storage import DatabaseManager
+from .app import AutoMonitorApp
+from .config import MonitorConfig
+from .storage import DataStorage
 
 def setup_logging(level: str = "INFO"):
     """Setup logging configuration"""

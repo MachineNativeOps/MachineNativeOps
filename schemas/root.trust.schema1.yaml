@@ -1,8 +1,4 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: trust-schema
-  namespace: machinenativenops-trust
+apiVersion: machinenativeops.io/v2
 data:
   schema.yaml: "# Root Trust Configuration Schema\ntype: object\nproperties:\n  trust_roots:\n\
     \    type: array\n    items:\n      type: object\n      properties:\n        name:\n\
@@ -26,3 +22,7 @@ data:
     \          type: array\n        requirements:\n          type: object\n      required:\
     \ [\"name\", \"description\", \"enabled\", \"scope\", \"requirements\"]\nrequired:\
     \ [\"trust_roots\", \"certificate_authorities\", \"verification_policies\"]"
+kind: ConfigMap
+metadata:
+  name: trust-schema
+  namespace: machinenativenops

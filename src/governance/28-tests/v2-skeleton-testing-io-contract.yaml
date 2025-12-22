@@ -1,49 +1,55 @@
-version: 0.1.0
-
 schemas:
-  test_plan:
-    description: "測試計劃定義"
-    type: object
-    required: [target, test_levels, coverage_goals]
+  compatibility_check:
+    description: 相容性檢查結果
     properties:
-      target:
-        type: string
-        description: "測試目標(模組/功能)"
-      test_levels:
-        type: object
+      results:
+        items:
+          properties:
+            status:
+              enum:
+              - pass
+              - fail
+              - degraded
+              type: string
+            version:
+              type: string
+          type: object
+        type: array
+      tested_versions:
+        items:
+          type: string
+        type: array
+    required:
+    - tested_versions
+    - results
+    type: object
+  test_plan:
+    description: 測試計劃定義
+    properties:
+      coverage_goals:
         properties:
-          unit:
+          branch_coverage:
+            type: number
+          line_coverage:
+            maximum: 100
+            minimum: 0
+            type: number
+        type: object
+      target:
+        description: 測試目標(模組/功能)
+        type: string
+      test_levels:
+        properties:
+          e2e:
             type: boolean
           integration:
             type: boolean
-          e2e:
+          unit:
             type: boolean
-      coverage_goals:
         type: object
-        properties:
-          line_coverage:
-            type: number
-            minimum: 0
-            maximum: 100
-          branch_coverage:
-            type: number
-
-  compatibility_check:
-    description: "相容性檢查結果"
+    required:
+    - target
+    - test_levels
+    - coverage_goals
     type: object
-    required: [tested_versions, results]
-    properties:
-      tested_versions:
-        type: array
-        items:
-          type: string
-      results:
-        type: array
-        items:
-          type: object
-          properties:
-            version:
-              type: string
-            status:
-              type: string
-              enum: [pass, fail, degraded]
+version: 0.1.0

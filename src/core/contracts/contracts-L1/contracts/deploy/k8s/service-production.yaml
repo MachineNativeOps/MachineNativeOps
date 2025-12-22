@@ -1,13 +1,13 @@
-apiVersion: v1
+apiVersion: machinenativeops.io/v2
 kind: Service
 metadata:
   name: contracts-l1
-  namespace: machinenativeops
+  namespace: machinenativenops
   labels:
-    app: contracts-l1
-    tier: core
+    machinenativeops.io/app: contracts-l1
+    machinenativeops.io/tier: core
   annotations:
-    service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
+    machinenativeops.io/aws-load-balancer-type: nlb
 spec:
   type: ClusterIP
   selector:
@@ -22,16 +22,15 @@ spec:
     protocol: TCP
     name: metrics
   sessionAffinity: None
-
 ---
-apiVersion: v1
+apiVersion: machinenativeops.io/v2
 kind: Service
 metadata:
   name: contracts-l1-headless
-  namespace: machinenativeops
+  namespace: machinenativenops
   labels:
-    app: contracts-l1
-    tier: core
+    machinenativeops.io/app: contracts-l1
+    machinenativeops.io/tier: core
 spec:
   type: ClusterIP
   clusterIP: None

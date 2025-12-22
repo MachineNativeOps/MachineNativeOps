@@ -1,59 +1,35 @@
-# ============================================================================
-# Redis StatefulSet
-# ============================================================================
-
-apiVersion: apps/v1
+apiVersion: machinenativeops.io/v2
 kind: StatefulSet
 metadata:
   name: redis
-  namespace: autofix-bot
+  namespace: machinenativenops
 spec:
-  serviceName: redis-service
   replicas: 3
   selector:
     matchLabels:
       app: redis
+  serviceName: redis-service
   template:
     metadata:
       labels:
         app: redis
     spec:
-      securityContext:
-        runAsNonRoot: true
-        runAsUser: 999
-        fsGroup: 999
       containers:
-      - name: redis
-        image: redis:7-alpine
-        ports:
-        - containerPort: 6379
-          name: redis
-        command:
+      - command:
         - redis-server
         - --requirepass
         - $(REDIS_PASSWORD)
         - --appendonly
-        - "yes"
+        - 'yes'
         - --appendfsync
         - everysec
         env:
         - name: REDIS_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: autofix-bot-secrets
               key: redis-password
-        securityContext:
-          allowPrivilegeEscalation: false
-        resources:
-          requests:
-            cpu: 1
-            memory: 2Gi
-          limits:
-            cpu: 2
-            memory: 4Gi
-        volumeMounts:
-        - name: redis-storage
-          mountPath: /data
+              name: autofix-bot-secrets
+        image: redis:7-alpine
         livenessProbe:
           exec:
             command:
@@ -61,6 +37,10 @@ spec:
             - ping
           initialDelaySeconds: 30
           periodSeconds: 10
+        name: redis
+        ports:
+        - containerPort: 6379
+          name: redis
         readinessProbe:
           exec:
             command:
@@ -68,12 +48,29 @@ spec:
             - ping
           initialDelaySeconds: 5
           periodSeconds: 5
+        resources:
+          limits:
+            cpu: 2
+            memory: 4Gi
+          requests:
+            cpu: 1
+            memory: 2Gi
+        securityContext:
+          allowPrivilegeEscalation: false
+        volumeMounts:
+        - mountPath: /data
+          name: redis-storage
+      securityContext:
+        fsGroup: 999
+        runAsNonRoot: true
+        runAsUser: 999
   volumeClaimTemplates:
   - metadata:
       name: redis-storage
     spec:
-      accessModes: [ "ReadWriteOnce" ]
-      storageClassName: fast-ssd
+      accessModes:
+      - ReadWriteOnce
       resources:
         requests:
           storage: 10Gi
+      storageClassName: fast-ssd

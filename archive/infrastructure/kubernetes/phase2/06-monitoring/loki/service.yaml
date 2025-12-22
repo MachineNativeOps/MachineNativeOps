@@ -1,12 +1,12 @@
-apiVersion: v1
+apiVersion: machinenativeops.io/v2
 kind: Service
 metadata:
   name: loki
-  namespace: logging
+  namespace: machinenativenops
 spec:
-  type: ClusterIP
   ports:
   - port: 3100
     targetPort: 3100
   selector:
     app: loki
+  type: ClusterIP

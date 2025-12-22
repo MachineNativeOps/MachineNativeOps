@@ -31,7 +31,7 @@ class NamespaceConverter:
     # 標準化目標
     TARGET_API_VERSION = "machinenativeops.io/v2"
     TARGET_KIND = "MachineNativeOpsGlobalBaseline"
-    TARGET_NAMESPACE = "machinenativeops"
+    TARGET_NAMESPACE = "machinenativenops"
     TARGET_URN_PREFIX = "urn:machinenativeops:"
     TARGET_LABEL_PREFIX = "machinenativeops.io/"
     

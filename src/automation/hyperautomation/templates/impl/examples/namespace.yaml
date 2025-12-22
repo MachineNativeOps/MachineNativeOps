@@ -1,32 +1,30 @@
----
-# UAV Production Namespace
-apiVersion: v1
+apiVersion: machinenativeops.io/v2
 kind: Namespace
 metadata:
   name: uav-production
   labels:
-    namespace.io/managed-by: "platform-team"
-    namespace.io/domain: "uav"
-    namespace.io/team: "robotics"
-    namespace.io/environment: "production"
-    namespace.io/region: "asia-east1"
-    namespace.io/lifecycle: "stable"
-    uav.io/system: "uav"
+    machinenativeops.io/managed-by: platform-team
+    machinenativeops.io/domain: uav
+    machinenativeops.io/team: robotics
+    machinenativeops.io/environment: production
+    machinenativeops.io/region: asia-east1
+    machinenativeops.io/lifecycle: stable
+    machinenativeops.io/system: uav
   annotations:
-    description: "Production environment for UAV systems"
+    machinenativeops.io/description: Production environment for UAV systems
 ---
-# Autonomous Driving Production Namespace
-apiVersion: v1
+apiVersion: machinenativeops.io/v2
 kind: Namespace
 metadata:
   name: ad-production
   labels:
-    namespace.io/managed-by: "platform-team"
-    namespace.io/domain: "ad"
-    namespace.io/team: "autonomous-vehicles"
-    namespace.io/environment: "production"
-    namespace.io/region: "asia-east1"
-    namespace.io/lifecycle: "stable"
-    uav.io/system: "ad"
+    machinenativeops.io/managed-by: platform-team
+    machinenativeops.io/domain: ad
+    machinenativeops.io/team: autonomous-vehicles
+    machinenativeops.io/environment: production
+    machinenativeops.io/region: asia-east1
+    machinenativeops.io/lifecycle: stable
+    machinenativeops.io/system: ad
   annotations:
-    description: "Production environment for autonomous driving systems"
+    machinenativeops.io/description: Production environment for autonomous driving
+      systems

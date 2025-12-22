@@ -1,25 +1,21 @@
-# ============================================================================
-# Code Analyzer Service
-# ============================================================================
-
-apiVersion: v1
+apiVersion: machinenativeops.io/v2
 kind: Service
 metadata:
-  name: code-analyzer
-  namespace: autofix
   labels:
-    app: code-analyzer
-    tier: api
+    machinenativeops.io/app: code-analyzer
+    machinenativeops.io/tier: api
+  name: code-analyzer
+  namespace: machinenativenops
 spec:
-  type: ClusterIP
   ports:
-  - port: 8080
+  - name: http
+    port: 8080
+    protocol: TCP
     targetPort: 8080
+  - name: metrics
+    port: 9090
     protocol: TCP
-    name: http
-  - port: 9090
     targetPort: 9090
-    protocol: TCP
-    name: metrics
   selector:
     app: code-analyzer
+  type: ClusterIP

@@ -1,12 +1,10 @@
----
-# 績效政策 | Performance Policy
-version: "1.0"
-lastUpdated: "2025-12-10"
-status: "active"
+lastUpdated: '2025-12-10'
 performance_management:
-  purpose: "測量和改進績效 | Measure and improve performance"
-  scope: "All organizational levels"
+  purpose: 測量和改進績效 | Measure and improve performance
+  scope: All organizational levels
 principles:
-  - "Data-driven decisions"
-  - "Balanced scorecard approach"
-  - "Continuous improvement"
+- Data-driven decisions
+- Balanced scorecard approach
+- Continuous improvement
+status: active
+version: '1.0'

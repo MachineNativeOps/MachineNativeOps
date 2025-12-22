@@ -1,79 +1,100 @@
-version: 0.1.0
-
 schemas:
   architecture_design:
-    description: "架構設計規範"
-    type: object
-    required: [component, layers, dependencies]
+    description: 架構設計規範
     properties:
       component:
+        description: 元件名稱
         type: string
-        description: "元件名稱"
-      layers:
-        type: array
-        items:
-          type: string
-          enum: [core, platform, services, agents, applications]
       dependencies:
-        type: array
         items:
-          type: object
           properties:
+            layer:
+              enum:
+              - core
+              - platform
+              - services
+              - agents
+              type: string
             target:
               type: string
-            layer:
-              type: string
-              enum: [core, platform, services, agents]
             type:
+              enum:
+              - import
+              - http
+              - grpc
+              - event
               type: string
-              enum: [import, http, grpc, event]
-
-  invariant_violation:
-    description: "架構不變條件違規報告"
+          type: object
+        type: array
+      layers:
+        items:
+          enum:
+          - core
+          - platform
+          - services
+          - agents
+          - applications
+          type: string
+        type: array
+    required:
+    - component
+    - layers
+    - dependencies
     type: object
-    required: [invariant_id, component, violation_type]
-    properties:
-      invariant_id:
-        type: string
-        description: "不變條件ID(例如: INV-001)"
-      component:
-        type: string
-      violation_type:
-        type: string
-        enum:
-          [
-            layer_violation,
-            circular_dependency,
-            backward_dependency,
-            mixed_data,
-          ]
-      severity:
-        type: string
-        enum: [critical, high, medium, low]
-      remediation:
-        type: string
-        description: "修復建議"
-
   dependency_audit:
-    description: "依賴審計報告"
-    type: object
-    required: [audit_date, violations, recommendations]
+    description: 依賴審計報告
     properties:
       audit_date:
-        type: string
         format: date-time
-      violations:
-        type: array
+        type: string
+      recommendations:
         items:
-          type: object
+          type: string
+        type: array
+      violations:
+        items:
           properties:
-            module:
-              type: string
             imported_from:
+              type: string
+            module:
               type: string
             reason:
               type: string
-      recommendations:
+          type: object
         type: array
-        items:
-          type: string
+    required:
+    - audit_date
+    - violations
+    - recommendations
+    type: object
+  invariant_violation:
+    description: 架構不變條件違規報告
+    properties:
+      component:
+        type: string
+      invariant_id:
+        description: '不變條件ID(例如: INV-001)'
+        type: string
+      remediation:
+        description: 修復建議
+        type: string
+      severity:
+        enum:
+        - critical
+        - high
+        - medium
+        - low
+        type: string
+      violation_type:
+        enum:
+        - layer_violation
+        - circular_dependency
+        - backward_dependency
+        - mixed_data
+        type: string
+    required:
+    - invariant_id
+    - component
+    - violation_type
+    type: object
+version: 0.1.0

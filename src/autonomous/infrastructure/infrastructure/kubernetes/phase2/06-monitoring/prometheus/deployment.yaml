@@ -1,10 +1,10 @@
-apiVersion: apps/v1
+apiVersion: machinenativeops.io/v2
 kind: Deployment
 metadata:
-  name: prometheus
-  namespace: monitoring
   labels:
-    app: prometheus
+    machinenativeops.io/app: prometheus
+  name: prometheus
+  namespace: machinenativenops
 spec:
   replicas: 1
   selector:
@@ -15,33 +15,33 @@ spec:
       labels:
         app: prometheus
     spec:
-      serviceAccountName: prometheus
       containers:
-      - name: prometheus
+      - args:
+        - --config.file=/etc/prometheus/prometheus.yml
+        - --storage.tsdb.path=/prometheus
+        - --storage.tsdb.retention.time=30d
+        - --web.enable-lifecycle
         image: prom/prometheus:latest
+        name: prometheus
         ports:
         - containerPort: 9090
-        args:
-        - '--config.file=/etc/prometheus/prometheus.yml'
-        - '--storage.tsdb.path=/prometheus'
-        - '--storage.tsdb.retention.time=30d'
-        - '--web.enable-lifecycle'
-        volumeMounts:
-        - name: config
-          mountPath: /etc/prometheus
-        - name: data
-          mountPath: /prometheus
         resources:
-          requests:
-            memory: "4Gi"
-            cpu: "2000m"
           limits:
-            memory: "8Gi"
-            cpu: "4000m"
+            cpu: 4000m
+            memory: 8Gi
+          requests:
+            cpu: 2000m
+            memory: 4Gi
+        volumeMounts:
+        - mountPath: /etc/prometheus
+          name: config
+        - mountPath: /prometheus
+          name: data
+      serviceAccountName: prometheus
       volumes:
-      - name: config
-        configMap:
+      - configMap:
           name: prometheus-config
+        name: config
       - name: data
         persistentVolumeClaim:
           claimName: prometheus-data-pvc

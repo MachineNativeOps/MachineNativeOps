@@ -1,16 +1,12 @@
-# ============================================================================
-# Code Analyzer 部署
-# ============================================================================
-
-apiVersion: apps/v1
+apiVersion: machinenativeops.io/v2
 kind: Deployment
 metadata:
-  name: code-analyzer
-  namespace: autofix
   labels:
-    app: code-analyzer
-    tier: api
-    component: analyzer
+    machinenativeops.io/app: code-analyzer
+    machinenativeops.io/component: analyzer
+    machinenativeops.io/tier: api
+  name: code-analyzer
+  namespace: machinenativenops
 spec:
   replicas: 3
   selector:
@@ -18,27 +14,19 @@ spec:
       app: code-analyzer
   template:
     metadata:
+      annotations:
+        prometheus.io/path: /metrics
+        prometheus.io/port: '9090'
+        prometheus.io/scrape: 'true'
       labels:
         app: code-analyzer
-        tier: api
         component: analyzer
-      annotations:
-        prometheus.io/scrape: "true"
-        prometheus.io/port: "9090"
-        prometheus.io/path: "/metrics"
+        tier: api
     spec:
-      serviceAccountName: autofix-sa
-      
-      securityContext:
-        runAsNonRoot: true
-        runAsUser: 1000
-        fsGroup: 1000
-      
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
-          - weight: 100
-            podAffinityTerm:
+          - podAffinityTerm:
               labelSelector:
                 matchExpressions:
                 - key: app
@@ -46,96 +34,95 @@ spec:
                   values:
                   - code-analyzer
               topologyKey: kubernetes.io/hostname
-      
+            weight: 100
       containers:
-      - name: code-analyzer
-        image: autofix/code-analyzer:latest
-        securityContext:
-          allowPrivilegeEscalation: false
-        imagePullPolicy: Always
-        
-        ports:
-        - name: http
-          containerPort: 8080
-          protocol: TCP
-        - name: metrics
-          containerPort: 9090
-          protocol: TCP
-        
-        env:
+      - env:
         - name: PORT
-          value: "8080"
+          value: '8080'
         - name: LOG_LEVEL
           valueFrom:
             configMapKeyRef:
-              name: autofix-config
               key: LOG_LEVEL
+              name: autofix-config
         - name: DATABASE_HOST
           valueFrom:
             configMapKeyRef:
-              name: autofix-config
               key: DATABASE_HOST
+              name: autofix-config
         - name: DATABASE_PORT
           valueFrom:
             configMapKeyRef:
-              name: autofix-config
               key: DATABASE_PORT
+              name: autofix-config
         - name: DATABASE_NAME
           valueFrom:
             configMapKeyRef:
-              name: autofix-config
               key: DATABASE_NAME
+              name: autofix-config
         - name: DATABASE_USER
           valueFrom:
             secretKeyRef:
-              name: autofix-secrets
               key: DATABASE_USER
+              name: autofix-secrets
         - name: DATABASE_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: autofix-secrets
               key: DATABASE_PASSWORD
+              name: autofix-secrets
         - name: REDIS_HOST
           valueFrom:
             configMapKeyRef:
-              name: autofix-config
               key: REDIS_HOST
+              name: autofix-config
         - name: REDIS_PORT
           valueFrom:
             configMapKeyRef:
-              name: autofix-config
               key: REDIS_PORT
+              name: autofix-config
         - name: REDIS_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: autofix-secrets
               key: REDIS_PASSWORD
-        
-        resources:
-          requests:
-            memory: "2Gi"
-            cpu: "1000m"
-          limits:
-            memory: "4Gi"
-            cpu: "2000m"
-        
+              name: autofix-secrets
+        image: autofix/code-analyzer:latest
+        imagePullPolicy: Always
         livenessProbe:
+          failureThreshold: 3
           httpGet:
             path: /health
             port: 8080
           initialDelaySeconds: 30
           periodSeconds: 10
           timeoutSeconds: 5
-          failureThreshold: 3
-        
+        name: code-analyzer
+        ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP
+        - containerPort: 9090
+          name: metrics
+          protocol: TCP
         readinessProbe:
           httpGet:
             path: /ready
             port: 8080
           initialDelaySeconds: 10
           periodSeconds: 5
-          timeoutSeconds: 3
           successThreshold: 1
-      
+          timeoutSeconds: 3
+        resources:
+          limits:
+            cpu: 2000m
+            memory: 4Gi
+          requests:
+            cpu: 1000m
+            memory: 2Gi
+        securityContext:
+          allowPrivilegeEscalation: false
       imagePullSecrets:
       - name: autofix-registry
+      securityContext:
+        fsGroup: 1000
+        runAsNonRoot: true
+        runAsUser: 1000
+      serviceAccountName: autofix-sa

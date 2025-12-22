@@ -1,127 +1,197 @@
-version: "1.0.0"
-skeleton_id: "identity-tenancy"
-
 schemas:
   identity_tenancy_input:
-    type: object
-    description: "身份與多租戶請求：認證、授權或租戶隔離設計"
+    description: 身份與多租戶請求：認證、授權或租戶隔離設計
     properties:
       action_type:
-        type: string
+        description: 執行動作類型
         enum:
-          - "define_authentication"
-          - "design_authorization"
-          - "plan_multitenancy"
-          - "isolate_tenant"
-          - "evaluate_access_control"
-        description: "執行動作類型"
+        - define_authentication
+        - design_authorization
+        - plan_multitenancy
+        - isolate_tenant
+        - evaluate_access_control
+        type: string
       context:
-        type: object
+        description: 身份與存取背景
         properties:
-          user_type: { type: string }
-          service_name: { type: string }
-          resource_type: { type: string }
-          operation: { type: string }
-        description: "身份與存取背景"
+          operation:
+            type: string
+          resource_type:
+            type: string
+          service_name:
+            type: string
+          user_type:
+            type: string
+        type: object
       requirements:
-        type: object
+        description: 認證授權需求
         properties:
-          authentication_methods: { type: array, items: { type: string } }
-          authorization_model: { enum: ["rbac", "abac", "rebac"] }
-          tenancy_scope: { enum: ["shared", "semi-isolated", "fully-isolated"] }
-        description: "認證授權需求"
+          authentication_methods:
+            items:
+              type: string
+            type: array
+          authorization_model:
+            enum:
+            - rbac
+            - abac
+            - rebac
+          tenancy_scope:
+            enum:
+            - shared
+            - semi-isolated
+            - fully-isolated
+        type: object
     required:
-      - action_type
-      - context
-
-  identity_tenancy_report:
+    - action_type
+    - context
     type: object
-    description: "身份與多租戶評估報告：認證策略與隔離合規性"
+  identity_tenancy_report:
+    description: 身份與多租戶評估報告：認證策略與隔離合規性
     properties:
       authentication_analysis:
-        type: object
         properties:
-          recommended_protocols: { type: array, items: { type: string } }
           protocol_comparison:
-            type: array
             items:
-              type: object
               properties:
-                protocol: { type: string }
-                pros: { type: array, items: { type: string } }
-                cons: { type: array, items: { type: string } }
-                security_level: { enum: ["low", "medium", "high"] }
+                cons:
+                  items:
+                    type: string
+                  type: array
+                pros:
+                  items:
+                    type: string
+                  type: array
+                protocol:
+                  type: string
+                security_level:
+                  enum:
+                  - low
+                  - medium
+                  - high
+              type: object
+            type: array
+          recommended_protocols:
+            items:
+              type: string
+            type: array
+        type: object
       authorization_design:
-        type: object
         properties:
-          authorization_model: { type: string }
-          roles_permissions:
-            type: array
+          authorization_model:
+            type: string
+          policy_enforcement_points:
             items:
-              type: object
+              type: string
+            type: array
+          roles_permissions:
+            items:
               properties:
-                role: { type: string }
-                permissions: { type: array, items: { type: string } }
-          policy_enforcement_points: { type: array, items: { type: string } }
-      tenancy_isolation:
+                permissions:
+                  items:
+                    type: string
+                  type: array
+                role:
+                  type: string
+              type: object
+            type: array
         type: object
-        properties:
-          isolation_level:
-            { enum: ["shared", "semi-isolated", "fully-isolated"] }
-          data_segregation_strategy: { type: string }
-          blast_radius: { type: string }
-          tenant_boundaries: { type: array, items: { type: string } }
-      security_risks:
-        type: array
-        items:
-          type: object
-          properties:
-            risk_id: { type: string }
-            severity: { enum: ["critical", "high", "medium", "low"] }
-            description: { type: string }
-            mitigation: { type: string }
       compliance_status:
-        type: object
         properties:
-          multi_tenancy_secure: { type: boolean }
-          tenant_isolation_verified: { type: boolean }
-          access_control_complete: { type: boolean }
-          audit_trail_enabled: { type: boolean }
-      timestamp: { type: string, format: "date-time" }
-    required:
-      - authentication_analysis
-      - authorization_design
-      - tenancy_isolation
-
-  identity_tenancy_suggestion:
-    type: object
-    description: "身份與多租戶改善建議：升級認證、優化授權或加強隔離"
-    properties:
-      suggestion_type:
-        type: string
-        enum:
-          - "upgrade_authentication"
-          - "implement_mfa"
-          - "refactor_authorization"
-          - "strengthen_isolation"
-          - "implement_audit"
-      current_state: { type: string }
-      recommended_state: { type: string }
-      implementation_steps:
+          access_control_complete:
+            type: boolean
+          audit_trail_enabled:
+            type: boolean
+          multi_tenancy_secure:
+            type: boolean
+          tenant_isolation_verified:
+            type: boolean
+        type: object
+      security_risks:
+        items:
+          properties:
+            description:
+              type: string
+            mitigation:
+              type: string
+            risk_id:
+              type: string
+            severity:
+              enum:
+              - critical
+              - high
+              - medium
+              - low
+          type: object
         type: array
-        items: { type: string }
-      security_improvement:
-        type: object
+      tenancy_isolation:
         properties:
-          risk_reduction_percentage: { type: number }
-          compliance_gaps_closed: { type: array, items: { type: string } }
-      migration_path:
+          blast_radius:
+            type: string
+          data_segregation_strategy:
+            type: string
+          isolation_level:
+            enum:
+            - shared
+            - semi-isolated
+            - fully-isolated
+          tenant_boundaries:
+            items:
+              type: string
+            type: array
         type: object
-        properties:
-          phases: { type: array, items: { type: string } }
-          rollback_plan: { type: string }
-          testing_requirements: { type: array, items: { type: string } }
+      timestamp:
+        format: date-time
+        type: string
     required:
-      - suggestion_type
-      - current_state
-      - recommended_state
+    - authentication_analysis
+    - authorization_design
+    - tenancy_isolation
+    type: object
+  identity_tenancy_suggestion:
+    description: 身份與多租戶改善建議：升級認證、優化授權或加強隔離
+    properties:
+      current_state:
+        type: string
+      implementation_steps:
+        items:
+          type: string
+        type: array
+      migration_path:
+        properties:
+          phases:
+            items:
+              type: string
+            type: array
+          rollback_plan:
+            type: string
+          testing_requirements:
+            items:
+              type: string
+            type: array
+        type: object
+      recommended_state:
+        type: string
+      security_improvement:
+        properties:
+          compliance_gaps_closed:
+            items:
+              type: string
+            type: array
+          risk_reduction_percentage:
+            type: number
+        type: object
+      suggestion_type:
+        enum:
+        - upgrade_authentication
+        - implement_mfa
+        - refactor_authorization
+        - strengthen_isolation
+        - implement_audit
+        type: string
+    required:
+    - suggestion_type
+    - current_state
+    - recommended_state
+    type: object
+skeleton_id: identity-tenancy
+version: 1.0.0

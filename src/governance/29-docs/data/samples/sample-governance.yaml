@@ -1,11 +1,9 @@
-# Sample Governance Configuration
-dimension: "01-architecture"
-version: "1.0.0"
-status: "active"
-
+dimension: 01-architecture
 framework:
-  type: "hybrid"
   levels:
-    - strategic
-    - tactical
-    - operational
+  - strategic
+  - tactical
+  - operational
+  type: hybrid
+status: active
+version: 1.0.0

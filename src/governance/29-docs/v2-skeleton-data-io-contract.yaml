@@ -1,55 +1,70 @@
-version: 0.1.0
-
 schemas:
   data_model:
-    description: "資料模型定義"
-    type: object
-    required: [entity, version, fields]
+    description: 資料模型定義
     properties:
       entity:
+        description: '實體名稱(例如: User, Order)'
         type: string
-        description: "實體名稱(例如: User, Order)"
-      version:
-        type: string
-        description: "Schema 版本"
       fields:
-        type: array
         items:
-          type: object
-          required: [name, type, sensitivity]
           properties:
             name:
               type: string
+            pii:
+              description: 是否為個人識別資訊
+              type: boolean
+            sensitivity:
+              enum:
+              - public
+              - internal
+              - confidential
+              - restricted
+              type: string
             type:
               type: string
-            sensitivity:
-              type: string
-              enum: [public, internal, confidential, restricted]
-            pii:
-              type: boolean
-              description: "是否為個人識別資訊"
-
-  lineage_trace:
-    description: "資料血緣追蹤"
+          required:
+          - name
+          - type
+          - sensitivity
+          type: object
+        type: array
+      version:
+        description: Schema 版本
+        type: string
+    required:
+    - entity
+    - version
+    - fields
     type: object
-    required: [data_element, source, transformations]
+  lineage_trace:
+    description: 資料血緣追蹤
     properties:
       data_element:
         type: string
       source:
-        type: object
         properties:
-          type:
-            type: string
-            enum: [database, api, file, stream]
           location:
             type: string
+          type:
+            enum:
+            - database
+            - api
+            - file
+            - stream
+            type: string
+        type: object
       transformations:
-        type: array
         items:
-          type: object
           properties:
-            step:
-              type: string
             operation:
               type: string
+            step:
+              type: string
+          type: object
+        type: array
+    required:
+    - data_element
+    - source
+    - transformations
+    type: object
+version: 0.1.0

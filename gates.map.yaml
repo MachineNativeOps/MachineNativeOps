@@ -1,192 +1,157 @@
-# 🚪 Gates Map - Unified Gate Registry
-# Version: 1.0.0
-# Purpose: Central registry for all GitHub Actions gates
-
-apiVersion: machinenativeops.io/v1
-kind: GatesMap
+apiVersion: machinenativeops.io/v2
+kind: MachineNativeOpsGlobalBaseline
 metadata:
-  name: gates-map
-  namespace: machinenativenops-gates
-  labels:
-    machinenativeops.io/tier: "gates"
-    machinenativeops.io/version: "v1.0.0"
-    machinenativeops.io/component: "gates-map"
   annotations:
-    machinenativeops.io/description: "Central registry for all validation gates"
-    machinenativeops.io/last-modified: "2025-12-21T02:00:00Z"
-
+    machinenativeops.io/description: Central registry for all validation gates
+    machinenativeops.io/last-modified: '2025-12-21T02:00:00Z'
+  labels:
+    machinenativeops.io/component: gates-map
+    machinenativeops.io/tier: gates
+    machinenativeops.io/version: v1.0.0
+  name: gates-map
+  namespace: machinenativenops
 spec:
-  version: 1
-  
-  # === 治理閘門 (Governance Gates) ===
-  governance_gates:
-    - id: "gate-pr-evidence"
-      name: "PR Evidence Validation"
-      workflow: ".github/workflows/gate-pr-evidence.yml"
-      description: "Validates 4 core evidence fields in PR"
-      trigger: "pull_request"
-      enforcement: "strict"
-      status: "active"
-      evidence_required:
-        - "repo"
-        - "branch"
-        - "commit"
-        - "PR"
-      
-    - id: "gate-root-naming"
-      name: "Root Layer Naming Validation"
-      workflow: ".github/workflows/gate-root-naming.yml"
-      description: "Validates root layer file naming conventions"
-      trigger: "pull_request"
-      enforcement: "strict"
-      status: "active"
-      scope:
-        - "root.*"
-        - "init.d/*"
-        - "bin/*"
-        - "sbin/*"
-        - "etc/*"
-  
-  # === 規範閘門 (Specification Gates) ===
-  specification_gates:
-    - id: "gate-root-specs"
-      name: "Root Specifications Validation"
-      workflow: ".github/workflows/gate-root-specs.yml"
-      description: "Validates all root layer specifications"
-      trigger: "pull_request"
-      enforcement: "strict"
-      status: "active"
-      scope:
-        - "root.*.yaml"
-        - "root.*.map"
-        - "root.*.sh"
-        - "root.specs.*.yaml"
-        - "root.registry.*.yaml"
-      validations:
-        - "naming_spec"
-        - "reference_spec"
-        - "mapping_spec"
-        - "logic_spec"
-        - "context_spec"
-      
-  # === CI/CD 閘門 (CI/CD Gates) ===
   cicd_gates:
-    - id: "gate-ci"
-      name: "Continuous Integration"
-      workflow: ".github/workflows/ci.yml"
-      description: "Code quality and testing pipeline"
-      trigger: "pull_request"
-      enforcement: "strict"
-      status: "active"
-      checks:
-        - "code_quality"
-        - "security_scan"
-        - "unit_tests"
-        - "integration_tests"
-      
-    - id: "gate-security"
-      name: "Security Scanning"
-      workflow: ".github/workflows/security.yml"
-      description: "Security vulnerability scanning"
-      trigger: "pull_request"
-      enforcement: "strict"
-      status: "active"
-      checks:
-        - "codeql"
-        - "dependency_scan"
-        - "container_scan"
-        - "secret_detection"
-  
-  # === 閘門執行順序 (Gate Execution Order) ===
-  execution_order:
-    - phase: "pre-validation"
-      gates:
-        - "gate-pr-evidence"
-        - "gate-root-naming"
-      parallel: false
-      
-    - phase: "specification-validation"
-      gates:
-        - "gate-root-specs"
-      parallel: false
-      
-    - phase: "code-validation"
-      gates:
-        - "gate-ci"
-        - "gate-security"
-      parallel: true
-  
-  # === 閘門依賴關係 (Gate Dependencies) ===
-  dependencies:
-    gate-root-specs:
-      requires:
-        - "gate-root-naming"
-      description: "Specs validation requires naming validation to pass first"
-      
-    gate-ci:
-      requires:
-        - "gate-pr-evidence"
-      description: "CI requires PR evidence validation"
-  
-  # === 閘門配置 (Gate Configuration) ===
+  - checks:
+    - code_quality
+    - security_scan
+    - unit_tests
+    - integration_tests
+    description: Code quality and testing pipeline
+    enforcement: strict
+    id: gate-ci
+    name: Continuous Integration
+    status: active
+    trigger: pull_request
+    workflow: .github/workflows/ci.yml
+  - checks:
+    - codeql
+    - dependency_scan
+    - container_scan
+    - secret_detection
+    description: Security vulnerability scanning
+    enforcement: strict
+    id: gate-security
+    name: Security Scanning
+    status: active
+    trigger: pull_request
+    workflow: .github/workflows/security.yml
   configuration:
-    # 失敗處理
     failure_handling:
-      on_gate_failure:
-        - "Block PR merge"
-        - "Add comment with details"
-        - "Notify PR author"
-      
       escalation:
-        first_failure: "Warning + fix suggestions"
-        second_failure: "Block + require review"
-        repeated_failures: "Escalate to governance committee"
-    
-    # 通知設定
+        first_failure: Warning + fix suggestions
+        repeated_failures: Escalate to governance committee
+        second_failure: Block + require review
+      on_gate_failure:
+      - Block PR merge
+      - Add comment with details
+      - Notify PR author
     notifications:
       channels:
-        - "github_comments"
-        - "pr_status_checks"
-      
+      - github_comments
+      - pr_status_checks
       recipients:
         on_failure:
-          - "pr_author"
-          - "reviewers"
+        - pr_author
+        - reviewers
         on_success:
-          - "pr_author"
-    
-    # 報告設定
+        - pr_author
     reporting:
-      format: "markdown"
+      format: markdown
       include_details: true
       include_suggestions: true
       retention_days: 30
-  
-  # === 閘門統計 (Gate Statistics) ===
+  dependencies:
+    gate-ci:
+      description: CI requires PR evidence validation
+      requires:
+      - gate-pr-evidence
+    gate-root-specs:
+      description: Specs validation requires naming validation to pass first
+      requires:
+      - gate-root-naming
+  execution_order:
+  - gates:
+    - gate-pr-evidence
+    - gate-root-naming
+    parallel: false
+    phase: pre-validation
+  - gates:
+    - gate-root-specs
+    parallel: false
+    phase: specification-validation
+  - gates:
+    - gate-ci
+    - gate-security
+    parallel: true
+    phase: code-validation
+  governance_gates:
+  - description: Validates 4 core evidence fields in PR
+    enforcement: strict
+    evidence_required:
+    - repo
+    - branch
+    - commit
+    - PR
+    id: gate-pr-evidence
+    name: PR Evidence Validation
+    status: active
+    trigger: pull_request
+    workflow: .github/workflows/gate-pr-evidence.yml
+  - description: Validates root layer file naming conventions
+    enforcement: strict
+    id: gate-root-naming
+    name: Root Layer Naming Validation
+    scope:
+    - root.*
+    - init.d/*
+    - bin/*
+    - sbin/*
+    - etc/*
+    status: active
+    trigger: pull_request
+    workflow: .github/workflows/gate-root-naming.yml
+  specification_gates:
+  - description: Validates all root layer specifications
+    enforcement: strict
+    id: gate-root-specs
+    name: Root Specifications Validation
+    scope:
+    - root.*.yaml
+    - root.*.map
+    - root.*.sh
+    - root.specs.*.yaml
+    - root.registry.*.yaml
+    status: active
+    trigger: pull_request
+    validations:
+    - naming_spec
+    - reference_spec
+    - mapping_spec
+    - logic_spec
+    - context_spec
+    workflow: .github/workflows/gate-root-specs.yml
   statistics:
-    total_gates: 5
     active_gates: 5
+    cicd_gates: 2
+    enforcement_levels:
+      advisory: 0
+      moderate: 0
+      strict: 5
     governance_gates: 2
     specification_gates: 1
-    cicd_gates: 2
-    
-    enforcement_levels:
-      strict: 5
-      moderate: 0
-      advisory: 0
-
-# === 狀態 ===
+    total_gates: 5
+  version: 1
 status:
-  phase: "Active"
   conditions:
-    - type: "Operational"
-      status: "True"
-      lastTransitionTime: "2025-12-21T02:00:00Z"
-      reason: "AllGatesActive"
-      message: "All gates are operational and enforcing"
-  
+  - lastTransitionTime: '2025-12-21T02:00:00Z'
+    message: All gates are operational and enforcing
+    reason: AllGatesActive
+    status: 'True'
+    type: Operational
   last_execution:
-    timestamp: "2025-12-21T02:00:00Z"
-    total_runs: 0
-    successful_runs: 0
     failed_runs: 0
+    successful_runs: 0
+    timestamp: '2025-12-21T02:00:00Z'
+    total_runs: 0
+  phase: Active

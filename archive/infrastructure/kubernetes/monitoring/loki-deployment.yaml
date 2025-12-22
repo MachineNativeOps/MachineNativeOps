@@ -1,8 +1,8 @@
-apiVersion: apps/v1
+apiVersion: machinenativeops.io/v2
 kind: Deployment
 metadata:
   name: loki
-  namespace: autofix-bot
+  namespace: machinenativenops
 spec:
   replicas: 1
   selector:
@@ -14,22 +14,22 @@ spec:
         app: loki
     spec:
       containers:
-      - name: loki
-        image: grafana/loki:latest
-        securityContext:
-          allowPrivilegeEscalation: false
+      - image: grafana/loki:latest
+        name: loki
         ports:
         - containerPort: 3100
-        volumeMounts:
-        - name: storage
-          mountPath: /loki
         resources:
-          requests:
-            cpu: 1
-            memory: 2Gi
           limits:
             cpu: 2
             memory: 4Gi
+          requests:
+            cpu: 1
+            memory: 2Gi
+        securityContext:
+          allowPrivilegeEscalation: false
+        volumeMounts:
+        - mountPath: /loki
+          name: storage
       volumes:
       - name: storage
         persistentVolumeClaim:

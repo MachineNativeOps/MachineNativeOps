@@ -1,8 +1,8 @@
-apiVersion: apps/v1
+apiVersion: machinenativeops.io/v2
 kind: Deployment
 metadata:
   name: grafana
-  namespace: autofix-bot
+  namespace: machinenativenops
 spec:
   replicas: 1
   selector:
@@ -14,22 +14,22 @@ spec:
         app: grafana
     spec:
       containers:
-      - name: grafana
-        image: grafana/grafana:latest
-        securityContext:
-          allowPrivilegeEscalation: false
-        ports:
-        - containerPort: 3000
-        env:
+      - env:
         - name: GF_SECURITY_ADMIN_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: autofix-bot-secrets
               key: db-password
+              name: autofix-bot-secrets
+        image: grafana/grafana:latest
+        name: grafana
+        ports:
+        - containerPort: 3000
         resources:
-          requests:
-            cpu: 500m
-            memory: 1Gi
           limits:
             cpu: 1
             memory: 2Gi
+          requests:
+            cpu: 500m
+            memory: 1Gi
+        securityContext:
+          allowPrivilegeEscalation: false

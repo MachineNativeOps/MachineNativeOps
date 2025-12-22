@@ -1,20 +1,14 @@
-# ============================================================================
-# PostgreSQL 備份 CronJob
-# ============================================================================
-
-apiVersion: batch/v1
+apiVersion: machinenativeops.io/v2
 kind: CronJob
 metadata:
-  name: postgres-backup
-  namespace: autofix
   labels:
-    app: postgres
-    component: backup
+    machinenativeops.io/app: postgres
+    machinenativeops.io/component: backup
+  name: postgres-backup
+  namespace: machinenativenops
 spec:
-  schedule: "0 2 * * *"  # 每天凌晨 2 點執行
-  successfulJobsHistoryLimit: 3
-  failedJobsHistoryLimit: 1
   concurrencyPolicy: Forbid
+  failedJobsHistoryLimit: 1
   jobTemplate:
     spec:
       template:
@@ -22,49 +16,56 @@ spec:
           labels:
             app: postgres-backup
         spec:
-          restartPolicy: OnFailure
           containers:
-          - name: backup
-            image: postgres:15-alpine
-            command:
+          - command:
             - /bin/sh
             - -c
-            - |
-              BACKUP_FILE="/backup/postgres-$(date +%Y%m%d-%H%M%S).sql.gz"
+            - 'BACKUP_FILE="/backup/postgres-$(date +%Y%m%d-%H%M%S).sql.gz"
+
               pg_dump -h postgres -U $POSTGRES_USER -d $POSTGRES_DB | gzip > $BACKUP_FILE
+
               echo "Backup completed: $BACKUP_FILE"
-              
+
+
               # 清理 7 天前的備份
+
               find /backup -name "postgres-*.sql.gz" -mtime +7 -delete
+
+              '
             env:
             - name: POSTGRES_USER
               valueFrom:
                 secretKeyRef:
-                  name: autofix-secrets
                   key: DATABASE_USER
+                  name: autofix-secrets
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: autofix-secrets
                   key: DATABASE_PASSWORD
+                  name: autofix-secrets
             - name: POSTGRES_DB
               value: autofix
             - name: PGPASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: autofix-secrets
                   key: DATABASE_PASSWORD
-            volumeMounts:
-            - name: backup
-              mountPath: /backup
+                  name: autofix-secrets
+            image: postgres:15-alpine
+            name: backup
             resources:
-              requests:
-                memory: "256Mi"
-                cpu: "100m"
               limits:
-                memory: "512Mi"
-                cpu: "500m"
+                cpu: 500m
+                memory: 512Mi
+              requests:
+                cpu: 100m
+                memory: 256Mi
+            volumeMounts:
+            - mountPath: /backup
+              name: backup
+          restartPolicy: OnFailure
           volumes:
           - name: backup
             persistentVolumeClaim:
               claimName: postgres-backup-pvc
+  schedule: 0 2 * * *
+  successfulJobsHistoryLimit: 3

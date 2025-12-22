@@ -1,11 +1,11 @@
-apiVersion: apps/v1
+apiVersion: machinenativeops.io/v2
 kind: Deployment
 metadata:
-  name: result-aggregator
-  namespace: autofix
   labels:
-    app: result-aggregator
-    tier: api
+    machinenativeops.io/app: result-aggregator
+    machinenativeops.io/tier: api
+  name: result-aggregator
+  namespace: machinenativenops
 spec:
   replicas: 2
   selector:
@@ -17,27 +17,27 @@ spec:
         app: result-aggregator
         tier: api
     spec:
-      serviceAccountName: autofix-sa
       containers:
-      - name: result-aggregator
-        image: autofix/result-aggregator:latest
-        securityContext:
-          allowPrivilegeEscalation: false
-        ports:
-        - containerPort: 8084
-        envFrom:
-        - configMapRef:
-            name: autofix-config
-        env:
+      - env:
         - name: DATABASE_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: autofix-secrets
               key: DATABASE_PASSWORD
+              name: autofix-secrets
+        envFrom:
+        - configMapRef:
+            name: autofix-config
+        image: autofix/result-aggregator:latest
+        name: result-aggregator
+        ports:
+        - containerPort: 8084
         resources:
-          requests:
-            memory: "1Gi"
-            cpu: "500m"
           limits:
-            memory: "2Gi"
-            cpu: "1000m"
+            cpu: 1000m
+            memory: 2Gi
+          requests:
+            cpu: 500m
+            memory: 1Gi
+        securityContext:
+          allowPrivilegeEscalation: false
+      serviceAccountName: autofix-sa

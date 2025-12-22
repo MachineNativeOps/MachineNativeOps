@@ -1,18 +1,16 @@
----
-# 績效指標 | Performance Metrics
-version: "1.0"
-lastUpdated: "2025-12-10"
-status: "active"
+lastUpdated: '2025-12-10'
 metric_categories:
-  financial:
-    - "ROI"
-    - "Cost savings"
-  operational:
-    - "Efficiency"
-    - "Quality"
   customer:
-    - "Satisfaction"
-    - "Retention"
+  - Satisfaction
+  - Retention
+  financial:
+  - ROI
+  - Cost savings
   learning:
-    - "Innovation"
-    - "Capability development"
+  - Innovation
+  - Capability development
+  operational:
+  - Efficiency
+  - Quality
+status: active
+version: '1.0'

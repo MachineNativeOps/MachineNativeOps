@@ -1,285 +1,266 @@
-# ============================================================================
-# 服務告警規則
-# ============================================================================
-# 監控 SynergyMesh 平台核心服務的健康狀態和性能指標
-# ============================================================================
-
 groups:
-  # ==========================================================================
-  # 服務可用性告警
-  # ==========================================================================
-  - name: service_availability
-    interval: 30s
-    rules:
-      # Tier 1: Contracts L1 Service Down
-      - alert: ContractsL1ServiceDown
-        expr: up{job="contracts-l1"} == 0
-        for: 1m
-        labels:
-          severity: critical
-          tier: tier1
-          service: contracts-l1
-        annotations:
-          summary: "Contracts L1 Service is down"
-          description: "Contracts L1 Service ({{ $labels.instance }}) has been down for more than 1 minute."
-          runbook_url: "https://docs.machinenativeops.com/runbooks/contracts-l1-down"
-          dashboard: "https://grafana.machinenativeops.com/d/contracts-l1"
+- interval: 30s
+  name: service_availability
+  rules:
+  - alert: ContractsL1ServiceDown
+    annotations:
+      dashboard: https://grafana.machinenativeops.com/d/contracts-l1
+      description: Contracts L1 Service ({{ $labels.instance }}) has been down for
+        more than 1 minute.
+      runbook_url: https://docs.machinenativeops.com/runbooks/contracts-l1-down
+      summary: Contracts L1 Service is down
+    expr: up{job="contracts-l1"} == 0
+    for: 1m
+    labels:
+      service: contracts-l1
+      severity: critical
+      tier: tier1
+  - alert: MCPServersDown
+    annotations:
+      description: MCP Servers ({{ $labels.instance }}) has been down for more than
+        2 minutes.
+      runbook_url: https://docs.machinenativeops.com/runbooks/mcp-servers-down
+      summary: MCP Servers is down
+    expr: up{job="mcp-servers"} == 0
+    for: 2m
+    labels:
+      service: mcp-servers
+      severity: high
+      tier: tier2
+  - alert: DashboardDown
+    annotations:
+      description: Dashboard ({{ $labels.instance }}) has been down for more than
+        5 minutes.
+      summary: Dashboard is down
+    expr: up{job="dashboard"} == 0
+    for: 5m
+    labels:
+      service: dashboard
+      severity: medium
+      tier: tier4
+- interval: 1m
+  name: response_time
+  rules:
+  - alert: HighResponseTimeP95
+    annotations:
+      description: 'P95 response time for {{ $labels.service }} is {{ $value }}s (threshold:
+        0.5s)'
+      impact: User experience degradation
+      summary: High response time (P95)
+    expr: histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[5m]))
+      > 0.5
+    for: 5m
+    labels:
+      category: performance
+      severity: warning
+  - alert: VeryHighResponseTimeP99
+    annotations:
+      description: 'P99 response time for {{ $labels.service }} is {{ $value }}s (threshold:
+        1.0s)'
+      impact: Significant user experience degradation
+      summary: Very high response time (P99)
+    expr: histogram_quantile(0.99, rate(http_request_duration_seconds_bucket[5m]))
+      > 1.0
+    for: 3m
+    labels:
+      category: performance
+      severity: high
+- interval: 1m
+  name: error_rate
+  rules:
+  - alert: HighErrorRate
+    annotations:
+      description: 'Error rate for {{ $labels.service }} is {{ $value | humanizePercentage
+        }} (threshold: 1%)'
+      impact: Increased failure rate for user requests
+      summary: High error rate detected
+    expr: 'sum(rate(http_requests_total{status=~"5.."}[5m])) by (service)
 
-      # Tier 2: MCP Servers Down
-      - alert: MCPServersDown
-        expr: up{job="mcp-servers"} == 0
-        for: 2m
-        labels:
-          severity: high
-          tier: tier2
-          service: mcp-servers
-        annotations:
-          summary: "MCP Servers is down"
-          description: "MCP Servers ({{ $labels.instance }}) has been down for more than 2 minutes."
-          runbook_url: "https://docs.machinenativeops.com/runbooks/mcp-servers-down"
+      /
 
-      # Dashboard Down
-      - alert: DashboardDown
-        expr: up{job="dashboard"} == 0
-        for: 5m
-        labels:
-          severity: medium
-          tier: tier4
-          service: dashboard
-        annotations:
-          summary: "Dashboard is down"
-          description: "Dashboard ({{ $labels.instance }}) has been down for more than 5 minutes."
+      sum(rate(http_requests_total[5m])) by (service)
 
-  # ==========================================================================
-  # 回應時間告警
-  # ==========================================================================
-  - name: response_time
-    interval: 1m
-    rules:
-      # 高回應時間 - P95
-      - alert: HighResponseTimeP95
-        expr: histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[5m])) > 0.5
-        for: 5m
-        labels:
-          severity: warning
-          category: performance
-        annotations:
-          summary: "High response time (P95)"
-          description: "P95 response time for {{ $labels.service }} is {{ $value }}s (threshold: 0.5s)"
-          impact: "User experience degradation"
+      > 0.01
 
-      # 極高回應時間 - P99
-      - alert: VeryHighResponseTimeP99
-        expr: histogram_quantile(0.99, rate(http_request_duration_seconds_bucket[5m])) > 1.0
-        for: 3m
-        labels:
-          severity: high
-          category: performance
-        annotations:
-          summary: "Very high response time (P99)"
-          description: "P99 response time for {{ $labels.service }} is {{ $value }}s (threshold: 1.0s)"
-          impact: "Significant user experience degradation"
+      '
+    for: 5m
+    labels:
+      category: reliability
+      severity: warning
+  - alert: CriticalErrorRate
+    annotations:
+      description: 'Error rate for {{ $labels.service }} is {{ $value | humanizePercentage
+        }} (threshold: 5%)'
+      impact: Severe impact on service availability
+      summary: Critical error rate detected
+    expr: 'sum(rate(http_requests_total{status=~"5.."}[5m])) by (service)
 
-  # ==========================================================================
-  # 錯誤率告警
-  # ==========================================================================
-  - name: error_rate
-    interval: 1m
-    rules:
-      # 高錯誤率
-      - alert: HighErrorRate
-        expr: |
-          sum(rate(http_requests_total{status=~"5.."}[5m])) by (service)
-          /
-          sum(rate(http_requests_total[5m])) by (service)
-          > 0.01
-        for: 5m
-        labels:
-          severity: warning
-          category: reliability
-        annotations:
-          summary: "High error rate detected"
-          description: "Error rate for {{ $labels.service }} is {{ $value | humanizePercentage }} (threshold: 1%)"
-          impact: "Increased failure rate for user requests"
+      /
 
-      # 極高錯誤率
-      - alert: CriticalErrorRate
-        expr: |
-          sum(rate(http_requests_total{status=~"5.."}[5m])) by (service)
-          /
-          sum(rate(http_requests_total[5m])) by (service)
-          > 0.05
-        for: 2m
-        labels:
-          severity: critical
-          category: reliability
-        annotations:
-          summary: "Critical error rate detected"
-          description: "Error rate for {{ $labels.service }} is {{ $value | humanizePercentage }} (threshold: 5%)"
-          impact: "Severe impact on service availability"
+      sum(rate(http_requests_total[5m])) by (service)
 
-  # ==========================================================================
-  # 吞吐量告警
-  # ==========================================================================
-  - name: throughput
-    interval: 1m
-    rules:
-      # 低吞吐量
-      - alert: LowThroughput
-        expr: sum(rate(http_requests_total[5m])) by (service) < 10
-        for: 10m
-        labels:
-          severity: warning
-          category: performance
-        annotations:
-          summary: "Low throughput detected"
-          description: "Throughput for {{ $labels.service }} is {{ $value }} req/s (expected: >10 req/s)"
-          impact: "Service may be experiencing issues or low usage"
+      > 0.05
 
-      # 異常高吞吐量
-      - alert: AbnormallyHighThroughput
-        expr: |
-          sum(rate(http_requests_total[5m])) by (service)
-          >
-          sum(rate(http_requests_total[5m] offset 1h)) by (service) * 3
-        for: 5m
-        labels:
-          severity: warning
-          category: anomaly
-        annotations:
-          summary: "Abnormally high throughput"
-          description: "Throughput for {{ $labels.service }} is 3x higher than 1 hour ago"
-          impact: "Possible DDoS attack or unexpected traffic spike"
+      '
+    for: 2m
+    labels:
+      category: reliability
+      severity: critical
+- interval: 1m
+  name: throughput
+  rules:
+  - alert: LowThroughput
+    annotations:
+      description: 'Throughput for {{ $labels.service }} is {{ $value }} req/s (expected:
+        >10 req/s)'
+      impact: Service may be experiencing issues or low usage
+      summary: Low throughput detected
+    expr: sum(rate(http_requests_total[5m])) by (service) < 10
+    for: 10m
+    labels:
+      category: performance
+      severity: warning
+  - alert: AbnormallyHighThroughput
+    annotations:
+      description: Throughput for {{ $labels.service }} is 3x higher than 1 hour ago
+      impact: Possible DDoS attack or unexpected traffic spike
+      summary: Abnormally high throughput
+    expr: 'sum(rate(http_requests_total[5m])) by (service)
 
-  # ==========================================================================
-  # 資源使用告警
-  # ==========================================================================
-  - name: resource_usage
-    interval: 1m
-    rules:
-      # 高 CPU 使用率
-      - alert: HighCPUUsage
-        expr: |
-          100 - (avg by (instance) (rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 80
-        for: 5m
-        labels:
-          severity: warning
-          category: resources
-        annotations:
-          summary: "High CPU usage"
-          description: "CPU usage on {{ $labels.instance }} is {{ $value }}% (threshold: 80%)"
-          impact: "Performance degradation possible"
+      >
 
-      # 極高 CPU 使用率
-      - alert: CriticalCPUUsage
-        expr: |
-          100 - (avg by (instance) (rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 95
-        for: 2m
-        labels:
-          severity: critical
-          category: resources
-        annotations:
-          summary: "Critical CPU usage"
-          description: "CPU usage on {{ $labels.instance }} is {{ $value }}% (threshold: 95%)"
-          impact: "Severe performance degradation"
+      sum(rate(http_requests_total[5m] offset 1h)) by (service) * 3
 
-      # 高記憶體使用率
-      - alert: HighMemoryUsage
-        expr: |
-          (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) * 100 > 80
-        for: 5m
-        labels:
-          severity: warning
-          category: resources
-        annotations:
-          summary: "High memory usage"
-          description: "Memory usage on {{ $labels.instance }} is {{ $value }}% (threshold: 80%)"
-          impact: "Possible OOM risk"
+      '
+    for: 5m
+    labels:
+      category: anomaly
+      severity: warning
+- interval: 1m
+  name: resource_usage
+  rules:
+  - alert: HighCPUUsage
+    annotations:
+      description: 'CPU usage on {{ $labels.instance }} is {{ $value }}% (threshold:
+        80%)'
+      impact: Performance degradation possible
+      summary: High CPU usage
+    expr: '100 - (avg by (instance) (rate(node_cpu_seconds_total{mode="idle"}[5m]))
+      * 100) > 80
 
-      # 極高記憶體使用率
-      - alert: CriticalMemoryUsage
-        expr: |
-          (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) * 100 > 95
-        for: 2m
-        labels:
-          severity: critical
-          category: resources
-        annotations:
-          summary: "Critical memory usage"
-          description: "Memory usage on {{ $labels.instance }} is {{ $value }}% (threshold: 95%)"
-          impact: "Imminent OOM risk"
+      '
+    for: 5m
+    labels:
+      category: resources
+      severity: warning
+  - alert: CriticalCPUUsage
+    annotations:
+      description: 'CPU usage on {{ $labels.instance }} is {{ $value }}% (threshold:
+        95%)'
+      impact: Severe performance degradation
+      summary: Critical CPU usage
+    expr: '100 - (avg by (instance) (rate(node_cpu_seconds_total{mode="idle"}[5m]))
+      * 100) > 95
 
-      # 高磁碟使用率
-      - alert: HighDiskUsage
-        expr: |
-          (1 - (node_filesystem_avail_bytes{fstype!~"tmpfs|fuse.lxcfs"} / node_filesystem_size_bytes)) * 100 > 80
-        for: 5m
-        labels:
-          severity: warning
-          category: resources
-        annotations:
-          summary: "High disk usage"
-          description: "Disk usage on {{ $labels.instance }} {{ $labels.mountpoint }} is {{ $value }}% (threshold: 80%)"
-          impact: "Storage capacity warning"
+      '
+    for: 2m
+    labels:
+      category: resources
+      severity: critical
+  - alert: HighMemoryUsage
+    annotations:
+      description: 'Memory usage on {{ $labels.instance }} is {{ $value }}% (threshold:
+        80%)'
+      impact: Possible OOM risk
+      summary: High memory usage
+    expr: '(1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) * 100
+      > 80
 
-  # ==========================================================================
-  # 容器告警
-  # ==========================================================================
-  - name: container_alerts
-    interval: 1m
-    rules:
-      # 容器重啟
-      - alert: ContainerRestarting
-        expr: rate(container_restarts_total[15m]) > 0
-        for: 5m
-        labels:
-          severity: warning
-          category: stability
-        annotations:
-          summary: "Container restarting frequently"
-          description: "Container {{ $labels.name }} has restarted {{ $value }} times in the last 15 minutes"
-          impact: "Service instability"
+      '
+    for: 5m
+    labels:
+      category: resources
+      severity: warning
+  - alert: CriticalMemoryUsage
+    annotations:
+      description: 'Memory usage on {{ $labels.instance }} is {{ $value }}% (threshold:
+        95%)'
+      impact: Imminent OOM risk
+      summary: Critical memory usage
+    expr: '(1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) * 100
+      > 95
 
-      # 容器 OOM
-      - alert: ContainerOOM
-        expr: container_memory_usage_bytes / container_spec_memory_limit_bytes > 0.95
-        for: 2m
-        labels:
-          severity: critical
-          category: resources
-        annotations:
-          summary: "Container near OOM"
-          description: "Container {{ $labels.name }} is using {{ $value | humanizePercentage }} of memory limit"
-          impact: "Container may be killed by OOM"
+      '
+    for: 2m
+    labels:
+      category: resources
+      severity: critical
+  - alert: HighDiskUsage
+    annotations:
+      description: 'Disk usage on {{ $labels.instance }} {{ $labels.mountpoint }}
+        is {{ $value }}% (threshold: 80%)'
+      impact: Storage capacity warning
+      summary: High disk usage
+    expr: '(1 - (node_filesystem_avail_bytes{fstype!~"tmpfs|fuse.lxcfs"} / node_filesystem_size_bytes))
+      * 100 > 80
 
-  # ==========================================================================
-  # SLA 告警
-  # ==========================================================================
-  - name: sla_alerts
-    interval: 5m
-    rules:
-      # SLA 違反 - 可用性
-      - alert: SLAAvailabilityViolation
-        expr: |
-          avg_over_time(up[1h]) < 0.999
-        for: 5m
-        labels:
-          severity: critical
-          category: sla
-        annotations:
-          summary: "SLA availability violation"
-          description: "Service {{ $labels.service }} availability is {{ $value | humanizePercentage }} (SLA: 99.9%)"
-          impact: "SLA breach - customer notification required"
+      '
+    for: 5m
+    labels:
+      category: resources
+      severity: warning
+- interval: 1m
+  name: container_alerts
+  rules:
+  - alert: ContainerRestarting
+    annotations:
+      description: Container {{ $labels.name }} has restarted {{ $value }} times in
+        the last 15 minutes
+      impact: Service instability
+      summary: Container restarting frequently
+    expr: rate(container_restarts_total[15m]) > 0
+    for: 5m
+    labels:
+      category: stability
+      severity: warning
+  - alert: ContainerOOM
+    annotations:
+      description: Container {{ $labels.name }} is using {{ $value | humanizePercentage
+        }} of memory limit
+      impact: Container may be killed by OOM
+      summary: Container near OOM
+    expr: container_memory_usage_bytes / container_spec_memory_limit_bytes > 0.95
+    for: 2m
+    labels:
+      category: resources
+      severity: critical
+- interval: 5m
+  name: sla_alerts
+  rules:
+  - alert: SLAAvailabilityViolation
+    annotations:
+      description: 'Service {{ $labels.service }} availability is {{ $value | humanizePercentage
+        }} (SLA: 99.9%)'
+      impact: SLA breach - customer notification required
+      summary: SLA availability violation
+    expr: 'avg_over_time(up[1h]) < 0.999
 
-      # SLA 違反 - 回應時間
-      - alert: SLAResponseTimeViolation
-        expr: |
-          histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[1h])) > 0.5
-        for: 10m
-        labels:
-          severity: high
-          category: sla
-        annotations:
-          summary: "SLA response time violation"
-          description: "P95 response time for {{ $labels.service }} is {{ $value }}s (SLA: <500ms)"
-          impact: "SLA breach warning"
+      '
+    for: 5m
+    labels:
+      category: sla
+      severity: critical
+  - alert: SLAResponseTimeViolation
+    annotations:
+      description: 'P95 response time for {{ $labels.service }} is {{ $value }}s (SLA:
+        <500ms)'
+      impact: SLA breach warning
+      summary: SLA response time violation
+    expr: 'histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[1h]))
+      > 0.5
+
+      '
+    for: 10m
+    labels:
+      category: sla
+      severity: high

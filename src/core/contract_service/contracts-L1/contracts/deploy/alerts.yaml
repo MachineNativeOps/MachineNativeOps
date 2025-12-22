@@ -1,117 +1,98 @@
----
-apiVersion: monitoring.coreos.com/v1
+apiVersion: machinenativeops.io/v2
 kind: PrometheusRule
 metadata:
-  name: contracts-service-alerts
   labels:
-    app: contracts-service
-    namespace.io/team: contracts-team
-    prometheus: kube-prometheus
+    machinenativeops.io/app: contracts-service
+    machinenativeops.io/team: contracts-team
+    machinenativeops.io/prometheus: kube-prometheus
+  name: contracts-service-alerts
 spec:
   groups:
-  - name: contracts-service
-    interval: 30s
+  - interval: 30s
+    name: contracts-service
     rules:
-    # Pod 可用性告警
     - alert: ContractsServicePodDown
+      annotations:
+        description: Pod {{ $labels.pod }} is down for more than 5 minutes
+        runbook_url: https://github.com/we-can-fix/machinenativeops/blob/main/docs/runbooks/contracts-service-down.md
+        summary: Contracts Service Pod is down
       expr: up{job="contracts-service"} == 0
       for: 5m
       labels:
+        namespace_io_environment: production
         severity: critical
         team: contracts-team
-        namespace_io_environment: production
-      annotations:
-        summary: "Contracts Service Pod is down"
-        description: "Pod {{ $labels.pod }} is down for more than 5 minutes"
-        runbook_url: "https://github.com/we-can-fix/machinenativeops/blob/main/docs/runbooks/contracts-service-down.md"
-    
-    # 高錯誤率告警
     - alert: ContractsServiceHighErrorRate
-      expr: |
-        rate(http_requests_total{job="contracts-service",status=~"5.."}[5m]) 
-        / 
-        rate(http_requests_total{job="contracts-service"}[5m]) > 0.05
+      annotations:
+        description: 'Error rate is {{ $value | humanizePercentage }} (threshold:
+          5%)'
+        runbook_url: https://github.com/we-can-fix/machinenativeops/blob/main/docs/runbooks/high-error-rate.md
+        summary: High error rate in Contracts Service
+      expr: "rate(http_requests_total{job=\"contracts-service\",status=~\"5..\"}[5m])\
+        \ \n/ \nrate(http_requests_total{job=\"contracts-service\"}[5m]) > 0.05\n"
       for: 5m
       labels:
         severity: warning
         team: contracts-team
-      annotations:
-        summary: "High error rate in Contracts Service"
-        description: "Error rate is {{ $value | humanizePercentage }} (threshold: 5%)"
-        runbook_url: "https://github.com/we-can-fix/machinenativeops/blob/main/docs/runbooks/high-error-rate.md"
-    
-    # 高延遲告警
     - alert: ContractsServiceHighLatency
-      expr: |
-        histogram_quantile(0.99, 
-          rate(http_request_duration_seconds_bucket{job="contracts-service"}[5m])
-        ) > 1
+      annotations:
+        description: 'P99 latency is {{ $value }}s (threshold: 1s)'
+        runbook_url: https://github.com/we-can-fix/machinenativeops/blob/main/docs/runbooks/high-latency.md
+        summary: High latency in Contracts Service
+      expr: "histogram_quantile(0.99, \n  rate(http_request_duration_seconds_bucket{job=\"\
+        contracts-service\"}[5m])\n) > 1\n"
       for: 5m
       labels:
         severity: warning
         team: contracts-team
-      annotations:
-        summary: "High latency in Contracts Service"
-        description: "P99 latency is {{ $value }}s (threshold: 1s)"
-        runbook_url: "https://github.com/we-can-fix/machinenativeops/blob/main/docs/runbooks/high-latency.md"
-    
-    # Pod 重啟風暴
     - alert: ContractsServiceFrequentRestarts
-      expr: |
-        rate(kube_pod_container_status_restarts_total{
-          pod=~"contracts-service-.*"
-        }[15m]) > 0.1
+      annotations:
+        description: Pod {{ $labels.pod }} is restarting frequently
+        runbook_url: https://github.com/we-can-fix/machinenativeops/blob/main/docs/runbooks/pod-restarts.md
+        summary: Frequent pod restarts in Contracts Service
+      expr: "rate(kube_pod_container_status_restarts_total{\n  pod=~\"contracts-service-.*\"\
+        \n}[15m]) > 0.1\n"
       for: 5m
       labels:
         severity: warning
         team: contracts-team
-      annotations:
-        summary: "Frequent pod restarts in Contracts Service"
-        description: "Pod {{ $labels.pod }} is restarting frequently"
-        runbook_url: "https://github.com/we-can-fix/machinenativeops/blob/main/docs/runbooks/pod-restarts.md"
-    
-    # 記憶體使用率高
     - alert: ContractsServiceHighMemoryUsage
-      expr: |
-        container_memory_usage_bytes{pod=~"contracts-service-.*"} 
-        / 
-        container_spec_memory_limit_bytes{pod=~"contracts-service-.*"} > 0.9
+      annotations:
+        description: 'Memory usage is {{ $value | humanizePercentage }} (threshold:
+          90%)'
+        runbook_url: https://github.com/we-can-fix/machinenativeops/blob/main/docs/runbooks/high-memory.md
+        summary: High memory usage in Contracts Service
+      expr: "container_memory_usage_bytes{pod=~\"contracts-service-.*\"} \n/ \ncontainer_spec_memory_limit_bytes{pod=~\"\
+        contracts-service-.*\"} > 0.9\n"
       for: 5m
       labels:
         severity: warning
         team: contracts-team
-      annotations:
-        summary: "High memory usage in Contracts Service"
-        description: "Memory usage is {{ $value | humanizePercentage }} (threshold: 90%)"
-        runbook_url: "https://github.com/we-can-fix/machinenativeops/blob/main/docs/runbooks/high-memory.md"
-    
-    # CPU 使用率高
     - alert: ContractsServiceHighCPUUsage
-      expr: |
-        rate(container_cpu_usage_seconds_total{pod=~"contracts-service-.*"}[5m])
+      annotations:
+        description: 'CPU usage is {{ $value | humanizePercentage }} (threshold: 90%)'
+        runbook_url: https://github.com/we-can-fix/machinenativeops/blob/main/docs/runbooks/high-cpu.md
+        summary: High CPU usage in Contracts Service
+      expr: 'rate(container_cpu_usage_seconds_total{pod=~"contracts-service-.*"}[5m])
+
         / on(pod) group_left()
-        (container_spec_cpu_quota{pod=~"contracts-service-.*"} / container_spec_cpu_period{pod=~"contracts-service-.*"}) > 0.9
+
+        (container_spec_cpu_quota{pod=~"contracts-service-.*"} / container_spec_cpu_period{pod=~"contracts-service-.*"})
+        > 0.9
+
+        '
       for: 5m
       labels:
         severity: warning
         team: contracts-team
-      annotations:
-        summary: "High CPU usage in Contracts Service"
-        description: "CPU usage is {{ $value | humanizePercentage }} (threshold: 90%)"
-        runbook_url: "https://github.com/we-can-fix/machinenativeops/blob/main/docs/runbooks/high-cpu.md"
-    
-    # Pod 不就緒
     - alert: ContractsServicePodNotReady
-      expr: |
-        kube_pod_status_ready{
-          pod=~"contracts-service-.*",
-          condition="true"
-        } == 0
+      annotations:
+        description: Pod {{ $labels.pod }} has been not ready for more than 10 minutes
+        runbook_url: https://github.com/we-can-fix/machinenativeops/blob/main/docs/runbooks/pod-not-ready.md
+        summary: Contracts Service Pod not ready
+      expr: "kube_pod_status_ready{\n  pod=~\"contracts-service-.*\",\n  condition=\"\
+        true\"\n} == 0\n"
       for: 10m
       labels:
         severity: warning
         team: contracts-team
-      annotations:
-        summary: "Contracts Service Pod not ready"
-        description: "Pod {{ $labels.pod }} has been not ready for more than 10 minutes"
-        runbook_url: "https://github.com/we-can-fix/machinenativeops/blob/main/docs/runbooks/pod-not-ready.md"

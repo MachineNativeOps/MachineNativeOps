@@ -1,8 +1,4 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: bootstrap-schema
-  namespace: machinenativenops-bootstrap
+apiVersion: machinenativeops.io/v2
 data:
   schema.yaml: "# Root Bootstrap Configuration Schema\ntype: object\nproperties:\n\
     \  init_sequence:\n    type: array\n    items:\n      type: object\n      properties:\n\
@@ -25,3 +21,7 @@ data:
     \        type: array\n    required: [\"critical_errors\", \"recoverable_errors\"\
     , \"warning_conditions\"]\nrequired: [\"init_sequence\", \"preload_modules\",\
     \ \"environment_setup\", \"error_handling_strategies\"]"
+kind: ConfigMap
+metadata:
+  name: bootstrap-schema
+  namespace: machinenativenops

@@ -1,64 +1,64 @@
-apiVersion: networking.k8s.io/v1
+apiVersion: machinenativeops.io/v2
 kind: Ingress
 metadata:
-  name: autofix-bot-ingress
-  namespace: autofix-bot
   annotations:
-    kubernetes.io/ingress.class: nginx
-    cert-manager.io/cluster-issuer: letsencrypt-prod
-    nginx.ingress.kubernetes.io/rate-limit: "1000"
-    nginx.ingress.kubernetes.io/proxy-body-size: "100m"
-    nginx.ingress.kubernetes.io/proxy-connect-timeout: "300"
-    nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
-    nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
+    machinenativeops.io/cluster-issuer: letsencrypt-prod
+    machinenativeops.io/ingress.class: nginx
+    machinenativeops.io/proxy-body-size: 100m
+    machinenativeops.io/proxy-connect-timeout: '300'
+    machinenativeops.io/proxy-read-timeout: '300'
+    machinenativeops.io/proxy-send-timeout: '300'
+    machinenativeops.io/rate-limit: '1000'
+  name: autofix-bot-ingress
+  namespace: machinenativenops
 spec:
-  tls:
-  - hosts:
-    - autofix-bot.example.com
-    secretName: autofix-bot-tls
   rules:
   - host: autofix-bot.example.com
     http:
       paths:
-      - path: /api/analyze
-        pathType: Prefix
-        backend:
+      - backend:
           service:
             name: code-analyzer
             port:
               number: 8080
-      - path: /api/scan
+        path: /api/analyze
         pathType: Prefix
-        backend:
+      - backend:
           service:
             name: vulnerability-detector
             port:
               number: 8081
-      - path: /api/repair
+        path: /api/scan
         pathType: Prefix
-        backend:
+      - backend:
           service:
             name: auto-repair
             port:
               number: 8082
-      - path: /api/orchestrate
+        path: /api/repair
         pathType: Prefix
-        backend:
+      - backend:
           service:
             name: orchestrator
             port:
               number: 8083
-      - path: /grafana
+        path: /api/orchestrate
         pathType: Prefix
-        backend:
+      - backend:
           service:
             name: grafana
             port:
               number: 3000
-      - path: /prometheus
+        path: /grafana
         pathType: Prefix
-        backend:
+      - backend:
           service:
             name: prometheus
             port:
               number: 9090
+        path: /prometheus
+        pathType: Prefix
+  tls:
+  - hosts:
+    - autofix-bot.example.com
+    secretName: autofix-bot-tls

@@ -1,48 +1,41 @@
-# MachineNativeOps Root Layer Modules Registry
-version: 1
 hash_policy:
-  authoritative: "sha3-512"
-  compatibility: "sha256"
-
+  authoritative: sha3-512
+  compatibility: sha256
 modules:
   config-manager:
-    id: "config-manager"
-    name: "config-manager"
-    version: "1.0.0"
-    description: "Configuration management and validation"
-    type: "core"
-    language: "python"
-    status: "active"
-
-    dependencies: []
-
     build:
-      builder: "python-wheel"
-      context: "engine/config-manager"
-      pyproject: "engine/config-manager/pyproject.toml"
+      builder: python-wheel
+      context: engine/config-manager
       lock_optional_paths:
-        - "engine/config-manager/requirements.lock.txt"
-        - "engine/config-manager/uv.lock"
-        - "engine/config-manager/poetry.lock"
+      - engine/config-manager/requirements.lock.txt
+      - engine/config-manager/uv.lock
+      - engine/config-manager/poetry.lock
       outputs:
-        - kind: "python-wheel"
-          path: "dist/artifacts/config-manager/1.0.0/"
-
-    runtime:
-      command: "config-manager"
-      module: "config_manager"
-      serve_port: 8080
-      health_path: "/health"
-
+      - kind: python-wheel
+        path: dist/artifacts/config-manager/1.0.0/
+      pyproject: engine/config-manager/pyproject.toml
+    dependencies: []
+    description: Configuration management and validation
+    health:
+      kind: http
+      path: /health
+      port: 8080
+      timeout_seconds: 2
+    id: config-manager
     install:
       rootfs_fragment:
         enabled: true
         paths:
-          - from: "tools/templates/config-manager/rootfs"
-            to: "/"
-
-    health:
-      kind: "http"
-      port: 8080
-      path: "/health"
-      timeout_seconds: 2
+        - from: tools/templates/config-manager/rootfs
+          to: /
+    language: python
+    name: config-manager
+    runtime:
+      command: config-manager
+      health_path: /health
+      module: config_manager
+      serve_port: 8080
+    status: active
+    type: core
+    version: 1.0.0
+version: 1

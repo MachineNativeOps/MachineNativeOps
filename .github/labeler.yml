@@ -1,5 +1,4 @@
-
 security:
-  - changed-files:
-      - any-glob-to-any-file:
-          - 'SECURITY.md'
+- changed-files:
+  - any-glob-to-any-file:
+    - SECURITY.md

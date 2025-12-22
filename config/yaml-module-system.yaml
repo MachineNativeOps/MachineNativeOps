@@ -1,172 +1,137 @@
-# ═══════════════════════════════════════════════════════════════════════════════
-#                    SynergyMesh YAML Module System Configuration
-#                    YAML 模組系統配置 (Phase 13)
-# ═══════════════════════════════════════════════════════════════════════════════
-
-yaml_module_system:
-  version: "1.0.0"
+audit:
   enabled: true
-
-# Module Lifecycle
+  export:
+    enabled: true
+    formats:
+    - JSON
+    - CSV
+  include:
+  - timestamp
+  - user
+  - operation
+  - resource_id
+  - changes
+  - metadata
+  operations:
+  - CREATE
+  - UPDATE
+  - DELETE
+  - APPROVE
+  - DEPLOY
+  - ROLLBACK
+  retention_days: 365
+ci_pipeline:
+  enabled: true
+  evidence_collection: true
+  report_generation: true
+  stages:
+  - name: LINT
+    order: 1
+    required: true
+    timeout_seconds: 60
+  - name: VALIDATE
+    order: 2
+    required: true
+    timeout_seconds: 120
+  - name: TEST
+    order: 3
+    required: true
+    timeout_seconds: 300
+  - name: SECURITY
+    order: 4
+    required: true
+    timeout_seconds: 180
+  - name: BUILD
+    order: 5
+    required: false
+    timeout_seconds: 600
 lifecycle:
+  require_approval:
+    APPROVED_to_ACTIVE: false
+    REVIEW_to_APPROVED: true
   states:
-    - DRAFT
-    - REVIEW
-    - APPROVED
+  - DRAFT
+  - REVIEW
+  - APPROVED
+  - ACTIVE
+  - DEPRECATED
+  transitions:
+    ACTIVE:
+    - DEPRECATED
+    APPROVED:
     - ACTIVE
     - DEPRECATED
-  
-  transitions:
-    DRAFT: [REVIEW]
-    REVIEW: [DRAFT, APPROVED]
-    APPROVED: [ACTIVE, DEPRECATED]
-    ACTIVE: [DEPRECATED]
     DEPRECATED: []
-  
-  require_approval:
-    REVIEW_to_APPROVED: true
-    APPROVED_to_ACTIVE: false
-
-# Schema Validation
-schema_validation:
-  enabled: true
-  strict_mode: true
-  
-  supported_drafts:
-    - draft-07
-    - draft-2019-09
-    - draft-2020-12
-  
-  custom_formats:
-    - semver
-    - uuid
-    - datetime
-    - url
-
-# Policy Gate (DevSecOps)
+    DRAFT:
+    - REVIEW
+    REVIEW:
+    - DRAFT
+    - APPROVED
 policy_gate:
-  enabled: true
-  
   categories:
-    - SECURITY
-    - COMPLIANCE
-    - QUALITY
-    - PERFORMANCE
-    - GOVERNANCE
-  
-  severity_levels:
-    - LOW
-    - MEDIUM
-    - HIGH
-    - CRITICAL
-  
+  - SECURITY
+  - COMPLIANCE
+  - QUALITY
+  - PERFORMANCE
+  - GOVERNANCE
   default_rules:
-    - id: SEC001
-      name: "No hardcoded secrets"
-      category: SECURITY
-      severity: CRITICAL
-      enabled: true
-    
-    - id: SEC002
-      name: "Encryption required"
-      category: SECURITY
-      severity: HIGH
-      enabled: true
-    
-    - id: COMP001
-      name: "Owner required"
-      category: COMPLIANCE
-      severity: MEDIUM
-      enabled: true
-    
-    - id: QUAL001
-      name: "Description required"
-      category: QUALITY
-      severity: LOW
-      enabled: true
-  
+  - category: SECURITY
+    enabled: true
+    id: SEC001
+    name: No hardcoded secrets
+    severity: CRITICAL
+  - category: SECURITY
+    enabled: true
+    id: SEC002
+    name: Encryption required
+    severity: HIGH
+  - category: COMPLIANCE
+    enabled: true
+    id: COMP001
+    name: Owner required
+    severity: MEDIUM
+  - category: QUALITY
+    enabled: true
+    id: QUAL001
+    name: Description required
+    severity: LOW
+  enabled: true
   enforcement:
     block_on_critical: true
     block_on_high: false
-    warn_on_medium: true
     log_on_low: true
-
-# CI Verification Pipeline
-ci_pipeline:
+    warn_on_medium: true
+  severity_levels:
+  - LOW
+  - MEDIUM
+  - HIGH
+  - CRITICAL
+schema_validation:
+  custom_formats:
+  - semver
+  - uuid
+  - datetime
+  - url
   enabled: true
-  
-  stages:
-    - name: LINT
-      order: 1
-      required: true
-      timeout_seconds: 60
-    
-    - name: VALIDATE
-      order: 2
-      required: true
-      timeout_seconds: 120
-    
-    - name: TEST
-      order: 3
-      required: true
-      timeout_seconds: 300
-    
-    - name: SECURITY
-      order: 4
-      required: true
-      timeout_seconds: 180
-    
-    - name: BUILD
-      order: 5
-      required: false
-      timeout_seconds: 600
-  
-  evidence_collection: true
-  report_generation: true
-
-# SLSA Compliance
+  strict_mode: true
+  supported_drafts:
+  - draft-07
+  - draft-2019-09
+  - draft-2020-12
 slsa:
+  artifact_signing:
+    algorithm: ECDSA_P256
+    enabled: true
   enabled: true
   level: 3
-  
   provenance:
     format: in-toto
     generate: true
     sign: true
-  
-  artifact_signing:
-    enabled: true
-    algorithm: ECDSA_P256
-  
   sbom:
     enabled: true
     format: CycloneDX
-    version: "1.5"
-
-# Audit Trail
-audit:
+    version: '1.5'
+yaml_module_system:
   enabled: true
-  
-  operations:
-    - CREATE
-    - UPDATE
-    - DELETE
-    - APPROVE
-    - DEPLOY
-    - ROLLBACK
-  
-  retention_days: 365
-  
-  include:
-    - timestamp
-    - user
-    - operation
-    - resource_id
-    - changes
-    - metadata
-  
-  export:
-    enabled: true
-    formats:
-      - JSON
-      - CSV
+  version: 1.0.0

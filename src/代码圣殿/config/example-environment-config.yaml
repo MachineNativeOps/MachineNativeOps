@@ -1,376 +1,316 @@
-apiVersion: examples.automation.io/v1
+apiVersion: machinenativeops.io/v2
 kind: ExampleEnvironmentConfig
 metadata:
+  created: '2025-12-19'
   name: example-runtime-environments
-  namespace: examples-system
-  version: "1.0.0"
-  created: "2025-12-19"
+  namespace: machinenativenops
+  version: 1.0.0
 spec:
-  # 开发环境配置
   development_environments:
-    - name: local_development
-      type: local
-      description: "本地开发环境"
-      
-      prerequisites:
-        - name: nodejs
-          version: "20.x"
-          required: true
-          install_command: "nvm install 20"
-        
-        - name: python
-          version: "3.10+"
-          required: true
-          install_command: "pyenv install 3.10"
-        
-        - name: docker
-          version: "24.x"
-          required: true
-          install_url: "https://docs.docker.com/get-docker/"
-        
-        - name: docker-compose
-          version: "2.x"
-          required: true
-          install_command: "brew install docker-compose"
-        
-        - name: postgresql
-          version: "15.x"
-          required: false
-          install_command: "brew install postgresql@15"
-        
-        - name: redis
-          version: "7.x"
-          required: false
-          install_command: "brew install redis"
-      
-      setup_commands:
-        - name: install_dependencies
-          command: "npm install"
-          description: "安装Node.js依赖"
-        
-        - name: setup_python_env
-          command: "python -m venv venv && source venv/bin/activate && pip install -r requirements.txt"
-          description: "设置Python虚拟环境"
-        
-        - name: start_services
-          command: "docker-compose up -d"
-          description: "启动依赖服务"
-          working_directory: "docker/"
-        
-        - name: run_migrations
-          command: "npm run db:migrate"
-          description: "运行数据库迁移"
-        
-        - name: seed_data
-          command: "npm run db:seed"
-          description: "填充测试数据"
-      
-      environment_variables:
-        NODE_ENV: "development"
-        DEBUG: "automation:*"
-        LOG_LEVEL: "debug"
-        API_BASE_URL: "http://localhost:3000"
-        DB_HOST: "localhost"
-        DB_PORT: "5432"
-        DB_NAME: "automation_dev"
-        REDIS_HOST: "localhost"
-        REDIS_PORT: "6379"
-    
-    - name: cloud_development
-      type: cloud
-      provider: gitpod
-      description: "云端开发环境（Gitpod）"
-      
-      configuration:
-        image: "gitpod/workspace-full:latest"
-        
-        ports:
-          - port: 3000
-            onOpen: "open-preview"
-            description: "API服务器"
-          
-          - port: 8080
-            onOpen: "open-browser"
-            description: "Web前端"
-          
-          - port: 5432
-            onOpen: "ignore"
-            description: "PostgreSQL"
-        
-        tasks:
-          - name: init
-            init: |
-              npm install
-              pip install -r requirements.txt
-              docker-compose up -d
-            command: "npm run dev"
-        
-        vscode:
-          extensions:
-            - "dbaeumer.vscode-eslint"
-            - "esbenp.prettier-vscode"
-            - "ms-python.python"
-            - "ms-azuretools.vscode-docker"
-  
-  # 测试环境配置
-  testing_environments:
-    - name: ci_environment
-      type: github_actions
-      description: "GitHub Actions CI环境"
-      
-      configuration:
-        runs-on: ubuntu-latest
-        
-        services:
-          postgres:
-            image: postgres:15
-            env:
-              POSTGRES_PASSWORD: postgres
-              POSTGRES_DB: automation_test
-            ports:
-              - 5432:5432
-            options: >-
-              --health-cmd pg_isready
-              --health-interval 10s
-              --health-timeout 5s
-              --health-retries 5
-          
-          redis:
-            image: redis:7
-            ports:
-              - 6379:6379
-            options: >-
-              --health-cmd "redis-cli ping"
-              --health-interval 10s
-              --health-timeout 5s
-              --health-retries 5
-        
-        steps:
-          - name: checkout
-            uses: "actions/checkout@v3"
-          
-          - name: setup_node
-            uses: "actions/setup-node@v3"
-            with:
-              node-version: "20.x"
-              cache: "npm"
-          
-          - name: setup_python
-            uses: "actions/setup-python@v4"
-            with:
-              python-version: "3.10"
-              cache: "pip"
-          
-          - name: install_dependencies
-            run: |
-              npm ci
-              pip install -r requirements.txt
-          
-          - name: run_tests
-            run: |
-              npm test
-              pytest
-            env:
-              NODE_ENV: test
-              DB_HOST: localhost
-              DB_PORT: 5432
-              DB_NAME: automation_test
-              DB_USER: postgres
-              DB_PASSWORD: postgres
-          
-          - name: upload_coverage
-            uses: "codecov/codecov-action@v3"
-            with:
-              files: ./coverage/lcov.info
-    
-    - name: sandbox_environment
-      type: kubernetes
-      description: "K8s沙箱测试环境"
-      
-      namespace: examples-sandbox
-      
-      resources:
-        limits:
-          cpu: "1"
-          memory: "1Gi"
-          ephemeral-storage: "2Gi"
-        requests:
-          cpu: "500m"
-          memory: "512Mi"
-          ephemeral-storage: "1Gi"
-      
-      deployment:
-        replicas: 1
-        strategy:
-          type: RollingUpdate
-          rollingUpdate:
-            maxSurge: 1
-            maxUnavailable: 0
-        
-        containers:
-          - name: app
-            image: "machinenativeops/examples:latest"
-            ports:
-              - containerPort: 3000
-                name: http
-            
-            env:
-              - name: NODE_ENV
-                value: "sandbox"
-              - name: DB_HOST
-                valueFrom:
-                  secretKeyRef:
-                    name: db-credentials
-                    key: host
-            
-            livenessProbe:
-              httpGet:
-                path: /health
-                port: 3000
-              initialDelaySeconds: 30
-              periodSeconds: 10
-            
-            readinessProbe:
-              httpGet:
-                path: /ready
-                port: 3000
-              initialDelaySeconds: 5
-              periodSeconds: 5
-      
-      services:
-        - name: postgres
-          type: ClusterIP
-          ports:
-            - port: 5432
-        
-        - name: redis
-          type: ClusterIP
-          ports:
-            - port: 6379
-  
-  # 生产环境配置
-  production_environments:
-    - name: production_kubernetes
-      type: kubernetes
-      description: "生产K8s集群"
-      
-      namespace: examples-production
-      
-      resources:
-        limits:
-          cpu: "2"
-          memory: "4Gi"
-        requests:
-          cpu: "1"
-          memory: "2Gi"
-      
-      autoscaling:
-        enabled: true
-        minReplicas: 3
-        maxReplicas: 10
-        targetCPUUtilizationPercentage: 70
-        targetMemoryUtilizationPercentage: 80
-      
-      monitoring:
-        enabled: true
-        prometheus:
-          enabled: true
-          port: 9090
-        datadog:
-          enabled: true
-          apiKey: "${DATADOG_API_KEY}"
-      
-      security:
-        podSecurityPolicy: restricted
-        networkPolicy:
-          enabled: true
-          ingress:
-            - from:
-                - namespaceSelector:
-                    matchLabels:
-                      name: ingress-nginx
-          egress:
-            - to:
-                - namespaceSelector: {}
-              ports:
-                - protocol: TCP
-                  port: 443
-                - protocol: TCP
-                  port: 5432
-  
-  # 环境变量模板
+  - description: 本地开发环境
+    environment_variables:
+      API_BASE_URL: http://localhost:3000
+      DB_HOST: localhost
+      DB_NAME: automation_dev
+      DB_PORT: '5432'
+      DEBUG: automation:*
+      LOG_LEVEL: debug
+      NODE_ENV: development
+      REDIS_HOST: localhost
+      REDIS_PORT: '6379'
+    name: local_development
+    prerequisites:
+    - install_command: nvm install 20
+      name: nodejs
+      required: true
+      version: 20.x
+    - install_command: pyenv install 3.10
+      name: python
+      required: true
+      version: 3.10+
+    - install_url: https://docs.docker.com/get-docker/
+      name: docker
+      required: true
+      version: 24.x
+    - install_command: brew install docker-compose
+      name: docker-compose
+      required: true
+      version: 2.x
+    - install_command: brew install postgresql@15
+      name: postgresql
+      required: false
+      version: 15.x
+    - install_command: brew install redis
+      name: redis
+      required: false
+      version: 7.x
+    setup_commands:
+    - command: npm install
+      description: 安装Node.js依赖
+      name: install_dependencies
+    - command: python -m venv venv && source venv/bin/activate && pip install -r requirements.txt
+      description: 设置Python虚拟环境
+      name: setup_python_env
+    - command: docker-compose up -d
+      description: 启动依赖服务
+      name: start_services
+      working_directory: docker/
+    - command: npm run db:migrate
+      description: 运行数据库迁移
+      name: run_migrations
+    - command: npm run db:seed
+      description: 填充测试数据
+      name: seed_data
+    type: local
+  - configuration:
+      image: gitpod/workspace-full:latest
+      ports:
+      - description: API服务器
+        onOpen: open-preview
+        port: 3000
+      - description: Web前端
+        onOpen: open-browser
+        port: 8080
+      - description: PostgreSQL
+        onOpen: ignore
+        port: 5432
+      tasks:
+      - command: npm run dev
+        init: 'npm install
+
+          pip install -r requirements.txt
+
+          docker-compose up -d
+
+          '
+        name: init
+      vscode:
+        extensions:
+        - dbaeumer.vscode-eslint
+        - esbenp.prettier-vscode
+        - ms-python.python
+        - ms-azuretools.vscode-docker
+    description: 云端开发环境（Gitpod）
+    name: cloud_development
+    provider: gitpod
+    type: cloud
   environment_variables:
     common:
-      LOG_FORMAT: "json"
-      LOG_TIMESTAMP: "true"
-      TZ: "UTC"
-      LANG: "en_US.UTF-8"
-    
+      LANG: en_US.UTF-8
+      LOG_FORMAT: json
+      LOG_TIMESTAMP: 'true'
+      TZ: UTC
     development:
-      NODE_ENV: "development"
-      DEBUG: "*"
-      LOG_LEVEL: "debug"
-      ENABLE_HOT_RELOAD: "true"
-      ENABLE_SOURCE_MAPS: "true"
-    
-    testing:
-      NODE_ENV: "test"
-      LOG_LEVEL: "error"
-      TEST_TIMEOUT: "30000"
-      COVERAGE_ENABLED: "true"
-    
-    staging:
-      NODE_ENV: "staging"
-      LOG_LEVEL: "info"
-      ENABLE_PROFILING: "true"
-    
+      DEBUG: '*'
+      ENABLE_HOT_RELOAD: 'true'
+      ENABLE_SOURCE_MAPS: 'true'
+      LOG_LEVEL: debug
+      NODE_ENV: development
     production:
-      NODE_ENV: "production"
-      LOG_LEVEL: "warn"
-      ENABLE_MONITORING: "true"
-      ENABLE_TRACING: "true"
-      RATE_LIMIT_ENABLED: "true"
-  
-  # 工具配置
+      ENABLE_MONITORING: 'true'
+      ENABLE_TRACING: 'true'
+      LOG_LEVEL: warn
+      NODE_ENV: production
+      RATE_LIMIT_ENABLED: 'true'
+    staging:
+      ENABLE_PROFILING: 'true'
+      LOG_LEVEL: info
+      NODE_ENV: staging
+    testing:
+      COVERAGE_ENABLED: 'true'
+      LOG_LEVEL: error
+      NODE_ENV: test
+      TEST_TIMEOUT: '30000'
+  production_environments:
+  - autoscaling:
+      enabled: true
+      maxReplicas: 10
+      minReplicas: 3
+      targetCPUUtilizationPercentage: 70
+      targetMemoryUtilizationPercentage: 80
+    description: 生产K8s集群
+    monitoring:
+      datadog:
+        apiKey: ${DATADOG_API_KEY}
+        enabled: true
+      enabled: true
+      prometheus:
+        enabled: true
+        port: 9090
+    name: production_kubernetes
+    namespace: examples-production
+    resources:
+      limits:
+        cpu: '2'
+        memory: 4Gi
+      requests:
+        cpu: '1'
+        memory: 2Gi
+    security:
+      networkPolicy:
+        egress:
+        - ports:
+          - port: 443
+            protocol: TCP
+          - port: 5432
+            protocol: TCP
+          to:
+          - namespaceSelector: {}
+        enabled: true
+        ingress:
+        - from:
+          - namespaceSelector:
+              matchLabels:
+                name: ingress-nginx
+      podSecurityPolicy: restricted
+    type: kubernetes
+  testing_environments:
+  - configuration:
+      runs-on: ubuntu-latest
+      services:
+        postgres:
+          env:
+            POSTGRES_DB: automation_test
+            POSTGRES_PASSWORD: postgres
+          image: postgres:15
+          options: --health-cmd pg_isready --health-interval 10s --health-timeout
+            5s --health-retries 5
+          ports:
+          - 5432:5432
+        redis:
+          image: redis:7
+          options: --health-cmd "redis-cli ping" --health-interval 10s --health-timeout
+            5s --health-retries 5
+          ports:
+          - 6379:6379
+      steps:
+      - name: checkout
+        uses: actions/checkout@v3
+      - name: setup_node
+        uses: actions/setup-node@v3
+        with:
+          cache: npm
+          node-version: 20.x
+      - name: setup_python
+        uses: actions/setup-python@v4
+        with:
+          cache: pip
+          python-version: '3.10'
+      - name: install_dependencies
+        run: 'npm ci
+
+          pip install -r requirements.txt
+
+          '
+      - env:
+          DB_HOST: localhost
+          DB_NAME: automation_test
+          DB_PASSWORD: postgres
+          DB_PORT: 5432
+          DB_USER: postgres
+          NODE_ENV: test
+        name: run_tests
+        run: 'npm test
+
+          pytest
+
+          '
+      - name: upload_coverage
+        uses: codecov/codecov-action@v3
+        with:
+          files: ./coverage/lcov.info
+    description: GitHub Actions CI环境
+    name: ci_environment
+    type: github_actions
+  - deployment:
+      containers:
+      - env:
+        - name: NODE_ENV
+          value: sandbox
+        - name: DB_HOST
+          valueFrom:
+            secretKeyRef:
+              key: host
+              name: db-credentials
+        image: machinenativeops/examples:latest
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 3000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        name: app
+        ports:
+        - containerPort: 3000
+          name: http
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 3000
+          initialDelaySeconds: 5
+          periodSeconds: 5
+      replicas: 1
+      strategy:
+        rollingUpdate:
+          maxSurge: 1
+          maxUnavailable: 0
+        type: RollingUpdate
+    description: K8s沙箱测试环境
+    name: sandbox_environment
+    namespace: examples-sandbox
+    resources:
+      limits:
+        cpu: '1'
+        ephemeral-storage: 2Gi
+        memory: 1Gi
+      requests:
+        cpu: 500m
+        ephemeral-storage: 1Gi
+        memory: 512Mi
+    services:
+    - name: postgres
+      ports:
+      - port: 5432
+      type: ClusterIP
+    - name: redis
+      ports:
+      - port: 6379
+      type: ClusterIP
+    type: kubernetes
   tools:
-    package_managers:
-      npm:
-        version: "10.x"
-        registry: "https://registry.npmjs.org/"
-        cache_dir: "~/.npm"
-      
-      pip:
-        version: "23.x"
-        index_url: "https://pypi.org/simple"
-        cache_dir: "~/.cache/pip"
-      
-      maven:
-        version: "3.9.x"
-        local_repo: "~/.m2/repository"
-    
     build_tools:
-      typescript:
-        compiler: "tsc"
-        version: "5.3"
-        config: "tsconfig.json"
-      
-      webpack:
-        version: "5.x"
-        config: "webpack.config.js"
-      
       babel:
-        version: "7.x"
-        config: "babel.config.js"
-    
+        config: babel.config.js
+        version: 7.x
+      typescript:
+        compiler: tsc
+        config: tsconfig.json
+        version: '5.3'
+      webpack:
+        config: webpack.config.js
+        version: 5.x
+    package_managers:
+      maven:
+        local_repo: ~/.m2/repository
+        version: 3.9.x
+      npm:
+        cache_dir: ~/.npm
+        registry: https://registry.npmjs.org/
+        version: 10.x
+      pip:
+        cache_dir: ~/.cache/pip
+        index_url: https://pypi.org/simple
+        version: 23.x
     testing_tools:
       jest:
-        version: "29.x"
-        config: "jest.config.js"
-      
-      pytest:
-        version: "7.x"
-        config: "pytest.ini"
-      
+        config: jest.config.js
+        version: 29.x
       playwright:
-        version: "1.40"
-        browsers: ["chromium", "firefox", "webkit"]
+        browsers:
+        - chromium
+        - firefox
+        - webkit
+        version: '1.40'
+      pytest:
+        config: pytest.ini
+        version: 7.x

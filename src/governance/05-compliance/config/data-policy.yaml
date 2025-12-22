@@ -1,104 +1,83 @@
-name: Data Governance Policy
+compliance_metrics:
+- frequency: monthly
+  name: Data Classification Completeness
+  threshold: 100
+- frequency: continuous
+  name: PII Protection Compliance
+  threshold: 100
+- frequency: monthly
+  name: Encryption Compliance
+  threshold: 100
+- frequency: quarterly
+  name: GDPR Compliance
+  threshold: 100
+- frequency: weekly
+  name: Data Quality Score
+  threshold: 95
+dependencies:
+- identity-tenancy-governance
+- security-governance
+- compliance-governance
+- common
 description: Defines data classification, privacy, retention, and quality standards
-version: "1.0"
-
 enforcement: strict
-
+name: Data Governance Policy
 rules:
-  # Data Classification
+  access_control:
+    access_logging: required
+    access_review_frequency: quarterly
+    mfa_for_sensitive: required
+    minimum_access_principle: required
   data_classification:
-    levels:
-      public:
-        encryption: optional
-        access: "anyone"
-        retention_days: 365
-      internal:
-        encryption: required
-        access: "authenticated_users"
-        retention_days: 730
-      confidential:
-        encryption: required
-        access: "authorized_only"
-        retention_days: 1825
-      restricted:
-        encryption: mandatory
-        access: "executive_approval"
-        retention_days: "per_agreement"
     enforcement: strict
-
-  # Privacy & GDPR
+    levels:
+      confidential:
+        access: authorized_only
+        encryption: required
+        retention_days: 1825
+      internal:
+        access: authenticated_users
+        encryption: required
+        retention_days: 730
+      public:
+        access: anyone
+        encryption: optional
+        retention_days: 365
+      restricted:
+        access: executive_approval
+        encryption: mandatory
+        retention_days: per_agreement
+  data_quality:
+    accuracy_validation: required
+    completeness_threshold: 95
+    data_profiling: quarterly
+    deduplication: required
+    validation_rules: schema_based
+  encryption:
+    at_rest: AES-256
+    in_transit: TLS1.2+
+    key_management: centralized
+    key_rotation_days: 90
+  lineage:
+    documentation: required
+    tracking: required
+    transformation_logging: required
   privacy:
+    consent_tracking: required
+    data_subject_rights:
+    - access
+    - rectification
+    - erasure
+    - portability
+    dpia_required_for: high_risk_processing
+    gdpr_compliance: required
+    pii_audit_logging: required
     pii_detection: required
     pii_encryption: mandatory
-    pii_audit_logging: required
-    gdpr_compliance: required
-    data_subject_rights:
-      - "access"
-      - "rectification"
-      - "erasure"
-      - "portability"
-    consent_tracking: required
-    dpia_required_for: "high_risk_processing"
-
-  # Data Retention
   retention:
+    archive_strategy: cold_storage
     default_days: 365
-    maximum_days: 2555  # 7 years
-    archive_strategy: "cold_storage"
-    deletion_verification: required
     deletion_audit_log: required
-
-  # Data Quality
-  data_quality:
-    completeness_threshold: 95
-    accuracy_validation: required
-    deduplication: required
-    validation_rules: "schema_based"
-    data_profiling: "quarterly"
-
-  # Encryption Standards
-  encryption:
-    at_rest: "AES-256"
-    in_transit: "TLS1.2+"
-    key_rotation_days: 90
-    key_management: "centralized"
-
-  # Data Access
-  access_control:
-    minimum_access_principle: required
-    access_logging: required
-    access_review_frequency: "quarterly"
-    mfa_for_sensitive: required
-
-  # Data Lineage
-  lineage:
-    tracking: required
-    documentation: required
-    transformation_logging: required
-
-dependencies:
-  - "identity-tenancy-governance"
-  - "security-governance"
-  - "compliance-governance"
-  - "common"
-
-compliance_metrics:
-  - name: "Data Classification Completeness"
-    threshold: 100
-    frequency: "monthly"
-
-  - name: "PII Protection Compliance"
-    threshold: 100
-    frequency: "continuous"
-
-  - name: "Encryption Compliance"
-    threshold: 100
-    frequency: "monthly"
-
-  - name: "GDPR Compliance"
-    threshold: 100
-    frequency: "quarterly"
-
-  - name: "Data Quality Score"
-    threshold: 95
-    frequency: "weekly"
+    deletion_verification: required
+    maximum_days: 2555
+version: '1.0'

@@ -1,43 +1,48 @@
-version: 0.1.0
-
 schemas:
   cost_estimate:
-    description: "成本估算"
-    type: object
-    required: [scenario, breakdown, total]
+    description: 成本估算
     properties:
-      scenario:
-        type: string
-        description: "場景描述"
       breakdown:
-        type: object
         properties:
           compute:
-            type: number
-          storage:
             type: number
           llm_tokens:
             type: number
           network:
             type: number
-      total:
-        type: number
-        description: "總成本(USD/月)"
-
-  optimization_recommendation:
-    description: "成本優化建議"
-    type: object
-    required: [target, current_cost, optimized_cost, actions]
-    properties:
-      target:
+          storage:
+            type: number
+        type: object
+      scenario:
+        description: 場景描述
         type: string
+      total:
+        description: 總成本(USD/月)
+        type: number
+    required:
+    - scenario
+    - breakdown
+    - total
+    type: object
+  optimization_recommendation:
+    description: 成本優化建議
+    properties:
+      actions:
+        items:
+          type: string
+        type: array
       current_cost:
         type: number
       optimized_cost:
         type: number
       savings_percentage:
         type: number
-      actions:
-        type: array
-        items:
-          type: string
+      target:
+        type: string
+    required:
+    - target
+    - current_cost
+    - optimized_cost
+    - actions
+    type: object
+version: 0.1.0

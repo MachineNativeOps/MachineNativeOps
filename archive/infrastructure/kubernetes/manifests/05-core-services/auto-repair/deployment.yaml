@@ -1,11 +1,11 @@
-apiVersion: apps/v1
+apiVersion: machinenativeops.io/v2
 kind: Deployment
 metadata:
-  name: auto-repair
-  namespace: autofix
   labels:
-    app: auto-repair
-    tier: api
+    machinenativeops.io/app: auto-repair
+    machinenativeops.io/tier: api
+  name: auto-repair
+  namespace: machinenativenops
 spec:
   replicas: 2
   selector:
@@ -13,52 +13,52 @@ spec:
       app: auto-repair
   template:
     metadata:
+      annotations:
+        prometheus.io/port: '9090'
+        prometheus.io/scrape: 'true'
       labels:
         app: auto-repair
         tier: api
-      annotations:
-        prometheus.io/scrape: "true"
-        prometheus.io/port: "9090"
     spec:
-      serviceAccountName: autofix-sa
-      securityContext:
-        runAsNonRoot: true
-        runAsUser: 1000
       containers:
-      - name: auto-repair
-        image: autofix/auto-repair:latest
-        securityContext:
-          allowPrivilegeEscalation: false
-        ports:
-        - containerPort: 8082
-        envFrom:
-        - configMapRef:
-            name: autofix-config
-        env:
+      - env:
         - name: DATABASE_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: autofix-secrets
               key: DATABASE_PASSWORD
+              name: autofix-secrets
         - name: GITHUB_TOKEN
           valueFrom:
             secretKeyRef:
-              name: autofix-secrets
               key: GITHUB_TOKEN
-        resources:
-          requests:
-            memory: "2Gi"
-            cpu: "1000m"
-          limits:
-            memory: "4Gi"
-            cpu: "2000m"
+              name: autofix-secrets
+        envFrom:
+        - configMapRef:
+            name: autofix-config
+        image: autofix/auto-repair:latest
         livenessProbe:
           httpGet:
             path: /health
             port: 8082
           initialDelaySeconds: 30
+        name: auto-repair
+        ports:
+        - containerPort: 8082
         readinessProbe:
           httpGet:
             path: /ready
             port: 8082
           initialDelaySeconds: 10
+        resources:
+          limits:
+            cpu: 2000m
+            memory: 4Gi
+          requests:
+            cpu: 1000m
+            memory: 2Gi
+        securityContext:
+          allowPrivilegeEscalation: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+      serviceAccountName: autofix-sa

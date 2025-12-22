@@ -1,8 +1,4 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: root-config-schema
-  namespace: machinenativenops-root
+apiVersion: machinenativeops.io/v2
 data:
   schema.yaml: "# Root Global Configuration Schema\ntype: object\nproperties:\n  system:\n\
     \    type: object\n    properties:\n      name:\n        type: string\n      \
@@ -26,3 +22,7 @@ data:
     \  outputs:\n        type: array\n        items:\n          type: object\n   \
     \ required: [\"level\", \"format\", \"outputs\"]\nrequired: [\"system\", \"namespace\"\
     , \"localization\", \"logging\"]"
+kind: ConfigMap
+metadata:
+  name: root-config-schema
+  namespace: machinenativenops

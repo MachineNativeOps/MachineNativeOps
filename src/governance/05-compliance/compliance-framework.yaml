@@ -1,48 +1,40 @@
----
-# 合規框架 | Compliance Framework
-version: "1.0"
-lastUpdated: "2025-12-10"
-status: "active"
-
-framework_overview:
-  description: "Integrated compliance management framework"
-  components:
-    - "Compliance policies"
-    - "Compliance processes"
-    - "Compliance tools"
-    - "Compliance culture"
-
 compliance_domains:
   legal_compliance:
+    monitoring: Legal team review
     regulations:
-      - "Data protection laws"
-      - "Employment laws"
-      - "Contract laws"
-    monitoring: "Legal team review"
-  
-  regulatory_compliance:
-    regulations:
-      - "Industry regulations"
-      - "Government requirements"
-      - "International standards"
-    monitoring: "Automated compliance scans"
-  
+    - Data protection laws
+    - Employment laws
+    - Contract laws
   policy_compliance:
+    monitoring: Policy enforcement system
     policies:
-      - "Internal policies"
-      - "Procedures"
-      - "Standards"
-    monitoring: "Policy enforcement system"
-
+    - Internal policies
+    - Procedures
+    - Standards
+  regulatory_compliance:
+    monitoring: Automated compliance scans
+    regulations:
+    - Industry regulations
+    - Government requirements
+    - International standards
 compliance_lifecycle:
-  identify: "Identify applicable requirements"
-  implement: "Implement controls"
-  monitor: "Continuous monitoring"
-  report: "Regular reporting"
-  improve: "Continuous improvement"
-
+  identify: Identify applicable requirements
+  implement: Implement controls
+  improve: Continuous improvement
+  monitor: Continuous monitoring
+  report: Regular reporting
 compliance_metrics:
-  - "Compliance rate"
-  - "Violation count"
-  - "Time to remediation"
-  - "Training completion rate"
+- Compliance rate
+- Violation count
+- Time to remediation
+- Training completion rate
+framework_overview:
+  components:
+  - Compliance policies
+  - Compliance processes
+  - Compliance tools
+  - Compliance culture
+  description: Integrated compliance management framework
+lastUpdated: '2025-12-10'
+status: active
+version: '1.0'

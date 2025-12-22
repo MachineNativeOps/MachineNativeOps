@@ -1,14 +1,10 @@
-# ============================================================================
-# Code Analyzer Pod 中斷預算
-# ============================================================================
-
-apiVersion: policy/v1
+apiVersion: machinenativeops.io/v2
 kind: PodDisruptionBudget
 metadata:
-  name: code-analyzer-pdb
-  namespace: autofix
   labels:
-    app: code-analyzer
+    machinenativeops.io/app: code-analyzer
+  name: code-analyzer-pdb
+  namespace: machinenativenops
 spec:
   minAvailable: 2
   selector:

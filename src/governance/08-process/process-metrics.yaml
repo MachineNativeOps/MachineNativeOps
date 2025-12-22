@@ -1,10 +1,8 @@
----
-# 流程指標 | Process Metrics
-version: "1.0"
-lastUpdated: "2025-12-10"
-status: "active"
+lastUpdated: '2025-12-10'
 metrics:
-  efficiency: "Cycle time, throughput"
-  quality: "Error rate, rework"
-  cost: "Cost per transaction"
-  satisfaction: "User feedback"
+  cost: Cost per transaction
+  efficiency: Cycle time, throughput
+  quality: Error rate, rework
+  satisfaction: User feedback
+status: active
+version: '1.0'

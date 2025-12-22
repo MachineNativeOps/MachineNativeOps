@@ -26,7 +26,7 @@ class NamespaceValidator:
     # 標準規範
     REQUIRED_API_VERSION = "machinenativeops.io/v2"
     REQUIRED_KIND = "MachineNativeOpsGlobalBaseline"
-    REQUIRED_NAMESPACE = "machinenativeops"
+    REQUIRED_NAMESPACE = "machinenativenops"
     REQUIRED_URN_PREFIX = "urn:machinenativeops:"
     REQUIRED_LABEL_PREFIX = "machinenativeops.io/"
     

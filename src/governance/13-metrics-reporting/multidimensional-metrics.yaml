@@ -1,19 +1,17 @@
----
-# 多維度指標 | Multidimensional Metrics
-version: "1.0"
-lastUpdated: "2025-12-10"
-status: "active"
+aggregation: Weighted average by dimension importance
 dimensions:
-  decision_governance:
-    - "Decision cycle time"
-    - "Decision success rate"
-  risk_governance:
-    - "Risk coverage"
-    - "Risk response time"
-  compliance_governance:
-    - "Compliance rate"
-    - "Violation count"
   change_governance:
-    - "Change success rate"
-    - "Rollback rate"
-aggregation: "Weighted average by dimension importance"
+  - Change success rate
+  - Rollback rate
+  compliance_governance:
+  - Compliance rate
+  - Violation count
+  decision_governance:
+  - Decision cycle time
+  - Decision success rate
+  risk_governance:
+  - Risk coverage
+  - Risk response time
+lastUpdated: '2025-12-10'
+status: active
+version: '1.0'

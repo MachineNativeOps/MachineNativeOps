@@ -1,191 +1,146 @@
----
-# Agent Health Checks Configuration
-# Agent 健康檢查配置
-
-metadata:
-  name: "Agent Health Checks"
-  version: "1.0.0"
-  description: "Health check configuration for AI agents"
-  created_at: "2025-12-11"
-  updated_at: "2025-12-11"
-
-# Global Health Check Settings
-global_settings:
-  check_interval_seconds: 60
-  timeout_seconds: 10
-  failure_threshold: 3
-  success_threshold: 2
-  
-  retry_policy:
-    max_retries: 3
-    retry_delay_seconds: 5
-    backoff_multiplier: 2
-
-# Agent Health Checks
+actions:
+  on_degraded:
+  - message: Agent {agent_id} performance degraded
+    severity: warning
+    type: log
+  - action: increase
+    enabled: true
+    percentage: 20
+    type: scale_resources
+  on_failure:
+  - channels:
+    - slack://platform-alerts
+    - email://governance@machinenativeops.io
+    message_template: 'Agent {agent_id} health check {check_name} failed: {error_message}'
+    severity: high
+    type: alert
+  - enabled: true
+    max_attempts: 3
+    recovery_actions:
+    - restart_agent
+    - clear_cache
+    - reset_connections
+    type: auto_recovery
+  - after_failures: 3
+    escalate_to: on_call_team
+    type: escalate
+  on_recovery:
+  - message: Agent {agent_id} recovered from failure
+    severity: info
+    type: log
+  - channels:
+    - slack://platform-alerts
+    type: notify
 agents:
-  
   unmanned-island-agent:
     enabled: true
-    
-    # Liveness Checks
-    liveness:
-      - name: "agent_process"
-        type: "process"
-        check_interval_seconds: 30
-        command: "ps aux | grep unmanned-island-agent"
-        expected_status: "running"
-      
-      - name: "agent_responsive"
-        type: "http"
-        endpoint: "/health"
-        method: "GET"
-        expected_status_code: 200
-        timeout_seconds: 5
-    
-    # Readiness Checks
-    readiness:
-      - name: "dependencies_available"
-        type: "dependency"
-        check_dependencies:
-          - "SynergyMesh Core Engine"
-          - "Governance Framework"
-          - "Automation Framework"
-        all_required: true
-      
-      - name: "configuration_valid"
-        type: "config"
-        check_config_files:
-          - ".github/agents/my-agent.agent.md"
-          - "governance/30-agents/framework.yaml"
-        all_required: true
-    
-    # Performance Checks
-    performance:
-      - name: "response_time"
-        type: "latency"
-        endpoint: "/health"
-        max_latency_ms: 100
-      
-      - name: "memory_usage"
-        type: "resource"
-        metric: "memory"
-        max_value: "1.8GB"  # 90% of 2GB limit
-      
-      - name: "cpu_usage"
-        type: "resource"
-        metric: "cpu"
-        max_value: "90%"  # 90% of 1 core
-    
-    # Functional Checks
     functional:
-      - name: "automation_capability"
-        type: "functional"
-        test_endpoint: "/test/automation"
-        expected_result: "success"
-      
-      - name: "compliance_check"
-        type: "functional"
-        test_endpoint: "/test/compliance"
-        expected_result: "passed"
-
-# Health Check Actions
-actions:
-  
-  on_failure:
-    # Alert Actions
-    - type: "alert"
-      severity: "high"
-      channels:
-        - "slack://platform-alerts"
-        - "email://governance@machinenativeops.io"
-      message_template: "Agent {agent_id} health check {check_name} failed: {error_message}"
-    
-    # Auto-Recovery Actions
-    - type: "auto_recovery"
-      enabled: true
-      max_attempts: 3
-      recovery_actions:
-        - "restart_agent"
-        - "clear_cache"
-        - "reset_connections"
-    
-    # Escalation Actions
-    - type: "escalate"
-      after_failures: 3
-      escalate_to: "on_call_team"
-  
-  on_degraded:
-    - type: "log"
-      severity: "warning"
-      message: "Agent {agent_id} performance degraded"
-    
-    - type: "scale_resources"
-      enabled: true
-      action: "increase"
-      percentage: 20
-  
-  on_recovery:
-    - type: "log"
-      severity: "info"
-      message: "Agent {agent_id} recovered from failure"
-    
-    - type: "notify"
-      channels:
-        - "slack://platform-alerts"
-
-# Health Status Definitions
+    - expected_result: success
+      name: automation_capability
+      test_endpoint: /test/automation
+      type: functional
+    - expected_result: passed
+      name: compliance_check
+      test_endpoint: /test/compliance
+      type: functional
+    liveness:
+    - check_interval_seconds: 30
+      command: ps aux | grep unmanned-island-agent
+      expected_status: running
+      name: agent_process
+      type: process
+    - endpoint: /health
+      expected_status_code: 200
+      method: GET
+      name: agent_responsive
+      timeout_seconds: 5
+      type: http
+    performance:
+    - endpoint: /health
+      max_latency_ms: 100
+      name: response_time
+      type: latency
+    - max_value: 1.8GB
+      metric: memory
+      name: memory_usage
+      type: resource
+    - max_value: 90%
+      metric: cpu
+      name: cpu_usage
+      type: resource
+    readiness:
+    - all_required: true
+      check_dependencies:
+      - SynergyMesh Core Engine
+      - Governance Framework
+      - Automation Framework
+      name: dependencies_available
+      type: dependency
+    - all_required: true
+      check_config_files:
+      - .github/agents/my-agent.agent.md
+      - governance/30-agents/framework.yaml
+      name: configuration_valid
+      type: config
+global_settings:
+  check_interval_seconds: 60
+  failure_threshold: 3
+  retry_policy:
+    backoff_multiplier: 2
+    max_retries: 3
+    retry_delay_seconds: 5
+  success_threshold: 2
+  timeout_seconds: 10
 health_status:
-  healthy:
-    description: "All checks passing"
-    color: "green"
-    
   degraded:
-    description: "Some non-critical checks failing"
-    color: "yellow"
+    color: yellow
     conditions:
-      - "performance checks failing"
-      - "warning threshold exceeded"
-    
+    - performance checks failing
+    - warning threshold exceeded
+    description: Some non-critical checks failing
+  healthy:
+    color: green
+    description: All checks passing
   unhealthy:
-    description: "Critical checks failing"
-    color: "red"
+    color: red
     conditions:
-      - "liveness checks failing"
-      - "readiness checks failing"
-    
+    - liveness checks failing
+    - readiness checks failing
+    description: Critical checks failing
   unknown:
-    description: "Health status cannot be determined"
-    color: "gray"
+    color: gray
     conditions:
-      - "health check timeout"
-      - "agent not responding"
-
-# Monitoring Integration
+    - health check timeout
+    - agent not responding
+    description: Health status cannot be determined
+metadata:
+  created_at: '2025-12-11'
+  description: Health check configuration for AI agents
+  name: Agent Health Checks
+  updated_at: '2025-12-11'
+  version: 1.0.0
 monitoring:
+  alerts:
+  - condition: health_status == 'unhealthy' for 5 minutes
+    name: Agent Down
+    severity: critical
+  - condition: health_status == 'degraded' for 15 minutes
+    name: Agent Degraded
+    severity: warning
+  dashboards:
+  - name: Agent Health Overview
+    panels:
+    - Health Status Timeline
+    - Check Success Rate
+    - Response Time Trends
+    - Resource Usage
+    type: grafana
   metrics_export:
     enabled: true
-    format: "prometheus"
-    endpoint: "/metrics"
+    endpoint: /metrics
+    format: prometheus
     include_metrics:
-      - "health_check_success_count"
-      - "health_check_failure_count"
-      - "health_check_duration_seconds"
-      - "agent_uptime_seconds"
-  
-  dashboards:
-    - name: "Agent Health Overview"
-      type: "grafana"
-      panels:
-        - "Health Status Timeline"
-        - "Check Success Rate"
-        - "Response Time Trends"
-        - "Resource Usage"
-  
-  alerts:
-    - name: "Agent Down"
-      condition: "health_status == 'unhealthy' for 5 minutes"
-      severity: "critical"
-    
-    - name: "Agent Degraded"
-      condition: "health_status == 'degraded' for 15 minutes"
-      severity: "warning"
+    - health_check_success_count
+    - health_check_failure_count
+    - health_check_duration_seconds
+    - agent_uptime_seconds

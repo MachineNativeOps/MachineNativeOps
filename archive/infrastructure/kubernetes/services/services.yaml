@@ -1,8 +1,8 @@
-apiVersion: v1
+apiVersion: machinenativeops.io/v2
 kind: Service
 metadata:
   name: code-analyzer
-  namespace: autofix-bot
+  namespace: machinenativenops
 spec:
   selector:
     app: code-analyzer
@@ -14,11 +14,11 @@ spec:
     targetPort: 9090
     name: metrics
 ---
-apiVersion: v1
+apiVersion: machinenativeops.io/v2
 kind: Service
 metadata:
   name: vulnerability-detector
-  namespace: autofix-bot
+  namespace: machinenativenops
 spec:
   selector:
     app: vulnerability-detector
@@ -30,11 +30,11 @@ spec:
     targetPort: 9090
     name: metrics
 ---
-apiVersion: v1
+apiVersion: machinenativeops.io/v2
 kind: Service
 metadata:
   name: auto-repair
-  namespace: autofix-bot
+  namespace: machinenativenops
 spec:
   selector:
     app: auto-repair
@@ -46,11 +46,11 @@ spec:
     targetPort: 9090
     name: metrics
 ---
-apiVersion: v1
+apiVersion: machinenativeops.io/v2
 kind: Service
 metadata:
   name: orchestrator
-  namespace: autofix-bot
+  namespace: machinenativenops
 spec:
   selector:
     app: orchestrator

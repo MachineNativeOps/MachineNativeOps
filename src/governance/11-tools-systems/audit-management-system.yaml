@@ -1,11 +1,9 @@
----
-# 審計管理系統 | Audit Management System
-version: "1.0"
-lastUpdated: "2025-12-10"
-status: "active"
+lastUpdated: '2025-12-10'
+status: active
 system_capabilities:
-  - "Audit planning"
-  - "Workpaper management"
-  - "Finding tracking"
-  - "Report generation"
-  - "Follow-up management"
+- Audit planning
+- Workpaper management
+- Finding tracking
+- Report generation
+- Follow-up management
+version: '1.0'

@@ -1,21 +1,22 @@
----
-apiVersion: constraints.gatekeeper.sh/v1beta1
+apiVersion: machinenativeops.io/v2
 kind: GeoFencePolicy
 metadata:
-  name: geo-fence-policy
   annotations:
-    description: "Enforce geo-fencing configuration for UAV systems"
+    machinenativeops.io/description: Enforce geo-fencing configuration for UAV systems
+  name: geo-fence-policy
 spec:
   match:
     kinds:
-      - apiGroups: [""]
-        kinds: ["ConfigMap"]
+    - apiGroups:
+      - ''
+      kinds:
+      - ConfigMap
     labelSelector:
       matchLabels:
-        uav.io/system: "uav"
+        uav.io/system: uav
   parameters:
-    message: "UAV ConfigMap must include valid geo-fencing configuration"
     geoFenceEnabled: true
     geoFenceRegions:
-      - "TW-North"
-      - "JP-Tokyo"
+    - TW-North
+    - JP-Tokyo
+    message: UAV ConfigMap must include valid geo-fencing configuration

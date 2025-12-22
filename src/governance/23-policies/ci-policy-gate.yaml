@@ -1,94 +1,73 @@
-# ═══════════════════════════════════════════════════════════════════════════════
-#                    SynergyMesh CI Policy Gate Configuration
-#                    CI 策略閘門配置
-# ═══════════════════════════════════════════════════════════════════════════════
-#
-# 在 CI 中執行此規則（如 GitHub Actions/Argo Events），
-# 阻止重複定義與非預期變更
-#
-# Policy gate rules to prevent duplicate definitions and unexpected changes.
-# ═══════════════════════════════════════════════════════════════════════════════
-
-version: "1.0.0"
-id: "machinenativeops.ci.policy_gate"
-description: "CI Policy Gate rules for SynergyMesh"
-
+description: CI Policy Gate rules for SynergyMesh
+id: machinenativeops.ci.policy_gate
+integration:
+  argo_events: true
+  github_actions: true
+  gitlab_ci: false
 rules:
-  - id: "no-duplicate-topology"
-    description: "禁止新增第二份拓撲或 executive 檔案"
-    severity: "error"
-    match:
-      added_files:
-        - "config/**"
-    deny_if:
-      any:
-        - filename_matches: "config/**executive**.yaml"
-        - filename_matches: "config/**mind-matrix**.yaml"
-    allowlist:
-      - "config/topology-mind-matrix.yaml"
-
-  - id: "manifest-single-entry"
-    description: "system-manifest.yaml 必須僅掛 mind_matrix 作為拓撲"
-    severity: "error"
-    check:
-      file: "config/system-manifest.yaml"
-      must_include:
-        - 'id: "mind_matrix"'
-        - 'file: "config/topology-mind-matrix.yaml"'
-      must_not_include:
-        - "executive"
-        - "mind_matrix_2"
-        - "topology2"
-
-  - id: "pipeline-lengths"
-    description: "八階段工具、七階段驗證"
-    severity: "error"
-    check:
-      file: "config/topology-mind-matrix.yaml"
-      must_include:
-        - "tool_pipeline:"
-        - "yaml_validation_pipeline:"
-        - "- \"interface_metadata\""
-        - "- \"signature_verification\""
-
-  - id: "governance-principles-required"
-    description: "治理原則必須包含核心五原則"
-    severity: "warning"
-    check:
-      file: "config/topology-mind-matrix.yaml"
-      must_include:
-        - "depth_first"
-        - "verifiability_first"
-        - "security_first"
-        - "automation_first"
-        - "traceability_first"
-
-  - id: "executive-roles-required"
-    description: "必須定義 CEO 和 CISO 角色"
-    severity: "error"
-    check:
-      file: "config/topology-mind-matrix.yaml"
-      must_include:
-        - 'id: "machinenativeops.ceo"'
-        - 'id: "machinenativeops.ciso"'
-
-  - id: "slsa-level-required"
-    description: "必須指定 SLSA 等級"
-    severity: "warning"
-    check:
-      file: "config/topology-mind-matrix.yaml"
-      must_include:
-        - "slsa:"
-        - "level:"
-
-# Validation settings
+- allowlist:
+  - config/topology-mind-matrix.yaml
+  deny_if:
+    any:
+    - filename_matches: config/**executive**.yaml
+    - filename_matches: config/**mind-matrix**.yaml
+  description: 禁止新增第二份拓撲或 executive 檔案
+  id: no-duplicate-topology
+  match:
+    added_files:
+    - config/**
+  severity: error
+- check:
+    file: config/system-manifest.yaml
+    must_include:
+    - 'id: "mind_matrix"'
+    - 'file: "config/topology-mind-matrix.yaml"'
+    must_not_include:
+    - executive
+    - mind_matrix_2
+    - topology2
+  description: system-manifest.yaml 必須僅掛 mind_matrix 作為拓撲
+  id: manifest-single-entry
+  severity: error
+- check:
+    file: config/topology-mind-matrix.yaml
+    must_include:
+    - 'tool_pipeline:'
+    - 'yaml_validation_pipeline:'
+    - '- "interface_metadata"'
+    - '- "signature_verification"'
+  description: 八階段工具、七階段驗證
+  id: pipeline-lengths
+  severity: error
+- check:
+    file: config/topology-mind-matrix.yaml
+    must_include:
+    - depth_first
+    - verifiability_first
+    - security_first
+    - automation_first
+    - traceability_first
+  description: 治理原則必須包含核心五原則
+  id: governance-principles-required
+  severity: warning
+- check:
+    file: config/topology-mind-matrix.yaml
+    must_include:
+    - 'id: "machinenativeops.ceo"'
+    - 'id: "machinenativeops.ciso"'
+  description: 必須定義 CEO 和 CISO 角色
+  id: executive-roles-required
+  severity: error
+- check:
+    file: config/topology-mind-matrix.yaml
+    must_include:
+    - 'slsa:'
+    - 'level:'
+  description: 必須指定 SLSA 等級
+  id: slsa-level-required
+  severity: warning
 validation:
   fail_on_error: true
   fail_on_warning: false
-  report_format: "json"
-
-# Integration settings
-integration:
-  github_actions: true
-  argo_events: true
-  gitlab_ci: false
+  report_format: json
+version: 1.0.0

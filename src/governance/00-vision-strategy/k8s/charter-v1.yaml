@@ -1,38 +1,30 @@
-# Kubernetes Instance for GovernanceCharter
-# Auto-generated from: governance-charter.yaml
-# Template: gac-templates/k8s-instance-template.yaml
-# Phase: 2 - Operational Implementation
-
-apiVersion: governance.kai/v1
+apiVersion: machinenativeops.io/v2
 kind: GovernanceCharter
 metadata:
-  name: charter-v1
-  namespace: governance
   annotations:
-    strategic-doc-path: "governance/00-vision-strategy/governance-charter.yaml"
-    strategic-doc-version: "1.0.0"
-    gac-phase: "2-operational"
-    generated-at: "2025-12-11T02:43:43Z"
-    generated-by: "gac-automation"
-    traceability-hash: "sha256:governance-charter-2025-q4"
-    compliance-status: "active"
+    machinenativeops.io/compliance-status: active
+    machinenativeops.io/gac-phase: 2-operational
+    machinenativeops.io/generated-at: '2025-12-11T02:43:43Z'
+    machinenativeops.io/generated-by: gac-automation
+    machinenativeops.io/strategic-doc-path: governance/00-vision-strategy/governance-charter.yaml
+    machinenativeops.io/strategic-doc-version: 1.0.0
+    machinenativeops.io/traceability-hash: sha256:governance-charter-2025-q4
   labels:
-    dimension: "00-vision-strategy"
-    governance-tier: "strategic"
-    automation-level: "full"
+    machinenativeops.io/automation-level: full
+    machinenativeops.io/dimension: 00-vision-strategy
+    machinenativeops.io/governance-tier: strategic
+  name: charter-v1
+  namespace: machinenativenops
 spec:
-  # Full spec is loaded from governance-charter.yaml at runtime
-  # This instance serves as K8s resource wrapper
-  version: "1.0.0"
-  status: "active"
   source:
-    file: "governance-charter.yaml"
-    path: "governance/00-vision-strategy/governance-charter.yaml"
-    format: "yaml"
-  
+    file: governance-charter.yaml
+    format: yaml
+    path: governance/00-vision-strategy/governance-charter.yaml
+  status: active
+  version: 1.0.0
 status:
-  lastUpdated: "2025-12-11T02:43:43Z"
+  complianceStatus: compliant
+  lastUpdated: '2025-12-11T02:43:43Z'
   validatedBy:
-    - "governance-team"
-    - "gac-automation"
-  complianceStatus: "compliant"
+  - governance-team
+  - gac-automation

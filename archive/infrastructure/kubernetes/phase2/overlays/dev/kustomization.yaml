@@ -1,8 +1,22 @@
-apiVersion: kustomize.config.k8s.io/v1beta1
+apiVersion: machinenativeops.io/v2
+configMapGenerator:
+- behavior: merge
+  literals:
+  - LOG_LEVEL=DEBUG
+  - ENVIRONMENT=development
+  - ENABLE_DEBUG=true
+  name: autofix-config
 kind: Kustomization
-
 namespace: autofix-dev
-
+replicas:
+- count: 1
+  name: code-analyzer
+- count: 1
+  name: vulnerability-detector
+- count: 1
+  name: postgres
+- count: 1
+  name: redis
 resources:
 - ../../01-namespace-rbac/namespace.yaml
 - ../../02-storage/storage-classes.yaml
@@ -17,21 +31,3 @@ resources:
 - ../../05-core-services/vulnerability-detector/service.yaml
 - ../../05-core-services/contracts-l1/deployment.yaml
 - ../../05-core-services/contracts-l1/service.yaml
-
-replicas:
-- name: code-analyzer
-  count: 1
-- name: vulnerability-detector
-  count: 1
-- name: postgres
-  count: 1
-- name: redis
-  count: 1
-
-configMapGenerator:
-- name: autofix-config
-  behavior: merge
-  literals:
-  - LOG_LEVEL=DEBUG
-  - ENVIRONMENT=development
-  - ENABLE_DEBUG=true

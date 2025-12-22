@@ -1,111 +1,99 @@
----
-# 風險分類 | Risk Classification
-version: "1.0"
-lastUpdated: "2025-12-10"
-status: "active"
-
 classification_overview:
-  purpose: "Standardize risk categorization across organization"
-  usage: "All risk identification and assessment activities"
-
-risk_categories:
-  strategic_risks:
-    description: "Risks affecting strategic objectives"
-    subcategories:
-      - "Market changes"
-      - "Competitive landscape"
-      - "Strategic execution"
-      - "Business model disruption"
-  
-  operational_risks:
-    description: "Risks from operational processes and systems"
-    subcategories:
-      - "Process failures"
-      - "System outages"
-      - "Human errors"
-      - "Supply chain disruptions"
-  
-  financial_risks:
-    description: "Risks affecting financial performance"
-    subcategories:
-      - "Budget overruns"
-      - "Revenue shortfalls"
-      - "Cost increases"
-      - "Currency fluctuations"
-  
-  compliance_risks:
-    description: "Regulatory and policy compliance risks"
-    subcategories:
-      - "Regulatory violations"
-      - "Policy breaches"
-      - "Legal disputes"
-      - "Audit findings"
-  
-  technology_risks:
-    description: "IT and technology-related risks"
-    subcategories:
-      - "Cybersecurity threats"
-      - "System failures"
-      - "Data breaches"
-      - "Technology obsolescence"
-  
-  reputation_risks:
-    description: "Risks to organizational reputation"
-    subcategories:
-      - "Negative publicity"
-      - "Customer dissatisfaction"
-      - "Brand damage"
-      - "Stakeholder trust erosion"
-
-risk_severity_levels:
-  critical:
-    score: 5
-    description: "Catastrophic impact, immediate action required"
-    response_time: "immediate"
-  high:
-    score: 4
-    description: "Major impact, urgent action required"
-    response_time: "< 24 hours"
-  medium:
-    score: 3
-    description: "Moderate impact, planned action required"
-    response_time: "< 1 week"
-  low:
-    score: 2
-    description: "Minor impact, monitored"
-    response_time: "< 1 month"
-  minimal:
-    score: 1
-    description: "Negligible impact, accepted"
-    response_time: "as convenient"
-
+  purpose: Standardize risk categorization across organization
+  usage: All risk identification and assessment activities
+lastUpdated: '2025-12-10'
 likelihood_levels:
   almost_certain:
+    description: Expected to occur in most circumstances
+    probability: '> 80%'
     score: 5
-    probability: "> 80%"
-    description: "Expected to occur in most circumstances"
   likely:
+    description: Will probably occur
+    probability: 60-80%
     score: 4
-    probability: "60-80%"
-    description: "Will probably occur"
   possible:
+    description: Might occur
+    probability: 40-60%
     score: 3
-    probability: "40-60%"
-    description: "Might occur"
-  unlikely:
-    score: 2
-    probability: "20-40%"
-    description: "Could occur"
   rare:
+    description: May occur only in exceptional circumstances
+    probability: < 20%
     score: 1
-    probability: "< 20%"
-    description: "May occur only in exceptional circumstances"
-
+  unlikely:
+    description: Could occur
+    probability: 20-40%
+    score: 2
+risk_categories:
+  compliance_risks:
+    description: Regulatory and policy compliance risks
+    subcategories:
+    - Regulatory violations
+    - Policy breaches
+    - Legal disputes
+    - Audit findings
+  financial_risks:
+    description: Risks affecting financial performance
+    subcategories:
+    - Budget overruns
+    - Revenue shortfalls
+    - Cost increases
+    - Currency fluctuations
+  operational_risks:
+    description: Risks from operational processes and systems
+    subcategories:
+    - Process failures
+    - System outages
+    - Human errors
+    - Supply chain disruptions
+  reputation_risks:
+    description: Risks to organizational reputation
+    subcategories:
+    - Negative publicity
+    - Customer dissatisfaction
+    - Brand damage
+    - Stakeholder trust erosion
+  strategic_risks:
+    description: Risks affecting strategic objectives
+    subcategories:
+    - Market changes
+    - Competitive landscape
+    - Strategic execution
+    - Business model disruption
+  technology_risks:
+    description: IT and technology-related risks
+    subcategories:
+    - Cybersecurity threats
+    - System failures
+    - Data breaches
+    - Technology obsolescence
 risk_rating_matrix:
-  calculation: "Risk Score = Likelihood × Impact"
+  calculation: Risk Score = Likelihood × Impact
   ratings:
-    extreme: "20-25"
-    high: "15-19"
-    medium: "8-14"
-    low: "4-7"
-    minimal: "1-3"
+    extreme: 20-25
+    high: 15-19
+    low: 4-7
+    medium: 8-14
+    minimal: 1-3
+risk_severity_levels:
+  critical:
+    description: Catastrophic impact, immediate action required
+    response_time: immediate
+    score: 5
+  high:
+    description: Major impact, urgent action required
+    response_time: < 24 hours
+    score: 4
+  low:
+    description: Minor impact, monitored
+    response_time: < 1 month
+    score: 2
+  medium:
+    description: Moderate impact, planned action required
+    response_time: < 1 week
+    score: 3
+  minimal:
+    description: Negligible impact, accepted
+    response_time: as convenient
+    score: 1
+status: active
+version: '1.0'

@@ -1,14 +1,10 @@
-# ============================================================================
-# Contracts L1 Pod 中斷預算
-# ============================================================================
-
-apiVersion: policy/v1
+apiVersion: machinenativeops.io/v2
 kind: PodDisruptionBudget
 metadata:
-  name: contracts-l1-pdb
-  namespace: autofix
   labels:
-    app: contracts-l1
+    machinenativeops.io/app: contracts-l1
+  name: contracts-l1-pdb
+  namespace: machinenativenops
 spec:
   minAvailable: 1
   selector:

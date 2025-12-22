@@ -1,21 +1,19 @@
----
-# 報告計劃 | Reporting Schedule
-version: "1.0"
-lastUpdated: "2025-12-10"
-status: "active"
+lastUpdated: '2025-12-10'
 report_schedule:
-  daily:
-    - "Critical alerts"
-    - "Key incidents"
-  weekly:
-    - "Operational metrics"
-    - "Team performance"
-  monthly:
-    - "Comprehensive metrics"
-    - "Trend analysis"
-  quarterly:
-    - "Strategic review"
-    - "Board presentation"
   annual:
-    - "Year in review"
-    - "Strategic planning"
+  - Year in review
+  - Strategic planning
+  daily:
+  - Critical alerts
+  - Key incidents
+  monthly:
+  - Comprehensive metrics
+  - Trend analysis
+  quarterly:
+  - Strategic review
+  - Board presentation
+  weekly:
+  - Operational metrics
+  - Team performance
+status: active
+version: '1.0'

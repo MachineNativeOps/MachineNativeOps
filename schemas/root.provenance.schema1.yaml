@@ -1,8 +1,4 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: provenance-schema
-  namespace: machinenativenops-provenance
+apiVersion: machinenativeops.io/v2
 data:
   schema.yaml: "# Root Provenance Configuration Schema\ntype: object\nproperties:\n\
     \  provenance_sources:\n    type: array\n    items:\n      type: object\n    \
@@ -29,3 +25,7 @@ data:
     \       access_control:\n          type: object\n      required: [\"name\", \"\
     description\", \"enabled\", \"scope\", \"retention_period\"]\nrequired: [\"provenance_sources\"\
     , \"metadata_schema\", \"audit_trails\"]"
+kind: ConfigMap
+metadata:
+  name: provenance-schema
+  namespace: machinenativenops

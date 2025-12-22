@@ -1,25 +1,18 @@
-# ============================================================================
-# 網絡策略 - 微分段
-# ============================================================================
-
-# 默認拒絕所有入站流量
-apiVersion: networking.k8s.io/v1
+apiVersion: machinenativeops.io/v2
 kind: NetworkPolicy
 metadata:
   name: default-deny-ingress
-  namespace: autofix
+  namespace: machinenativenops
 spec:
   podSelector: {}
   policyTypes:
   - Ingress
-
 ---
-# 允許 Ingress 到 API 服務
-apiVersion: networking.k8s.io/v1
+apiVersion: machinenativeops.io/v2
 kind: NetworkPolicy
 metadata:
   name: allow-ingress-to-api
-  namespace: autofix
+  namespace: machinenativenops
 spec:
   podSelector:
     matchLabels:
@@ -34,14 +27,12 @@ spec:
     ports:
     - protocol: TCP
       port: 8000
-
 ---
-# 允許 API 到數據庫
-apiVersion: networking.k8s.io/v1
+apiVersion: machinenativeops.io/v2
 kind: NetworkPolicy
 metadata:
   name: allow-api-to-db
-  namespace: autofix
+  namespace: machinenativenops
 spec:
   podSelector:
     matchLabels:
@@ -56,14 +47,12 @@ spec:
     ports:
     - protocol: TCP
       port: 5432
-
 ---
-# 允許 API 到 Redis
-apiVersion: networking.k8s.io/v1
+apiVersion: machinenativeops.io/v2
 kind: NetworkPolicy
 metadata:
   name: allow-api-to-cache
-  namespace: autofix
+  namespace: machinenativenops
 spec:
   podSelector:
     matchLabels:
@@ -78,14 +67,12 @@ spec:
     ports:
     - protocol: TCP
       port: 6379
-
 ---
-# 允許 Pod 到 Prometheus
-apiVersion: networking.k8s.io/v1
+apiVersion: machinenativeops.io/v2
 kind: NetworkPolicy
 metadata:
   name: allow-metrics-scrape
-  namespace: autofix
+  namespace: machinenativenops
 spec:
   podSelector: {}
   policyTypes:
@@ -98,14 +85,12 @@ spec:
     ports:
     - protocol: TCP
       port: 9090
-
 ---
-# 允許 DNS
-apiVersion: networking.k8s.io/v1
+apiVersion: machinenativeops.io/v2
 kind: NetworkPolicy
 metadata:
   name: allow-dns
-  namespace: autofix
+  namespace: machinenativenops
 spec:
   podSelector: {}
   policyTypes:
@@ -116,14 +101,12 @@ spec:
     ports:
     - protocol: UDP
       port: 53
-
 ---
-# 允許外部 HTTPS
-apiVersion: networking.k8s.io/v1
+apiVersion: machinenativeops.io/v2
 kind: NetworkPolicy
 metadata:
   name: allow-external-https
-  namespace: autofix
+  namespace: machinenativenops
 spec:
   podSelector: {}
   policyTypes:

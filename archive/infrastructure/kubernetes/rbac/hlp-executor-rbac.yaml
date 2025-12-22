@@ -1,72 +1,109 @@
----
-apiVersion: v1
+apiVersion: machinenativeops.io/v2
 kind: ServiceAccount
 metadata:
   name: hlp-executor-sa
-  namespace: unmanned-island-system
+  namespace: machinenativenops
   labels:
-    app: hlp-executor-core
-    component: execution-engine
+    machinenativeops.io/app: hlp-executor-core
+    machinenativeops.io/component: execution-engine
   annotations:
-    description: "Service Account for HLP Executor Core"
-
+    machinenativeops.io/description: Service Account for HLP Executor Core
 ---
-apiVersion: rbac.authorization.k8s.io/v1
+apiVersion: machinenativeops.io/v2
 kind: ClusterRole
 metadata:
   name: hlp-executor-role
   labels:
-    app: hlp-executor-core
-    rbac.unmanned-island.io/aggregate-to-admin: "true"
+    machinenativeops.io/app: hlp-executor-core
+    machinenativeops.io/aggregate-to-admin: 'true'
   annotations:
-    description: "ClusterRole for HLP Executor Core with execution permissions"
+    machinenativeops.io/description: ClusterRole for HLP Executor Core with execution
+      permissions
 rules:
-  # Core API resources
-  - apiGroups: [""]
-    resources: ["pods", "services", "configmaps", "secrets"]
-    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
-  
-  - apiGroups: [""]
-    resources: ["persistentvolumeclaims"]
-    verbs: ["get", "list", "watch"]
-  
-  - apiGroups: [""]
-    resources: ["events"]
-    verbs: ["create", "patch"]
-  
-  # Apps API resources
-  - apiGroups: ["apps"]
-    resources: ["deployments", "replicasets", "statefulsets"]
-    verbs: ["get", "list", "watch", "create", "update", "patch"]
-  
-  - apiGroups: ["apps"]
-    resources: ["deployments/status", "replicasets/status", "statefulsets/status"]
-    verbs: ["get", "list", "watch"]
-  
-  # Batch API resources
-  - apiGroups: ["batch"]
-    resources: ["jobs", "cronjobs"]
-    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
-  
-  - apiGroups: ["batch"]
-    resources: ["jobs/status", "cronjobs/status"]
-    verbs: ["get", "list", "watch"]
-  
-  # Custom resources (if needed for future)
-  # Uncomment and adjust when unmanned-island.io CRDs are defined
-  # - apiGroups: ["unmanned-island.io"]
-  #   resources: ["executionplans", "quantumjobs"]
-  #   verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
-
+- apiGroups:
+  - ''
+  resources:
+  - pods
+  - services
+  - configmaps
+  - secrets
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - update
+  - patch
+  - delete
+- apiGroups:
+  - ''
+  resources:
+  - persistentvolumeclaims
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - ''
+  resources:
+  - events
+  verbs:
+  - create
+  - patch
+- apiGroups:
+  - apps
+  resources:
+  - deployments
+  - replicasets
+  - statefulsets
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - update
+  - patch
+- apiGroups:
+  - apps
+  resources:
+  - deployments/status
+  - replicasets/status
+  - statefulsets/status
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - batch
+  resources:
+  - jobs
+  - cronjobs
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - update
+  - patch
+  - delete
+- apiGroups:
+  - batch
+  resources:
+  - jobs/status
+  - cronjobs/status
+  verbs:
+  - get
+  - list
+  - watch
 ---
-apiVersion: rbac.authorization.k8s.io/v1
+apiVersion: machinenativeops.io/v2
 kind: ClusterRoleBinding
 metadata:
   name: hlp-executor-binding
   labels:
-    app: hlp-executor-core
+    machinenativeops.io/app: hlp-executor-core
   annotations:
-    description: "Binds hlp-executor-role to hlp-executor-sa"
+    machinenativeops.io/description: Binds hlp-executor-role to hlp-executor-sa
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
@@ -75,38 +112,49 @@ subjects:
 - kind: ServiceAccount
   name: hlp-executor-sa
   namespace: unmanned-island-system
-
 ---
-# Optional: Role for namespace-scoped operations
-apiVersion: rbac.authorization.k8s.io/v1
+apiVersion: machinenativeops.io/v2
 kind: Role
 metadata:
   name: hlp-executor-namespace-role
-  namespace: unmanned-island-system
+  namespace: machinenativenops
   labels:
-    app: hlp-executor-core
+    machinenativeops.io/app: hlp-executor-core
   annotations:
-    description: "Namespace-scoped permissions for HLP Executor"
+    machinenativeops.io/description: Namespace-scoped permissions for HLP Executor
 rules:
-  - apiGroups: [""]
-    resources: ["pods/log", "pods/exec"]
-    verbs: ["get", "list"]
-  
-  - apiGroups: [""]
-    resources: ["configmaps"]
-    verbs: ["get", "list", "watch", "create", "update", "patch"]
-    resourceNames: ["hlp-executor-config", "hlp-executor-state"]
-
+- apiGroups:
+  - ''
+  resources:
+  - pods/log
+  - pods/exec
+  verbs:
+  - get
+  - list
+- apiGroups:
+  - ''
+  resources:
+  - configmaps
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - update
+  - patch
+  resourceNames:
+  - hlp-executor-config
+  - hlp-executor-state
 ---
-apiVersion: rbac.authorization.k8s.io/v1
+apiVersion: machinenativeops.io/v2
 kind: RoleBinding
 metadata:
   name: hlp-executor-namespace-binding
-  namespace: unmanned-island-system
+  namespace: machinenativenops
   labels:
-    app: hlp-executor-core
+    machinenativeops.io/app: hlp-executor-core
   annotations:
-    description: "Binds namespace role to hlp-executor-sa"
+    machinenativeops.io/description: Binds namespace role to hlp-executor-sa
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role

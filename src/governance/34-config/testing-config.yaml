@@ -1,9 +1,6 @@
-# Testing Configuration
-environment: "testing"
-
-logging:
-  level: "DEBUG"
-
 database:
-  type: "sqlite"
-  path: ":memory:"
+  path: ':memory:'
+  type: sqlite
+environment: testing
+logging:
+  level: DEBUG

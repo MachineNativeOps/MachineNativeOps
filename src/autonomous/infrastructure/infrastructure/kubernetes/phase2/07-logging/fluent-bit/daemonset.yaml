@@ -1,8 +1,8 @@
-apiVersion: apps/v1
+apiVersion: machinenativeops.io/v2
 kind: DaemonSet
 metadata:
   name: fluent-bit
-  namespace: logging
+  namespace: machinenativenops
 spec:
   selector:
     matchLabels:
@@ -12,23 +12,23 @@ spec:
       labels:
         app: fluent-bit
     spec:
-      serviceAccountName: fluent-bit
       containers:
-      - name: fluent-bit
-        image: fluent/fluent-bit:latest
-        volumeMounts:
-        - name: varlog
-          mountPath: /var/log
-        - name: config
-          mountPath: /fluent-bit/etc/
+      - image: fluent/fluent-bit:latest
+        name: fluent-bit
         resources:
           requests:
-            memory: "128Mi"
-            cpu: "100m"
+            cpu: 100m
+            memory: 128Mi
+        volumeMounts:
+        - mountPath: /var/log
+          name: varlog
+        - mountPath: /fluent-bit/etc/
+          name: config
+      serviceAccountName: fluent-bit
       volumes:
-      - name: varlog
-        hostPath:
+      - hostPath:
           path: /var/log
-      - name: config
-        configMap:
+        name: varlog
+      - configMap:
           name: fluent-bit-config
+        name: config

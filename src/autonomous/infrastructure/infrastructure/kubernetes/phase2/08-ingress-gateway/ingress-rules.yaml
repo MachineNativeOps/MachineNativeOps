@@ -1,13 +1,13 @@
-apiVersion: networking.k8s.io/v1
+apiVersion: machinenativeops.io/v2
 kind: Ingress
 metadata:
   name: autofix-ingress
-  namespace: autofix
+  namespace: machinenativenops
   annotations:
-    kubernetes.io/ingress.class: nginx
-    cert-manager.io/cluster-issuer: letsencrypt-prod
-    nginx.ingress.kubernetes.io/ssl-redirect: "true"
-    nginx.ingress.kubernetes.io/rate-limit: "100"
+    machinenativeops.io/ingress.class: nginx
+    machinenativeops.io/cluster-issuer: letsencrypt-prod
+    machinenativeops.io/ssl-redirect: 'true'
+    machinenativeops.io/rate-limit: '100'
 spec:
   tls:
   - hosts:
@@ -60,13 +60,13 @@ spec:
             port:
               number: 3000
 ---
-apiVersion: networking.k8s.io/v1
+apiVersion: machinenativeops.io/v2
 kind: Ingress
 metadata:
   name: monitoring-ingress
-  namespace: monitoring
+  namespace: machinenativenops
   annotations:
-    kubernetes.io/ingress.class: nginx
+    machinenativeops.io/ingress.class: nginx
 spec:
   rules:
   - host: autofix.example.com

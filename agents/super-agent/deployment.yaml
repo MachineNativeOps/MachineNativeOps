@@ -10,7 +10,7 @@ apiVersion: machinenativeops.io/v2
 kind: ServiceAccount
 metadata:
   name: super-agent
-  namespace: machinenativeops
+  namespace: machinenativenops
   labels:
     machinenativeops.io/app: super-agent
     machinenativeops.io/component: control-plane
@@ -98,7 +98,7 @@ apiVersion: machinenativeops.io/v2
 kind: Deployment
 metadata:
   name: super-agent
-  namespace: machinenativeops
+  namespace: machinenativenops
   labels:
     machinenativeops.io/app: super-agent
     machinenativeops.io/component: control-plane
@@ -214,7 +214,7 @@ apiVersion: machinenativeops.io/v2
 kind: Service
 metadata:
   name: super-agent
-  namespace: machinenativeops
+  namespace: machinenativenops
   labels:
     machinenativeops.io/app: super-agent
     machinenativeops.io/component: control-plane
@@ -240,7 +240,7 @@ apiVersion: machinenativeops.io/v2
 kind: Service
 metadata:
   name: super-agent-headless
-  namespace: machinenativeops
+  namespace: machinenativenops
   labels:
     machinenativeops.io/app: super-agent
 spec:
@@ -256,7 +256,7 @@ apiVersion: machinenativeops.io/v2
 kind: PodDisruptionBudget
 metadata:
   name: super-agent-pdb
-  namespace: machinenativeops
+  namespace: machinenativenops
 spec:
   minAvailable: 1
   selector:
@@ -267,7 +267,7 @@ apiVersion: machinenativeops.io/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: super-agent-hpa
-  namespace: machinenativeops
+  namespace: machinenativenops
 spec:
   scaleTargetRef:
     apiVersion: apps/v1

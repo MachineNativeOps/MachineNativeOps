@@ -5,7 +5,7 @@
 # SHA3-512: [TO BE COMPUTED AFTER GENERATION]
 # BLAKE3: [TO BE COMPUTED AFTER GENERATION]
 
-apiVersion: axiom.io/v2
+apiVersion: machinenativeops.io/v2
 kind: AxiomGlobalBaseline
 metadata:
   name: axiom-global-baseline-v2

@@ -221,7 +221,7 @@ spec:
 
 ---
 # Service Template
-apiVersion: v1
+apiVersion: machinenativeops.io/v2
 kind: Service
 metadata:
   name: {{ .environment }}-{{ .app }}-svc-{{ .version }}

@@ -1,84 +1,79 @@
-# 模組治理註冊表
-# 記錄所有子專案的治理元數據
-
-version: "1.0"
 registry:
-  mcp-servers:
-    id: mcp-servers
-    type: service
-    language: javascript
-    owner: platform-team
-    description: "Model Context Protocol servers implementation"
-    governance:
-      semantic-version: "1.0.0"
-      policy-hints:
-        - naming-convention
-        - security-scan
-        - sbom-required
-      migration-hooks:
-        - pre-upgrade: "scripts/migrations/mcp-servers-pre.sh"
-        - post-upgrade: "scripts/migrations/mcp-servers-post.sh"
-    dependencies:
-      external:
-        - name: "@modelcontextprotocol/sdk"
-          version: "^0.5.0"
-          criticality: high
-    sla:
-      availability: "99.9%"
-      response-time-p99: "200ms"
-      error-rate-threshold: "0.1%"
-
-  contracts-service:
-    id: contracts-service
-    type: service
-    language: typescript
-    owner: contracts-team
-    description: "SLSA contract management service"
-    governance:
-      semantic-version: "1.0.0"
-      policy-hints:
-        - naming-convention
-        - security-scan
-        - sbom-required
-        - slsa-provenance
-      migration-hooks:
-        - pre-upgrade: "scripts/migrations/contracts-pre.sh"
-    dependencies:
-      external:
-        - name: "express"
-          version: "^4.21.2"
-          criticality: high
-        - name: "@sigstore/sign"
-          version: "^2.2.0"
-          criticality: high
-    sla:
-      availability: "99.95%"
-      response-time-p99: "100ms"
-      error-rate-threshold: "0.05%"
-
   advanced-system:
+    dependencies:
+      external:
+      - criticality: high
+        name: react
+        version: ^18.0.0
+      - criticality: medium
+        name: vite
+        version: ^5.0.0
+    description: Advanced system integration dashboard
+    governance:
+      migration-hooks:
+      - pre-build: scripts/migrations/frontend-pre.sh
+      policy-hints:
+      - naming-convention
+      - security-scan
+      - bundle-size-check
+      semantic-version: 1.0.0
     id: advanced-system
-    type: frontend
     language: typescript-react
     owner: frontend-team
-    description: "Advanced system integration dashboard"
-    governance:
-      semantic-version: "1.0.0"
-      policy-hints:
-        - naming-convention
-        - security-scan
-        - bundle-size-check
-      migration-hooks:
-        - pre-build: "scripts/migrations/frontend-pre.sh"
+    sla:
+      availability: 99.9%
+      bundle-size-limit: 500kb
+      lighthouse-score-min: 90
+    type: frontend
+  contracts-service:
     dependencies:
       external:
-        - name: "react"
-          version: "^18.0.0"
-          criticality: high
-        - name: "vite"
-          version: "^5.0.0"
-          criticality: medium
+      - criticality: high
+        name: express
+        version: ^4.21.2
+      - criticality: high
+        name: '@sigstore/sign'
+        version: ^2.2.0
+    description: SLSA contract management service
+    governance:
+      migration-hooks:
+      - pre-upgrade: scripts/migrations/contracts-pre.sh
+      policy-hints:
+      - naming-convention
+      - security-scan
+      - sbom-required
+      - slsa-provenance
+      semantic-version: 1.0.0
+    id: contracts-service
+    language: typescript
+    owner: contracts-team
     sla:
-      availability: "99.9%"
-      bundle-size-limit: "500kb"
-      lighthouse-score-min: 90
+      availability: 99.95%
+      error-rate-threshold: 0.05%
+      response-time-p99: 100ms
+    type: service
+  mcp-servers:
+    dependencies:
+      external:
+      - criticality: high
+        name: '@modelcontextprotocol/sdk'
+        version: ^0.5.0
+    description: Model Context Protocol servers implementation
+    governance:
+      migration-hooks:
+      - pre-upgrade: scripts/migrations/mcp-servers-pre.sh
+      - post-upgrade: scripts/migrations/mcp-servers-post.sh
+      policy-hints:
+      - naming-convention
+      - security-scan
+      - sbom-required
+      semantic-version: 1.0.0
+    id: mcp-servers
+    language: javascript
+    owner: platform-team
+    sla:
+      availability: 99.9%
+      error-rate-threshold: 0.1%
+      response-time-p99: 200ms
+    type: service
+version: '1.0'

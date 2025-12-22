@@ -1,17 +1,13 @@
-# ============================================================================
-# PostgreSQL Service
-# ============================================================================
-
-apiVersion: v1
+apiVersion: machinenativeops.io/v2
 kind: Service
 metadata:
   name: postgres-service
-  namespace: autofix-bot
+  namespace: machinenativenops
 spec:
   clusterIP: None
+  ports:
+  - name: postgres
+    port: 5432
+    targetPort: 5432
   selector:
     app: postgres
-  ports:
-  - port: 5432
-    targetPort: 5432
-    name: postgres

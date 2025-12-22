@@ -1,15 +1,12 @@
-apiVersion: policy/v1
+apiVersion: machinenativeops.io/v2
 kind: PodDisruptionBudget
 metadata:
-  name: contracts-service-pdb
   labels:
-    app: contracts-service
-    namespace.io/team: contracts-team
+    machinenativeops.io/app: contracts-service
+    machinenativeops.io/team: contracts-team
+  name: contracts-service-pdb
 spec:
   minAvailable: 2
   selector:
     matchLabels:
       app: contracts-service
-  
-  # 替代方案：使用 maxUnavailable
-  # maxUnavailable: 1

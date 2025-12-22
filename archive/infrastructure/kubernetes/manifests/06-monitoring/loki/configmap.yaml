@@ -1,38 +1,15 @@
-apiVersion: v1
+apiVersion: machinenativeops.io/v2
+data:
+  loki.yaml: "auth_enabled: false\nserver:\n  http_listen_port: 3100\ningester:\n\
+    \  lifecycler:\n    ring:\n      kvstore:\n        store: inmemory\n      replication_factor:\
+    \ 1\n  chunk_idle_period: 5m\n  chunk_retain_period: 30s\nschema_config:\n  configs:\n\
+    \  - from: 2020-10-24\n    store: boltdb-shipper\n    object_store: filesystem\n\
+    \    schema: v11\n    index:\n      prefix: index_\n      period: 24h\nstorage_config:\n\
+    \  boltdb_shipper:\n    active_index_directory: /loki/boltdb-shipper-active\n\
+    \    cache_location: /loki/boltdb-shipper-cache\n    shared_store: filesystem\n\
+    \  filesystem:\n    directory: /loki/chunks\nlimits_config:\n  enforce_metric_name:\
+    \ false\n  reject_old_samples: true\n  reject_old_samples_max_age: 168h\n"
 kind: ConfigMap
 metadata:
   name: loki-config
-  namespace: logging
-data:
-  loki.yaml: |
-    auth_enabled: false
-    server:
-      http_listen_port: 3100
-    ingester:
-      lifecycler:
-        ring:
-          kvstore:
-            store: inmemory
-          replication_factor: 1
-      chunk_idle_period: 5m
-      chunk_retain_period: 30s
-    schema_config:
-      configs:
-      - from: 2020-10-24
-        store: boltdb-shipper
-        object_store: filesystem
-        schema: v11
-        index:
-          prefix: index_
-          period: 24h
-    storage_config:
-      boltdb_shipper:
-        active_index_directory: /loki/boltdb-shipper-active
-        cache_location: /loki/boltdb-shipper-cache
-        shared_store: filesystem
-      filesystem:
-        directory: /loki/chunks
-    limits_config:
-      enforce_metric_name: false
-      reject_old_samples: true
-      reject_old_samples_max_age: 168h
+  namespace: machinenativenops

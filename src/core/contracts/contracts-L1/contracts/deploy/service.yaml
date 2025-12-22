@@ -1,21 +1,21 @@
-apiVersion: v1
+apiVersion: machinenativeops.io/v2
 kind: Service
 metadata:
-  name: contracts-service
-  labels:
-    app: contracts-service
-    namespace.io/team: contracts-team
-    namespace.io/environment: production
-    namespace.io/lifecycle: active
   annotations:
-    description: "SLSA contract management service"
+    machinenativeops.io/description: SLSA contract management service
+  labels:
+    machinenativeops.io/app: contracts-service
+    machinenativeops.io/environment: production
+    machinenativeops.io/lifecycle: active
+    machinenativeops.io/team: contracts-team
+  name: contracts-service
 spec:
-  type: ClusterIP
-  selector:
-    app: contracts-service
   ports:
   - name: http
     port: 80
-    targetPort: http
     protocol: TCP
+    targetPort: http
+  selector:
+    app: contracts-service
   sessionAffinity: None
+  type: ClusterIP

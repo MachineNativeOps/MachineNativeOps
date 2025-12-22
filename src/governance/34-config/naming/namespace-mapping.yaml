@@ -1,78 +1,77 @@
----
-version: v1
 kind: CanonicalNamespaceMapping
 metadata:
+  description: Map legacy namespaces to canonical naming (see canonical-naming-machine-spec.yaml)
   name: canonical-namespace-mapping
-  description: "Map legacy namespaces to canonical naming (see canonical-naming-machine-spec.yaml)"
 spec:
   namespaces:
-    - old_name: governance-policies
-      canonical_name: dev-governance-policies
-      urn: "urn:axiom:governance:policies:env:dev:v1"
-      labels:
-        environment: dev
-        tenant: platform
-        app.kubernetes.io/managed-by: axiom-naming-controller
-    - old_name: governance-common
-      canonical_name: dev-governance-common
-      urn: "urn:axiom:governance:common:env:dev:v1"
-      labels:
-        environment: dev
-        tenant: platform
-        app.kubernetes.io/managed-by: axiom-naming-controller
-    - old_name: contracts-l1
-      canonical_name: dev-core-contracts-l1-service
-      urn: "urn:axiom:core:contracts-l1:env:dev:v1"
-      labels:
-        environment: dev
-        tenant: core
-        app.kubernetes.io/managed-by: axiom-naming-controller
-    - old_name: scheduler-service
-      canonical_name: dev-scheduler-service
-      urn: "urn:axiom:platform:scheduler:env:dev:v1"
-      labels:
-        environment: dev
-        tenant: platform
-        app.kubernetes.io/managed-by: axiom-naming-controller
-    - old_name: unmanned-island-system
-      canonical_name: prod-unmanned-island-system
-      urn: "urn:axiom:unmanned-island:system:env:prod:v1"
-      labels:
-        environment: prod
-        tenant: platform
-        app.kubernetes.io/managed-by: axiom-naming-controller
-    - old_name: axiom-system
-      canonical_name: prod-axiom-system
-      urn: "urn:axiom:axiom:system:env:prod:v1"
-      labels:
-        environment: prod
-        tenant: platform
-        app.kubernetes.io/managed-by: axiom-naming-controller
-    - old_name: axiom
-      canonical_name: prod-axiom-core
-      urn: "urn:axiom:axiom:core:env:prod:v1"
-      labels:
-        environment: prod
-        tenant: platform
-        app.kubernetes.io/managed-by: axiom-naming-controller
-    - old_name: src/ai
-      canonical_name: prod-src/ai
-      urn: "urn:axiom:island:ai:env:prod:v1"
-      labels:
-        environment: prod
-        tenant: platform
-        app.kubernetes.io/managed-by: axiom-naming-controller
-    - old_name: uav-production
-      canonical_name: prod-uav
-      urn: "urn:axiom:uav:core:env:prod:v1"
-      labels:
-        environment: prod
-        tenant: robotics
-        app.kubernetes.io/managed-by: axiom-naming-controller
-    - old_name: ad-production
-      canonical_name: prod-ad
-      urn: "urn:axiom:ad:core:env:prod:v1"
-      labels:
-        environment: prod
-        tenant: autonomous-vehicles
-        app.kubernetes.io/managed-by: axiom-naming-controller
+  - canonical_name: dev-governance-policies
+    labels:
+      app.kubernetes.io/managed-by: axiom-naming-controller
+      environment: dev
+      tenant: platform
+    old_name: governance-policies
+    urn: urn:axiom:governance:policies:env:dev:v1
+  - canonical_name: dev-governance-common
+    labels:
+      app.kubernetes.io/managed-by: axiom-naming-controller
+      environment: dev
+      tenant: platform
+    old_name: governance-common
+    urn: urn:axiom:governance:common:env:dev:v1
+  - canonical_name: dev-core-contracts-l1-service
+    labels:
+      app.kubernetes.io/managed-by: axiom-naming-controller
+      environment: dev
+      tenant: core
+    old_name: contracts-l1
+    urn: urn:axiom:core:contracts-l1:env:dev:v1
+  - canonical_name: dev-scheduler-service
+    labels:
+      app.kubernetes.io/managed-by: axiom-naming-controller
+      environment: dev
+      tenant: platform
+    old_name: scheduler-service
+    urn: urn:axiom:platform:scheduler:env:dev:v1
+  - canonical_name: prod-unmanned-island-system
+    labels:
+      app.kubernetes.io/managed-by: axiom-naming-controller
+      environment: prod
+      tenant: platform
+    old_name: unmanned-island-system
+    urn: urn:axiom:unmanned-island:system:env:prod:v1
+  - canonical_name: prod-axiom-system
+    labels:
+      app.kubernetes.io/managed-by: axiom-naming-controller
+      environment: prod
+      tenant: platform
+    old_name: axiom-system
+    urn: urn:axiom:axiom:system:env:prod:v1
+  - canonical_name: prod-axiom-core
+    labels:
+      app.kubernetes.io/managed-by: axiom-naming-controller
+      environment: prod
+      tenant: platform
+    old_name: axiom
+    urn: urn:axiom:axiom:core:env:prod:v1
+  - canonical_name: prod-src/ai
+    labels:
+      app.kubernetes.io/managed-by: axiom-naming-controller
+      environment: prod
+      tenant: platform
+    old_name: src/ai
+    urn: urn:axiom:island:ai:env:prod:v1
+  - canonical_name: prod-uav
+    labels:
+      app.kubernetes.io/managed-by: axiom-naming-controller
+      environment: prod
+      tenant: robotics
+    old_name: uav-production
+    urn: urn:axiom:uav:core:env:prod:v1
+  - canonical_name: prod-ad
+    labels:
+      app.kubernetes.io/managed-by: axiom-naming-controller
+      environment: prod
+      tenant: autonomous-vehicles
+    old_name: ad-production
+    urn: urn:axiom:ad:core:env:prod:v1
+version: v1

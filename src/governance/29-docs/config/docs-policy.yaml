@@ -1,139 +1,116 @@
-name: Documentation Governance Policy
+compliance_metrics:
+- frequency: per_merge
+  name: Documentation Completeness
+  threshold: 100
+- frequency: monthly
+  name: README Quality Score
+  threshold: 95
+- frequency: monthly
+  name: Code Documentation Coverage
+  threshold: 90
+- frequency: weekly
+  name: API Documentation Accuracy
+  threshold: 100
+- frequency: monthly
+  name: Documentation Freshness
+  threshold: updated within 30 days
+- frequency: weekly
+  name: Link Validity Rate
+  threshold: 100
+dependencies:
+- api-governance
+- architecture-governance
+- data-governance
+- common
 description: Defines documentation standards, quality, and knowledge management
-version: "1.0"
-
 enforcement: strict
-
+name: Documentation Governance Policy
 rules:
-  # Documentation Requirements
-  documentation_requirements:
-    readme_required: true
-    architecture_documentation: required
-    api_documentation: required
-    deployment_documentation: required
-    runbooks_required: true
-    troubleshooting_guides: required
-
-  # Documentation Standards
-  documentation_standards:
-    format: ["Markdown (.md)", "AsciiDoc (.adoc)"]
-    encoding: "UTF-8"
-    line_length: 100
-    heading_hierarchy: "h1-h6_sequential"
-    code_blocks: required
-    examples: required
-    diagrams: encouraged
-
-  # README Requirements
-  readme:
-    required_sections:
-      - "Overview"
-      - "Quick Start"
-      - "Installation"
-      - "Configuration"
-      - "Usage"
-      - "API Reference"
-      - "Examples"
-      - "Troubleshooting"
-      - "Contributing"
-      - "License"
-    minimum_length: 500
-    code_examples: "minimum_2"
-    language: "English (primary) + Chinese (optional)"
-
-  # API Documentation
-  api_documentation:
-    format: "OpenAPI 3.0"
-    required_elements:
-      - "endpoint_description"
-      - "parameters"
-      - "request_body"
-      - "response_schemas"
-      - "error_codes"
-      - "examples"
-    code_samples: "per_endpoint"
-    languages: ["Python", "JavaScript", "cURL"]
-
-  # Code Documentation
-  code_documentation:
-    docstring_style: "Google Style"
-    required_for:
-      - "public_functions"
-      - "public_classes"
-      - "complex_algorithms"
-    parameter_documentation: required
-    return_documentation: required
-    exception_documentation: required
-    example_usage: encouraged
-
-  # Knowledge Base
-  knowledge_base:
-    structure: "hierarchical"
-    table_of_contents: required
-    searchability: required
-    cross_referencing: required
-    version_tracking: required
-    last_updated_dates: required
-
-  # Language & Naming Consistency
-  language_consistency:
-    primary_language: "English"
-    secondary_language: "Simplified Chinese"
-    terminology_dictionary: required
-    abbreviations: "defined_on_first_use"
-    emoji_usage: "consistent"
-    style_guide: required
-
-  # Documentation Updates
-  documentation_updates:
-    update_trigger: "code_change"
-    documentation_review: "per_merge"
-    deprecation_documentation: required
-    version_history: required
-    change_log: required
-
-  # Documentation Quality
-  documentation_quality:
-    spelling_check: "automated"
-    grammar_check: "automated"
-    link_validation: required
-    code_sample_verification: required
-    outdated_content_detection: "quarterly"
-
-  # Accessibility
   accessibility:
-    alt_text_required: "for_images"
-    color_contrast: "WCAG_AA"
+    alt_text_required: for_images
+    color_contrast: WCAG_AA
     keyboard_navigation: required
     screen_reader_support: required
-
-dependencies:
-  - "api-governance"
-  - "architecture-governance"
-  - "data-governance"
-  - "common"
-
-compliance_metrics:
-  - name: "Documentation Completeness"
-    threshold: 100
-    frequency: "per_merge"
-
-  - name: "README Quality Score"
-    threshold: 95
-    frequency: "monthly"
-
-  - name: "Code Documentation Coverage"
-    threshold: 90
-    frequency: "monthly"
-
-  - name: "API Documentation Accuracy"
-    threshold: 100
-    frequency: "weekly"
-
-  - name: "Documentation Freshness"
-    threshold: "updated within 30 days"
-    frequency: "monthly"
-
-  - name: "Link Validity Rate"
-    threshold: 100
-    frequency: "weekly"
+  api_documentation:
+    code_samples: per_endpoint
+    format: OpenAPI 3.0
+    languages:
+    - Python
+    - JavaScript
+    - cURL
+    required_elements:
+    - endpoint_description
+    - parameters
+    - request_body
+    - response_schemas
+    - error_codes
+    - examples
+  code_documentation:
+    docstring_style: Google Style
+    example_usage: encouraged
+    exception_documentation: required
+    parameter_documentation: required
+    required_for:
+    - public_functions
+    - public_classes
+    - complex_algorithms
+    return_documentation: required
+  documentation_quality:
+    code_sample_verification: required
+    grammar_check: automated
+    link_validation: required
+    outdated_content_detection: quarterly
+    spelling_check: automated
+  documentation_requirements:
+    api_documentation: required
+    architecture_documentation: required
+    deployment_documentation: required
+    readme_required: true
+    runbooks_required: true
+    troubleshooting_guides: required
+  documentation_standards:
+    code_blocks: required
+    diagrams: encouraged
+    encoding: UTF-8
+    examples: required
+    format:
+    - Markdown (.md)
+    - AsciiDoc (.adoc)
+    heading_hierarchy: h1-h6_sequential
+    line_length: 100
+  documentation_updates:
+    change_log: required
+    deprecation_documentation: required
+    documentation_review: per_merge
+    update_trigger: code_change
+    version_history: required
+  knowledge_base:
+    cross_referencing: required
+    last_updated_dates: required
+    searchability: required
+    structure: hierarchical
+    table_of_contents: required
+    version_tracking: required
+  language_consistency:
+    abbreviations: defined_on_first_use
+    emoji_usage: consistent
+    primary_language: English
+    secondary_language: Simplified Chinese
+    style_guide: required
+    terminology_dictionary: required
+  readme:
+    code_examples: minimum_2
+    language: English (primary) + Chinese (optional)
+    minimum_length: 500
+    required_sections:
+    - Overview
+    - Quick Start
+    - Installation
+    - Configuration
+    - Usage
+    - API Reference
+    - Examples
+    - Troubleshooting
+    - Contributing
+    - License
+version: '1.0'

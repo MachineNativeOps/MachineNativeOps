@@ -1,8 +1,8 @@
-apiVersion: apps/v1
+apiVersion: machinenativeops.io/v2
 kind: Deployment
 metadata:
   name: prometheus
-  namespace: autofix-bot
+  namespace: machinenativenops
 spec:
   replicas: 1
   selector:
@@ -14,31 +14,31 @@ spec:
         app: prometheus
     spec:
       containers:
-      - name: prometheus
-        image: prom/prometheus:latest
-        securityContext:
-          allowPrivilegeEscalation: false
+      - image: prom/prometheus:latest
+        name: prometheus
         ports:
         - containerPort: 9090
-        volumeMounts:
-        - name: config
-          mountPath: /etc/prometheus
-        - name: storage
-          mountPath: /prometheus
         resources:
-          requests:
-            cpu: 2
-            memory: 4Gi
           limits:
             cpu: 4
             memory: 8Gi
+          requests:
+            cpu: 2
+            memory: 4Gi
+        securityContext:
+          allowPrivilegeEscalation: false
+        volumeMounts:
+        - mountPath: /etc/prometheus
+          name: config
+        - mountPath: /prometheus
+          name: storage
       volumes:
-      - name: config
-        configMap:
-          name: autofix-bot-config
+      - configMap:
           items:
           - key: prometheus.yml
             path: prometheus.yml
+          name: autofix-bot-config
+        name: config
       - name: storage
         persistentVolumeClaim:
           claimName: prometheus-pvc

@@ -1,8 +1,8 @@
-apiVersion: apps/v1
+apiVersion: machinenativeops.io/v2
 kind: Deployment
 metadata:
   name: code-analyzer
-  namespace: autofix-bot
+  namespace: machinenativenops
 spec:
   replicas: 3
   selector:
@@ -13,39 +13,39 @@ spec:
       labels:
         app: code-analyzer
     spec:
-      securityContext:
-        runAsNonRoot: true
-        runAsUser: 1000
-        fsGroup: 1000
       containers:
-      - name: code-analyzer
-        image: autofix-bot/code-analyzer:latest
-        securityContext:
-          allowPrivilegeEscalation: false
-        ports:
-        - containerPort: 8080
-        - containerPort: 9090
-        envFrom:
+      - envFrom:
         - configMapRef:
             name: autofix-bot-config
         - secretRef:
             name: autofix-bot-secrets
-        resources:
-          requests:
-            cpu: 1
-            memory: 2Gi
-          limits:
-            cpu: 2
-            memory: 4Gi
+        image: autofix-bot/code-analyzer:latest
         livenessProbe:
           httpGet:
             path: /health
             port: 8080
           initialDelaySeconds: 30
           periodSeconds: 10
+        name: code-analyzer
+        ports:
+        - containerPort: 8080
+        - containerPort: 9090
         readinessProbe:
           httpGet:
             path: /health
             port: 8080
           initialDelaySeconds: 10
           periodSeconds: 5
+        resources:
+          limits:
+            cpu: 2
+            memory: 4Gi
+          requests:
+            cpu: 1
+            memory: 2Gi
+        securityContext:
+          allowPrivilegeEscalation: false
+      securityContext:
+        fsGroup: 1000
+        runAsNonRoot: true
+        runAsUser: 1000

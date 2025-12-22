@@ -1,21 +1,36 @@
-# ============================================================================
-# Contracts L1 網絡策略
-# ============================================================================
-
-apiVersion: networking.k8s.io/v1
+apiVersion: machinenativeops.io/v2
 kind: NetworkPolicy
 metadata:
-  name: contracts-l1-netpol
-  namespace: autofix
   labels:
-    app: contracts-l1
+    machinenativeops.io/app: contracts-l1
+  name: contracts-l1-netpol
+  namespace: machinenativenops
 spec:
-  podSelector:
-    matchLabels:
-      app: contracts-l1
-  policyTypes:
-  - Ingress
-  - Egress
+  egress:
+  - ports:
+    - port: 5432
+      protocol: TCP
+    to:
+    - podSelector:
+        matchLabels:
+          app: postgres
+  - ports:
+    - port: 6379
+      protocol: TCP
+    to:
+    - podSelector:
+        matchLabels:
+          app: redis
+  - ports:
+    - port: 53
+      protocol: UDP
+    to:
+    - namespaceSelector: {}
+  - ports:
+    - port: 443
+      protocol: TCP
+    to:
+    - podSelector: {}
   ingress:
   - from:
     - namespaceSelector:
@@ -28,30 +43,11 @@ spec:
         matchLabels:
           app: code-analyzer
     ports:
-    - protocol: TCP
-      port: 3000
-  egress:
-  - to:
-    - podSelector:
-        matchLabels:
-          app: postgres
-    ports:
-    - protocol: TCP
-      port: 5432
-  - to:
-    - podSelector:
-        matchLabels:
-          app: redis
-    ports:
-    - protocol: TCP
-      port: 6379
-  - to:
-    - namespaceSelector: {}
-    ports:
-    - protocol: UDP
-      port: 53
-  - to:
-    - podSelector: {}
-    ports:
-    - protocol: TCP
-      port: 443
+    - port: 3000
+      protocol: TCP
+  podSelector:
+    matchLabels:
+      app: contracts-l1
+  policyTypes:
+  - Ingress
+  - Egress

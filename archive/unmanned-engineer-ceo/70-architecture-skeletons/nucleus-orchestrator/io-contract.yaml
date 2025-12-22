@@ -1,77 +1,104 @@
-version: 0.1.0
-
 schemas:
-  workflow_definition:
-    description: "工作流定義"
+  failure_recovery:
+    description: 失敗恢復報告
+    properties:
+      failure_point:
+        type: string
+      recovery_action:
+        enum:
+        - retry
+        - skip
+        - rollback
+        - manual_intervention
+        type: string
+      result:
+        enum:
+        - recovered
+        - failed
+        - manual_input_pending
+        type: string
+      workflow_id:
+        type: string
+    required:
+    - workflow_id
+    - failure_point
+    - recovery_action
     type: object
-    required: [id, name, steps, initial_state]
+  orchestration_state:
+    description: 編排狀態快照
+    properties:
+      current_step:
+        type: string
+      error:
+        properties:
+          reason:
+            type: string
+          step_id:
+            type: string
+        type: object
+      execution_id:
+        type: string
+      status:
+        enum:
+        - pending
+        - running
+        - completed
+        - failed
+        - paused
+        type: string
+      step_results:
+        additionalProperties: true
+        type: object
+      workflow_id:
+        type: string
+    required:
+    - workflow_id
+    - execution_id
+    - current_step
+    - status
+    type: object
+  workflow_definition:
+    description: 工作流定義
     properties:
       id:
         type: string
       name:
         type: string
       steps:
-        type: array
         items:
-          type: object
-          required: [id, type, action]
           properties:
-            id:
-              type: string
-            type:
-              type: string
-              enum: [sequential, parallel, conditional, loop]
             action:
               type: string
             depends_on:
-              type: array
               items:
                 type: string
+              type: array
+            id:
+              type: string
             retry:
-              type: object
               properties:
-                max_attempts:
-                  type: integer
                 backoff_ms:
                   type: integer
-
-  orchestration_state:
-    description: "編排狀態快照"
+                max_attempts:
+                  type: integer
+              type: object
+            type:
+              enum:
+              - sequential
+              - parallel
+              - conditional
+              - loop
+              type: string
+          required:
+          - id
+          - type
+          - action
+          type: object
+        type: array
+    required:
+    - id
+    - name
+    - steps
+    - initial_state
     type: object
-    required: [workflow_id, execution_id, current_step, status]
-    properties:
-      workflow_id:
-        type: string
-      execution_id:
-        type: string
-      current_step:
-        type: string
-      status:
-        type: string
-        enum: [pending, running, completed, failed, paused]
-      step_results:
-        type: object
-        additionalProperties: true
-      error:
-        type: object
-        properties:
-          step_id:
-            type: string
-          reason:
-            type: string
-
-  failure_recovery:
-    description: "失敗恢復報告"
-    type: object
-    required: [workflow_id, failure_point, recovery_action]
-    properties:
-      workflow_id:
-        type: string
-      failure_point:
-        type: string
-      recovery_action:
-        type: string
-        enum: [retry, skip, rollback, manual_intervention]
-      result:
-        type: string
-        enum: [recovered, failed, manual_input_pending]
+version: 0.1.0
