@@ -54,28 +54,94 @@ python test_super_agent.py
 ### Docker Build & Test
 ```bash
 # Build image
-docker build -t axiom-system/super-agent:v1.0.0 .
+docker build -t machinenativeops/super-agent:v1.0.0 .
 
 # Run container
-docker run -p 8080:8080 axiom-system/super-agent:v1.0.0
+docker run -p 8080:8080 machinenativeops/super-agent:v1.0.0
 
 # Test container
 python test_super_agent.py http://localhost:8080
 ```
 
 ### Kubernetes Deployment
-```bash
-# Deploy to Kubernetes
-./deploy.sh
 
-# Or manual deployment
-kubectl apply -f deployment.yaml
+The SuperAgent uses a Kustomize-based deployment strategy with environment-specific overlays for dev, staging, and production.
+
+#### Deployment Structure
+
+```
+k8s/
+├── base/                    # Base Kubernetes manifests
+│   ├── deployment.yaml     # Base deployment configuration
+│   └── kustomization.yaml  # Base Kustomize configuration
+└── overlays/               # Environment-specific overlays
+    ├── dev/                # Development environment
+    │   └── kustomization.yaml
+    ├── staging/            # Staging environment
+    │   └── kustomization.yaml
+    └── prod/               # Production environment
+        └── kustomization.yaml
+```
+
+#### Environment Configuration
+
+Each environment has specific settings:
+
+| Setting | Dev | Staging | Prod |
+|---------|-----|---------|------|
+| **Namespace** | `axiom-system-dev` | `axiom-system-staging` | `axiom-system` |
+| **Image Tag** | `dev-latest` | `v1.0.0-rc` | `v1.0.0` |
+| **Replicas** | 1 | 2 | 3 |
+| **Log Level** | DEBUG | INFO | WARN |
+| **Resource Limits** | Standard | Standard | Enhanced |
+
+#### Deployment Commands
+
+```bash
+# Deploy to development environment
+./deploy.sh dev
+
+# Deploy to staging environment  
+./deploy.sh staging
+
+# Deploy to production environment
+./deploy.sh prod
 
 # Port forward for local testing
-kubectl port-forward -n axiom-system svc/super-agent 8080:8080
+kubectl port-forward -n machinenativeops svc/super-agent 8080:8080
 
 # Test deployed service
 python test_super_agent.py http://localhost:8080
+```
+
+#### Manual Deployment with Kustomize
+
+```bash
+# Using kubectl with kustomize (built-in)
+kubectl apply -k k8s/overlays/dev
+kubectl apply -k k8s/overlays/staging
+kubectl apply -k k8s/overlays/prod
+
+# Or using standalone kustomize
+kustomize build k8s/overlays/dev | kubectl apply -f -
+kustomize build k8s/overlays/staging | kubectl apply -f -
+kustomize build k8s/overlays/prod | kubectl apply -f -
+```
+
+#### Updating Image Versions
+
+To update the image version for an environment, edit the corresponding overlay's `kustomization.yaml`:
+
+```yaml
+# k8s/overlays/prod/kustomization.yaml
+images:
+- name: axiom-system/super-agent
+  newTag: v1.1.0  # Update this tag
+```
+
+Then redeploy:
+```bash
+./deploy.sh prod
 ```
 
 ## 📡 API Endpoints
@@ -96,7 +162,7 @@ Receive and route messages from other agents.
     "schema_version": "v1.0.0"
   },
   "context": {
-    "namespace": "axiom-system",
+    "namespace": "machinenativeops",
     "cluster": "production",
     "urgency": "P1"
   },
@@ -205,7 +271,7 @@ All messages must follow the standard envelope format:
     "schema_version": "v1.0.0"
   },
   "context": {
-    "namespace": "axiom-system",
+    "namespace": "machinenativeops",
     "cluster": "cluster-name",
     "urgency": "P1|P2|P3"
   },
@@ -226,7 +292,7 @@ python test_super_agent.py
 python test_super_agent.py http://localhost:8080
 
 # Run against deployed service
-python test_super_agent.py http://super-agent.axiom-system.svc.cluster.local:8080
+python test_super_agent.py http://super-agent.machinenativeops.svc.cluster.local:8080
 ```
 
 ### Test Coverage
@@ -265,7 +331,7 @@ The service exposes metrics on port 9090:
 curl http://localhost:9090/metrics
 
 # Or via service
-kubectl port-forward -n axiom-system svc/super-agent 9090:9090
+kubectl port-forward -n machinenativeops svc/super-agent 9090:9090
 curl http://localhost:9090/metrics
 ```
 
@@ -284,10 +350,10 @@ curl http://localhost:8080/metrics
 ### Log Monitoring
 ```bash
 # View pod logs
-kubectl logs -n axiom-system -l app=super-agent -f
+kubectl logs -n machinenativeops -l app=super-agent -f
 
 # View specific pod logs
-kubectl logs -n axiom-system deployment/super-agent -c super-agent -f
+kubectl logs -n machinenativeops deployment/super-agent -c super-agent -f
 ```
 
 ## 🛡️ Security
@@ -313,23 +379,23 @@ SuperAgent operates with minimal required permissions:
 #### Service Not Responding
 ```bash
 # Check pod status
-kubectl get pods -n axiom-system -l app=super-agent
+kubectl get pods -n machinenativeops -l app=super-agent
 
 # Check pod logs
-kubectl logs -n axiom-system -l app=super-agent
+kubectl logs -n machinenativeops -l app=super-agent
 
 # Check service endpoints
-kubectl get endpoints -n axiom-system super-agent
+kubectl get endpoints -n machinenativeops super-agent
 
 # Port forward and test
-kubectl port-forward -n axiom-system svc/super-agent 8080:8080
+kubectl port-forward -n machinenativeops svc/super-agent 8080:8080
 curl http://localhost:8080/health
 ```
 
 #### Permission Issues
 ```bash
 # Check service account permissions
-kubectl auth can-i --list --as=system:serviceaccount:axiom-system:super-agent -n axiom-system
+kubectl auth can-i --list --as=system:serviceaccount:machinenativeops:super-agent -n machinenativeops
 
 # Check cluster role binding
 kubectl get clusterrolebinding super-agent-binding -o yaml
