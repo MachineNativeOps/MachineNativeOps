@@ -4,8 +4,8 @@
 set -euo pipefail
 
 # Configuration
-NAMESPACE="axiom-system"
-IMAGE_NAME="axiom-system/super-agent"
+NAMESPACE="machinenativeops"
+IMAGE_NAME="machinenativeops/super-agent"
 IMAGE_TAG="v1.0.0"
 DOCKERFILE="Dockerfile"
 
