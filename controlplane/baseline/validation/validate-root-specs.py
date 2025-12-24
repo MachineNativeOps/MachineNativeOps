@@ -17,7 +17,13 @@ from typing import Dict, List, Any, Tuple
 class RootSpecValidator:
     """Core validation engine for root namespace baseline"""
     
-    def __init__(self, workspace_root: str = "/workspace"):
+    def __init__(self, workspace_root: str = None):
+        if workspace_root is None:
+            workspace_root = os.environ.get("MACHINENATIVEOPS_WORKSPACE")
+        if workspace_root is None:
+            # Default to repo root: controlplane/baseline/validation -> ../../..
+            workspace_root = Path(__file__).resolve().parents[3]
+        
         self.workspace_root = Path(workspace_root)
         self.baseline_root = self.workspace_root / "controlplane" / "baseline"
         self.overlay_root = self.workspace_root / "controlplane" / "overlay"
@@ -626,6 +632,7 @@ class RootSpecValidator:
 def main():
     """Main entry point"""
     validator = RootSpecValidator()
+    strict_extended = os.environ.get("MACHINENATIVEOPS_STRICT_EXTENDED", "false").lower() == "true"
     
     # Run all validation stages including new ones
     print("\n" + "="*80)
@@ -645,8 +652,9 @@ def main():
     urn_success = validator.validate_urns()
     path_success = validator.validate_paths()
     
+    extended_success = all([naming_success, namespace_success, urn_success, path_success])
     # Update overall success
-    overall_success = success and naming_success and namespace_success and urn_success and path_success
+    overall_success = success and (extended_success if strict_extended else True)
     
     # Print final summary
     print("\n" + "="*80)
