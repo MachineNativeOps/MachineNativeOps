@@ -231,6 +231,7 @@ git commit -m "Add new file"
 Controlplane 強制執行以下命名規範：
 
 ### 文件名
+
 - ✅ `my-file.yaml` (kebab-case)
 - ✅ `root.config.yaml` (單一擴展名)
 - ❌ `MyFile.yaml` (不是 kebab-case)
