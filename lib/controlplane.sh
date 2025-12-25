@@ -80,9 +80,9 @@ cp_get_yaml_value() {
         python3 -c "
 import yaml, sys
 try:
-    with open('$yaml_file', 'r') as f:
+    with open(sys.argv[1], 'r') as f:
         data = yaml.safe_load(f)
-    keys = '$key_path'.split('.')
+    keys = sys.argv[2].split('.')
     value = data
     for key in keys:
         if isinstance(value, dict):
@@ -90,10 +90,10 @@ try:
         else:
             value = None
             break
-    print(value if value is not None else '$default_value')
+    print(value if value is not None else sys.argv[3])
 except:
-    print('$default_value')
-"
+    print(sys.argv[3])
+" "$yaml_file" "$key_path" "$default_value"
         return 0
     fi
     
