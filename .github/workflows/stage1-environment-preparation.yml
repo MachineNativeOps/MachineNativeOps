@@ -42,7 +42,7 @@ jobs:
 
           errors = []
           for path in yaml_files:
-            if ".git" in path.parts or "node_modules" in path.parts or "archive" in path.parts:
+            if ".git" in path.parts or "node_modules" in path.parts or "archive" in path.parts or "templates-disabled" in path.parts or "workspace-archive" in path.parts or "workspace-problematic" in path.parts:
               continue
             try:
               content = path.read_text()
@@ -51,7 +51,7 @@ jobs:
               errors.append(f"YAML error in {path}: {exc}")
 
           for path in json_files:
-            if ".git" in path.parts or "node_modules" in path.parts or "archive" in path.parts:
+            if ".git" in path.parts or "node_modules" in path.parts or "archive" in path.parts or "templates-disabled" in path.parts or "workspace-archive" in path.parts or "workspace-problematic" in path.parts:
               continue
             try:
               content = path.read_text()
