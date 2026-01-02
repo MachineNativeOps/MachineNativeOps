@@ -15,7 +15,7 @@ metadata:
     machinenativeops.io/urn: urn:machinenativeops:agent:super:orchestrator:v2.0.0
     machinenativeops.io/description: SuperAgent 多代理協調器基線配置（MachineNativeOps Profile）
     machinenativeops.io/version: v2.0.0
-  spec:
+spec:
   documentMetadata:
     uniqueId: MNO-STAGE1-L2-SUPER-ORCHESTRATOR-BASELINE-v2.0.0
     actualFilename: mno-super-agent-baseline.yaml

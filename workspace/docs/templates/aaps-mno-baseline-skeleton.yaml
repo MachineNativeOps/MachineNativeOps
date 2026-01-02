@@ -114,15 +114,15 @@ spec:
   documentMetadata:
     actualFilename: mno-stage0-bootstrap-complete.yaml
     creationInfo:
-      createdBy: AapsBot
+      createdBy: MachineNativeOpsBot
       createdDate: '2025-01-09'
       targetSystem: MachineNativeOps
       timestamp: '2025-01-09T10:30:00Z'
-    description: Stage 0 完整自包含部署配置（AAPS Profile）
+    description: Stage 0 完整自包含部署配置（MachineNativeOps Profile）
     encoding: UTF-8
     formatType: mno_yaml
     parseMode: enhanced
-    uniqueId: AAPS-STAGE0-L0-BOOTSTRAP-BASELINE-v1.0.0
+    uniqueId: MNO-STAGE0-L0-BOOTSTRAP-BASELINE-v1.0.0
     version: v1.0.0
   enterpriseIntegration:
     apiGateway:
