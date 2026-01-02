@@ -218,9 +218,10 @@ def main() -> None:
         try:
             # 支援 IPv4 和 IPv6
             ipaddress.ip_address(host)
+            # Valid IP address - will show warning if not localhost
         except ValueError:
-            # 不是有效的 IP 地址，可能是主機名如 'localhost' 或 '0.0.0.0'
-            # 允許一些常見的特殊值
+            # 不是有效的 IP 地址，可能是主機名
+            # 允許常見的特殊值
             if host not in ('0.0.0.0', '::', 'localhost'):
                 print(f"⚠️  警告：無效的 DASHBOARD_HOST 值，使用預設值 {DEFAULT_HOST}")
                 host = DEFAULT_HOST
