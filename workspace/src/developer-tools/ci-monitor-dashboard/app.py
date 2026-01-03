@@ -139,20 +139,20 @@ class CIMonitorDashboard:
                 runs = workflow.get_runs(per_page=10)
                 
                 for run in runs:
-                    run_started_at = getattr(run, "run_started_at", None)
+                    run_started_at = run.run_started_at if hasattr(run, "run_started_at") else None
                     workflow_data = {
                         'id': run.id,
                         'name': workflow.name,
                         'status': run.status,
                         'conclusion': run.conclusion,
                         'created_at': run.created_at,
-                         'updated_at': run.updated_at,
-                         'duration': (run.updated_at - run.created_at).total_seconds() if run.updated_at and run.created_at else 0,
-                         'queue_time': (run_started_at - run.created_at).total_seconds() if run_started_at and run.created_at else 0,
-                         'head_branch': run.head_branch,
-                         'head_sha': run.head_sha,
-                         'triggered_by': run.triggered_by,
-                         'event': run.event
+                        'updated_at': run.updated_at,
+                        'duration': (run.updated_at - run.created_at).total_seconds() if run.updated_at and run.created_at else 0,
+                        'queue_time': (run_started_at - run.created_at).total_seconds() if run_started_at and run.created_at else 0,
+                        'head_branch': run.head_branch,
+                        'head_sha': run.head_sha,
+                        'triggered_by': run.triggered_by,
+                        'event': run.event
                      }
                     
                     # 獲取運行日誌和工件信息
@@ -484,8 +484,7 @@ class CIMonitorDashboard:
                 monthly_metrics = [m for m in metrics if m.timestamp > month_ago]
                 total_monthly = len(monthly_metrics)
                 avg_runtime_month = (sum(m.duration for m in monthly_metrics) / total_monthly) if total_monthly else 0
-                queue_times = [m.queue_time for m in monthly_metrics]
-                avg_queue_month = (sum(queue_times) / len(queue_times)) if queue_times else 0
+                avg_queue_month = (sum(m.queue_time for m in monthly_metrics) / total_monthly) if total_monthly else 0
                 failure_count_month = sum(1 for m in monthly_metrics if m.status == PipelineStatus.FAILURE)
                 failure_rate_month = (failure_count_month / total_monthly * 100) if total_monthly else 0
                 failed_usage_month = sum(m.duration for m in monthly_metrics if m.status == PipelineStatus.FAILURE)
