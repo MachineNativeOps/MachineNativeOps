@@ -299,9 +299,6 @@ class LongLineFixer(VulnerabilityFixer):
         elif indent_gcd > 8:
             # 如果 GCD 太大，可能是錯誤檢測，降級為常見值
             return ' ' * 4
-        elif indent_gcd == 1:
-            # GCD 為 1，使用默認值
-            return '  '
         else:
             # 其他情況（如 3, 5, 6, 7），四捨五入到最接近的常見值
             if indent_gcd >= 6:
@@ -357,7 +354,7 @@ class LongLineFixer(VulnerabilityFixer):
                     break
                 
                 fixed_lines.append(remaining[:split_pos + 1] + '\n')
-                remaining = '    ' + remaining[split_pos + 1:]
+                remaining = indent_str + file_indent + remaining[split_pos + 1:].lstrip()
             
             fixed_lines.append(remaining + '\n')
             
