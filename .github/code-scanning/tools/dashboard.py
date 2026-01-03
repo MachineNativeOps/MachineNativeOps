@@ -28,7 +28,13 @@ TEMPLATE_DIR.mkdir(parents=True, exist_ok=True)
 app = Flask(__name__, template_folder=str(TEMPLATE_DIR))
 
 # Flask security configuration
-app.config['SECRET_KEY'] = os.environ.get('FLASK_SECRET_KEY', os.urandom(32))
+flask_secret_key = os.environ.get('FLASK_SECRET_KEY')
+if not flask_secret_key:
+    raise RuntimeError(
+        "FLASK_SECRET_KEY environment variable is not set. "
+        "Please configure a persistent secret key for the dashboard."
+    )
+app.config['SECRET_KEY'] = flask_secret_key
 
 class DashboardData:
     """儀表板數據管理"""
