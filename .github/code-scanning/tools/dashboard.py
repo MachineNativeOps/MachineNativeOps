@@ -222,7 +222,7 @@ def main() -> None:
         except ValueError:
             # 不是有效的 IP 地址，可能是主機名
             # 允許常見的特殊值
-            if host not in ('0.0.0.0', '::', 'localhost'):
+            if host not in ('0.0.0.0', '::'):
                 print(f"⚠️  警告：無效的 DASHBOARD_HOST 值，使用預設值 {DEFAULT_HOST}")
                 host = DEFAULT_HOST
     
