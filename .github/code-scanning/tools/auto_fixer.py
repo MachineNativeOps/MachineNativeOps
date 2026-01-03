@@ -298,6 +298,21 @@ class LongLineFixer(VulnerabilityFixer):
     
     def get_description(self) -> str:
         return "修復過長的代碼行"
+    
+    def _detect_indentation(self, lines: List[str]) -> str:
+        """檢測文件的縮進風格（空格或制表符）"""
+        # 檢查文件中的縮進模式
+        space_count = 0
+        tab_count = 0
+        
+        for line in lines:
+            if line.startswith('    '):
+                space_count += 1
+            elif line.startswith('\t'):
+                tab_count += 1
+        
+        # 返回最常見的縮進風格
+        return '\t' if tab_count > space_count else '    '
 
 class AutoFixer:
     """
@@ -539,7 +554,7 @@ def main() -> None:
         # Note: 完整的干運行模式需要在各個修復器中添加dry_run參數支持
     else:
         fixer.auto_fix_all(scan_results)
-        print(json.dumps(report, ensure_ascii=False, indent=2))
+        print(json.dumps(fixer.fix_report, ensure_ascii=False, indent=2))
 
 if __name__ == "__main__":
     main()
