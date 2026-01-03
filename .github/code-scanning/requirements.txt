@@ -8,6 +8,9 @@ safety==2.3.5
 
 # Web 框架
 # Pinned to exact versions to prevent supply-chain risks from unvetted releases
+safety==3.2.11
+
+# Web 框架 - 固定版本以防供應鏈攻擊
 flask==3.0.3
 werkzeug==3.0.6
 
