@@ -78,19 +78,6 @@ class HardcodedPasswordFixer(VulnerabilityFixer):
                 return f"{lhs}os.environ.get('{env_name}')"
             
             fixed_line = re.sub(
-                r'((?P<var>\w*password\w*)\s*=\s*)["\'][^"\']+["\']',
-                _replace_password,
-                original_line,
-                flags=re.IGNORECASE
-                lhs = match.group('lhs')
-                var_name = match.group('var') or 'password'
-                # 將變量名轉換為環境變量名，例如 api_password -> API_PASSWORD
-                env_name = re.sub(r'\W+', '_', var_name).upper()
-                if not env_name:
-                    env_name = 'PASSWORD'
-                return f"{lhs}os.environ.get('{env_name}')"
-
-            fixed_line = re.sub(
                 r'(?P<lhs>\b(?P<var>\w*password\w*)\s*=\s*)["\'][^"\']+["\']',
                 _replace_password,
                 original_line
@@ -270,11 +257,12 @@ class LongLineFixer(VulnerabilityFixer):
                 continue
             
             spaces = len(line) - len(stripped)
-            if spaces % 8 == 0 and spaces > 0:
+            # 只統計精確為 2/4/8 個空格的縮進，避免將多級縮進誤判為基本縮進風格
+            if spaces == 8:
                 indent_counts[8] += 1
-            elif spaces % 4 == 0 and spaces > 0:
+            elif spaces == 4:
                 indent_counts[4] += 1
-            elif spaces % 2 == 0 and spaces > 0:
+            elif spaces == 2:
                 indent_counts[2] += 1
         
         # 返回最常用的縮進風格
@@ -304,7 +292,7 @@ class LongLineFixer(VulnerabilityFixer):
             if len(original_line) <= 120:
                 return False, original_line, "行長度已符合要求"
             
-            # 檢查是否為字符串字面量或註釋（不適合自動拆分）
+            # 檢查是否為註釋（不適合自動拆分）
             stripped = original_line.lstrip()
             if stripped.startswith('#'):
                 return False, original_line, "此行包含註釋，需要人工檢查"
