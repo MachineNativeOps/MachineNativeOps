@@ -203,7 +203,7 @@ class AdvancedCodeScanner:
                                 # 確保是字符串賦值（有引號），而不是變量引用或函數調用
                                 if '=' in line:
                                     # 查找等號後的內容
-                                    after_equals = line.split('=', 1)[1] if '=' in line else ''
+                                    after_equals = line.split('=', 1)[1]
                                     # 檢查是否為非空字符串字面量（不是 None, '', "", 變量名等）
                                     if any(pattern in after_equals for pattern in ['"', "'"]):
                                         # 排除明顯的佔位符和測試值
