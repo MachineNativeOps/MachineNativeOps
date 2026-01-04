@@ -73,13 +73,13 @@ def validate_namespace_syntax(namespace: str, spec: Dict[str, Any]) -> Tuple[Lis
     separator = hierarchy.get('separator', '.')
     
     # Allow hierarchical namespaces using the configured separator
+    hierarchical_pattern = None
     if separator:
-        hierarchical_pattern = rf"^[a-z][a-z0-9-]*(?:\{separator}[a-z][a-z0-9-]*)*$"
-    else:
-        hierarchical_pattern = pattern
+        sep_escaped = re.escape(separator)
+        hierarchical_pattern = rf"^[a-z][a-z0-9-]*(?:{sep_escaped}[a-z][a-z0-9-]*)*$"
     
     # Check pattern
-    effective_pattern = hierarchical_pattern or pattern
+    effective_pattern = hierarchical_pattern if hierarchical_pattern else pattern
     if not re.match(effective_pattern, namespace):
         errors.append(f"Namespace '{namespace}' must match pattern: {effective_pattern}")
     
