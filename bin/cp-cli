@@ -12,6 +12,13 @@ import argparse
 from pathlib import Path
 from typing import Dict, Any, List, Optional
 
+REPO_ROOT = Path(__file__).resolve().parent.parent
+LIB_PATH = REPO_ROOT / "lib"
+if str(LIB_PATH) not in sys.path:
+    sys.path.insert(0, str(LIB_PATH))
+
+from controlplane import validate_name as cp_validate_name
+
 class ControlplaneCLI:
     """Controlplane 命令行接口"""
     
@@ -125,16 +132,9 @@ class ControlplaneCLI:
     
     def check_name(self, name: str, type: str = "file") -> bool:
         """檢查名稱是否符合規範"""
-        rules = self.get_naming_rules()
-        
-        # 簡化的檢查邏輯
-        if type == "file":
-            # 檢查是否為 kebab-case
-            import re
-            pattern = r'^[a-z][a-z0-9-]*(\.[a-z0-9]+)*$'
-            return bool(re.match(pattern, name))
-        
-        return True
+        name_type = "file" if type == "module" else type
+        is_valid, _ = cp_validate_name(name, name_type)
+        return is_valid
     
     def create_overlay_extension(self, name: str, extends: str, config: Dict[str, Any]):
         """創建 overlay 擴展"""

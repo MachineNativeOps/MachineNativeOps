@@ -139,7 +139,7 @@ class ControlplaneConfig:
             if not _compile_regex(pattern).match(name):
                 return False, f"File name must be kebab-case (dots allowed as segments): {name}"
             
-            if re.search(r'\.(yaml|yml|json|toml|sh)\.txt$', name):
+            if _compile_regex(r'\.(yaml|yml|json|toml|sh)\.txt$').search(name):
                 return False, f"Forbidden double-extension wrapper (use a single real extension): {name}"
 
             dot_count = name.count('.')
@@ -151,12 +151,12 @@ class ControlplaneConfig:
         
         elif name_type == "directory":
             pattern = r'^[a-z][a-z0-9-]*$'
-            if not re.match(pattern, name):
+            if not _compile_regex(pattern).match(name):
                 return False, f"Directory name must be kebab-case: {name}"
         
         elif name_type == "namespace":
             pattern = r'^[a-z][a-z0-9-]*$'
-            if not re.match(pattern, name):
+            if not _compile_regex(pattern).match(name):
                 return False, f"Namespace must be kebab-case without dots: {name}"
             
             if '.' in name:
