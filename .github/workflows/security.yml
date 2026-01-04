@@ -77,7 +77,7 @@ jobs:
           regex="($(printf '%s|' "${patterns[@]}" | sed 's/|$//'))"
 
           found=0
-          if git grep -nE "$regex" -- . ':!node_modules' ':!.git' ':!*.md' ':!*.yml' ':!*.yaml' 2>/dev/null; then
+          if git grep -nE "$regex" -- . ':!node_modules' ':!.git' ':!.github/workflows/security.yml' 2>/dev/null; then
             echo "⚠️ Potential secrets detected. Please review the matches above."
             found=1
           fi
