@@ -72,13 +72,21 @@ jobs:
           )
           
           # Lower-confidence patterns that should warn but not fail
-          # Note: Using alternation for optional segments since ERE doesn't support non-capturing groups
+          # Note: Using separate patterns for clarity and maintainability
           warning_patterns=(
-            '[Aa][Ww][Ss][_-][Aa][Cc][Cc][Ee][Ss][Ss][_-][Kk][Ee][Yy][_-][Ii][Dd]|[Aa][Ww][Ss][_-][Kk][Ee][Yy][_-][Ii][Dd]|[Aa][Ww][Ss][_-][Aa][Cc][Cc][Ee][Ss][Ss][_-][Kk][Ee][Yy]|[Aa][Ww][Ss][_-][Kk][Ee][Yy]'
-            '[Aa][Ww][Ss][_-][Ss][Ee][Cc][Rr][Ee][Tt][_-][Aa][Cc][Cc][Ee][Ss][Ss][_-][Kk][Ee][Yy]|[Aa][Ww][Ss][_-][Ss][Ee][Cc][Rr][Ee][Tt][_-][Kk][Ee][Yy]'
+            # AWS access key variations
+            '[Aa][Ww][Ss][_-][Aa][Cc][Cc][Ee][Ss][Ss][_-][Kk][Ee][Yy][_-][Ii][Dd]'
+            '[Aa][Ww][Ss][_-][Kk][Ee][Yy][_-][Ii][Dd]'
+            '[Aa][Ww][Ss][_-][Aa][Cc][Cc][Ee][Ss][Ss][_-][Kk][Ee][Yy]'
+            '[Aa][Ww][Ss][_-][Kk][Ee][Yy]'
+            # AWS secret key variations
+            '[Aa][Ww][Ss][_-][Ss][Ee][Cc][Rr][Ee][Tt][_-][Aa][Cc][Cc][Ee][Ss][Ss][_-][Kk][Ee][Yy]'
+            '[Aa][Ww][Ss][_-][Ss][Ee][Cc][Rr][Ee][Tt][_-][Kk][Ee][Yy]'
+            # Generic key patterns
             '[Aa][Pp][Ii][_-][Kk][Ee][Yy]'
             '[Ss][Ee][Cc][Rr][Ee][Tt][_-][Kk][Ee][Yy]'
             '[Pp][Rr][Ii][Vv][Aa][Tt][Ee][_-][Kk][Ee][Yy]'
+            # Slack tokens
             'xox[baprs]-[A-Za-z0-9-]{10,}'
           )
           
