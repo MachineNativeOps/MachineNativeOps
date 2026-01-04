@@ -27,10 +27,6 @@
 - Harden CI/CD workflows (integration-deployment, phase1-integration, and any new delegations) to prevent costly reruns.
 - Keep TypeScript/ESLint configs consistent across `island-ai`, MCP servers, and future workspaces.
 - Document operational runbooks for non-CLI teammates (VS Code Tasks, UI walk-throughs).
-<<<<<<< HEAD
->>>>>>> origin/alert-autofix-37
-=======
->>>>>>> origin/copilot/sub-pr-402
 
 **Guardrails / Anti-Goals**
 
