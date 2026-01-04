@@ -14,8 +14,7 @@
     "docs:lint": "npm run docs:lint --workspace=workspace",
     "clean": "npm run clean --workspace=workspace && rm -rf node_modules",
     "cf:dev": "npm run cf:dev --workspace=workspace",
-    "cf:deploy": "npm run cf:deploy --workspace=workspace",
-    "postinstall": "cd workspace && npm install"
+    "cf:deploy": "npm run cf:deploy --workspace=workspace"
   },
   "repository": {
     "type": "git",

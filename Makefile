@@ -69,8 +69,6 @@ analyze-reports:
 # Root-Level Targets
 # ─────────────────────────────────────────────────────────────────────────────
 install:
-	@echo "📦 Installing root dependencies..."
+	@echo "📦 Installing dependencies (npm workspaces handles all subdirectories)..."
 	npm install
-	@echo "📦 Installing workspace dependencies..."
-	@$(MAKE) -C $(WORKSPACE) -f Makefile || cd $(WORKSPACE) && npm install
 	@echo "✅ Installation complete"

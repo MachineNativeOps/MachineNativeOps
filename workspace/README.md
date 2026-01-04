@@ -80,13 +80,14 @@ npm run docs:lint --workspace=workspace
 
 ## Package Management
 
-This workspace uses npm workspaces. The main `package.json` in this directory defines workspaces for:
+This workspace uses npm workspaces. See `package.json` in this directory for the complete list of workspace packages, which includes:
 
-- `src/mcp-servers`
-- `src/core/contract_service/contracts-L1/contracts`
-- `src/core/advisory-database`
-- `src/apps/web`
-- `src/ai/src/ai`
+- MCP server implementations (`src/mcp-servers`)
+- Core contract services (`src/core/contract_service/contracts-L1/contracts`)
+- Advisory database (`src/core/advisory-database`)
+- Web applications (`src/apps/web`)
+- AI components (`src/ai/src/ai`)
+- Other components as defined in `package.json`
 
 ## Guidelines
 
