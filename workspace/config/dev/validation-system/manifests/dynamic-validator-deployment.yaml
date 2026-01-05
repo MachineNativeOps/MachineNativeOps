@@ -6,7 +6,7 @@ metadata:
   labels:
     app: validation-system
     component: dynamic-validator
-    version: v8.4.1-quantum
+    version: v1.0.0
 spec:
   replicas: 3
   selector:
@@ -21,7 +21,7 @@ spec:
     metadata:
       labels:
         app: dynamic-validator
-        version: v8.4.1-quantum
+        version: v1.0.0
       annotations:
         prometheus.io/scrape: "true"
         prometheus.io/port: "8080"
@@ -34,7 +34,7 @@ spec:
         fsGroup: 1000
       containers:
         - name: validator
-          image: ghcr.io/machinenativeops/dynamic-validator:v8.4.1-quantum
+          image: ghcr.io/machinenativeops/dynamic-validator:v1.0.0
           imagePullPolicy: IfNotPresent
           ports:
             - name: http

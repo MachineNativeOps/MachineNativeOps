@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 緊急模式管理器 - Emergency Mode Manager
-MachineNativeOps 驗證系統 v8.4.1-quantum
+MachineNativeOps 驗證系統 v1.0.0
 
 此模組管理驗證系統的緊急降級和恢復流程。
 """
@@ -374,7 +374,7 @@ def main():
     args = parser.parse_args()
     
     print("=" * 70)
-    print("MachineNativeOps 緊急模式管理器 v8.4.1-quantum")
+    print("MachineNativeOps 緊急模式管理器 v1.0.0")
     print("=" * 70)
     
     manager = EmergencyModeManager()

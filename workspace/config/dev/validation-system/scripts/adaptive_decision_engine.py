@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 """
 自適應決策引擎 - Adaptive Decision Engine
-MachineNativeOps 驗證系統 v8.4.1-quantum
+MachineNativeOps 驗證系統 v1.0.0
 
 此模組實現量子-經典混合驗證的決策邏輯，支持動態參數調整。
 """
 
+import copy
 import json
 import logging
 from dataclasses import dataclass, field
@@ -156,7 +157,8 @@ class DynamicPolicyController:
         # 低相干性情況
         if coherence_time < 0.78:
             logger.warning("Low coherence time detected, triggering recalibration mode")
-            params = self.presets["standard_v3"]
+            # Create a copy to avoid mutating shared preset
+            params = copy.deepcopy(self.presets["standard_v3"])
             params.classic_weight += 0.12
             params.quantum_weight -= 0.12
             return params
@@ -458,7 +460,7 @@ def main():
     args = parser.parse_args()
     
     print("=" * 70)
-    print("MachineNativeOps 自適應決策引擎 v8.4.1-quantum")
+    print("MachineNativeOps 自適應決策引擎 v1.0.0")
     print("=" * 70)
     
     result = run_demo_decision()

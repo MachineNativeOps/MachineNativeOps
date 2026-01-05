@@ -3,7 +3,7 @@ kind: HybridWeightsConfig
 metadata:
   name: hybrid-weights-config
   namespace: axiom-verification
-  version: v8.4.1-quantum
+  version: v1.0.0
   labels:
     app: validation-system
     component: hybrid-decider

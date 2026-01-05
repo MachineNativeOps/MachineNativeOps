@@ -6,7 +6,7 @@ metadata:
   labels:
     app: validation-system
     component: quantum-scanner
-    version: v8.4.1-quantum
+    version: v1.0.0
 spec:
   selector:
     matchLabels:
@@ -19,7 +19,7 @@ spec:
     metadata:
       labels:
         app: quantum-scanner
-        version: v8.4.1-quantum
+        version: v1.0.0
       annotations:
         prometheus.io/scrape: "true"
         prometheus.io/port: "8080"
@@ -37,7 +37,7 @@ spec:
         runAsUser: 1000
       containers:
         - name: scanner
-          image: ghcr.io/machinenativeops/quantum-scanner:v8.4.1-quantum
+          image: ghcr.io/machinenativeops/quantum-scanner:v1.0.0
           imagePullPolicy: IfNotPresent
           ports:
             - name: http

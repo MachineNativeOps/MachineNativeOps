@@ -3,7 +3,7 @@ kind: DynamicAdjustmentPolicy
 metadata:
   name: dynamic-adjustment-rules
   namespace: axiom-verification
-  version: v8.4.1-quantum
+  version: v1.0.0
   labels:
     app: validation-system
     component: dynamic-controller

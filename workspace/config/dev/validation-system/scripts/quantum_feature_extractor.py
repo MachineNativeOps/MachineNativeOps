@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 量子特徵提取器 - Quantum Feature Extractor
-MachineNativeOps 驗證系統 v8.4.1-quantum
+MachineNativeOps 驗證系統 v1.0.0
 
 此模組負責從文檔中提取量子增強特徵，用於混合驗證決策。
 """
@@ -9,6 +9,7 @@ MachineNativeOps 驗證系統 v8.4.1-quantum
 import hashlib
 import json
 import logging
+import random
 from dataclasses import dataclass, field
 from datetime import datetime
 from pathlib import Path
@@ -65,7 +66,6 @@ class QuantumBackendSimulator:
         
     def get_coherence(self) -> float:
         """獲取當前相干性"""
-        import random
         # 模擬量子相干性波動
         base = self._calibration_state
         variance = random.uniform(-0.008, 0.008)
@@ -73,18 +73,22 @@ class QuantumBackendSimulator:
     
     def get_entanglement(self) -> float:
         """獲取糾纏度量"""
-        import random
         return random.uniform(0.85, 0.99)
     
     def get_fidelity(self) -> float:
         """獲取保真度"""
-        import random
         return random.uniform(0.95, 0.9999)
     
     def get_noise_level(self) -> float:
         """獲取噪聲水平"""
-        import random
         return random.uniform(0.05, 0.15)
+    
+    def get_coherence_time(self) -> float:
+        """獲取相干時間（微秒）"""
+        # 模擬量子相干時間波動，基於校準狀態
+        base = self._calibration_state
+        variance = random.uniform(-0.015, 0.015)
+        return max(0.0, min(1.0, base + variance))
     
     def execute_feature_extraction(
         self, 
@@ -100,7 +104,7 @@ class QuantumBackendSimulator:
             entanglement=self.get_entanglement(),
             fidelity=self.get_fidelity(),
             noise_level=self.get_noise_level(),
-            coherence_time=self.get_coherence()
+            coherence_time=self.get_coherence_time()
         )
 
 
@@ -295,7 +299,7 @@ def main():
     args = parser.parse_args()
     
     print("=" * 70)
-    print("MachineNativeOps 量子特徵提取器 v8.4.1-quantum")
+    print("MachineNativeOps 量子特徵提取器 v1.0.0")
     print("=" * 70)
     
     if args.document:

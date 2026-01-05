@@ -3,7 +3,7 @@ kind: QuantumValidationPolicy
 metadata:
   name: quantum-validation-policy
   namespace: axiom-verification
-  version: v8.4.1-quantum
+  version: v1.0.0
   labels:
     app: validation-system
     component: quantum-policy
