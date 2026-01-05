@@ -30,7 +30,6 @@ class AlertState(Enum):
     RESOLVED = "resolved"
 
 
-logger = logging.getLogger(__name__)
 class AlertStatus(Enum):
     """Alert status."""
     FIRING = "firing"
