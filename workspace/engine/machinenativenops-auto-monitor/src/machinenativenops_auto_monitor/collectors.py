@@ -10,7 +10,6 @@ import os
 import platform
 import psutil
 import requests
-import subprocess
 import time
 from abc import ABC, abstractmethod
 from typing import Any, Dict, List, Optional
