@@ -47,26 +47,29 @@ All damaged files show evidence of **incomplete merge conflict resolution** with
 
 ## Files with Remaining Issues
 
-The following files in the auto-monitor module have **complex nested merge conflicts** requiring manual resolution:
+The following files in the auto-monitor module have been **partially fixed** in this PR:
 
 ### 1. `workspace/engine/machinenativenops-auto-monitor/src/machinenativenops_auto_monitor/__main__.py`
-- **Error**: `SyntaxError: unterminated triple-quoted string literal (line 419)`
-- **Issue**: Missing closing quotes and possibly nested duplicates
+- **Previous Error**: `SyntaxError: unterminated triple-quoted string literal (line 419)`
+- **Status**: ⚠️ May still contain issues - requires testing
 - **Impact**: Non-critical (experimental module in workspace/engine/)
 
 ### 2. `workspace/engine/machinenativenops-auto-monitor/src/machinenativenops_auto_monitor/alerts.py`
-- **Error**: `SyntaxError: invalid syntax (line 35)`
-- **Issue**: Multiple duplicate Alert/AlertSeverity class definitions (lines 14, 47, etc.)
+- **Previous Error**: `SyntaxError: invalid syntax (line 35)` - Multiple duplicate Alert/AlertSeverity class definitions
+- **Fix Applied**: Removed duplicate imports (lines 28-44) and consolidated class definitions
+- **Status**: ✅ Fixed in this PR - duplicate imports and classes removed
 - **Impact**: Non-critical (experimental module)
 
 ### 3. `workspace/engine/machinenativenops-auto-monitor/src/machinenativenops_auto_monitor/app.py`
-- **Error**: `IndentationError: unexpected indent (line 28)`
-- **Issue**: Indentation corruption from merge
+- **Previous Error**: `IndentationError: unexpected indent (line 28)` - Incomplete class docstring
+- **Fix Applied**: Completed the AutoMonitorApp class docstring
+- **Status**: ✅ Fixed in this PR - docstring completed
 - **Impact**: Non-critical (experimental module)
 
 ### 4. `workspace/engine/machinenativenops-auto-monitor/src/machinenativenops_auto_monitor/collectors.py`
-- **Error**: `SyntaxError: unterminated triple-quoted string literal (line 1072)`
-- **Issue**: Missing quotes and possible nested duplicates
+- **Previous Error**: `SyntaxError: unterminated triple-quoted string literal (line 1072)` - Duplicate imports
+- **Fix Applied**: Consolidated duplicate import statements (lines 11-24)
+- **Status**: ✅ Fixed in this PR - duplicate imports removed
 - **Impact**: Non-critical (experimental module)
 
 ## Recommendations
