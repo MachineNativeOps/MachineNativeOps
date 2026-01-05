@@ -84,21 +84,16 @@ npm run docs:lint
 
 ## Package Management
 
-This directory contains an npm workspace with multiple packages. The workspace packages are defined in **two places**:
+This directory is an npm workspace. The workspace packages include:
 
-1. **Root-level (`/package.json`)**: Points to actual workspace packages under `workspace/src/` directories
-2. **This directory (`workspace/package.json`)**: Contains its own nested workspace definitions
+- MCP server implementations (`src/mcp-servers`)
+- Core contract services (`src/core/contract_service/contracts-L1/contracts`)
+- Advisory database (`src/core/advisory-database`)
+- Web applications (`src/apps/web`)
+- AI components (`src/ai`)
 
-The actual workspace packages (paths relative to repository root) include:
+See `package.json` in this directory for the complete and authoritative list of workspace packages.
 
-- MCP server implementations (`workspace/src/mcp-servers`)
-- Core contract services (`workspace/src/core/contract_service/contracts-L1/contracts`)
-- Advisory database (`workspace/src/core/advisory-database`)
-- Web applications (`workspace/src/apps/web`)
-- AI components (`workspace/src/ai/src/ai`)
-- Other components as defined in `/package.json` and `workspace/package.json`
-
-For the authoritative list of all workspace packages, see the root `/package.json` file.
 ## Guidelines
 
 Please refer to:
