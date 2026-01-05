@@ -808,7 +808,7 @@ phase1() {
         
         # 重命名
         mv "workspace/src/代碼聖殿" "workspace/src/sacred-modules"
-        log_info "✅ 已重命名：code-sanctuary-tutorials → sacred-modules"
+        log_info "✅ 已重命名：代码圣殿 → sacred-modules"
         
         # 更新引用
         log_info "更新引用..."

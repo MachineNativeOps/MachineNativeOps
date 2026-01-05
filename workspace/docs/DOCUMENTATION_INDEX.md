@@ -12,7 +12,7 @@
 
 1. [快速導覽](#-快速導覽)
 2. [專案根目錄文檔](#-專案根目錄文檔)
-3. [示例代码中心](#-示例代码中心-srccode-sanctuary-tutorials) ⭐ **NEW**
+3. [示例代码中心](#-示例代码中心-src代码圣殿) ⭐ **NEW**
 4. [架構設計文檔](#-架構設計文檔-docsarchitecture)
 5. [自動化系統文檔](#-自動化系統文檔-automation)
 6. [核心平台文檔](#-核心平台文檔-core)
@@ -81,7 +81,7 @@
 
 ---
 
-## 🏛️ 示例代码中心 (`examples/code-sanctuary-tutorials/`) ⭐ **NEW**
+## 🏛️ 示例代码中心 (`src/代码圣殿/`) ⭐ **NEW**
 
 **示例代码中心** - 提供丰富的代码示例、最佳实践和配置模板，帮助开发者快速上手系统功能。
 
@@ -96,33 +96,33 @@
 
 | 类别 | 路径 | 难度 | 说明 |
 |------|------|------|------|
-| **基础示例** | [examples/code-sanctuary-tutorials/基础示例/](../examples/code-sanctuary-tutorials/基础示例/README.md) | ⭐ 入门 | Hello World、核心概念、常见模式 |
-| **集成示例** | [examples/code-sanctuary-tutorials/集成示例/](../examples/code-sanctuary-tutorials/集成示例/README.md) | ⭐⭐ 中级 | 数据库、API、消息队列、云服务集成 |
-| **配置示例** | [examples/code-sanctuary-tutorials/配置示例/](../examples/code-sanctuary-tutorials/配置示例/README.md) | ⭐⭐ 中级 | 环境配置、安全配置、性能配置、监控配置 |
-| **最佳实践** | [examples/code-sanctuary-tutorials/最佳实践/](../examples/code-sanctuary-tutorials/最佳实践/README.md) | ⭐⭐⭐ 高级 | 编码标准、性能优化、安全实践、部署实践 |
-| **故障排除** | [examples/code-sanctuary-tutorials/故障排除/](../examples/code-sanctuary-tutorials/故障排除/README.md) | ⭐⭐ 中级 | 常见错误、性能问题、集成问题解决方案 |
-| **高级用法** | [examples/code-sanctuary-tutorials/高级用法/](../examples/code-sanctuary-tutorials/高级用法/README.md) | ⭐⭐⭐⭐ 专家 | 自定义扩展、分布式工作流、优化技术 |
+| **基础示例** | [src/代码圣殿/基础示例/](../src/代码圣殿/基础示例/README.md) | ⭐ 入门 | Hello World、核心概念、常见模式 |
+| **集成示例** | [src/代码圣殿/集成示例/](../src/代码圣殿/集成示例/README.md) | ⭐⭐ 中级 | 数据库、API、消息队列、云服务集成 |
+| **配置示例** | [src/代码圣殿/配置示例/](../src/代码圣殿/配置示例/README.md) | ⭐⭐ 中级 | 环境配置、安全配置、性能配置、监控配置 |
+| **最佳实践** | [src/代码圣殿/最佳实践/](../src/代码圣殿/最佳实践/README.md) | ⭐⭐⭐ 高级 | 编码标准、性能优化、安全实践、部署实践 |
+| **故障排除** | [src/代码圣殿/故障排除/](../src/代码圣殿/故障排除/README.md) | ⭐⭐ 中级 | 常见错误、性能问题、集成问题解决方案 |
+| **高级用法** | [src/代码圣殿/高级用法/](../src/代码圣殿/高级用法/README.md) | ⭐⭐⭐⭐ 专家 | 自定义扩展、分布式工作流、优化技术 |
 
 ### 配置文件
 
 | 配置文件 | 说明 |
 |---------|------|
-| [example-code-config.yaml](../examples/code-sanctuary-tutorials/config/example-code-config.yaml) | 示例代码生成和验证配置 |
-| [example-validation-config.yaml](../examples/code-sanctuary-tutorials/config/example-validation-config.yaml) | 示例验证规则和测试策略 |
-| [example-environment-config.yaml](../examples/code-sanctuary-tutorials/config/example-environment-config.yaml) | 示例运行环境配置 |
+| [example-code-config.yaml](../src/代码圣殿/config/example-code-config.yaml) | 示例代码生成和验证配置 |
+| [example-validation-config.yaml](../src/代码圣殿/config/example-validation-config.yaml) | 示例验证规则和测试策略 |
+| [example-environment-config.yaml](../src/代码圣殿/config/example-environment-config.yaml) | 示例运行环境配置 |
 
 ### 辅助脚本
 
 | 脚本 | 用途 |
 |------|------|
-| [create-example.sh](../examples/code-sanctuary-tutorials/scripts/create-example.sh) | 使用模板快速创建新示例 |
-| [validate-examples.sh](../examples/code-sanctuary-tutorials/scripts/validate-examples.sh) | 验证示例代码的正确性 |
+| [create-example.sh](../src/代码圣殿/scripts/create-example.sh) | 使用模板快速创建新示例 |
+| [validate-examples.sh](../src/代码圣殿/scripts/validate-examples.sh) | 验证示例代码的正确性 |
 
 ### 快速开始
 
 ```bash
 # 查看所有示例
-cd examples/code-sanctuary-tutorials
+cd src/代码圣殿
 ls -la
 
 # 创建新示例

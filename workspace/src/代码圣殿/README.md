@@ -2,7 +2,7 @@
 
 > **版本**: 1.0.0  
 > **维护者**: SynergyMesh Development Team  
-> **路径**: `examples/code-sanctuary-tutorials/`
+> **路径**: `src/代码圣殿/`
 
 ---
 
@@ -24,7 +24,7 @@
 ### 示例架构层次
 
 ```
-示例代码中心 (examples/code-sanctuary-tutorials/)
+示例代码中心 (src/代码圣殿/)
 ├── 基础示例 (Basic Examples)          # 基础使用示例
 ├── 集成示例 (Integration Examples)     # 外部系统集成
 ├── 配置示例 (Configuration Examples)   # 配置文件示例
@@ -122,7 +122,7 @@
 ```bash
 # 克隆仓库
 git clone https://github.com/MachineNativeOps/MachineNativeOps.git
-cd MachineNativeOps/workspace/examples/code-sanctuary-tutorials
+cd MachineNativeOps/src/代码圣殿
 
 # 安装依赖
 npm install
