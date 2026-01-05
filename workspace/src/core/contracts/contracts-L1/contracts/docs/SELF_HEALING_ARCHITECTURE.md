@@ -25,7 +25,6 @@ Through fallback, normalize, and DAG reconstruction, missing nodes or truncated 
 **Purpose**: Event-driven notification system for path validation lifecycle
 
 **Events**:
-
 - `VALIDATION_FAILED`: Path validation failed
 - `STRUCTURE_MISSING`: Directory/file structure is missing
 - `STRUCTURE_RECOVERED`: Structure successfully recovered
@@ -35,7 +34,6 @@ Through fallback, normalize, and DAG reconstruction, missing nodes or truncated 
 - `SNAPSHOT_CREATED`: Structure snapshot created
 
 **Key Interfaces**:
-
 ```typescript
 interface PathValidationEvent {
   type: PathValidationEventType;
@@ -58,14 +56,12 @@ interface StructureSnapshot {
 **Purpose**: Extends PathValidator with automatic recovery capabilities
 
 **Features**:
-
 1. **Structure Snapshots**: Maintains periodic snapshots of valid path states
 2. **Automatic Recovery**: Attempts to recover missing structures on validation failure
 3. **DAG Tracking**: Tracks path dependencies in a directed acyclic graph
 4. **Event-Driven**: Emits and responds to validation events
 
 **Configuration**:
-
 ```typescript
 interface SelfHealingConfig {
   enableAutoRecovery?: boolean;     // Default: true
@@ -77,7 +73,6 @@ interface SelfHealingConfig {
 ```
 
 **Recovery Flow**:
-
 1. Validation attempt fails (ENOENT, path not found)
 2. Emit `STRUCTURE_MISSING` event
 3. Check current snapshot for path mapping
@@ -91,14 +86,12 @@ interface SelfHealingConfig {
 **Purpose**: Connect self-healing to governance policies and monitoring
 
 **Capabilities**:
-
 1. **Metrics Collection**: Track validation failures, recoveries, success rates
 2. **Attestation**: Create SLSA-compliant attestations for self-healing events
 3. **Policy Compliance**: Check events against governance policies
 4. **Reporting**: Export governance reports with compliance status
 
 **Metrics**:
-
 ```typescript
 interface SelfHealingMetrics {
   totalValidations: number;
@@ -112,7 +105,6 @@ interface SelfHealingMetrics {
 ```
 
 **Policy Checks**:
-
 - Excessive recovery attempts (>5 in 1 minute)
 - Boundary violations
 - Recovery failures
@@ -120,7 +112,6 @@ interface SelfHealingMetrics {
 ### Provenance Service Integration (`src/services/provenance.ts`)
 
 **Updates**:
-
 1. Import self-healing components
 2. Use `SelfHealingPathValidator` by default
 3. Emit fallback events in catch block
@@ -200,10 +191,10 @@ interface SelfHealingMetrics {
 ## Usage Examples
 
 > **💡 Executable Examples Available!**
->
+> 
 > All examples below are available as runnable TypeScript files in `examples/self-healing/`.
 > Run them with: `npm run examples:self-healing` or individually with `npm run example:basic`, etc.
->
+> 
 > See [Examples README](../examples/self-healing/README.md) for details.
 
 ### Basic Usage with Self-Healing
@@ -226,7 +217,6 @@ try {
 ```
 
 **Run this example:**
-
 ```bash
 npm run example:basic
 ```
@@ -252,7 +242,6 @@ const service = new ProvenanceService(validator);
 ```
 
 **Run this example:**
-
 ```bash
 npm run example:config
 ```
@@ -277,7 +266,6 @@ console.log(report);
 ```
 
 **Run this example:**
-
 ```bash
 npm run example:monitoring
 ```
@@ -303,7 +291,6 @@ pathValidationEvents.on(PathValidationEventType.FALLBACK_TRIGGERED, (event) => {
 ```
 
 **Run this example:**
-
 ```bash
 npm run example:events
 ```
@@ -315,7 +302,6 @@ npm run example:events
 A comprehensive demonstration showing all features integrated together with real file operations.
 
 **Run this example:**
-
 ```bash
 npm run example:demo
 ```
@@ -356,14 +342,12 @@ jobs:
 ## Governance Policy Integration
 
 Self-healing events are checked against governance policies defined in:
-
 - `governance/40-self-healing/policies/self-healing-policies.yaml`
 - `governance/40-self-healing/config/self-healing-framework.yaml`
 
 ### Policy Violations
 
 The system tracks and reports:
-
 1. **Excessive recovery attempts**: More than 5 attempts in 1 minute for same path
 2. **Boundary violations**: Attempts to access paths outside safe boundaries
 3. **Recovery failures**: Failed recovery attempts that exceed threshold
@@ -371,23 +355,18 @@ The system tracks and reports:
 ## Benefits
 
 ### 1. **避免人為干預 (Avoid Manual Intervention)**
-
 System self-adjusts without human intervention for common path issues.
 
 ### 2. **一致性 (Consistency)**
-
 Recovered structures adhere to original governance rules, preventing semantic drift.
 
 ### 3. **韌性 (Resilience)**
-
 System doesn't crash on conflicts/corruption, maintains operation through self-repair.
 
 ### 4. **可追溯性 (Traceability)**
-
 All recovery events are attested and tracked for audit purposes.
 
 ### 5. **治理閉環 (Governance Closed Loop)**
-
 Self-healing is integrated into governance framework, not separate concern.
 
 ## Future Enhancements

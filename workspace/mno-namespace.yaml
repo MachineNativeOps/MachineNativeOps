@@ -537,20 +537,14 @@ validation:
 # ============================================================================
 # Migration Support (遷移支援)
 # ============================================================================
-  migration:
+migration:
   legacy_namespaces:
     - "machine-native-ops-aaps"
-    - "machine-native-ops"
-    - "machinenativeops"
-    - "machine-native-ops-apps"
-    - "apps"
+    - "aaps"
     
   mapping:
     "machine-native-ops-aaps": "machinenativeops"
-    "machine-native-ops": "machinenativeops"
-    "machinenativeops": "machinenativeops"
-    "machine-native-ops-apps": "machinenativeops"
-    "apps": "machinenativeops"
+    "aaps": "machinenativeops"
     
   deprecation_date: "2026-06-01"
   migration_guide: "docs/migration/namespace-migration.md"

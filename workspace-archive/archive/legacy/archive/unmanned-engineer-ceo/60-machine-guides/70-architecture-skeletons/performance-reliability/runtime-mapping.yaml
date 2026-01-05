@@ -1,7 +1,0 @@
-mapping:
-  capacity_planning: config/capacity-plan.yaml
-  disaster_recovery: infrastructure/disaster-recovery/
-  performance_benchmarks: tests/performance/
-  sla_definitions: config/sla-definitions.yaml
-skeleton_id: performance-reliability
-version: 1.0.0

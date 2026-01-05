@@ -54,7 +54,6 @@ python -m src.core.run-debug.cli repl
 ```
 
 在 REPL 中：
-
 ```
 (mno-debug) start Python: Debug Current File
 (mno-debug) break src/main.py 10
@@ -93,7 +92,6 @@ asyncio.run(main())
 ### 場景 1：Python 應用程式偵錯
 
 **launch.json**
-
 ```json
 {
   "name": "Python: Flask App",
@@ -110,7 +108,6 @@ asyncio.run(main())
 ```
 
 **使用方式**
-
 ```bash
 # 終端機
 mno debug start --config "Python: Flask App"
@@ -166,7 +163,6 @@ mno debug breakpoint src/main.py 20 --log "Value of x: {x}"
 ### 多語言支援
 
 **Node.js 偵錯**
-
 ```json
 {
   "name": "Node: Debug Server",
@@ -178,7 +174,6 @@ mno debug breakpoint src/main.py 20 --log "Value of x: {x}"
 ```
 
 **複合配置（同時偵錯前後端）**
-
 ```json
 {
   "name": "Full Stack",
@@ -226,7 +221,6 @@ engine.register_adapter("mylang", MyLanguageAdapter())
 ### 問題 1：無法連接到偵錯器
 
 **解決方案**：
-
 ```bash
 # 檢查 debugpy 是否已安裝
 pip install debugpy
@@ -238,7 +232,6 @@ lsof -i :5678
 ### 問題 2：斷點未觸發
 
 **解決方案**：
-
 - 確認檔案路徑正確
 - 檢查程式碼是否被執行到
 - 確認斷點已驗證（verified）
@@ -246,7 +239,6 @@ lsof -i :5678
 ### 問題 3：變數顯示不正確
 
 **解決方案**：
-
 - 確認程式在斷點處暫停
 - 檢查變數作用域
 - 使用 `eval` 命令手動評估

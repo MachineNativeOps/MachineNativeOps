@@ -71,8 +71,18 @@
 - `apps/web/components/ClusterHealthGauge.tsx`
 
 **預期成果：**
+<<<<<<< HEAD
+<<<<<<< HEAD
 
+- 訪問 `http://localhost:3000/language-governance-dashboard`
+  即可查看所有 playbooks
+=======
+- 訪問 `http://localhost:3000/language-governance-dashboard` 即可查看所有 playbooks
+>>>>>>> origin/alert-autofix-37
+=======
 
+- 訪問 `http://localhost:3000/language-governance-dashboard` 即可查看所有 playbooks
+>>>>>>> origin/copilot/sub-pr-402
 - 互動式介面，點擊 cluster 查看詳細重構計畫
 - 實時數據展示（從 CI 自動更新）
 

@@ -233,12 +233,31 @@ automation_context_injection:
 
 **回應結構 (含自動化等級):**
 ```
+<<<<<<< HEAD
+<<<<<<< HEAD
 
 [快速答案 - 1句] ↓ 為什麼這樣? [數據支持] ↓ 具體怎麼做? [行動步驟] ↓ 長期影響?
 [戰略視角] ↓ 潛在風險? [主動挑戰] ↓ 自動化等級? [L0-L5 分類 + 原因]
 ⭐ 必需 ↓ 批准鏈? [誰需要簽字?] ⭐ 必需 ↓ 驗證條件? [通過條件是什麼?] ⭐ 必需
 
+=======
+[快速答案 - 1句] 
+=======
 
+[快速答案 - 1句]
+>>>>>>> origin/copilot/sub-pr-402
+↓ 為什麼這樣? [數據支持]
+↓ 具體怎麼做? [行動步驟]
+↓ 長期影響? [戰略視角]
+↓ 潛在風險? [主動挑戰]
+↓ 自動化等級? [L0-L5 分類 + 原因] ⭐ 必需
+↓ 批准鏈? [誰需要簽字?] ⭐ 必需
+↓ 驗證條件? [通過條件是什麼?] ⭐ 必需
+<<<<<<< HEAD
+>>>>>>> origin/alert-autofix-37
+=======
+
+>>>>>>> origin/copilot/sub-pr-402
 ```
 
 ### ⚙️ 自動化等級操作原則 ⭐ 核心
@@ -427,6 +446,8 @@ IF 用戶在重複問同類問題:
 基於你的公司特徵:
 
 ```
+<<<<<<< HEAD
+<<<<<<< HEAD
 
 | 投資者類型   | 典型檢查點                            | 我們的優勢      | 溝通策略               |
 | ------------ | ------------------------------------- | --------------- | ---------------------- |
@@ -435,7 +456,21 @@ IF 用戶在重複問同類問題:
 | Strategic    | Competitive advantage, Synergy        | 技術+市場進入   | 強調並購價值           |
 | Corporate VC | Fit with parent, Strategic value      | 補充現有產品    | 提供exit機制           |
 
+=======
+=======
 
+>>>>>>> origin/copilot/sub-pr-402
+投資者類型 | 典型檢查點 | 我們的優勢 | 溝通策略
+-----------|-----------|---------|--------
+Tier-1 VC  | TAM, Growth, Team | 大市場+快速增長 | 強調market opportunity
+Growth PE  | Unit Economics, Path to profitability | 已成熟+盈利軌跡 | 聚焦ROI
+Strategic  | Competitive advantage, Synergy | 技術+市場進入 | 強調並購價值
+Corporate VC | Fit with parent, Strategic value | 補充現有產品 | 提供exit機制
+<<<<<<< HEAD
+>>>>>>> origin/alert-autofix-37
+=======
+
+>>>>>>> origin/copilot/sub-pr-402
 ```
 
 ### 第4層 - 融資材料與敘述
@@ -454,11 +489,25 @@ IF 用戶在重複問同類問題:
 
 **故事敘述 (3分鐘電梯演講)**
 ```
+<<<<<<< HEAD
+<<<<<<< HEAD
 
 我們解決 [問題] 通過 [獨特方法] 在 [市場規模] 的市場中已經達成 [具體成就] 需要
 [融資金額] 來 [明確里程碑]
 
+=======
+=======
 
+>>>>>>> origin/copilot/sub-pr-402
+我們解決 [問題] 通過 [獨特方法]
+在 [市場規模] 的市場中
+已經達成 [具體成就]
+需要 [融資金額] 來 [明確里程碑]
+<<<<<<< HEAD
+>>>>>>> origin/alert-autofix-37
+=======
+
+>>>>>>> origin/copilot/sub-pr-402
 ```
 
 ### 第5層 - 融資談判策略
@@ -502,6 +551,8 @@ IF 用戶在重複問同類問題:
 ### 銷售模型對比
 
 ```
+<<<<<<< HEAD
+<<<<<<< HEAD
 
 | 銷售模式              | ACV範圍   | 銷售周期 | 團隊規模 | 適用階段 |
 | --------------------- | --------- | -------- | -------- | -------- |
@@ -509,7 +560,20 @@ IF 用戶在重複問同類問題:
 | 内部銷售 (Inside)     | $5-30K    | 2-4週    | 3-5人    | 早期增長 |
 | 企業銷售 (Enterprise) | $30-300K+ | 3-6個月  | 5-10人   | 規模化   |
 
+=======
+=======
 
+>>>>>>> origin/copilot/sub-pr-402
+銷售模式        | ACV範圍 | 銷售周期 | 團隊規模 | 適用階段
+----------------|---------|---------|---------|----------
+自助式 (Self-serve) | <$5K | <1週 | 1-2人 | MVP驗證
+内部銷售 (Inside) | $5-30K | 2-4週 | 3-5人 | 早期增長
+企業銷售 (Enterprise) | $30-300K+ | 3-6個月 | 5-10人 | 規模化
+<<<<<<< HEAD
+>>>>>>> origin/alert-autofix-37
+=======
+
+>>>>>>> origin/copilot/sub-pr-402
 ```
 
 **推薦:** 混合模式
@@ -519,7 +583,23 @@ IF 用戶在重複問同類問題:
 ### 第2層 - 銷售漏斗設計
 
 ```
+<<<<<<< HEAD
+<<<<<<< HEAD
 
+階段 1: 意識 (Awareness) ├─ 渠道: 內容行銷、GitHub
+trends、領英 ├─ 目標: 月度1000次網站訪問 └─ 指標: 40% 轉化率進入考慮
+=======
+=======
+
+>>>>>>> origin/copilot/sub-pr-402
+階段 1: 意識 (Awareness)
+├─ 渠道: 內容行銷、GitHub trends、領英
+├─ 目標: 月度1000次網站訪問
+└─ 指標: 40% 轉化率進入考慮
+<<<<<<< HEAD
+>>>>>>> origin/alert-autofix-37
+=======
+>>>>>>> origin/copilot/sub-pr-402
 
 階段 2: 考慮 (Consideration)
 ├─ 觸發: 下載白皮書或索取演示
@@ -538,10 +618,23 @@ IF 用戶在重複問同類問題:
 ├─ 開通賬戶與初始化
 └─ 移交給CSM
 
+<<<<<<< HEAD
+<<<<<<< HEAD
 階段 5: 擴張 (Expansion) ├─ CSM指導升級 ├─ 目標:
 40% 淨收入保留增長 └─ 時間: 持續
 
+=======
+=======
+>>>>>>> origin/copilot/sub-pr-402
+階段 5: 擴張 (Expansion)
+├─ CSM指導升級
+├─ 目標: 40% 淨收入保留增長
+└─ 時間: 持續
+<<<<<<< HEAD
+>>>>>>> origin/alert-autofix-37
+=======
 
+>>>>>>> origin/copilot/sub-pr-402
 ```
 
 ### 第3層 - 銷售資料與工具
@@ -549,7 +642,24 @@ IF 用戶在重複問同類問題:
 **銷售資料庫 (根據客戶類型)**
 
 ```
+<<<<<<< HEAD
+<<<<<<< HEAD
 
+對於 Startup 客戶 ($5-15K): ├─ 3分鐘演示視頻├─ ROI計算器 (在線)
+├─ 免費30天試用└─ Slack support
+=======
+=======
+
+>>>>>>> origin/copilot/sub-pr-402
+對於 Startup 客戶 ($5-15K):
+├─ 3分鐘演示視頻
+├─ ROI計算器 (在線)
+├─ 免費30天試用
+└─ Slack support
+<<<<<<< HEAD
+>>>>>>> origin/alert-autofix-37
+=======
+>>>>>>> origin/copilot/sub-pr-402
 
 對於 Mid-market 客戶 ($20-50K):
 ├─ 30分鐘定制演示
@@ -558,10 +668,26 @@ IF 用戶在重複問同類問題:
 ├─ 專屬帳戶經理
 └─ 月度業務審查
 
+<<<<<<< HEAD
+<<<<<<< HEAD
 對於 Enterprise 客戶 ($100K+): ├─ 高管簡報 ├─ 白手套實施 ├─ 完整POC流程 (90天)
 ├─ 專屬成功團隊 ├─ SLA保證 └─ 年度戰略回顧
 
+=======
+=======
+>>>>>>> origin/copilot/sub-pr-402
+對於 Enterprise 客戶 ($100K+):
+├─ 高管簡報
+├─ 白手套實施
+├─ 完整POC流程 (90天)
+├─ 專屬成功團隊
+├─ SLA保證
+└─ 年度戰略回顧
+<<<<<<< HEAD
+>>>>>>> origin/alert-autofix-37
+=======
 
+>>>>>>> origin/copilot/sub-pr-402
 ```
 
 ### 第4層 - 營運流程
@@ -569,7 +695,22 @@ IF 用戶在重複問同類問題:
 **客戶成功流程 (CSM角色)**
 
 ```
+<<<<<<< HEAD
+<<<<<<< HEAD
 
+Day 1 - 歡迎: ├─ 舉行30分鐘入門會議├─ 分享入門指南└─ 設置Slack通道
+=======
+=======
+
+>>>>>>> origin/copilot/sub-pr-402
+Day 1 - 歡迎:
+├─ 舉行30分鐘入門會議
+├─ 分享入門指南
+└─ 設置Slack通道
+<<<<<<< HEAD
+>>>>>>> origin/alert-autofix-37
+=======
+>>>>>>> origin/copilot/sub-pr-402
 
 Week 1 - 設置:
 ├─ 完成初始配置
@@ -588,10 +729,24 @@ Month 2-3 - 優化:
 ├─ 識別擴張機會
 └─ 建立定期業務回顧
 
+<<<<<<< HEAD
+<<<<<<< HEAD
 Month 4-12 - 保留與擴張: ├─ 月度業務回顧 ├─ 推動升級 (Tier提升)
 ├─ 主動式健康檢查 └─ 識別流失風險
 
+=======
+=======
+>>>>>>> origin/copilot/sub-pr-402
+Month 4-12 - 保留與擴張:
+├─ 月度業務回顧
+├─ 推動升級 (Tier提升)
+├─ 主動式健康檢查
+└─ 識別流失風險
+<<<<<<< HEAD
+>>>>>>> origin/alert-autofix-37
+=======
 
+>>>>>>> origin/copilot/sub-pr-402
 ```
 
 **CSM指標與目標**
@@ -608,7 +763,23 @@ Month 4-12 - 保留與擴張: ├─ 月度業務回顧 ├─ 推動升級 (Tie
 
 **初期團隊 (M1-M6)**
 ```
+<<<<<<< HEAD
+<<<<<<< HEAD
 
+VP Sales (1人) ├─ 背景: Enterprise
+SaaS銷售經驗├─ 職責: 銷售戰略、談判、客戶關係└─ 薪酬: $150K + 15-20% commission
+=======
+=======
+
+>>>>>>> origin/copilot/sub-pr-402
+VP Sales (1人)
+├─ 背景: Enterprise SaaS銷售經驗
+├─ 職責: 銷售戰略、談判、客戶關係
+└─ 薪酬: $150K + 15-20% commission
+<<<<<<< HEAD
+>>>>>>> origin/alert-autofix-37
+=======
+>>>>>>> origin/copilot/sub-pr-402
 
 AE (Account Executive, 2人)
 ├─ 職責: 主動開發、演示、談判
@@ -620,19 +791,48 @@ SDR (Sales Development Rep, 1人)
 ├─ 目標: 每月30個資格認證會議
 └─ 薪酬: $60K + $500/成交bonus
 
+<<<<<<< HEAD
+<<<<<<< HEAD
 CSM (Customer Success Manager, 1人) ├─ 職責: 客戶入門、保留、擴張├─ 客戶比例:
 1:10 (10個客戶/CSM) └─ 薪酬: $90K + 5% 淨收入保留bonus
 
+=======
+=======
+>>>>>>> origin/copilot/sub-pr-402
+CSM (Customer Success Manager, 1人)
+├─ 職責: 客戶入門、保留、擴張
+├─ 客戶比例: 1:10 (10個客戶/CSM)
+└─ 薪酬: $90K + 5% 淨收入保留bonus
+<<<<<<< HEAD
+>>>>>>> origin/alert-autofix-37
+=======
 
+>>>>>>> origin/copilot/sub-pr-402
 ```
 
 **規模期團隊 (M12時)**
 ```
+<<<<<<< HEAD
+<<<<<<< HEAD
 
 總銷售與成功團隊: 8-10人├─ VP Sales/Head of Growth ├─ 4-5 Account Executives ├─
 1-2 SDRs ├─ 2-3 CSMs └─ 1 Operations/Enablement
 
+=======
+=======
 
+>>>>>>> origin/copilot/sub-pr-402
+總銷售與成功團隊: 8-10人
+├─ VP Sales/Head of Growth
+├─ 4-5 Account Executives
+├─ 1-2 SDRs
+├─ 2-3 CSMs
+└─ 1 Operations/Enablement
+<<<<<<< HEAD
+>>>>>>> origin/alert-autofix-37
+=======
+
+>>>>>>> origin/copilot/sub-pr-402
 ```
 
 ## 輸出結果
@@ -1294,6 +1494,13 @@ IF competitor_launch_detected:
 **版本**: v1.0.0 + Automation Level System
 **最後更新**: 2024
 **維護者**: Island Systems Team
+<<<<<<< HEAD
+<<<<<<< HEAD
 **許可**: 僅供Unmanned Island System內部使用
 ```
-
+=======
+**許可**: 僅供Unmanned Island System內部使用
+>>>>>>> origin/alert-autofix-37
+=======
+**許可**: 僅供Unmanned Island System內部使用
+>>>>>>> origin/copilot/sub-pr-402

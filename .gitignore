@@ -82,10 +82,6 @@ out
 .nuxt
 dist
 
-# Python build directories
-build/
-*.egg-info/
-
 # Gatsby files
 .cache/
 # Comment in the public line in if your project uses Gatsby and not Next.js
@@ -141,23 +137,3 @@ build/
 # Vite logs files
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
-outputs/
-/outputs/
-outputs/
-__pycache__/
-*.pyc
-
-# Controlplane generated directories
-
-# Python cache
-__pycache__/
-*.py[cod]
-*$py.class
-*.so
-.Python
-
-# Controlplane active and overlay generated files
-controlplane/active/
-controlplane/overlay/evidence/
-# Code scanning reports (generated files)
-.github/code-scanning/reports/

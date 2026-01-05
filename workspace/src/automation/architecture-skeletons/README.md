@@ -7,10 +7,18 @@
 - **unmanned-engineer-ceo** 的完整架構指南（11個骨架）
 - **automation/autonomous** 的實現代碼
 
+<<<<<<< HEAD
+<<<<<<< HEAD
 This directory serves as the entry point for the **Unified Architecture
 Skeletons System**, integrating:
 
+=======
+This directory serves as the entry point for the **Unified Architecture Skeletons System**, integrating:
+>>>>>>> origin/alert-autofix-37
+=======
+This directory serves as the entry point for the **Unified Architecture Skeletons System**, integrating:
 
+>>>>>>> origin/copilot/sub-pr-402
 - **unmanned-engineer-ceo** complete architecture guides (11 skeletons)
 - **automation/autonomous** implementation code
 
@@ -86,6 +94,8 @@ Skeletons System**, integrating:
 
 #### 🟢 中優先級骨架 (Medium - 可以實現)
 
+<<<<<<< HEAD
+<<<<<<< HEAD
 1. **cost-management** - 成本管理
    - 狀態: 🟡 設計階段
    - 用途: 成本監控、預算規劃、資源優化
@@ -97,10 +107,23 @@ Skeletons System**, integrating:
    - 用途: 文檔標準、更新流程、機器可讀文檔
    - [指南](../../unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/docs-governance/)
      | [實現](../autonomous/docs-examples/)
+=======
+10. **cost-management** - 成本管理
+=======
+1. **cost-management** - 成本管理
+>>>>>>> origin/copilot/sub-pr-402
     - 狀態: 🟡 設計階段
     - 用途: 成本監控、預算規劃、資源優化
     - [指南](../../unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/cost-management/) | [實現](../autonomous/cost-management/)
 
+2. **docs-governance** - 文檔治理
+    - 狀態: ✅ 生產就緒
+    - 用途: 文檔標準、更新流程、機器可讀文檔
+    - [指南](../../unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/docs-governance/) | [實現](../autonomous/docs-examples/)
+<<<<<<< HEAD
+>>>>>>> origin/alert-autofix-37
+=======
+>>>>>>> origin/copilot/sub-pr-402
 
 ## 🚀 快速開始 / Quick Start
 

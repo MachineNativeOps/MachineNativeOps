@@ -8,10 +8,18 @@
 
 ## 📋 Overview
 
+<<<<<<< HEAD
+<<<<<<< HEAD
 Phase 3 implements the automation and observability layer for Governance-as-Code
 (GaC), enabling:
 
+=======
+Phase 3 implements the automation and observability layer for Governance-as-Code (GaC), enabling:
+>>>>>>> origin/alert-autofix-37
+=======
+Phase 3 implements the automation and observability layer for Governance-as-Code (GaC), enabling:
 
+>>>>>>> origin/copilot/sub-pr-402
 - **GitOps**: Automated deployment and drift detection
 - **OPA Gatekeeper**: Real-time policy enforcement
 - **Monitoring**: Compliance dashboards and alerts

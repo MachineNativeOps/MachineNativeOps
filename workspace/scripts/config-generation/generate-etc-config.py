@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-MachineNativeOps Configuration Generator
-MachineNativeOps 配置生成器
+AAPS Configuration Generator
+AAPS 配置生成器
 
 解決雙權威問題：從 root/ 權威配置生成 etc/ 部署配置
 """
@@ -14,8 +14,8 @@ from pathlib import Path
 from datetime import datetime
 from typing import Dict, Any, List
 
-class MachineNativeOpsConfigGenerator:
-    """MachineNativeOps 配置生成器"""
+class AAPSConfigGenerator:
+    """AAPS 配置生成器"""
     
     def __init__(self, root_dir: Path = None):
         """初始化生成器"""
@@ -27,7 +27,7 @@ class MachineNativeOpsConfigGenerator:
         self.etc_dir.mkdir(exist_ok=True)
         (self.etc_dir / "machine-native-ops").mkdir(exist_ok=True)
         
-        print(f"🏗️  MachineNativeOps Configuration Generator")
+        print(f"🏗️  AAPS Configuration Generator")
         print(f"📁 Root Directory: {self.root_dir}")
         print(f"📁 ETC Directory: {self.etc_dir}")
         print()
@@ -68,9 +68,9 @@ class MachineNativeOpsConfigGenerator:
             "kind": "DeploymentConfig",
             "metadata": {
                 "name": "machine-native-ops",
-                "description": "Generated deployment configuration from MachineNativeOps engine",
+                "description": "Generated deployment configuration from AAPS engine",
                 "generatedAt": datetime.utcnow().isoformat() + "Z",
-                "generatedBy": "MachineNativeOps Configuration Generator",
+                "generatedBy": "AAPS Configuration Generator",
                 "source": "root/policy/root.config.yaml"
             },
             "spec": {
@@ -83,7 +83,7 @@ class MachineNativeOpsConfigGenerator:
                 
                 # 引擎配置
                 "engine": {
-                    "name": engine_config.get("spec", {}).get("engine", {}).get("name", "MachineNativeOps"),
+                    "name": engine_config.get("spec", {}).get("engine", {}).get("name", "AAPS"),
                     "version": engine_config.get("spec", {}).get("engine", {}).get("version", "1.0.0"),
                     "capabilities": engine_config.get("spec", {}).get("engine", {}).get("capabilities", [])
                 },
@@ -120,9 +120,9 @@ class MachineNativeOpsConfigGenerator:
             "kind": "GovernanceConfig",
             "metadata": {
                 "name": "governance",
-                "description": "Generated governance configuration from MachineNativeOps engine",
+                "description": "Generated governance configuration from AAPS engine",
                 "generatedAt": datetime.utcnow().isoformat() + "Z",
-                "generatedBy": "MachineNativeOps Configuration Generator",
+                "generatedBy": "AAPS Configuration Generator",
                 "source": "root/policy/root.governance.yaml"
             },
             "spec": {
@@ -159,9 +159,9 @@ class MachineNativeOpsConfigGenerator:
             "kind": "ModulesConfig",
             "metadata": {
                 "name": "modules",
-                "description": "Generated modules configuration from MachineNativeOps engine",
+                "description": "Generated modules configuration from AAPS engine",
                 "generatedAt": datetime.utcnow().isoformat() + "Z",
-                "generatedBy": "MachineNativeOps Configuration Generator",
+                "generatedBy": "AAPS Configuration Generator",
                 "source": "root/registry/root.registry.modules.yaml"
             },
             "spec": {
@@ -194,9 +194,9 @@ class MachineNativeOpsConfigGenerator:
             "kind": "IntegrityConfig",
             "metadata": {
                 "name": "integrity",
-                "description": "Generated integrity configuration from MachineNativeOps engine",
+                "description": "Generated integrity configuration from AAPS engine",
                 "generatedAt": datetime.utcnow().isoformat() + "Z",
-                "generatedBy": "MachineNativeOps Configuration Generator",
+                "generatedBy": "AAPS Configuration Generator",
                 "source": "root/evidence/root.integrity.yaml"
             },
             "spec": {
@@ -277,15 +277,15 @@ class MachineNativeOpsConfigGenerator:
             "kind": "ConfigurationMetadata",
             "metadata": {
                 "name": "generation-metadata",
-                "description": "Configuration generation metadata from MachineNativeOps",
+                "description": "Configuration generation metadata from AAPS",
                 "generatedAt": datetime.utcnow().isoformat() + "Z",
-                "generatedBy": "MachineNativeOps Configuration Generator v1.0.0",
+                "generatedBy": "AAPS Configuration Generator v1.0.0",
                 "totalConfigs": len(configs),
                 "configFiles": list(configs.keys())
             },
             "spec": {
                 "generator": {
-                    "name": "MachineNativeOps Configuration Generator",
+                    "name": "AAPS Configuration Generator",
                     "version": "1.0.0",
                     "sourceRoot": str(self.root_config_dir),
                     "outputDirectory": str(output_dir)
@@ -311,15 +311,15 @@ def main():
     """主函數"""
     if len(sys.argv) > 1:
         root_dir = Path(sys.argv[1])
-        generator = MachineNativeOpsConfigGenerator(root_dir)
+        generator = AAPSConfigGenerator(root_dir)
     else:
-        generator = MachineNativeOpsConfigGenerator()
+        generator = AAPSConfigGenerator()
     
     try:
         generator.generate_all_configs()
         print()
         print("🎉 Configuration generation completed successfully!")
-        print("💡 Note: These are generated configurations from MachineNativeOps engine")
+        print("💡 Note: These are generated configurations from AAPS engine")
         print("⚠️  Do not manually edit - regenerate from root/ configurations")
     except Exception as e:
         print(f"❌ Configuration generation failed: {e}")

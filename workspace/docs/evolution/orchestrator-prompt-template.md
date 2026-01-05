@@ -149,7 +149,17 @@ cd /path/to/repo
 - 安全掃描: [X] → [Y] (+Z)
 - 劇本覆蓋: [X] → [Y] (+Z)
 - **總分: [X] → [Y] (+Z)**
+<<<<<<< HEAD
+<<<<<<< HEAD
 
+````
+=======
+```
+>>>>>>> origin/alert-autofix-37
+=======
+
+```
+>>>>>>> origin/copilot/sub-pr-402
 
 ---
 

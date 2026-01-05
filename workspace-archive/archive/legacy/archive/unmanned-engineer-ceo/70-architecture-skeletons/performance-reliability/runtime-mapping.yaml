@@ -1,7 +1,0 @@
-runtime_module:
-  config:
-    performance_budgets: platform/application/performance/config/performance-budgets.yaml
-  docs:
-    resilience_patterns: platform/application/performance/docs/resilience-patterns.md
-    slo_definitions: platform/application/performance/docs/slo-definitions.md
-  root: platform/application/performance

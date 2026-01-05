@@ -693,11 +693,7 @@ Examples:
         # Check for incorrect registry patterns
         incorrect_patterns = [
             r'docker\.io/machine-native-ops',
-            r'ghcr\.io/machine-native-ops-machine-native-ops',
             r'ghcr\.io/machine-native-ops-aaps',
-            r'docker\.io/machine-native-ops-aaps',
-            r'docker\.io/machine-native-ops-apps',
-            r'ghcr\.io/machine-native-ops-apps',
         ]
         
         for pattern in incorrect_patterns:
@@ -718,9 +714,8 @@ Examples:
         
         # Check for incorrect certificate paths
         incorrect_paths = [
-            r'/etc/aaps',
             r'/etc/machine-native-ops',
-            r'/etc/apps',
+            r'/etc/aaps',
         ]
         
         for pattern in incorrect_paths:
@@ -740,7 +735,7 @@ Examples:
         
         # Check for legacy cluster tokens
         legacy_tokens = [
-            'machine-native-ops-etcd-cluster',
+            'aaps-etcd-cluster',
             'machine-native-ops-etcd',
         ]
         

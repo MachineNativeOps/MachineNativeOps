@@ -13,7 +13,6 @@
 **功能**: 執行完整的目錄重構流程
 
 **使用方法**:
-
 ```bash
 # 試運行模式（不實際修改文件）
 python tools/automated_directory_restructure.py --dry-run
@@ -29,7 +28,6 @@ python tools/automated_directory_restructure.py --phase config
 ```
 
 **特性**:
-
 - 🔍 自動分析現有目錄結構
 - 📦 自動創建備份
 - 🔄 智能文件移動和重組
@@ -43,7 +41,6 @@ python tools/automated_directory_restructure.py --phase config
 **功能**: 驗證重構的完整性和正確性
 
 **使用方法**:
-
 ```bash
 # 基本驗證
 python tools/validate_restructure.py
@@ -56,7 +53,6 @@ python tools/validate_restructure.py --fix-imports
 ```
 
 **驗證項目**:
-
 - ✅ 目錄結構完整性
 - ✅ 文件完整性檢查
 - ✅ Python 導入路徑驗證
@@ -68,7 +64,6 @@ python tools/validate_restructure.py --fix-imports
 ### 目標目錄結構
 
 #### `src/` 目錄結構
-
 ```
 src/
 ├── core/
@@ -94,7 +89,6 @@ src/
 ```
 
 #### `config/` 目錄結構
-
 ```
 config/
 ├── ci-cd/                # CI/CD 配置
@@ -167,7 +161,6 @@ python tools/validate_restructure.py
 ### 報告內容
 
 #### 重構報告結構
-
 ```json
 {
   "timestamp": "2025-12-18T07:30:00",
@@ -191,7 +184,6 @@ python tools/validate_restructure.py
 ```
 
 #### 驗證報告結構
-
 ```json
 {
   "timestamp": "2025-12-18T07:35:00",
@@ -273,21 +265,18 @@ cp -r backup_before_restructure/config .
 ### 定期維護任務
 
 1. **更新重構規則**
-
    ```bash
    # 檢查是否有新的目錄需要重構
    find . -type d -name "*" | head -20
    ```
 
 2. **驗證項目健康狀態**
-
    ```bash
    # 定期運行驗證
    python tools/validate_restructure.py --detailed
    ```
 
 3. **清理備份**
-
    ```bash
    # 清理舊備份（保留最近一次）
    rm -rf backup_before_restructure_*
@@ -307,7 +296,6 @@ cp -r backup_before_restructure/config .
 ### 常見問題
 
 #### 1. 權限錯誤
-
 ```bash
 # 確保有足夠權限
 chmod +x tools/automated_directory_restructure.py
@@ -315,21 +303,18 @@ chmod +x tools/validate_restructure.py
 ```
 
 #### 2. Python 模組缺失
-
 ```bash
 # 安裝必要模組
 pip install pyyaml
 ```
 
 #### 3. 文件被鎖定
-
 ```bash
 # 檢查是否有進程在使用文件
 lsof | grep "src/"
 ```
 
 #### 4. 導入路徑錯誤
-
 ```bash
 # 自動修復
 python tools/validate_restructure.py --fix-imports

@@ -1,7 +1,0 @@
-mapping:
-  agent_registry: core/unified_integration/service_registry.py
-  orchestration_engine: core/modules/mind_matrix/
-  state_management: core/modules/execution_engine/
-  workflow_definitions: config/workflows/
-skeleton_id: nucleus-orchestrator
-version: 1.0.0

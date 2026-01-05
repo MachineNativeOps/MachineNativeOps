@@ -75,12 +75,18 @@ island-ai/
 ### 📊 代碼量增長曲線
 
 ```
+<<<<<<< HEAD
+<<<<<<< HEAD
 
 54,000 行總代碼 ↑ │ ╭─── 第 4 階段 │ ╭────────╯ +6,000 行 │ ╭─────────╯ (生產化)
 │ ╭─────────╯ │ │ 第 3 階段 │ │ +13,000 行 │ │ (智能化) │ │ │ │ ├──────╯
 │ 第 2 階段 │ +30,000 行 │ (多 Agent) │ ├────── │ 第 1 階段 │ +5,000 行 │ (基礎)
 └──────────────────────────────────> 時間 0 3 6 9 12 15 18 (月)
 
+=======
+=======
+
+>>>>>>> origin/copilot/sub-pr-402
 54,000 行總代碼
     ↑
     │                                    ╭─── 第 4 階段
@@ -103,13 +109,36 @@ island-ai/
     │ (基礎)
     └──────────────────────────────────> 時間
     0    3    6    9    12   15   18 (月)
+<<<<<<< HEAD
+>>>>>>> origin/alert-autofix-37
+=======
 
+>>>>>>> origin/copilot/sub-pr-402
 ```
 
 ### 🏗️ 架構演進圖
 
 ```
+<<<<<<< HEAD
+<<<<<<< HEAD
 
+第 1 階段 (3 個月) ┌─────────────────────┐ │ 基礎運行時 │ │ + 知識庫 │
+│ + 工作流 │ │ + island-cli │ └─────────────────────┘
+=======
+=======
+
+>>>>>>> origin/copilot/sub-pr-402
+第 1 階段 (3 個月)
+┌─────────────────────┐
+│  基礎運行時         │
+│  + 知識庫           │
+│  + 工作流           │
+│  + island-cli       │
+└─────────────────────┘
+<<<<<<< HEAD
+>>>>>>> origin/alert-autofix-37
+=======
+>>>>>>> origin/copilot/sub-pr-402
 
         ↓
 
@@ -140,11 +169,29 @@ island-ai/
 
         ↓
 
+<<<<<<< HEAD
+<<<<<<< HEAD
 第 4 階段 (3 個月) ┌─────────────────────┐ │ 全部第 1-3 階段 │
 ← 保留 ├─────────────────────┤ │ + 生產支援 │ ← 新增 │ + 可觀測性 │
 ← 新增 │ + 混沌工程 │ ← 新增 │ + 完整認證 │ ← 新增 └─────────────────────┘
 
+=======
+=======
+>>>>>>> origin/copilot/sub-pr-402
+第 4 階段 (3 個月)
+┌─────────────────────┐
+│  全部第 1-3 階段    │  ← 保留
+├─────────────────────┤
+│  + 生產支援         │  ← 新增
+│  + 可觀測性         │  ← 新增
+│  + 混沌工程         │  ← 新增
+│  + 完整認證         │  ← 新增
+└─────────────────────┘
+<<<<<<< HEAD
+>>>>>>> origin/alert-autofix-37
+=======
 
+>>>>>>> origin/copilot/sub-pr-402
 ```
 
 ### 📈 關鍵指標演進
@@ -202,7 +249,7 @@ _整合 MachineNativeOps 核心引擎 + 結構治理系統 + 無人之島自主�
 是一個統一的企業級智能自動化平台，整合三大核心子系統：
 
 ```
-
+<<<<<<< HEAD
 ┌─────────────────────────────────────────────────────────────────────────────┐
 │ 🏝️ Unmanned Island System │ │ 統一控制層 │
 ├─────────────────────────────────────────────────────────────────────────────┤
@@ -218,8 +265,12 @@ Schema 命名空間 │ │ • 五骨架架構 │ │ │ │ • 認知處理
 ┌──────────┐ │ │ │ MCP 伺服器│ │ CI/CD │ │ 監控告警 │ │ K8s 部署 │ │ 測試框架 │
 │ │ └──────────┘ └──────────┘ └──────────┘ └──────────┘ └──────────┘ │
 └─────────────────────────────────────────────────────────────────────────────┘
+<<<<<<< HEAD
 
 ````
+=======
+```
+>>>>>>> origin/alert-autofix-37
 =======
 
 ┌─────────────────────────────────────────────────────────────────────────────┐
@@ -545,28 +596,28 @@ python tools/docs/provenance_injector.py --generate-sbom
 
 | 文檔                                    | 說明               |
 | --------------------------------------- | ------------------ |
-| [系統架構](docs/architecture/)          | 架構設計與層級說明 |
-| [快速入門](docs/QUICK_START.md)         | 快速開始指南       |
-| [API 文檔](docs/AUTO_ASSIGNMENT_API.md) | REST API 參考      |
-| [運維手冊](docs/operations/)            | 運維與部署指南     |
+| [系統架構](./architecture/)          | 架構設計與層級說明 |
+| [快速入門](./QUICK_START.md)         | 快速開始指南       |
+| [API 文檔](./AUTO_ASSIGNMENT_API.md) | REST API 參考      |
+| [運維手冊](./operations/)            | 運維與部署指南     |
 
 ### 功能文檔
 
 | 文檔                                               | 說明          |
 | -------------------------------------------------- | ------------- |
-| [自動審查與合併](docs/AUTO_REVIEW_MERGE.md)        | PR 自動化流程 |
-| [智能派工系統](docs/AUTO_ASSIGNMENT_SYSTEM.md)     | 任務分配機制  |
-| [進階升級系統](docs/ADVANCED_ESCALATION_SYSTEM.md) | 五級升級階梯  |
-| [動態 CI 助手](docs/DYNAMIC_CI_ASSISTANT.md)       | CI 互動客服   |
+| [自動審查與合併](./AUTO_REVIEW_MERGE.md)        | PR 自動化流程 |
+| [智能派工系統](./AUTO_ASSIGNMENT_SYSTEM.md)     | 任務分配機制  |
+| [進階升級系統](./ADVANCED_ESCALATION_SYSTEM.md) | 五級升級階梯  |
+| [動態 CI 助手](./DYNAMIC_CI_ASSISTANT.md)       | CI 互動客服   |
 
 ### 治理文檔
 
 | 文檔                                  | 說明              |
 | ------------------------------------- | ----------------- |
-| [Schema 定義](governance/schemas/)    | JSON Schema 規範  |
-| [策略配置](governance/policies/)      | OPA/Conftest 策略 |
-| [審計格式](governance/audit/)         | 審計事件定義      |
-| [知識索引](docs/knowledge_index.yaml) | 機器可讀索引      |
+| [Schema 定義](../src/governance/schemas/)    | JSON Schema 規範  |
+| [策略配置](../src/governance/policies/)      | OPA/Conftest 策略 |
+| [審計格式](../src/governance/audit/)         | 審計事件定義      |
+| [知識索引](./knowledge_index.yaml) | 機器可讀索引      |
 
 ---
 
@@ -1060,7 +1111,7 @@ knowledge_cycle:
 | `pipelines/` | 把 runtime 組合成完整活體流程 |
 | `docs/` | 給人類看的說明與健康報告 |
 
-📚 詳見 [活體知識庫設計說明](docs/LIVING_KNOWLEDGE_BASE.md)
+📚 詳見 [活體知識庫設計說明](./LIVING_KNOWLEDGE_BASE.md)
 
 ### 3️⃣ Autonomous Framework（自主系統框架）
 
@@ -1299,7 +1350,7 @@ admin-copilot review ./src/controllers
    - 新增「Copilot Requests」權限
    - 設定環境變數 `GH_TOKEN` 或 `GITHUB_TOKEN`
 
-📚 詳見 [Admin Copilot CLI 完整文檔](docs/ADMIN_COPILOT_CLI.md)
+📚 詳見 [Admin Copilot CLI 完整文檔](./ADMIN_COPILOT_CLI.md)
 
 ### Docker 部署
 
@@ -1614,29 +1665,29 @@ python tools/docs/provenance_injector.py --generate-sbom
 
 | 文檔                                    | 說明               |
 | --------------------------------------- | ------------------ |
-| [系統架構](docs/architecture/)          | 架構設計與層級說明 |
-| [快速入門](docs/QUICK_START.md)         | 快速開始指南       |
-| [API 文檔](docs/AUTO_ASSIGNMENT_API.md) | REST API 參考      |
-| [運維手冊](docs/operations/)            | 運維與部署指南     |
+| [系統架構](./architecture/)          | 架構設計與層級說明 |
+| [快速入門](./QUICK_START.md)         | 快速開始指南       |
+| [API 文檔](./AUTO_ASSIGNMENT_API.md) | REST API 參考      |
+| [運維手冊](./operations/)            | 運維與部署指南     |
 
 ### 功能文檔
 
 | 文檔                                               | 說明          |
 | -------------------------------------------------- | ------------- |
-| [自動審查與合併](docs/AUTO_REVIEW_MERGE.md)        | PR 自動化流程 |
-| [智能派工系統](docs/AUTO_ASSIGNMENT_SYSTEM.md)     | 任務分配機制  |
-| [進階升級系統](docs/ADVANCED_ESCALATION_SYSTEM.md) | 五級升級階梯  |
-| [動態 CI 助手](docs/DYNAMIC_CI_ASSISTANT.md)       | CI 互動客服   |
+| [自動審查與合併](./AUTO_REVIEW_MERGE.md)        | PR 自動化流程 |
+| [智能派工系統](./AUTO_ASSIGNMENT_SYSTEM.md)     | 任務分配機制  |
+| [進階升級系統](./ADVANCED_ESCALATION_SYSTEM.md) | 五級升級階梯  |
+| [動態 CI 助手](./DYNAMIC_CI_ASSISTANT.md)       | CI 互動客服   |
 
 ### 治理文檔
 
 | 文檔                                  | 說明              |
 | ------------------------------------- | ----------------- |
-| [Schema 定義](governance/schemas/)    | JSON Schema 規範  |
-| [策略配置](governance/policies/)      | OPA/Conftest 策略 |
-| [審計格式](governance/audit/)         | 審計事件定義      |
-| [知識索引](docs/knowledge_index.yaml) | 機器可讀索引      |
-| [活體知識庫](docs/LIVING_KNOWLEDGE_BASE.md) | 系統自我感知設計  |
+| [Schema 定義](../src/governance/schemas/)    | JSON Schema 規範  |
+| [策略配置](../src/governance/policies/)      | OPA/Conftest 策略 |
+| [審計格式](../src/governance/audit/)         | 審計事件定義      |
+| [知識索引](./knowledge_index.yaml) | 機器可讀索引      |
+| [活體知識庫](./LIVING_KNOWLEDGE_BASE.md) | 系統自我感知設計  |
 
 ### 應用程式文檔
 

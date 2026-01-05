@@ -40,7 +40,6 @@
 ## 核心 Python 檔案說明
 
 ### self_awareness_report.py
-
 - **職責**：系統自我感知報告生成器
 - **功能**：
   - 從 docs/project-manifest.md 生成倉庫狀態摘要
@@ -49,7 +48,6 @@
 - **依賴**：docs/, config/
 
 ### zero_touch_deployment.py
-
 - **職責**：零接觸部署引擎
 - **功能**：
   - 全自動化部署流程
@@ -102,3 +100,4 @@
 - **src/services/agents/**：與智能代理協作
 - **config/**：讀取自動化配置
 - **deploy/**：執行部署自動化
+

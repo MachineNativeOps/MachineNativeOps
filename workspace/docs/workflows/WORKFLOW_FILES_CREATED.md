@@ -61,6 +61,8 @@
 4. ✅ **tools/generators/documentation_generator.py** (45 lines)
 
 ### Deployment | 部署
+<<<<<<< HEAD
+<<<<<<< HEAD
 
 1. ✅ **Dockerfile.workflow** (42 lines)
    - Production-ready multi-stage build
@@ -112,23 +114,29 @@
    - Validation layer details
    - Customization guide
    - Rule configuration
+=======
+15. ✅ **Dockerfile.workflow** (42 lines)
+=======
+
+1. ✅ **Dockerfile.workflow** (42 lines)
+>>>>>>> origin/copilot/sub-pr-402
     - Production-ready multi-stage build
     - Non-root user
     - Health checks
 
-6. ✅ **docker-compose.workflow.yml** (91 lines)
+2. ✅ **docker-compose.workflow.yml** (91 lines)
     - Complete stack (5 services)
     - workflow-system, postgres, redis, prometheus, grafana
     - Volume management
     - Network isolation
 
-7. ✅ **deployment/kubernetes/workflow-deployment.yaml** (73 lines)
+3. ✅ **deployment/kubernetes/workflow-deployment.yaml** (73 lines)
     - Deployment (3 replicas)
     - Service (ClusterIP)
     - HorizontalPodAutoscaler (3-10 replicas)
     - Resource limits & health checks
 
-8. ✅ **.dockerignore** (26 lines)
+4. ✅ **.dockerignore** (26 lines)
     - Build optimization
 
 ### Documentation | 文檔
@@ -157,6 +165,14 @@
     - Troubleshooting
     - Security considerations
 
+5. ✅ **docs/VALIDATION_GUIDE.md**
+    - Validation layer details
+    - Customization guide
+    - Rule configuration
+<<<<<<< HEAD
+>>>>>>> origin/alert-autofix-37
+=======
+>>>>>>> origin/copilot/sub-pr-402
 
 ### Testing | 測試
 
@@ -166,6 +182,8 @@
 4. ✅ **tests/unit/test_validators.py**
 
 ### Packaging | 打包
+<<<<<<< HEAD
+<<<<<<< HEAD
 
 1. ✅ **WORKFLOW_SYSTEM_SUMMARY.md** (650+ lines)
    - Complete implementation summary
@@ -184,18 +202,32 @@
    - Core dependencies
    - Testing tools
    - Quality tools
+=======
+28. ✅ **WORKFLOW_SYSTEM_SUMMARY.md** (650+ lines)
+=======
+
+1. ✅ **WORKFLOW_SYSTEM_SUMMARY.md** (650+ lines)
+>>>>>>> origin/copilot/sub-pr-402
     - Complete implementation summary
     - Statistics & metrics
     - Answers to "完成什麼？？"
     - Performance guarantees
     - Success criteria verification
 
-4. ✅ **setup.py** (80+ lines)
+2. ✅ **setup.py** (80+ lines)
     - Python packaging
     - Console scripts
     - Entry points
     - Dependencies
 
+3. ✅ **requirements-workflow.txt** (13 dependencies)
+    - Core dependencies
+    - Testing tools
+    - Quality tools
+<<<<<<< HEAD
+>>>>>>> origin/alert-autofix-37
+=======
+>>>>>>> origin/copilot/sub-pr-402
 
 ## Statistics | 統計
 

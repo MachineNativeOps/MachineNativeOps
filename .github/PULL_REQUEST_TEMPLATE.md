@@ -33,10 +33,10 @@ deleted_files:
 
 ### 📋 四大核心證據
 ```yaml
-- repo: https://github.com/MachineNativeOps/machine-native-ops
+- repo: https://github.com/MachineNativeOps/machine-native-ops-aaps
 - branch: [分支名稱]
 - commit: [完整40字元Commit SHA]
-- PR: https://github.com/MachineNativeOps/machine-native-ops/pull/[PR編號]
+- PR: https://github.com/MachineNativeOps/machine-native-ops-aaps/pull/[PR編號]
 ```
 
 ### 🏛️ 第五證據：命名規範遵循 **[若變更根層檔案則必填]**
@@ -149,7 +149,7 @@ deleted_files:
 3. 遵循機率性開發原則，接受失敗的可能性
 4. 如遇問題可聯絡治理委員會
 
-📱 **行動裝置使用者**:
+📱 **行動裝置使用者**: 
 - 可使用長按複製連結快速驗證
 - 建議在 WiFi 環境下進行證據驗證
 - 如遇問題可聯絡治理委員會

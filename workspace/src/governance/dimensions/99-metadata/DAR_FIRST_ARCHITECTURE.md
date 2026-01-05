@@ -167,7 +167,6 @@ src/governance/dimensions/99-metadata/
 ```
 
 **用途：**
-
 - DAR 讀這個索引 → 知道全局狀態
 - 向量索引層用這個 → 知道每個 artifact 的向量 ID
 - RAG 用這個 → 知道上下文、所有者、標籤

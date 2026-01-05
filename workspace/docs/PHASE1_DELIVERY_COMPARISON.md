@@ -19,7 +19,6 @@ Based on the enterprise delivery checklist you provided, Phase 1 has completed *
 | `docs/release-plan-2026Q1-Q3.md` | ⚠️ 缺少 | **可補充** | 可從 roadmap.yaml 提取季度計畫 |
 
 **實際額外交付**:
-
 - ✅ `PHASE1_COMPLETION.md` (600+ lines) - 執行報告
 - ✅ `PHASE1_COMPLETE_CHECKLIST.md` (500+ lines) - 完整檢查清單
 - ✅ `docs/PHASE1_ARCHITECTURE.md` (1200+ lines) - 架構文件
@@ -79,7 +78,6 @@ Based on the enterprise delivery checklist you provided, Phase 1 has completed *
 | `docs/api/examples/*.http` | ⚠️ 缺少 | **可補充** |
 
 **實際額外交付**:
-
 - ✅ `services/api-gateway/src/config/swagger.ts` (15KB OpenAPI 3.0)
 - ✅ Interactive Swagger UI at `/api/docs/ui`
 - ✅ SRI-protected CDN resources
@@ -146,24 +144,24 @@ Based on the enterprise delivery checklist you provided, Phase 1 has completed *
 
 ### 中優先級 | Medium Priority (可選)
 
-1. **UI 設計圖**
+4. **UI 設計圖**
    - `docs/ui/dashboard-layout-diagram.svg`
    - `docs/ui/dashboard-wireframe.png`
 
-2. **資料庫 Schema & Migrations**
+5. **資料庫 Schema & Migrations**
    - `services/scheduler/migrations/001_create_jobs_table.sql`
    - `services/api-gateway/migrations/001_create_users_table.sql`
 
-3. **Authorization Policies**
+6. **Authorization Policies**
    - `security/authz-policies.yaml` - RBAC 權限矩陣
    - `docs/security/permission-model.md`
 
 ### 低優先級 | Low Priority (可延後至 Phase 2)
 
-1. **Widget 配置檔案**
+7. **Widget 配置檔案**
    - `apps/web/config/dashboard.widgets.yaml`
 
-2. **API 設計指南**
+8. **API 設計指南**
    - `docs/api/api-design-guidelines.md`
 
 ---
@@ -220,7 +218,6 @@ Based on the enterprise delivery checklist you provided, Phase 1 has completed *
 ```
 
 **說明**:
-
 - ✅ 綠色表示已建立且功能完整
 - ⚠️ 黃色表示部分建立或規劃於未來階段
 - 許多建議的檔案已整合到現有結構中
@@ -262,8 +259,7 @@ Based on the enterprise delivery checklist you provided, Phase 1 has completed *
 
 **🎉 Phase 1 已超標完成 (121%)**
 
-#### 已完成的核心功能
-
+#### 已完成的核心功能:
 1. ✅ Web Dashboard (完整的監控介面)
 2. ✅ REST API Gateway (22+ endpoints, OpenAPI 3.0, Swagger UI)
 3. ✅ Advanced Scheduler (Cron, one-time, interval tasks)
@@ -273,8 +269,7 @@ Based on the enterprise delivery checklist you provided, Phase 1 has completed *
 7. ✅ 環境配置模板
 8. ✅ 完整設置指南
 
-#### 超額交付
-
+#### 超額交付:
 - ✅ Interactive Swagger UI
 - ✅ SRI-protected CDN resources
 - ✅ Multi-stage Docker builds
@@ -285,14 +280,12 @@ Based on the enterprise delivery checklist you provided, Phase 1 has completed *
 
 如果希望達到 100% 企業級標準，可以補充以下項目:
 
-#### 建議立即補充 (1-2 小時)
-
+#### 建議立即補充 (1-2 小時):
 1. **API 範例檔案** (`docs/api/examples/*.http`)
 2. **人讀版 Roadmap** (`docs/roadmap-2026.md`)
 3. **Scheduler Job 管理 UI** (可選，或延至 Phase 2)
 
-#### 可延後至 Phase 2
-
+#### 可延後至 Phase 2:
 1. **Kubernetes manifests** (已在 Phase 2 規劃中)
 2. **Prometheus/Grafana** (已在 Phase 2 規劃中)
 3. **資料庫 Migrations** (可選，目前使用 in-memory)
@@ -310,7 +303,6 @@ Based on the enterprise delivery checklist you provided, Phase 1 has completed *
 - **生產就緒**: ✅ 是
 
 **建議行動**:
-
 1. ✅ Phase 1 可以視為**已完成並驗收**
 2. ⚠️ 如需 100% 符合企業清單，可補充上述 3 個可選項目
 3. ✅ 準備開始 Phase 2 (Q2 2026) 實作
@@ -322,7 +314,6 @@ Based on the enterprise delivery checklist you provided, Phase 1 has completed *
 ### Phase 1 已交付檔案 (51 個)
 
 #### Documentation (6 files)
-
 - `docs/roadmap-2026.yaml`
 - `docs/PHASE1_ARCHITECTURE.md`
 - `docs/PHASE1_IMPLEMENTATION_SUMMARY.md`
@@ -331,7 +322,6 @@ Based on the enterprise delivery checklist you provided, Phase 1 has completed *
 - `PHASE1_COMPLETE_CHECKLIST.md`
 
 #### Web Dashboard (2 main files + 40+ UI components)
-
 - `apps/web/src/App.tsx`
 - `apps/web/src/pages/Dashboard.tsx`
 - `apps/web/src/components/layout/Navbar.tsx`
@@ -339,7 +329,6 @@ Based on the enterprise delivery checklist you provided, Phase 1 has completed *
 - (plus 40+ shadcn/ui components)
 
 #### API Gateway (11 files)
-
 - `services/api-gateway/src/index.ts`
 - `services/api-gateway/src/config/index.ts`
 - `services/api-gateway/src/config/logger.ts`
@@ -353,7 +342,6 @@ Based on the enterprise delivery checklist you provided, Phase 1 has completed *
 - `services/api-gateway/src/routes/metrics.ts`
 
 #### Scheduler (7 files)
-
 - `services/scheduler/src/index.ts`
 - `services/scheduler/src/config/index.ts`
 - `services/scheduler/src/config/logger.ts`
@@ -363,7 +351,6 @@ Based on the enterprise delivery checklist you provided, Phase 1 has completed *
 - `services/scheduler/tsconfig.json`
 
 #### Docker & Infrastructure (5 files)
-
 - `docker-compose.phase1.yml`
 - `services/api-gateway/Dockerfile`
 - `services/scheduler/Dockerfile`
@@ -371,7 +358,6 @@ Based on the enterprise delivery checklist you provided, Phase 1 has completed *
 - `services/scheduler/.env.example`
 
 #### Testing (3 files)
-
 - `services/api-gateway/jest.config.js`
 - `services/api-gateway/src/__tests__/health.test.ts`
 - `services/api-gateway/src/__tests__/auth.test.ts`

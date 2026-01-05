@@ -15,7 +15,18 @@
 分析 PR #110 的完整架構，找出並完成上位代理還未完成的部署任務。
 
 ### 發現 / Findings
+<<<<<<< HEAD
+<<<<<<< HEAD
 
+PR #110 建立了完整的 Governance-as-Code
+(GaC) 三層架構（戰略層、運營層、自動化層），但存在以下部署相關問題：
+=======
+PR #110 建立了完整的 Governance-as-Code (GaC) 三層架構（戰略層、運營層、自動化層），但存在以下部署相關問題：
+>>>>>>> origin/alert-autofix-37
+=======
+
+PR #110 建立了完整的 Governance-as-Code (GaC) 三層架構（戰略層、運營層、自動化層），但存在以下部署相關問題：
+>>>>>>> origin/copilot/sub-pr-402
 
 1. **CI/CD Workflows 位置錯誤** - 放在 `.github/workflows-gac/` 而非 `.github/workflows/`
 2. **缺少實際部署指南** - 僅有理論文檔，無實際部署步驟
@@ -292,43 +303,52 @@ argocd app list | grep gac-
 ## 📚 文檔參考 / Documentation References
 
 ### Primary Documentation
+<<<<<<< HEAD
+<<<<<<< HEAD
 
-- **[DEPLOYMENT.md](governance/00-vision-strategy/DEPLOYMENT.md)** - Complete
+- **[DEPLOYMENT.md](../src/governance/00-vision-strategy/DEPLOYMENT.md)** - Complete
   deployment guide
-- **[README.md](governance/00-vision-strategy/README.md)** - Overview and quick
+- **[README.md](../src/governance/00-vision-strategy/README.md)** - Overview and quick
   start
-- **[PROJECT_STATE_SNAPSHOT.md](governance/00-vision-strategy/PROJECT_STATE_SNAPSHOT.md)** -
+- **[PROJECT_STATE_SNAPSHOT.md](../src/governance/00-vision-strategy/PROJECT_STATE_SNAPSHOT.md)** -
   Complete project state
 
 ### Phase Documentation
 
-- **[PHASE2_README.md](governance/00-vision-strategy/PHASE2_README.md)** -
+- **[PHASE2_README.md](../src/governance/00-vision-strategy/PHASE2_README.md)** -
   Operational layer documentation
-- **[PHASE3_README.md](governance/00-vision-strategy/PHASE3_README.md)** -
+- **[PHASE3_README.md](../src/governance/00-vision-strategy/PHASE3_README.md)** -
   Automation layer documentation
-- **[README.gac-deployment.md](governance/00-vision-strategy/README.gac-deployment.md)** -
+- **[README.gac-deployment.md](../src/governance/00-vision-strategy/README.gac-deployment.md)** -
   GaC deployment overview
 
 ### Tools
 
-- **[tests/deploy-local.sh](governance/00-vision-strategy/tests/deploy-local.sh)** -
+- **[tests/deploy-local.sh](../src/governance/00-vision-strategy/tests/deploy-local.sh)** -
   Local validation script
-- **[tests/generate-resources.sh](governance/00-vision-strategy/tests/generate-resources.sh)** -
+- **[tests/generate-resources.sh](../src/governance/00-vision-strategy/tests/generate-resources.sh)** -
   Resource generator
-- **[tests/validate-all.sh](governance/00-vision-strategy/tests/validate-all.sh)** -
+- **[tests/validate-all.sh](../src/governance/00-vision-strategy/tests/validate-all.sh)** -
   Validation script
-- **[DEPLOYMENT.md](governance/00-vision-strategy/DEPLOYMENT.md)** - Complete deployment guide
-- **[README.md](governance/00-vision-strategy/README.md)** - Overview and quick start
-- **[PROJECT_STATE_SNAPSHOT.md](governance/00-vision-strategy/PROJECT_STATE_SNAPSHOT.md)** - Complete project state
+=======
+=======
+
+>>>>>>> origin/copilot/sub-pr-402
+- **[DEPLOYMENT.md](../src/governance/00-vision-strategy/DEPLOYMENT.md)** - Complete deployment guide
+- **[README.md](../src/governance/00-vision-strategy/README.md)** - Overview and quick start
+- **[PROJECT_STATE_SNAPSHOT.md](../src/governance/00-vision-strategy/PROJECT_STATE_SNAPSHOT.md)** - Complete project state
 
 ### Phase Documentation
 
-- **[PHASE2_README.md](governance/00-vision-strategy/PHASE2_README.md)** - Operational layer documentation
-- **[PHASE3_README.md](governance/00-vision-strategy/PHASE3_README.md)** - Automation layer documentation
-- **[README.gac-deployment.md](governance/00-vision-strategy/README.gac-deployment.md)** - GaC deployment overview
+- **[PHASE2_README.md](../src/governance/00-vision-strategy/PHASE2_README.md)** - Operational layer documentation
+- **[PHASE3_README.md](../src/governance/00-vision-strategy/PHASE3_README.md)** - Automation layer documentation
+- **[README.gac-deployment.md](../src/governance/00-vision-strategy/README.gac-deployment.md)** - GaC deployment overview
 
 ### Tools
 
+- **[tests/deploy-local.sh](../src/governance/00-vision-strategy/tests/deploy-local.sh)** - Local validation script
+- **[tests/generate-resources.sh](../src/governance/00-vision-strategy/tests/generate-resources.sh)** - Resource generator
+- **[tests/validate-all.sh](../src/governance/00-vision-strategy/tests/validate-all.sh)** - Validation script
 
 ---
 
@@ -349,8 +369,18 @@ argocd app list | grep gac-
 4. Extended monitoring with SLOs/SLIs
 
 ### Continuous Operations
+<<<<<<< HEAD
+<<<<<<< HEAD
 
+- Strategic YAML changes → Auto-regenerate GaC resources → Auto-deploy to
+  cluster
+=======
+- Strategic YAML changes → Auto-regenerate GaC resources → Auto-deploy to cluster
+>>>>>>> origin/alert-autofix-37
+=======
 
+- Strategic YAML changes → Auto-regenerate GaC resources → Auto-deploy to cluster
+>>>>>>> origin/copilot/sub-pr-402
 - **Time to production**: < 5 minutes ⚡
 
 ---

@@ -17,7 +17,7 @@
     "build": "npm run build --workspaces --if-present",
     "install:all": "npm install --workspaces",
     "dev:stack": "bash scripts/start-machinenativeops-dev.sh",
-    "docs:lint": "markdownlint --config config/.markdownlint.json --ignore-path config/.markdownlintignore \"**/*.md\"",
+    "docs:lint": "markdownlint \"**/*.md\"",
     "clean": "npm run clean --workspaces --if-present && rm -rf node_modules",
     "cf:dev": "cd cloudflare/workers && npm run dev",
     "cf:deploy": "wrangler deploy",
@@ -63,7 +63,7 @@
     "markdownlint-cli": "^0.47.0",
     "prettier": "^3.7.4",
     "typescript": "^5.9.3",
-    "wrangler": "^4.54.0"
+    "wrangler": "^3.114.16"
   },
   "dependencies": {
     "@eslint/eslintrc": "^3.3.3"

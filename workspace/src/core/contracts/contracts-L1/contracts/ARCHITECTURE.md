@@ -32,8 +32,18 @@ The service implements a **3-tier layered architecture**:
 **Purpose:** Handles HTTP request/response cycle, input validation, and routing.
 
 **Components:**
+<<<<<<< HEAD
+<<<<<<< HEAD
 
+- **Controllers** (`controllers/`): Handle HTTP requests, orchestrate service
+  calls, format responses
+=======
+- **Controllers** (`controllers/`): Handle HTTP requests, orchestrate service calls, format responses
+>>>>>>> origin/alert-autofix-37
+=======
 
+- **Controllers** (`controllers/`): Handle HTTP requests, orchestrate service calls, format responses
+>>>>>>> origin/copilot/sub-pr-402
 - **Routes** (`routes.ts`): Define API endpoints and map them to controllers
 - **Middleware** (`middleware/`): Cross-cutting concerns (logging, validation, error handling, rate limiting)
 
@@ -67,8 +77,26 @@ export class ProvenanceController {
 **Purpose:** Contains core business logic, orchestrates workflows, enforces business rules.
 
 **Components:**
+<<<<<<< HEAD
+<<<<<<< HEAD
 
+- **Attestation Service** (`services/attestation.ts`): Handles Sigstore
+  attestation creation/verification
+- **Provenance Service** (`services/provenance.ts`): Manages build provenance
+  tracking
+- **Assignment Engine** (`services/assignment/`): Automated responsibility
+  assignment system
+=======
+- **Attestation Service** (`services/attestation.ts`): Handles Sigstore attestation creation/verification
+- **Provenance Service** (`services/provenance.ts`): Manages build provenance tracking
+- **Assignment Engine** (`services/assignment/`): Automated responsibility assignment system
+>>>>>>> origin/alert-autofix-37
+=======
 
+- **Attestation Service** (`services/attestation.ts`): Handles Sigstore attestation creation/verification
+- **Provenance Service** (`services/provenance.ts`): Manages build provenance tracking
+- **Assignment Engine** (`services/assignment/`): Automated responsibility assignment system
+>>>>>>> origin/copilot/sub-pr-402
 - **Escalation Engine** (`services/escalation/`): Incident escalation workflows
 
 **Key Principles:**

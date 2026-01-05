@@ -259,9 +259,19 @@ Add commas between all items in the list.
 AttributeError: module 'tools.refactor' has no attribute 'ClassName'
 ```
 
+<<<<<<< HEAD
+<<<<<<< HEAD
 **Fix:** Either:
 
+=======
+**Fix:**
+Either:
+>>>>>>> origin/alert-autofix-37
+=======
+**Fix:**
+Either:
 
+>>>>>>> origin/copilot/sub-pr-402
 1. Add `__getattr__` for lazy loading, OR
 2. Add explicit import: `from .module import ClassName`
 

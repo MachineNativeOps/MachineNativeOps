@@ -86,7 +86,6 @@ const pool = new Pool({
 ```
 
 **诊断步骤**:
-
 1. 检查服务是否运行
 2. 验证网络连接
 3. 检查防火墙规则
@@ -166,7 +165,6 @@ async function fetchLargeDataset(pageSize: number = 100) {
 ```
 
 📂 **其他常见错误**:
-
 - 内存错误: `examples/common-errors/memory-errors.ts`
 - 权限错误: `examples/common-errors/permission-errors.ts`
 
@@ -254,7 +252,6 @@ async function getCachedUserPosts(userId: string) {
 ```
 
 📂 **其他性能问题**:
-
 - 高延迟: `examples/performance-issues/high-latency.ts`
 - 资源泄漏: `examples/performance-issues/resource-leaks.ts`
 - 瓶颈识别: `examples/performance-issues/bottleneck-identification.ts`
@@ -343,7 +340,6 @@ const apiAdapter = process.env.USE_API_V2 === 'true'
 ```
 
 📂 **其他集成问题**:
-
 - 数据格式问题: `examples/integration-issues/data-format-issues.ts`
 - 版本冲突: `examples/integration-issues/version-conflicts.ts`
 - 网络问题: `examples/integration-issues/network-issues.ts`

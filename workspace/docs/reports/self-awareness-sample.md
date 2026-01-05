@@ -10,6 +10,8 @@
   safely and predictably.
 
 **Current Needs**
+<<<<<<< HEAD
+<<<<<<< HEAD
 
 - Harden CI/CD workflows (integration-deployment, phase1-integration, and any
   new delegations) to prevent costly reruns.
@@ -19,14 +21,11 @@
   walk-throughs).
 - Maintain agent role definitions so every delegate knows responsibilities and
   limitations before touching the codebase.
-- Keep [docs/troubleshooting/INDEX.md](docs/troubleshooting/INDEX.md) and
-  [docs/issues/known-failures.md](docs/issues/known-failures.md) current so
+- Keep [docs/troubleshooting/INDEX.md](../troubleshooting/INDEX.md) and
+  [docs/issues/known-failures.md](../issues/known-failures.md) current so
   automation alerts map directly to a remediation playbook.
 - Harden CI/CD workflows (integration-deployment, phase1-integration, and any new delegations) to prevent costly reruns.
 - Keep TypeScript/ESLint configs consistent across `island-ai`, MCP servers, and future workspaces.
-- Document operational runbooks for non-CLI teammates (VS Code Tasks, UI walk-throughs).
-- Maintain agent role definitions so every delegate knows responsibilities and limitations before touching the codebase.
-- Keep [docs/troubleshooting/INDEX.md](docs/troubleshooting/INDEX.md) and [docs/issues/known-failures.md](docs/issues/known-failures.md) current so automation alerts map directly to a remediation playbook.
 
 **Guardrails / Anti-Goals**
 
@@ -36,6 +35,8 @@
 - Tooling drift between workspaces (e.g., partially upgraded Node/TypeScript stacks) that would cause Copilot or CI to fail silently.
 
 **Verification Signals**
+<<<<<<< HEAD
+<<<<<<< HEAD
 
 - ✅ `npm run lint --workspaces --if-present` and
   `npm test --workspaces --if-present` succeed after any tooling change.
@@ -47,11 +48,19 @@
   automation signals fail and links to the troubleshooting index for context.
 - ✅ `docs/troubleshooting/INDEX.md` maps every self-awareness signal to the
   appropriate runbook or known-failure entry.
+=======
+=======
+
+>>>>>>> origin/copilot/sub-pr-402
 - ✅ `npm run lint --workspaces --if-present` and `npm test --workspaces --if-present` succeed after any tooling change.
 - ✅ `.github/workflows/project-self-awareness.yml` posts an up-to-date summary on every pull request.
 - ✅ Agents listed in `config/agents/team/virtual-experts.yaml` have matching docs under `docs/agents/` describing scope and anti-goals.
 - ✅ `.github/workflows/project-self-awareness-nightly.yml` raises an issue when automation signals fail and links to the troubleshooting index for context.
 - ✅ `docs/troubleshooting/INDEX.md` maps every self-awareness signal to the appropriate runbook or known-failure entry.
+<<<<<<< HEAD
+>>>>>>> origin/alert-autofix-37
+=======
+>>>>>>> origin/copilot/sub-pr-402
 
 **Automation Signals**
 

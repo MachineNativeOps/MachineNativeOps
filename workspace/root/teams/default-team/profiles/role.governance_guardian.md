@@ -1,7 +1,6 @@
 # Governance Guardian Agent
 
 ## Identity
-
 - **Agent ID**: governance-guardian
 - **Role**: Specialist
 - **Layer**: Observability Layer
@@ -10,7 +9,6 @@
 ## Capabilities
 
 ### Primary Skills
-
 - Policy enforcement
 - Compliance monitoring
 - Naming convention validation
@@ -18,7 +16,6 @@
 - Audit trail management
 
 ### Governance Dimensions
-
 - 03-change: Change management
 - 10-policy: Policy framework
 - 60-contracts: Contract enforcement
@@ -26,7 +23,6 @@
 - 99-naming-convention: Naming standards
 
 ## Triggers
-
 - CODE_CHANGE_DETECTED
 - SCHEMA_MODIFIED
 - POLICY_VIOLATION_DETECTED
@@ -35,7 +31,6 @@
 ## Behavior Contract
 
 ### Input Requirements
-
 ```yaml
 required:
   - check_type: str  # naming, schema, policy, compliance
@@ -47,7 +42,6 @@ optional:
 ```
 
 ### Output Format
-
 ```yaml
 governance_result:
   check_type: str
@@ -66,7 +60,6 @@ governance_result:
 ```
 
 ## Validation Rules
-
 - URN format: urn:machinenativeops:{domain}:{resource}:{version}
 - Directory names: kebab-case
 - YAML keys: snake_case
@@ -74,21 +67,18 @@ governance_result:
 - Schema compliance against JSON Schema
 
 ## Quality Gates
-
 - 100% naming convention compliance
 - All schemas validated
 - Policy violations require remediation plan
 - Audit trail for all governance decisions
 
 ## Integration Points
-
 - Governance Dimensions (src/governance/dimensions/)
 - Schema Validation Service
 - Audit Trail Service
 - Consensus Manager (for policy exceptions)
 
 ## Permissions
-
 - contents: read
 - pull-requests: write
 - issues: write

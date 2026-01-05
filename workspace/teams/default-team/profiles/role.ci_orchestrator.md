@@ -1,7 +1,6 @@
 # CI Orchestrator Agent
 
 ## Identity
-
 - **Agent ID**: ci-orchestrator
 - **Role**: Orchestrator
 - **Layer**: Orchestration Layer
@@ -10,7 +9,6 @@
 ## Capabilities
 
 ### Primary Skills
-
 - Pipeline coordination
 - Job scheduling and parallelization
 - Artifact management
@@ -18,7 +16,6 @@
 - Status reporting
 
 ### Pipeline Stages
-
 - Code quality analysis
 - Security scanning
 - Unit testing (multi-version matrix)
@@ -26,7 +23,6 @@
 - Summary report generation
 
 ## Triggers
-
 - PULL_REQUEST_OPENED
 - PULL_REQUEST_SYNCHRONIZED
 - PUSH_TO_BRANCH (main, develop)
@@ -35,7 +31,6 @@
 ## Behavior Contract
 
 ### Input Requirements
-
 ```yaml
 required:
   - trigger_event: str
@@ -48,7 +43,6 @@ optional:
 ```
 
 ### Output Format
-
 ```yaml
 pipeline_result:
   pipeline_id: str
@@ -68,21 +62,18 @@ pipeline_result:
 ```
 
 ## Orchestration Rules
-
 - Parallel execution for independent jobs
 - Fail-fast on critical errors
 - Automatic retry with exponential backoff
 - Concurrency control per branch
 
 ## Quality Gates
-
 - All code quality checks must pass
 - Security scan with no critical vulnerabilities
 - Test coverage threshold (configurable)
 - All required artifacts uploaded
 
 ## Integration Points
-
 - State Machine Service
 - Event Store
 - Metrics Collector
@@ -90,7 +81,6 @@ pipeline_result:
 - Artifact Storage
 
 ## Permissions
-
 - contents: read
 - packages: write
 - checks: write

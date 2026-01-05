@@ -9,36 +9,29 @@ These examples materialize the concepts described in the [Self-Healing Architect
 ## Examples
 
 ### 01. Basic Usage (`01-basic-usage.ts`)
-
 **What it demonstrates:**
-
 - Default self-healing behavior with `ProvenanceService`
 - Automatic recovery attempts on validation failures
 - Simple file digest generation
 
 **Run:**
-
 ```bash
 npx tsx examples/self-healing/01-basic-usage.ts
 ```
 
 ### 02. Custom Configuration (`02-custom-configuration.ts`)
-
 **What it demonstrates:**
-
 - Creating a `SelfHealingPathValidator` with custom settings
 - Configuring recovery attempts, snapshot intervals, and DAG tracking
 - Manual snapshot creation
 - Resource cleanup with `dispose()`
 
 **Run:**
-
 ```bash
 npx tsx examples/self-healing/02-custom-configuration.ts
 ```
 
 **Key Configuration Options:**
-
 ```typescript
 {
   safeRoot: string,              // Base directory for file operations
@@ -51,44 +44,36 @@ npx tsx examples/self-healing/02-custom-configuration.ts
 ```
 
 ### 03. Monitoring & Governance (`03-monitoring-governance.ts`)
-
 **What it demonstrates:**
-
 - Accessing real-time metrics from governance system
 - Retrieving attestations for audit
 - Calculating success rates
 - Exporting governance reports
 
 **Run:**
-
 ```bash
 npx tsx examples/self-healing/03-monitoring-governance.ts
 ```
 
 **Metrics Available:**
-
 - Total validations and failures
 - Recovery success/failure counts
 - Snapshot and DAG node statistics
 - Success rate percentage
 
 ### 04. Event Subscription (`04-event-subscription.ts`)
-
 **What it demonstrates:**
-
 - Subscribing to 6 different event types
 - Reacting to validation lifecycle events
 - Custom event handling logic
 - Event-driven monitoring
 
 **Run:**
-
 ```bash
 npx tsx examples/self-healing/04-event-subscription.ts
 ```
 
 **Event Types:**
-
 - `VALIDATION_FAILED` - Path validation failed
 - `STRUCTURE_MISSING` - Directory/file structure missing
 - `STRUCTURE_RECOVERED` - Structure successfully recovered
@@ -97,22 +82,18 @@ npx tsx examples/self-healing/04-event-subscription.ts
 - `DAG_NODE_REBUILT` - DAG node successfully rebuilt
 
 ### 05. Complete Demo (`05-complete-demo.ts`)
-
 **What it demonstrates:**
-
 - End-to-end self-healing workflow
 - All features integrated together
 - Real file operations in temp directory
 - Event tracking and metrics collection
 
 **Run:**
-
 ```bash
 npx tsx examples/self-healing/05-complete-demo.ts
 ```
 
 **Demo Steps:**
-
 1. Setup event listeners
 2. Configure self-healing validator
 3. Create test files
@@ -145,7 +126,6 @@ npx tsx examples/self-healing/05-complete-demo.ts
 ## Expected Output
 
 Each example produces console output showing:
-
 - ✅ Successful operations
 - ❌ Expected failures
 - 📊 Metrics and statistics
@@ -156,7 +136,6 @@ Each example produces console output showing:
 ## Integration with Tests
 
 These examples complement the test suite in `src/__tests__/self-healing/`:
-
 - **Tests**: Verify correctness and behavior
 - **Examples**: Demonstrate usage and integration
 
@@ -181,15 +160,12 @@ These examples complement the test suite in `src/__tests__/self-healing/`:
 ## Core Principles
 
 ### 1. 承襲結構 (Inherited Structure)
-
 System uses existing governance DAG and rules to auto-complete missing structures.
 
 ### 2. 短暫策略 (Transient Strategy)
-
 Temporary repair logic activated during anomalous situations.
 
 ### 3. 自我修復 (Self-Repair)
-
 Automatic completion via fallback + normalize + DAG rebuild.
 
 ## Related Documentation
@@ -201,25 +177,20 @@ Automatic completion via fallback + normalize + DAG rebuild.
 ## Troubleshooting
 
 ### Example fails with "module not found"
-
 Make sure to build the project first:
-
 ```bash
 npm run build
 ```
 
 ### Permission errors
-
 Examples create files in temp directory. Ensure you have write permissions to `/tmp` or `%TEMP%`.
 
 ### Event listeners not firing
-
 Check that event system is properly initialized before validation attempts.
 
 ## Contributing
 
 When adding new examples:
-
 1. Follow the existing naming pattern (`NN-description.ts`)
 2. Include clear documentation at the top
 3. Add entry to this README

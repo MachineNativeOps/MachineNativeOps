@@ -7,8 +7,22 @@ Following the successful extraction and integration of the three-phase refactor 
 ## Status: Foundation Complete ✅
 
 ### Completed Infrastructure (Current PR)
+<<<<<<< HEAD
+<<<<<<< HEAD
 
+- ✅ Three-phase playbook system (01_deconstruction → 02_integration →
+  03_refactor)
+- ✅ Config integration (system-module-map.yaml v1.2.0,
+  unified-config-index.yaml)
+=======
+- ✅ Three-phase playbook system (01_deconstruction → 02_integration → 03_refactor)
+- ✅ Config integration (system-module-map.yaml v1.2.0, unified-config-index.yaml)
+>>>>>>> origin/alert-autofix-37
+=======
 
+- ✅ Three-phase playbook system (01_deconstruction → 02_integration → 03_refactor)
+- ✅ Config integration (system-module-map.yaml v1.2.0, unified-config-index.yaml)
+>>>>>>> origin/copilot/sub-pr-402
 - ✅ Global defaults (language_policy, quality_thresholds)
 - ✅ Architecture constraints (dependencies, skeleton rules, language strategy)
 - ✅ Proposer/Critic AI workflow
@@ -36,15 +50,40 @@ modules:
 ## Phase 1: Core Cluster End-to-End Template (Next 2-4 weeks)
 
 ### Objective
+<<<<<<< HEAD
+<<<<<<< HEAD
 
+Create a complete, replicable template by executing the full refactor cycle on
+`core/architecture-stability` cluster.
+=======
+Create a complete, replicable template by executing the full refactor cycle on `core/architecture-stability` cluster.
+>>>>>>> origin/alert-autofix-37
+=======
+
+Create a complete, replicable template by executing the full refactor cycle on `core/architecture-stability` cluster.
+>>>>>>> origin/copilot/sub-pr-402
 
 ### 1.1 Deconstruction Phase (Week 1)
 
 **Goal**: Analyze existing core architecture and document legacy patterns
 
 **Tasks**:
+<<<<<<< HEAD
+<<<<<<< HEAD
 
+- [ ] Create
+      `docs/refactor_playbooks/01_deconstruction/core/core__architecture_deconstruction.md`
+- [ ] Analyze `core/unified_integration/`, `core/mind_matrix/`,
+      `core/lifecycle_systems/`
+=======
+- [ ] Create `docs/refactor_playbooks/01_deconstruction/core/core__architecture_deconstruction.md`
+- [ ] Analyze `core/unified_integration/`, `core/mind_matrix/`, `core/lifecycle_systems/`
+>>>>>>> origin/alert-autofix-37
+=======
 
+- [ ] Create `docs/refactor_playbooks/01_deconstruction/core/core__architecture_deconstruction.md`
+- [ ] Analyze `core/unified_integration/`, `core/mind_matrix/`, `core/lifecycle_systems/`
+>>>>>>> origin/copilot/sub-pr-402
 - [ ] Document architecture patterns, anti-patterns, technical debt
 - [ ] Identify legacy asset dependencies
 - [ ] Update `legacy_assets_index.yaml` with core-specific entries
@@ -63,8 +102,18 @@ modules:
 **Goal**: Design new architecture that aligns with system constraints
 
 **Tasks**:
+<<<<<<< HEAD
+<<<<<<< HEAD
 
+- [ ] Create
+      `docs/refactor_playbooks/02_integration/core/core__architecture_integration.md`
+=======
+- [ ] Create `docs/refactor_playbooks/02_integration/core/core__architecture_integration.md`
+>>>>>>> origin/alert-autofix-37
+=======
 
+- [ ] Create `docs/refactor_playbooks/02_integration/core/core__architecture_integration.md`
+>>>>>>> origin/copilot/sub-pr-402
 - [ ] Design new architecture respecting skeleton rules
 - [ ] Map old → new component transitions
 - [ ] Define API boundaries and interfaces
@@ -84,8 +133,18 @@ modules:
 **Goal**: Execute refactor with Proposer/Critic AI workflow
 
 **Tasks**:
+<<<<<<< HEAD
+<<<<<<< HEAD
 
+- [ ] Create
+      `docs/refactor_playbooks/03_refactor/core/core__architecture_refactor.md`
+=======
+- [ ] Create `docs/refactor_playbooks/03_refactor/core/core__architecture_refactor.md`
+>>>>>>> origin/alert-autofix-37
+=======
 
+- [ ] Create `docs/refactor_playbooks/03_refactor/core/core__architecture_refactor.md`
+>>>>>>> origin/copilot/sub-pr-402
 - [ ] Implement P0 refactorings (critical fixes)
 - [ ] Implement P1 refactorings (high priority)
 - [ ] Implement P2 refactorings (nice-to-have)
@@ -253,6 +312,8 @@ Following core template success, execute in order:
 ## Risk Mitigation
 
 ### Risk 1: Scope Creep
+<<<<<<< HEAD
+<<<<<<< HEAD
 
 **Mitigation**: Focus on one cluster at a time. Complete end-to-end before
 moving to next.
@@ -271,6 +332,10 @@ thoroughly.
 
 **Mitigation**: Prioritize P0 clusters. Automate repetitive tasks. Use AI for
 assistance.
+=======
+=======
+
+>>>>>>> origin/copilot/sub-pr-402
 **Mitigation**: Focus on one cluster at a time. Complete end-to-end before moving to next.
 
 ### Risk 2: Breaking Changes
@@ -283,6 +348,11 @@ assistance.
 
 ### Risk 4: Resource Constraints
 
+**Mitigation**: Prioritize P0 clusters. Automate repetitive tasks. Use AI for assistance.
+<<<<<<< HEAD
+>>>>>>> origin/alert-autofix-37
+=======
+>>>>>>> origin/copilot/sub-pr-402
 
 ---
 

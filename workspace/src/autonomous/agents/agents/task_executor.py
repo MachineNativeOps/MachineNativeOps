@@ -282,12 +282,11 @@ async def main():
     """Example usage for testing"""
     executor = TaskExecutor()
     
-    # WARNING: This is test code with intentional security issues for demonstration purposes only
     # Example: Analyze potentially unsafe code
     test_code = """
 def process_data(user_input):
-    result = eval(user_input)  # WARNING: Intentional security issue for testing only!
-    password = "hardcoded123"   # WARNING: Intentional security issue for testing only!
+    result = eval(user_input)  # Security issue!
+    password = "hardcoded123"   # Security issue!
     
     for i in range(len(data)):
         for j in range(len(data)):

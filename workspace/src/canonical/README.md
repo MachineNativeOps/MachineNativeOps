@@ -10,14 +10,12 @@
 ## 🎯 核心規則
 
 ### 基礎約束
-
 - **允許字符**: `a-z`, `0-9`, `-` (RFC-1123 DNS_LABEL)
 - **大小寫**: 僅小寫
 - **最大長度**: 63 字符
 - **Canonical Regex**: `^(team|tenant|dev|test|staging|prod|learn)-[a-z0-9-]{1,56}[a-z0-9]$`
 
 ### 命名段結構
-
 ```
 [domain] - [component] - [environment] - [region] - [version] - [suffix]
    └─┬─┘      └──┬──┘       └────┬────┘    └──┬─┘    └──┬──┘    └──┬─┘
@@ -25,7 +23,6 @@
 ```
 
 ### 標準環境
-
 | 環境 | 名稱 | 別名 |
 |------|------|------|
 | 開發 | `dev` | develop, development |
@@ -35,7 +32,6 @@
 | 學習/沙箱 | `learn` | sandbox, demo |
 
 ### 保留關鍵字（禁止使用）
-
 `core`, `internal`, `system`, `legacy`, `experimental`, `kube`, `kubernetes`, `default`
 
 ---
@@ -43,7 +39,6 @@
 ## 📋 三種 Canonical 命名模式
 
 ### 模式 1: `team-domain-env`
-
 ```yaml
 Pattern: team-{domain}-{environment}
 Example: team-frontend-prod
@@ -57,7 +52,6 @@ Required Labels:
 ```
 
 ### 模式 2: `tenant-workload-env-region`
-
 ```yaml
 Pattern: tenant-{workload}-{environment}-{region}
 Example: tenant-payment-prod-uswest
@@ -72,7 +66,6 @@ Required Labels:
 ```
 
 ### 模式 3: `env-app-version`
-
 ```yaml
 Pattern: {environment}-{app}-{version}
 Example: prod-api-v2
@@ -127,7 +120,6 @@ metadata:
 ## ✅ 驗證工具鏈
 
 ### CI/CD 驗證（PR 時阻斷）
-
 ```bash
 # GitHub Actions
 .github/workflows/naming-validation.yml
@@ -139,7 +131,6 @@ python tools/governance/python/validate_naming.py \
 ```
 
 ### Conftest (OPA Rego)
-
 ```bash
 # 策略文件
 templates/conftest/naming.rego
@@ -149,7 +140,6 @@ conftest test manifests/ --policy templates/conftest/
 ```
 
 ### Gatekeeper (Admission Control)
-
 ```yaml
 # ConstraintTemplate
 policies/gatekeeper/namespace-constraints.yaml
@@ -159,7 +149,6 @@ Enforcement: deny
 ```
 
 ### 監控告警
-
 - **Prometheus Metrics**: `policies/observability/naming-metrics-policy.yaml`
 - **Alert Rules**: `templates/prometheus/naming-alert-rules.yaml`
 - **Grafana Dashboard**: `templates/grafana/naming-compliance-dashboard.json`
@@ -224,16 +213,13 @@ python tools/governance/python/naming-migration.py \
 ## 🔒 治理強制
 
 ### 驗證階段
-
 1. **Pre-commit**: Git hooks (可選)
 2. **PR Validation**: GitHub Actions (阻斷)
 3. **Admission Control**: Gatekeeper (強制)
 4. **Runtime Monitoring**: Prometheus + Grafana (持續)
 
 ### 豁免流程
-
 需要豁免的資源必須：
-
 1. 在 `machine-spec.yaml` 的 `exemptions` 中註冊
 2. 提供豁免原因
 3. 指定批准人和過期時間
@@ -258,7 +244,6 @@ python tools/governance/python/naming-migration.py \
 ## 🎓 最佳實踐
 
 ### ✅ 推薦做法
-
 - 使用三種 Canonical 模式之一
 - 為所有 Namespace 添加 URN annotation
 - 在 PR 階段驗證命名合規性
@@ -266,7 +251,6 @@ python tools/governance/python/naming-migration.py \
 - 定期審查豁免清單
 
 ### ❌ 避免做法
-
 - 使用保留關鍵字
 - 混合大小寫
 - 超過 63 字符長度限制
@@ -278,7 +262,6 @@ python tools/governance/python/naming-migration.py \
 ## 🆘 疑難排解
 
 ### 問題: Namespace 創建被 Gatekeeper 拒絕
-
 ```bash
 # 檢查驗證規則
 kubectl get constrainttemplates
@@ -289,7 +272,6 @@ kubectl get events --sort-by='.lastTimestamp'
 ```
 
 ### 問題: 遷移檢測到命名衝突
-
 ```bash
 # 查看衝突詳情
 python tools/governance/python/naming-migration.py \
@@ -307,10 +289,10 @@ python tools/governance/python/naming-migration.py \
 
 ## 📞 聯絡支持
 
-- **Governance Team**: <governance-team@example.com>
+- **Governance Team**: governance-team@example.com
 - **Slack Channel**: `#governance-support`
-- **Issue Tracker**: <https://github.com/machinenativeops/governance/issues>
-- **Runbook**: <https://wiki.example.com/runbooks/naming-governance>
+- **Issue Tracker**: https://github.com/machinenativeops/governance/issues
+- **Runbook**: https://wiki.example.com/runbooks/naming-governance
 
 ---
 
