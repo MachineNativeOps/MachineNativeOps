@@ -5,6 +5,28 @@ lastUpdated: "2025-01-05"
 status: "active"
 governanceDimension: "02-decision"
 
+# ============================================================================
+# Schema References | Schema-Driven Architecture
+# ============================================================================
+schema_references:
+  # This process enforces the exception-request schema
+  exception_request_schema:
+    schema_path: "schemas/exception-request.schema.yaml"
+    description: "All exception requests must conform to the exception-request schema"
+    required_fields:
+      - "exception_id"
+      - "type"
+      - "applicant"
+      - "item"
+      - "reason"
+      - "risk_evaluation"
+    validation:
+      - "Exception ID must match pattern: ^EXC-\\d{4}-\\d{3}$"
+      - "Type must be: temporary, standard, or permanent"
+      - "Reason must be at least 20 characters"
+      - "Risk evaluation is required for all exceptions"
+      - "Duration fields required for temporary exceptions"
+
 exception_framework:
   name: "Naming Governance Exception Management Framework"
   purpose: "管理和追蹤命名標準例外申請，確保合規性和風險控制"
