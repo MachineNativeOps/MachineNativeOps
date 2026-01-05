@@ -53,7 +53,6 @@ island-cli knowledge:ingest --file report.md
 - **主文檔**: [活體知識庫](../../LIVING_KNOWLEDGE_BASE.md)
 
 此整合提供：
-
 - 統一的元數據治理
 - 完整的數據溯源和血緣追蹤
 - 機器可讀的知識圖譜

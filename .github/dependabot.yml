@@ -1,66 +1,73 @@
+# Dependabot Configuration
+# 企業級依賴項自動更新配置
+# Documentation: https://docs.github.com/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
+
 version: 2
 updates:
-  - package-ecosystem: npm
-    directory: /
+  # JavaScript/Node.js dependencies
+  - package-ecosystem: "npm"
+    directory: "/"
     schedule:
-      interval: weekly
-      day: monday
+      interval: "weekly"
+      day: "monday"
       time: "09:00"
     open-pull-requests-limit: 10
-    assignees:
-      - security-team
     reviewers:
-      - security-team
-    labels:
-      - dependencies
-      - security
+      - "security-team"
+    assignees:
+      - "security-team"
     commit-message:
-      prefix: chore(deps)
-      include: scope
-    versioning-strategy: increase
+      prefix: "chore(deps)"
+      include: "scope"
+    labels:
+      - "dependencies"
+      - "security"
+    versioning-strategy: "increase"
     ignore:
       - dependency-name: "*"
-        update-types:
-          - version-update:semver-major
-
-  - package-ecosystem: pip
-    directory: /scripts
+        update-types: ["version-update:semver-major"]
+  
+  # Python dependencies
+  - package-ecosystem: "pip"
+    directory: "/scripts"
     schedule:
-      interval: weekly
-      day: monday
+      interval: "weekly"
+      day: "monday"
       time: "09:00"
     open-pull-requests-limit: 5
     reviewers:
-      - security-team
-    labels:
-      - dependencies
-      - python
-      - security
+      - "security-team"
     commit-message:
-      prefix: chore(deps)
-
-  - package-ecosystem: github-actions
-    directory: /
+      prefix: "chore(deps)"
+    labels:
+      - "dependencies"
+      - "python"
+      - "security"
+  
+  # GitHub Actions workflows
+  - package-ecosystem: "github-actions"
+    directory: "/"
     schedule:
-      interval: weekly
-      day: tuesday
+      interval: "weekly"
+      day: "tuesday"
       time: "09:00"
     open-pull-requests-limit: 5
-    labels:
-      - github-actions
-      - dependencies
     commit-message:
-      prefix: chore(ci)
-
-  - package-ecosystem: docker
-    directory: /
+      prefix: "chore(ci)"
+    labels:
+      - "github-actions"
+      - "dependencies"
+  
+  # Docker dependencies
+  - package-ecosystem: "docker"
+    directory: "/"
     schedule:
-      interval: weekly
-      day: wednesday
+      interval: "weekly"
+      day: "wednesday"
       time: "09:00"
     open-pull-requests-limit: 5
-    labels:
-      - docker
-      - dependencies
     commit-message:
-      prefix: chore(docker)
+      prefix: "chore(docker)"
+    labels:
+      - "docker"
+      - "dependencies"

@@ -18,6 +18,8 @@
 
 **Important 重要**: 不得假設 repo 外還存在其他隱形系統架構。
 
+<<<<<<< HEAD
+<<<<<<< HEAD
 ### 2. Actual Repository Surface Snapshot 實際目錄快照
 
 > 來源: repository root 的目錄列表（例如 `ls` 或 `dir`）  
@@ -40,6 +42,10 @@
 > `docs/DIRECTORY_TREE.md`。若需語義對應與治理邊界，請依此文檔與
 > `config/system-module-map.yaml`。
 
+=======
+>>>>>>> origin/alert-autofix-37
+=======
+>>>>>>> origin/copilot/sub-pr-402
 ---
 
 ## 🎯 Semantic Boundaries 語義邊界

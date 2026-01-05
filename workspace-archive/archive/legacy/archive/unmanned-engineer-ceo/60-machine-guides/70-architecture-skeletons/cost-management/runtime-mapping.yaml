@@ -1,7 +1,0 @@
-mapping:
-  budget_config: config/budget-definitions.yaml
-  cost_monitoring: infrastructure/cost-monitoring/
-  cost_reports: reports/cost/
-  resource_optimization: automation/architect/
-skeleton_id: cost-management
-version: 1.0.0

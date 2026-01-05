@@ -1,10 +1,10 @@
-# MachineNativeOps Core Engine Configuration
+# MachineNativeOps AAPS Core Engine Configuration
 apiVersion: machinenativeops.io/v1
-kind: MachineNativeOps Engine
+kind: AAPS Engine
 metadata:
-  name: machinenativeops-core-engine
+  name: aaps-core-engine
   version: "1.0.0"
-  description: "MachineNativeOps Core Engine"
+  description: "AI Architecture & Artifact Provisioning System Core Engine"
 spec:
   # Engine capabilities
   capabilities:

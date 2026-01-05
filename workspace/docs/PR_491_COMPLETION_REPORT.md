@@ -45,7 +45,6 @@ config/ docs/ examples/ scripts/ src/ tools/ ...
 ### Phase 1: Configuration Updates
 
 **File: machinenativeops.yaml (20 path changes)**
-
 - Strategic alignment: `src/governance/00-vision-strategy/*`
 - MN-DOC schemas: `src/governance/31-schemas/mndoc/*`
 - Mapping rules: `src/governance/32-rules/mapping-rules.yaml`
@@ -56,18 +55,15 @@ config/ docs/ examples/ scripts/ src/ tools/ ...
 - All capability providers: `src/core/unified_integration/*`
 
 **File: scripts/start-synergymesh-dev.sh**
-
 - Contract service path: `$ROOT_DIR/src/core/contract_service/contracts-L1/contracts`
 - MCP servers path: `$ROOT_DIR/src/mcp-servers`
 
 **File: scripts/comprehensive-deploy.sh**
-
 - Documentation updated to reflect src/* structure
 
 ### Phase 2: Duplicate Removal
 
 **Removed 26 duplicate directories:**
-
 - ai/, agent/, automation/, autonomous/, bridges/
 - canonical/, client/, contracts/, core/, docker-templates/
 - frontend/, governance/, mcp-servers/, runtime/
@@ -81,7 +77,6 @@ config/ docs/ examples/ scripts/ src/ tools/ ...
 ### Phase 3: Comprehensive Validation
 
 **NPM Workspaces:**
-
 ```bash
 $ npm install --workspaces
 ✅ 1,092 packages installed
@@ -89,7 +84,6 @@ $ npm install --workspaces
 ```
 
 **Python Packaging:**
-
 ```bash
 $ python3 -m pip install -e .
 ✅ Installation successful
@@ -99,7 +93,6 @@ $ python3 -c "import core; import automation; import ai"
 ```
 
 **TypeScript Compilation:**
-
 ```bash
 $ npx tsc --build
 ✅ Main workspaces compile successfully
@@ -107,14 +100,12 @@ $ npx tsc --build
 ```
 
 **Code Review:**
-
 ```
 ✅ 2,444 files reviewed
 ✅ 0 issues found
 ```
 
 **Security Scan:**
-
 ```
 ✅ CodeQL analysis passed
 ✅ No vulnerabilities detected
@@ -125,7 +116,6 @@ $ npx tsc --build
 ## Final Structure
 
 ### Clean Root Directory
-
 ```
 MachineNativeOps/
 ├── src/                    # ✅ ALL APPLICATION CODE (single source of truth)
@@ -169,7 +159,6 @@ MachineNativeOps/
 ### Key Configuration Files
 
 **package.json workspaces:**
-
 ```json
 "workspaces": [
   "src/mcp-servers",
@@ -182,7 +171,6 @@ MachineNativeOps/
 ```
 
 **pyproject.toml:**
-
 ```toml
 [tool.setuptools]
 package-dir = {"" = "src"}
@@ -193,7 +181,6 @@ include = ["core", "automation", "ai", "governance"]
 ```
 
 **tsconfig.json paths:**
-
 ```json
 "paths": {
   "@machinenativeops/*": ["src/*"],
@@ -226,7 +213,6 @@ include = ["core", "automation", "ai", "governance"]
 ## Benefits Achieved
 
 ### Before (Broken State)
-
 ❌ Duplicate directories (26 at root + 26 in src/)  
 ❌ 2,439 duplicate files  
 ❌ Configuration pointing to mixed paths  
@@ -236,7 +222,6 @@ include = ["core", "automation", "ai", "governance"]
 ❌ Technical debt accumulation  
 
 ### After (Clean State)
-
 ✅ Single source of truth: `src/` directory  
 ✅ Clean root directory structure  
 ✅ All configurations consistent  
@@ -285,7 +270,6 @@ include = ["core", "automation", "ai", "governance"]
    - Imports must use src/ as base
 
 3. **Run validation after structural changes**
-
    ```bash
    npm install --workspaces
    npm run build --workspaces --if-present

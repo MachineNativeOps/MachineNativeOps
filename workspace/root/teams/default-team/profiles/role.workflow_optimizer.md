@@ -1,7 +1,6 @@
 # Workflow Optimizer Agent
 
 ## Identity
-
 - **Agent ID**: workflow-optimizer
 - **Role**: Service
 - **Layer**: Observability Layer
@@ -10,7 +9,6 @@
 ## Capabilities
 
 ### Primary Skills
-
 - Workflow performance analysis
 - Bottleneck detection
 - Parallelization optimization
@@ -18,7 +16,6 @@
 - Cost optimization
 
 ### Analysis Areas
-
 - Job duration trends
 - Cache hit rates
 - Flaky test detection
@@ -26,7 +23,6 @@
 - Queue wait times
 
 ## Triggers
-
 - SCHEDULED_EVENT (weekly analysis)
 - WORKFLOW_RUN_COMPLETED
 - MANUAL_OVERRIDE
@@ -34,7 +30,6 @@
 ## Behavior Contract
 
 ### Input Requirements
-
 ```yaml
 required:
   - workflow_name: str
@@ -45,7 +40,6 @@ optional:
 ```
 
 ### Output Format
-
 ```yaml
 optimization_result:
   workflow: str
@@ -67,7 +61,6 @@ optimization_result:
 ```
 
 ## Optimization Strategies
-
 - Job parallelization
 - Cache key optimization
 - Conditional job execution
@@ -75,13 +68,11 @@ optimization_result:
 - Artifact compression
 
 ## Integration Points
-
 - Metrics Collector
 - GitHub Actions API
 - State Machine (for trend analysis)
 - Audit Trail
 
 ## Permissions
-
 - actions: read
 - contents: read

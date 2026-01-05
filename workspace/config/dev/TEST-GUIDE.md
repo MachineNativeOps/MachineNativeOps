@@ -94,7 +94,7 @@ curl http://localhost:3010/health | jq
 
 ### 🔍 預期測試結果
 
-#### 健康系統應該顯示
+#### 健康系統應該顯示：
 
 1. **意識系統 (Consciousness)**:
 
@@ -130,7 +130,6 @@ curl http://localhost:3010/health | jq
    ```
 
 4. **心跳引擎 (Heartbeat)**:
-
    ```json
    {
      "status": "monitoring",
@@ -142,7 +141,7 @@ curl http://localhost:3010/health | jq
 
 ### 🛠️ 故障排查
 
-#### 如果服務無法啟動
+#### 如果服務無法啟動：
 
 ```bash
 # 1. 檢查 Docker 服務
@@ -158,7 +157,7 @@ docker-compose -f .devcontainer/docker-compose.yml restart postgres redis
 cd 01-core/brain/brain-L1 && npm start
 ```
 
-#### 如果端口被佔用
+#### 如果端口被佔用：
 
 ```bash
 # 檢查端口使用

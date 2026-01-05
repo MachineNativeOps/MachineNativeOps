@@ -227,7 +227,18 @@ The 3 failing tests are related to validation error format expectations and don'
 6. `apps/web/src/App.tsx`
 
 ### Fixed
+<<<<<<< HEAD
+<<<<<<< HEAD
 
+1. `core/contract_service/contracts-L1/contracts/tsconfig.json` - Node types
+   configuration
+=======
+1. `core/contract_service/contracts-L1/contracts/tsconfig.json` - Node types configuration
+>>>>>>> origin/alert-autofix-37
+=======
+
+1. `core/contract_service/contracts-L1/contracts/tsconfig.json` - Node types configuration
+>>>>>>> origin/copilot/sub-pr-402
 
 ## 🎓 Lessons & Best Practices
 

@@ -352,11 +352,10 @@ async def main():
     print(f"Health Check: {json.dumps(health, indent=2)}\n")
     
     # Test code analysis
-    # TEST CODE: This is example code with intentional security issues for demonstration
     test_code = """
 def unsafe_function(user_input):
     # Security issue: eval
-    result = eval(user_input)  # WARNING: This is intentional bad code for testing
+    result = eval(user_input)
     
     # Performance issue: nested loops
     for i in range(100):

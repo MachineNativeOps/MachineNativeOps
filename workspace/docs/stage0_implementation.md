@@ -387,10 +387,25 @@ use island_runtime::{Agent, Runtime};
 let runtime = Runtime::new();
 let agent = Agent::new("developer-agent");
 runtime.spawn(agent);
+<<<<<<< HEAD
+<<<<<<< HEAD
 ````
 
 EOF
 
+````
+=======
+```
+EOF
+```
+>>>>>>> origin/alert-autofix-37
+=======
+```
+
+EOF
+
+```
+>>>>>>> origin/copilot/sub-pr-402
 
 #### 1.5 服務目錄創建（2天）
 
@@ -452,10 +467,20 @@ go run cmd/server/main.go
 ```bash
 curl http://localhost:8080/health
 ```
+<<<<<<< HEAD
 EOF
+<<<<<<< HEAD
 
 ````
+=======
+```
+>>>>>>> origin/alert-autofix-37
+=======
 
+EOF
+
+```
+>>>>>>> origin/copilot/sub-pr-402
 
 #### 1.6 Agents 目錄創建（3天）
 

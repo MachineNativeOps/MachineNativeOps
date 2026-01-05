@@ -2,25 +2,15 @@
 # 🚀 持續整合與部署 (Integration & Deployment)
 # MachineNativeOps Integration & Deployment Pipeline
 # ==============================================================================
-# ⚠️ DISABLED: This workflow references non-existent paths:
-#   - src/core/contract_service/contracts-L1/contracts
-# Re-enable when the contract service is implemented.
-# ==============================================================================
 name: "🚀 持續整合與部署 (Integration & Deployment)"
 
 on:
-  # DISABLED: Automatic triggers removed to prevent 100% failure rate
-  # push:
-  #   branches: [main, develop]
-  # pull_request:
-  #   types: [opened, synchronize, reopened]
-  #   branches: [main, develop]
+  push:
+    branches: [main, develop]
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches: [main, develop]
   workflow_dispatch:
-    inputs:
-      confirm_run:
-        description: 'Type "confirm" to run (requires contract service paths to exist)'
-        required: true
-        type: string
 
 # 並發控制
 concurrency:
@@ -36,7 +26,6 @@ permissions:
 env:
   NODE_VERSION: "20"
   PYTHON_VERSION: "3.11"
-  CONTRACTS_SERVICE_PATH: "src/core/contract_service/contracts-L1/contracts"
 
 jobs:
   # =============================================================================
@@ -46,41 +35,23 @@ jobs:
     name: "🏗️ Tier 1 - Contracts L1 Service"
     runs-on: ubuntu-latest
     timeout-minutes: 30
-    # Gate: Only run if manually confirmed
-    if: ${{ github.event.inputs.confirm_run == 'confirm' }}
-
+    
     defaults:
       run:
-        working-directory: ${{ env.CONTRACTS_SERVICE_PATH }}
-
+        working-directory: src/core/contract_service/contracts-L1/contracts
+    
     steps:
       - name: "📥 檢出代碼"
-        uses: actions/checkout@0ad4b8f3a27c304e21892351cbf9860471245599 # v4
+        uses: 0ad4b8f3a27c304e21892351cbf9860471245599
         with:
           fetch-depth: 0
 
-      - name: "🔍 驗證路徑存在"
-        env:
-          SERVICE_PATH: ${{ env.CONTRACTS_SERVICE_PATH }}
-        run: |
-          if [ ! -d "$GITHUB_WORKSPACE/$SERVICE_PATH" ]; then
-            echo "::error::Required path does not exist: $SERVICE_PATH"
-            echo "This workflow requires the contract service to be implemented first."
-            exit 1
-          fi
-          if [ ! -f "$GITHUB_WORKSPACE/$SERVICE_PATH/package-lock.json" ]; then
-            echo "::error::Required file does not exist: $SERVICE_PATH/package-lock.json"
-            echo "Cannot cache dependencies without package-lock.json"
-            exit 1
-          fi
-        working-directory: ${{ github.workspace }}
-
       - name: "⚙️ 設置 Node.js 環境"
-        uses: actions/setup-node@1e60f620b9541d16bece96c5465dc8ee9832be0b # v4
+        uses: 1e60f620b9541d16bece96c5465dc8ee9832be0b
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
-          cache-dependency-path: '${{ env.CONTRACTS_SERVICE_PATH }}/package-lock.json'
+          cache-dependency-path: 'src/core/contract_service/contracts-L1/contracts/package-lock.json'
 
       - name: "📦 Install dependencies"
         run: |
@@ -145,10 +116,10 @@ jobs:
           npm audit --audit-level=moderate || echo "⚠️ 發現中等風險（非阻塞）"
           
       - name: "📦 上傳構建產物"
-        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808 # v4
+        uses: 65462800fd760344b1a7b4382951275a0abb4808
         with:
           name: contracts-l1-dist
-          path: ${{ env.CONTRACTS_SERVICE_PATH }}/dist/
+          path: src/core/contract_service/contracts-L1/contracts/dist/
           retention-days: 7
           
       - name: "📊 生成服務報告"
@@ -173,11 +144,11 @@ jobs:
           cat contracts-l1-report.md
           
       - name: "📤 上傳服務報告"
-        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808 # v4
+        uses: 65462800fd760344b1a7b4382951275a0abb4808
         if: always()
         with:
           name: contracts-l1-report
-          path: ${{ env.CONTRACTS_SERVICE_PATH }}/contracts-l1-report.md
+          path: src/core/contract_service/contracts-L1/contracts/contracts-l1-report.md
           retention-days: 7
 
   # =============================================================================
@@ -198,13 +169,13 @@ jobs:
     
     steps:
       - name: "📥 檢出代碼"
-        uses: actions/checkout@0ad4b8f3a27c304e21892351cbf9860471245599 # v4
+        uses: 0ad4b8f3a27c304e21892351cbf9860471245599
 
       - name: "⚙️ 設置 Node.js 環境"
-        uses: actions/setup-node@1e60f620b9541d16bece96c5465dc8ee9832be0b # v4
+        uses: 1e60f620b9541d16bece96c5465dc8ee9832be0b
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: ${{ hashFiles(format('{0}/package-lock.json', matrix.workspace)) != '' && 'npm' || '' }}
+          cache: 'npm'
           cache-dependency-path: ${{ matrix.workspace }}/package-lock.json
 
       - name: "📦 安裝工作區依賴"
@@ -268,16 +239,16 @@ jobs:
     
     steps:
       - name: "📥 檢出代碼"
-        uses: actions/checkout@0ad4b8f3a27c304e21892351cbf9860471245599 # v4
+        uses: 0ad4b8f3a27c304e21892351cbf9860471245599
 
       - name: "⚙️ 設置 Node.js 環境"
-        uses: actions/setup-node@1e60f620b9541d16bece96c5465dc8ee9832be0b # v4
+        uses: 1e60f620b9541d16bece96c5465dc8ee9832be0b
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
 
       - name: "⚙️ 設置 Python 環境"
-        uses: actions/setup-python@82c7e631bb3cdc910f68e0081d534527d238d7a7 # v5
+        uses: 82c7e631bb3cdc910f68e0081d534527d238d7a7
         with:
           python-version: ${{ env.PYTHON_VERSION }}
 
@@ -349,7 +320,7 @@ jobs:
           cat integration-report.md
           
       - name: "📤 上傳整合報告"
-        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808 # v4
+        uses: 65462800fd760344b1a7b4382951275a0abb4808
         if: always()
         with:
           name: integration-report
@@ -368,10 +339,10 @@ jobs:
     
     steps:
       - name: "📥 檢出代碼"
-        uses: actions/checkout@0ad4b8f3a27c304e21892351cbf9860471245599 # v4
+        uses: 0ad4b8f3a27c304e21892351cbf9860471245599
 
       - name: "📥 下載所有構建產物"
-        uses: actions/download-artifact@6b208ae046db98c579e8a328f74b955651f427c0 # v4
+        uses: 6b208ae046db98c579e8a328f74b955651f427c0
         with:
           pattern: contracts-l1-*
           merge-multiple: true
@@ -414,7 +385,7 @@ jobs:
           cat deployment-prep-report.md
           
       - name: "📤 上傳部署準備報告"
-        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808 # v4
+        uses: 65462800fd760344b1a7b4382951275a0abb4808
         with:
           name: deployment-preparation-report
           path: deployment-prep-report.md
@@ -431,7 +402,7 @@ jobs:
     
     steps:
       - name: "📥 下載所有報告"
-        uses: actions/download-artifact@6b208ae046db98c579e8a328f74b955651f427c0 # v4
+        uses: 6b208ae046db98c579e8a328f74b955651f427c0
         with:
           pattern: "*-report"
           merge-multiple: true
@@ -483,7 +454,7 @@ jobs:
           
       - name: "📢 評論 PR（如果失敗）"
         if: ${{ github.event_name == 'pull_request' && (contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled')) }}
-        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7
+        uses: 60a0d83039c74a4aee543508d2ffcb1c3799cdea
         with:
           script: |
             const fs = require('fs');
@@ -500,7 +471,7 @@ jobs:
             }
             
       - name: "📤 上傳總結報告"
-        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808 # v4
+        uses: 65462800fd760344b1a7b4382951275a0abb4808
         with:
           name: pipeline-summary
           path: pipeline-summary.md

@@ -164,10 +164,11 @@ class SuperAgentTester:
         try:
             invalid_message = {
                 "meta": {
-                    "source_agent": "test-client",
+                    "source_agent": "test-client"
                     # Missing required fields
                 },
                 "context": {
+                    "namespace": "machinenativeops"
                     "namespace": "machinenativenops-system"
                 },
                 "payload": {}

@@ -77,7 +77,6 @@ The easiest way to deploy is using the provided `deploy.sh` script:
 ```
 
 The script will:
-
 1. ✅ Build the Docker image
 2. ✅ Test the image locally
 3. ✅ Deploy to Kubernetes using Kustomize
@@ -121,7 +120,6 @@ kustomize build k8s/overlays/prod | kubectl apply -f -
 To update the image version for a specific environment, edit the corresponding overlay's `kustomization.yaml`:
 
 **For production:**
-
 ```yaml
 # k8s/overlays/prod/kustomization.yaml
 images:
@@ -130,13 +128,11 @@ images:
 ```
 
 Then redeploy:
-
 ```bash
 ./deploy.sh prod
 ```
 
 **For staging:**
-
 ```yaml
 # k8s/overlays/staging/kustomization.yaml
 images:
@@ -145,7 +141,6 @@ images:
 ```
 
 **For dev:**
-
 ```yaml
 # k8s/overlays/dev/kustomization.yaml
 images:
@@ -375,4 +370,4 @@ spec:
 - [Kustomize Documentation](https://kustomize.io/)
 - [kubectl Kustomize Integration](https://kubernetes.io/docs/tasks/manage-kubernetes-objects/kustomization/)
 - [SuperAgent README](./README.md)
-- [MachineNativeOps Architecture](../../docs/architecture.md)
+- [AAPS Architecture](../../docs/architecture.md)

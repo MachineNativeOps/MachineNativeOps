@@ -88,8 +88,39 @@ Examples:
         '-d',
         action='store_true',
         help='Run as daemon process'
+    """Main entry point"""
+    parser = argparse.ArgumentParser(
+        description="MachineNativeOps Auto-Monitor"
+    )
+    parser.add_argument(
+        "--config",
+        default="config/auto-monitor.yaml",
+        help="Path to configuration file"
+    )
+    parser.add_argument(
+        "--mode",
+        choices=["collect", "alert", "monitor"],
+        default="monitor",
+        help="Operation mode"
+    )
+    parser.add_argument(
+        "--interval",
+        type=int,
+        default=60,
+        help="Collection interval in seconds"
+    )
+    parser.add_argument(
+        "-v", "--verbose",
+        action="store_true",
+        help="Verbose output"
+    )
+    parser.add_argument(
+        "--daemon",
+        action="store_true",
+        help="Run as daemon"
     )
     
+    # Parse arguments
     args = parser.parse_args()
     
     # Setup logging
@@ -291,6 +322,30 @@ def main():
         args.func(args)
     except AttributeError:
         parser.print_help()
+        sys.exit(1)
+
+        logging.getLogger().setLevel(logging.DEBUG)
+    
+    # Load configuration
+    try:
+        config = AutoMonitorConfig.from_file(args.config)
+    except FileNotFoundError:
+        logger.warning(f"Config file not found: {args.config}, using defaults")
+        config = AutoMonitorConfig()
+    
+    # Create and run application
+    app = AutoMonitorApp(config)
+    
+    try:
+        if args.daemon:
+            logger.info("Running in daemon mode...")
+            # TODO: Implement daemon mode
+            return
+        app.run()
+    except KeyboardInterrupt:
+        logger.info("Shutting down...")
+    except Exception as e:
+        logger.error(f"Error: {e}", exc_info=True)
         sys.exit(1)
 
 

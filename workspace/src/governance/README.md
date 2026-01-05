@@ -51,11 +51,16 @@ This framework makes architecture governance **explicit, measurable, and automat
 
 ## 📁 Directory Structure 目錄結構
 
+<<<<<<< HEAD
+<<<<<<< HEAD
 > **⚠️ RESTRUCTURING NOTICE** (2025-12-12): Directory structure has been cleaned
 > up to resolve duplicates and conflicts. See
 > [RESTRUCTURING_GUIDE.md](./RESTRUCTURING_GUIDE.md) for migration details.
 
-
+=======
+>>>>>>> origin/alert-autofix-37
+=======
+>>>>>>> origin/copilot/sub-pr-402
 ```
 governance/
 ├── ARCHITECTURE_GOVERNANCE_MATRIX.md     # 🎯 架構治理矩陣（核心文檔）
@@ -124,6 +129,8 @@ governance/
 │   └── schemas/                          # Schema 定義
 ```
 
+<<<<<<< HEAD
+<<<<<<< HEAD
 ### 🔄 Recent Changes (2025-12-12)
 
 **問題解決 (Problems Resolved)**:
@@ -140,7 +147,10 @@ governance/
 - All changes tracked in `governance-map.yaml`
 - Migration deadline: 2026-03-31
 
->>>>>>>
+=======
+>>>>>>> origin/alert-autofix-37
+=======
+>>>>>>> origin/copilot/sub-pr-402
 ## 🎯 What This Directory Does 本目錄負責什麼
 
 ### ✅ Responsibilities 職責
@@ -325,6 +335,8 @@ SynergyMesh follows SLSA (Supply-chain Levels for Software Artifacts) framework:
 - [SLSA Framework](https://slsa.dev/)
 - [Migration Guide](../docs/MIGRATION.md)
 - [Sigstore Documentation](https://docs.sigstore.dev/)
+<<<<<<< HEAD
+<<<<<<< HEAD
 
 ## Directory Structure
 
@@ -343,3 +355,8 @@ SynergyMesh follows SLSA (Supply-chain Levels for Software Artifacts) framework:
 - ~~`schemas/`~~ → Use `31-schemas/`
 - ~~`scripts/`~~ → Use `35-scripts/`
 
+Last updated: 2025-12-12
+=======
+>>>>>>> origin/alert-autofix-37
+=======
+>>>>>>> origin/copilot/sub-pr-402

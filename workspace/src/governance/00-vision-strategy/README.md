@@ -116,16 +116,28 @@ kubectl apply -k gitops/kustomization-instances.yaml
 ## 📚 Documentation | 文檔
 
 ### 🌟 Primary Entry Point / 主要入口
+<<<<<<< HEAD
+<<<<<<< HEAD
 
+- **[AUTONOMOUS_AGENT_STATE.md](./AUTONOMOUS_AGENT_STATE.md)** ⚡ **AI AGENTS
+  START HERE**
+=======
+- **[AUTONOMOUS_AGENT_STATE.md](./AUTONOMOUS_AGENT_STATE.md)** ⚡ **AI AGENTS START HERE**
+>>>>>>> origin/alert-autofix-37
+=======
 
-- < 1 second instant project state loading
-- Machine-readable JSON/YAML format
-- Instant execution commands
-- Autonomous decision tree
-- Zero delay, instant execution, fully autonomous
-- AI 代理 < 1 秒即時載入，立即執行
+- **[AUTONOMOUS_AGENT_STATE.md](./AUTONOMOUS_AGENT_STATE.md)** ⚡ **AI AGENTS START HERE**
+>>>>>>> origin/copilot/sub-pr-402
+  - < 1 second instant project state loading
+  - Machine-readable JSON/YAML format
+  - Instant execution commands
+  - Autonomous decision tree
+  - Zero delay, instant execution, fully autonomous
+  - AI 代理 < 1 秒即時載入，立即執行
 
 ### Deployment / 部署
+<<<<<<< HEAD
+<<<<<<< HEAD
 
 - **[DEPLOYMENT.md](./DEPLOYMENT.md)** - Complete deployment guide
   | 完整部署指南
@@ -143,6 +155,10 @@ kubectl apply -k gitops/kustomization-instances.yaml
   project state | 完整項目狀態
 - **[README.gac-deployment.md](./README.gac-deployment.md)** - GaC deployment
   overview | GaC 部署概覽
+=======
+=======
+
+>>>>>>> origin/copilot/sub-pr-402
 - **[DEPLOYMENT.md](./DEPLOYMENT.md)** - Complete deployment guide | 完整部署指南
 
 ### Implementation Details / 實施細節
@@ -152,6 +168,12 @@ kubectl apply -k gitops/kustomization-instances.yaml
 
 ### Status & History / 狀態與歷史
 
+- **[PROJECT_STATE_SNAPSHOT.md](./PROJECT_STATE_SNAPSHOT.md)** - Complete project state | 完整項目狀態
+- **[README.gac-deployment.md](./README.gac-deployment.md)** - GaC deployment overview | GaC 部署概覽
+<<<<<<< HEAD
+>>>>>>> origin/alert-autofix-37
+=======
+>>>>>>> origin/copilot/sub-pr-402
 
 ## 🔗 Dependencies | 依賴關係
 

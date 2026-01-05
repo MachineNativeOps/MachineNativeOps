@@ -83,8 +83,26 @@ metadata:
 #### Stage 1: AI-Driven Analysis & Synthesis (< 5 seconds)
 
 **Automated Intelligence Engine:**
+<<<<<<< HEAD
+<<<<<<< HEAD
 
+- **Codebase Deep Scan:** Abstract Syntax Tree (AST) analysis across all
+  repositories
+- **Pattern Recognition:** ML-based identification of existing naming
+  conventions
+- **Conflict Detection:** Automated discovery of naming collisions and
+  anti-patterns
+=======
+- **Codebase Deep Scan:** Abstract Syntax Tree (AST) analysis across all repositories
+- **Pattern Recognition:** ML-based identification of existing naming conventions
+- **Conflict Detection:** Automated discovery of naming collisions and anti-patterns
+>>>>>>> origin/alert-autofix-37
+=======
 
+- **Codebase Deep Scan:** Abstract Syntax Tree (AST) analysis across all repositories
+- **Pattern Recognition:** ML-based identification of existing naming conventions
+- **Conflict Detection:** Automated discovery of naming collisions and anti-patterns
+>>>>>>> origin/copilot/sub-pr-402
 - **Risk Scoring:** AI-powered impact assessment for each resource
 
 **Deliverables (Auto-Generated):**
@@ -285,7 +303,26 @@ continuous_optimization:
 ### AI-Powered Stakeholder Management
 
 **Automated Role Assignment:**
+<<<<<<< HEAD
+<<<<<<< HEAD
 
+- **Dynamic Skill Mapping:** AI analyzes commit history and assigns
+  responsibilities
+- **Automated Training Delivery:** Just-in-time learning content based on role
+  and gaps
+- **Virtual Governance Bot:** AI agent handles exceptions, reviews, and
+  arbitration
+=======
+- **Dynamic Skill Mapping:** AI analyzes commit history and assigns responsibilities
+- **Automated Training Delivery:** Just-in-time learning content based on role and gaps
+- **Virtual Governance Bot:** AI agent handles exceptions, reviews, and arbitration
+>>>>>>> origin/alert-autofix-37
+=======
+
+- **Dynamic Skill Mapping:** AI analyzes commit history and assigns responsibilities
+- **Automated Training Delivery:** Just-in-time learning content based on role and gaps
+- **Virtual Governance Bot:** AI agent handles exceptions, reviews, and arbitration
+>>>>>>> origin/copilot/sub-pr-402
 
 #### Naming Gatekeeper (AI Agent)
 
@@ -1018,8 +1055,22 @@ observability:
 #### Automated Exception Workflow (< 5 Minutes End-to-End)
 
 **Stage 1: Intelligent Submission (< 30 seconds)**
+<<<<<<< HEAD
+<<<<<<< HEAD
 
+- **Auto-Populated Fields:** AI extracts context from repository, user history,
+  and similar exceptions
+- **Guided Justification:** Real-time suggestions based on past approved
+  exceptions
+=======
+- **Auto-Populated Fields:** AI extracts context from repository, user history, and similar exceptions
+- **Guided Justification:** Real-time suggestions based on past approved exceptions
+>>>>>>> origin/alert-autofix-37
+=======
 
+- **Auto-Populated Fields:** AI extracts context from repository, user history, and similar exceptions
+- **Guided Justification:** Real-time suggestions based on past approved exceptions
+>>>>>>> origin/copilot/sub-pr-402
 - **Instant Risk Scoring:** ML model predicts approval likelihood and risk level
 
 **Stage 2: AI Review & Decision (< 2 seconds)**

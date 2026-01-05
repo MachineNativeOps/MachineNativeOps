@@ -287,7 +287,6 @@ User Action → Component State Update → Re-render → API Call (if needed)
 ### API Endpoint Categories
 
 #### 1. Authentication (`/api/v1/auth`)
-
 ```typescript
 POST   /login      - User login (JWT token generation)
 POST   /register   - User registration
@@ -296,7 +295,6 @@ POST   /logout     - User logout
 ```
 
 #### 2. System Operations (`/api/v1/system`)
-
 ```typescript
 GET    /health     - Health check with service status
 GET    /metrics    - System metrics (requests, performance, resources)
@@ -305,7 +303,6 @@ POST   /restart    - Restart service (admin only)
 ```
 
 #### 3. Resource Management (`/api/v1/resources`)
-
 ```typescript
 GET    /           - List resources (paginated, filtered, sorted)
 POST   /           - Create new resource
@@ -315,7 +312,6 @@ DELETE /:id        - Delete resource
 ```
 
 #### 4. Task Management (`/api/v1/tasks`)
-
 ```typescript
 GET    /           - List tasks (filterable by status)
 POST   /           - Create new task
@@ -325,7 +321,6 @@ GET    /:id/logs   - Get task execution logs
 ```
 
 #### 5. Monitoring & Analytics (`/api/v1/metrics`)
-
 ```typescript
 GET    /timeseries - Time series metrics data
 GET    /logs       - Query system logs
@@ -493,7 +488,6 @@ GET    /alerts     - List active alerts
 ### Job Types
 
 #### 1. Cron Jobs
-
 ```typescript
 scheduler.schedule('backup', '0 2 * * *', async () => {
   await performBackup();
@@ -506,14 +500,12 @@ scheduler.schedule('backup', '0 2 * * *', async () => {
 ```
 
 **Use Cases:**
-
 - Daily backups
 - Weekly reports
 - Monthly cleanup
 - Periodic health checks
 
 #### 2. One-Time Tasks
-
 ```typescript
 scheduler.scheduleOnce('cleanup', new Date('2026-01-01T00:00:00Z'), async () => {
   await cleanupOldData();
@@ -524,14 +516,12 @@ scheduler.scheduleOnce('cleanup', new Date('2026-01-01T00:00:00Z'), async () => 
 ```
 
 **Use Cases:**
-
 - Scheduled maintenance
 - Future data processing
 - Delayed notifications
 - Time-based triggers
 
 #### 3. Interval Tasks
-
 ```typescript
 scheduler.scheduleInterval('health-check', 60000, async () => {
   await checkSystemHealth();
@@ -542,7 +532,6 @@ scheduler.scheduleInterval('health-check', 60000, async () => {
 ```
 
 **Use Cases:**
-
 - Health checks
 - Metrics collection
 - Status polling
@@ -615,7 +604,6 @@ scheduler.scheduleInterval('health-check', 60000, async () => {
 ### Data Flow Patterns
 
 #### 1. Monitoring Data Flow
-
 ```
 System Metrics
     ↓
@@ -627,7 +615,6 @@ User Interface (Charts, Cards, Panels)
 ```
 
 #### 2. Task Scheduling Flow
-
 ```
 User/System Request
     ↓
@@ -647,7 +634,6 @@ API Response
 ```
 
 #### 3. Authentication Flow
-
 ```
 Login Request
     ↓
@@ -873,8 +859,7 @@ Subsequent Requests (Authorization header)
 ### ADR-001: Frontend Framework Selection
 
 **Decision**: React 18+ with TypeScript
-**Reasoning**:
-
+**Reasoning**: 
 - Strong ecosystem and community
 - TypeScript for type safety
 - Performance optimizations (concurrent rendering)
@@ -884,7 +869,6 @@ Subsequent Requests (Authorization header)
 
 **Decision**: Express.js with TypeScript
 **Reasoning**:
-
 - Lightweight and flexible
 - Large middleware ecosystem
 - Easy to integrate with Node.js tools
@@ -894,7 +878,6 @@ Subsequent Requests (Authorization header)
 
 **Decision**: BullMQ with Redis
 **Reasoning**:
-
 - Production-proven reliability
 - Distributed job processing
 - Priority queues support
@@ -905,7 +888,6 @@ Subsequent Requests (Authorization header)
 
 **Decision**: JWT tokens with secure secret management
 **Reasoning**:
-
 - Stateless authentication
 - Scalable across multiple instances
 - Standard and widely supported
@@ -915,7 +897,6 @@ Subsequent Requests (Authorization header)
 
 **Decision**: shadcn/ui with TailwindCSS
 **Reasoning**:
-
 - Modern and customizable
 - Accessible by default
 - TypeScript support

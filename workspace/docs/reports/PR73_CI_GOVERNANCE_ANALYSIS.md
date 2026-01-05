@@ -16,7 +16,23 @@ This report provides a comprehensive analysis of the CI governance framework imp
 2. **CI Governance Framework**: Implemented a complete CI governance system including agent configuration, validation workflows, error handling, and Stage 0 automation
 
 ### Key Deliverables
+<<<<<<< HEAD
+<<<<<<< HEAD
 
+| Component                      | Location                                           | Purpose                                    |
+| ------------------------------ | -------------------------------------------------- | ------------------------------------------ |
+| CI Agent Configuration         | `config/ci-agent-config.yaml`                      | Defines CI Copilot agent behavior          |
+=======
+| Component | Location | Purpose |
+|-----------|----------|---------|
+| CI Agent Configuration | `config/ci-agent-config.yaml` | Defines CI Copilot agent behavior |
+>>>>>>> origin/alert-autofix-37
+=======
+
+| Component | Location | Purpose |
+|-----------|----------|---------|
+| CI Agent Configuration | `config/ci-agent-config.yaml` | Defines CI Copilot agent behavior |
+>>>>>>> origin/copilot/sub-pr-402
 | Governance Validation Workflow | `.github/workflows/arch-governance-validation.yml` | Automated architecture & governance checks |
 | Error Handler Enhancement | `config/ci-error-handler.yaml` | Error → Action mapping for AI agents |
 | Pre-commit Hook | `scripts/hooks/pre-commit` | Stage 0 commit validation |
@@ -135,17 +151,27 @@ Validated skeleton mappings:
 **Purpose:** Provides error classification → action plan mapping for AI agents.
 
 **Priority Levels:**
+<<<<<<< HEAD
+<<<<<<< HEAD
 
 | Priority | SLA      | Examples                                 |
 | -------- | -------- | ---------------------------------------- |
 | P0       | 24 hours | STARTUP_FAILURE, PERMISSION_ERROR        |
 | P1       | 48 hours | BUILD_ERROR, TEST_FAILURE, SECURITY_SCAN |
 | P2       | 1 week   | LINT_ERROR, TYPE_ERROR, DEPENDENCY_ERROR |
+=======
+=======
+
+>>>>>>> origin/copilot/sub-pr-402
 | Priority | SLA | Examples |
 |----------|-----|----------|
 | P0 | 24 hours | STARTUP_FAILURE, PERMISSION_ERROR |
 | P1 | 48 hours | BUILD_ERROR, TEST_FAILURE, SECURITY_SCAN |
 | P2 | 1 week | LINT_ERROR, TYPE_ERROR, DEPENDENCY_ERROR |
+<<<<<<< HEAD
+>>>>>>> origin/alert-autofix-37
+=======
+>>>>>>> origin/copilot/sub-pr-402
 
 **New Features Added:**
 

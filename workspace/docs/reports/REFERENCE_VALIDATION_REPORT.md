@@ -119,8 +119,18 @@ Comprehensive validation of all 44 critical files created or modified during the
 ## Reference Integrity Checks
 
 ### ✅ Configuration References
+<<<<<<< HEAD
+<<<<<<< HEAD
 
+- `config/system-manifest.yaml` → References `workflow_system` section
+  (line 179)
+=======
+- `config/system-manifest.yaml` → References `workflow_system` section (line 179)
+>>>>>>> origin/alert-autofix-37
+=======
 
+- `config/system-manifest.yaml` → References `workflow_system` section (line 179)
+>>>>>>> origin/copilot/sub-pr-402
 - `config/unified-config-index.yaml` → References workflow governance
 - All policy files exist in `governance/policies/workflow/`
 
@@ -161,8 +171,22 @@ All documentation files reference each other correctly:
 ## Namespace Alignment
 
 ### ✅ Configuration Namespace
+<<<<<<< HEAD
+<<<<<<< HEAD
 
+- Old: `config/main-configuration.yaml` → Merged into
+  `config/system-manifest.yaml`
+- Old: `config/behavior-contracts.yaml` → Moved to
+  `governance/policies/workflow/`
+=======
+- Old: `config/main-configuration.yaml` → Merged into `config/system-manifest.yaml`
+- Old: `config/behavior-contracts.yaml` → Moved to `governance/policies/workflow/`
+>>>>>>> origin/alert-autofix-37
+=======
 
+- Old: `config/main-configuration.yaml` → Merged into `config/system-manifest.yaml`
+- Old: `config/behavior-contracts.yaml` → Moved to `governance/policies/workflow/`
+>>>>>>> origin/copilot/sub-pr-402
 - Old: `config/validation-rules.yaml` → Moved to `governance/policies/workflow/`
 - Old: `config/virtual-experts.yaml` → Moved to `config/agents/team/`
 

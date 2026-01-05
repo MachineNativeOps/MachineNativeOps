@@ -1,328 +1,313 @@
-# MachineNativeOps CI/CD System
+# MachineNativeOps
 
-## Overview
+本倉庫同時包含：
 
-This repository contains a comprehensive, enterprise-grade CI/CD implementation for the MachineNativeOps project. The system features automated deployments, canary releases, intelligent rollbacks, comprehensive monitoring, and disaster recovery capabilities.
+- **AAPS Root Layer**：以 Linux FHS 風格落地的最小根層骨架，並將治理配置集中到 `controlplane/`。
+- **CI/CD System**：以 GitHub Actions 為核心的企業級交付流水線，包含安全掃描、驗證閘門、Cloudflare 部署等。
 
-## 🎯 Key Features
-
-- **Automated CI/CD Pipeline** with GitHub Actions
-- **Progressive Canary Deployments** using Argo Rollouts
-- **Intelligent Rollback Mechanism** with automated failure detection
-- **Comprehensive Monitoring** with Prometheus and Grafana
-- **Security Compliance** (SLSA L3, NIST SP 800-204)
-- **Automated Secrets Rotation** with audit logging
-- **Team Training Tools** with drill simulations
-- **Disaster Recovery** procedures and automation
-
-## 📁 Project Structure
-
-```
-.
-├── scripts/
-│   ├── secrets_rotation.py          # Automated secret management
-│   ├── rollback-mechanism.sh        # Intelligent rollback system
-│   ├── drill-simulation.sh          # Team training drills
-│   └── ci-cd-validation.sh          # System validation suite
-│
-├── charts/
-│   ├── argo-rollout.yaml            # Canary deployment config
-│   ├── analysis-template-success-rate.yaml
-│   ├── analysis-template-error-rate.yaml
-│   └── analysis-template-response-time.yaml
-│
-├── monitoring/
-│   ├── grafana-dashboard.json       # Monitoring dashboard
-│   ├── prometheus-alerts.yaml       # Alerting rules
-│   └── setup-monitoring.sh          # Deployment script
-│
-├── docs/
-│   ├── github-secrets-setup-guide.md
-│   └── team-training-guide.md
-│
-├── IMPLEMENTATION_SUMMARY.md        # Complete implementation details
-└── README.md                        # This file
-```
-
-## 🚀 Quick Start
-
-### Prerequisites
-
-- Kubernetes cluster (v1.24+)
-- kubectl configured and authenticated
-- Argo Rollouts installed
-- GitHub CLI installed and authenticated
-- Container registry access
-
-### Installation
-
-#### 1. Deploy Monitoring Stack
-```bash
-./monitoring/setup-monitoring.sh
-```
-
-#### 2. Configure GitHub Secrets
-```bash
-# Follow the comprehensive guide
-cat docs/github-secrets-setup-guide.md
-```
-
-#### 3. Deploy Application
-```bash
-kubectl apply -f charts/argo-rollout.yaml
-kubectl apply -f charts/analysis-template-*.yaml
-```
-
-#### 4. Validate Installation
-```bash
-./scripts/ci-cd-validation.sh all
-```
-
-#### 5. Access Dashboards
-```bash
-# Grafana
-kubectl port-forward svc/grafana 3000:3000 -n monitoring
-# URL: http://localhost:3000
-# Username: admin / Password: admin
-
-# Prometheus
-kubectl port-forward svc/prometheus 9090:9090 -n monitoring
-# URL: http://localhost:9090
-```
-
-## 📚 Documentation
-
-### Core Documentation
-
-- **[Implementation Summary](IMPLEMENTATION_SUMMARY.md)** - Complete system overview and implementation details
-- **[Team Training Guide](docs/team-training-guide.md)** - Comprehensive training material and procedures
-- **[GitHub Secrets Setup Guide](docs/github-secrets-setup-guide.md)** - Security configuration and best practices
-
-### Script Documentation
-
-#### Secrets Rotation
-```bash
-# Rotate all secrets
-python3 scripts/secrets_rotation.py \
-  --repo MachineNativeOps/machine-native-ops \
-  --secret API_TOKEN
-
-# Dry run to preview
-python3 scripts/secrets_rotation.py \
-  --repo MachineNativeOps/machine-native-ops \
-  --secret API_TOKEN \
-  --dry-run
-
-# Verify rotation
-python3 scripts/secrets_rotation.py \
-  --repo MachineNativeOps/machine-native-ops \
-  --secret API_TOKEN \
-  --verify
-```
-
-#### Rollback Mechanism
-```bash
-# Monitor deployment and auto-rollback on failure
-./scripts/rollback-mechanism.sh monitor
-
-# Manual rollback
-./scripts/rollback-mechanism.sh rollback "Performance degradation"
-
-# Rollback to specific revision
-./scripts/rollback-mechanism.sh manual-rollback 3
-
-# List rollback points
-./scripts/rollback-mechanism.sh list
-
-# Check status
-./scripts/rollback-mechanism.sh status
-
-# Clean up old snapshots
-./scripts/rollback-mechanism.sh cleanup
-```
-
-#### Drill Simulation
-```bash
-# Run all drill scenarios
-./scripts/drill-simulation.sh all
-
-# Run specific scenarios
-./scripts/drill-simulation.sh pod-failure
-./scripts/drill-simulation.sh high-latency
-./scripts/drill-simulation.sh canary-failure
-./scripts/drill-simulation.sh secret-rotation
-./scripts/drill-simulation.sh resource-exhaustion
-./scripts/drill-simulation.sh emergency-rollback
-./scripts/drill-simulation.sh monitoring-alerts
-```
-
-#### Validation
-```bash
-# Run all validation tests
-./scripts/ci-cd-validation.sh all
-
-# Run specific test categories
-./scripts/ci-cd-validation.sh infrastructure
-./scripts/ci-cd-validation.sh deployment
-./scripts/ci-cd-validation.sh rollouts
-./scripts/ci-cd-validation.sh monitoring
-./scripts/ci-cd-validation.sh scripts
-./scripts/ci-cd-validation.sh docs
-```
-
-## 🔧 Operational Procedures
-
-### Daily Operations
-```bash
-# Check deployment status
-kubectl argo rollouts get machine-native-ops -n default
-
-# Review monitoring dashboard
-# Access: http://localhost:3000/d/machine-native-ops-cicd
-
-# Check for alerts
-kubectl get alerts -n monitoring
-```
-
-### Emergency Response
-```bash
-# Trigger immediate rollback
-./scripts/rollback-mechanism.sh rollback "Critical incident"
-
-# Monitor recovery
-watch kubectl argo rollouts get machine-native-ops -n default
-
-# Check logs
-kubectl logs -n default -l app=machine-native-ops --tail=100
-```
-
-### Regular Maintenance
-```bash
-# Weekly: Clean up old snapshots
-./scripts/rollback-mechanism.sh cleanup
-
-# Weekly: Verify secrets
-python3 scripts/secrets_rotation.py --verify
-
-# Monthly: Run drill simulations
-./scripts/drill-simulation.sh all
-```
-
-## 🎓 Training
-
-### Team Training Exercises
-
-1. **Deploy a Test Change**
-   ```bash
-   echo "Test deployment" > test.txt
-   git add test.txt
-   git commit -m "test: Verify deployment pipeline"
-   git push origin feature/test-deployment
-   gh pr create --title "Test deployment" --body "Testing deployment pipeline"
-   ```
-
-2. **Trigger and Monitor Rollback**
-   ```bash
-   kubectl argo rollouts set image machine-native-ops \
-     machine-native-ops=nginx:broken -n default
-   ./scripts/rollback-mechanism.sh rollback "Test rollback procedure"
-   ```
-
-3. **Run Drill Simulation**
-   ```bash
-   ./scripts/drill-simulation.sh all
-   cat /var/log/drill-simulation.log
-   ```
-
-For comprehensive training, see [Team Training Guide](docs/team-training-guide.md).
-
-## 🏗️ Architecture
-
-### CI/CD Pipeline Flow
-```mermaid
-graph LR
-    A[Code Push] --> B[GitHub Actions CI]
-    B --> C[Security Scan]
-    C --> D[Automated Testing]
-    D --> E[Build Image]
-    E --> F[Push to Registry]
-    F --> G[ArgoCD Sync]
-    G --> H[Canary Deployment]
-    H --> I{Health Check}
-    I -->|Pass| J[Full Rollout]
-    I -->|Fail| K[Auto Rollback]
-```
-
-### Monitoring Stack
-- **Prometheus**: Metrics collection and alerting
-- **Grafana**: Real-time dashboards with 12 panels
-- **AlertManager**: Alert routing and notifications
-
-### Deployment Strategy
-- **Progressive Canary**: 10% → 30% → 50% → 80% → 100%
-- **Automated Analysis**: Success rate, error rate, response time
-- **Intelligent Rollback**: Automatic failure detection and recovery
-
-## 🔒 Security
-
-### Compliance
-- ✅ **SLSA L3**: Provenance generation and verification
-- ✅ **NIST SP 800-204**: Security configuration and controls
-- ✅ **SOC 2 Ready**: Control implementation for enterprise compliance
-
-### Security Features
-- Environment-isolated secrets
-- Automated secret rotation (30-day cycle)
-- Container image signing with Cosign
-- SBOM generation and attestation
-- Comprehensive audit logging
-
-## 📊 Monitoring
-
-### Key Metrics
-- **Deployment Health**: Rollout phase, replica count
-- **Application Metrics**: Success rate (≥95%), error rate (<1%), P95 response time (<500ms)
-- **Resource Usage**: CPU, memory, network
-- **Canary Analysis**: Traffic distribution, performance comparison
-
-### Alerts
-- **Critical Alerts**: Rollout degraded, high error rate, pod crash looping
-- **Warning Alerts**: High CPU/memory usage, canary failure rate, high response time
-
-## 🤝 Contributing
-
-For contribution guidelines and development procedures, please refer to the [Team Training Guide](docs/team-training-guide.md).
-
-## 📞 Support
-
-### Resources
-- **Documentation**: See `docs/` directory
-- **Implementation Details**: [IMPLEMENTATION_SUMMARY.md](IMPLEMENTATION_SUMMARY.md)
-- **External Resources**:
-  - [Argo Rollouts](https://argoproj.github.io/argo-rollouts/)
-  - [Prometheus](https://prometheus.io/docs/)
-  - [Grafana](https://grafana.com/docs/)
-  - [GitHub Actions](https://docs.github.com/actions/)
-
-### Contact
-- **On-Call Engineer**: Check rotation schedule
-- **Engineering Team**: engineering@machinenativeops.com
-- **DevOps Team**: devops@machinenativeops.com
-
-## 📜 License
-
-See LICENSE file for details.
-
-## 🙏 Acknowledgments
-
-Built with best practices from:
-- Argo Project
-- Prometheus Ecosystem
-- CNCF Community
-- DevOps Best Practices
+若你是第一次進來：先看「AAPS Root Layer」理解目錄邊界，再看「CI/CD System」了解交付與驗證機制。
 
 ---
 
-**Status**: ✅ Production Ready  
-**Implementation Date**: 2025  
-**Version**: 1.0.0
+## 🏗️ AAPS Root Layer
+
+## 🏗️ 架構概述
+
+本項目採用「類 Linux 最小系統骨架」+ Controlplane 分離架構。
+
+### 根層結構（極簡化）
+
+```
+machine-native-ops-aaps/
+├── bin/                    # 基本用戶命令二進制檔案
+├── sbin/                   # 系統管理二進制檔案
+├── etc/                    # 系統配置檔案
+├── lib/                    # 共享函式庫
+├── var/                    # 變動資料
+├── usr/                    # 用戶程式
+├── home/                   # 用戶主目錄
+├── tmp/                    # 臨時檔案
+├── opt/                    # 可選應用程式
+├── srv/                    # 服務資料
+├── init.d/                 # 初始化腳本
+│
+├── controlplane/           # 治理控制層（唯讀）
+│   ├── config/            # 配置文件
+│   ├── specifications/    # 規格定義
+│   ├── registries/        # 註冊表
+│   ├── validation/        # 驗證工具
+│   ├── integration/       # 集成配置
+│   └── documentation/     # 文檔
+│
+├── workspace/              # 工作區（讀寫）
+│   ├── src/               # 源代碼
+│   ├── docs/              # 項目文檔
+│   ├── scripts/           # 腳本工具
+│   ├── tests/             # 測試
+│   └── ...                # 其他項目文件
+│
+├── root.bootstrap.yaml     # 引導配置
+├── root.fs.map            # 文件系統映射
+└── root.env.sh            # 環境變數
+```
+
+---
+
+## 🚀 快速開始
+
+### 1. 加載環境
+
+```bash
+source root.env.sh
+```
+
+### 2. 驗證結構
+
+```bash
+# 檢查 controlplane
+ls -la ${CONTROLPLANE_PATH}
+
+# 檢查 workspace
+ls -la ${WORKSPACE_PATH}
+```
+
+### 3. 開始工作
+
+```bash
+# 進入工作區
+cd workspace/
+
+# 查看項目文檔
+cd docs/
+
+# 運行測試
+cd tests/
+pytest
+```
+
+---
+
+## 🔁 CI/CD System
+
+此 repo 內建完整的 CI/CD 與治理閘門（多數工作流在 `.github/workflows/`），常用入口如下：
+
+- `workspace/scripts/`：CI/CD 與維運腳本（驗證、部署、命名遷移、健康檢查等）
+- `workspace/docs/`：交付/治理/操作手冊
+- `cloudflare/`：Cloudflare Pages / Workers 相關配置與專案
+
+**Key Features**（高層概覽）：
+
+- Automated CI/CD pipeline（GitHub Actions）
+- Progressive / canary deployment workflows
+- Intelligent rollback / drill simulation tooling
+- Security & compliance gates（含供應鏈/簽章/掃描等）
+
+---
+
+## 📁 目錄說明
+
+### FHS 標準目錄
+
+| 目錄      | 用途         | 權限 |
+| --------- | ------------ | ---- |
+| `bin/`    | 基本用戶命令 | 755  |
+| `sbin/`   | 系統管理命令 | 755  |
+| `etc/`    | 系統配置     | 755  |
+| `lib/`    | 共享庫       | 755  |
+| `var/`    | 變動數據     | 755  |
+| `usr/`    | 用戶程式     | 755  |
+| `home/`   | 用戶目錄     | 755  |
+| `tmp/`    | 臨時文件     | 1777 |
+| `opt/`    | 可選軟件     | 755  |
+| `srv/`    | 服務數據     | 755  |
+| `init.d/` | 初始化腳本   | 755  |
+
+### Controlplane（治理層）
+
+**路徑**: `./controlplane`  
+**模式**: 只讀（運行時）  
+**用途**: 集中管理所有治理、配置、規格文件
+
+```
+controlplane/
+├── config/              # 核心配置
+│   ├── root.config.yaml
+│   ├── root.governance.yaml
+│   ├── root.modules.yaml
+│   └── ...
+├── specifications/      # 規格定義
+├── registries/          # 模塊註冊
+├── validation/          # 驗證工具
+├── integration/         # 集成配置
+└── documentation/       # 治理文檔
+```
+
+### Workspace（工作區）
+
+**路徑**: `./workspace`  
+**模式**: 讀寫  
+**用途**: 所有項目開發文件
+
+```
+workspace/
+├── src/                 # 源代碼
+├── docs/                # 項目文檔
+├── scripts/             # 腳本工具
+├── tests/               # 測試文件
+├── tools/               # 開發工具
+├── examples/            # 示例代碼
+└── ...                  # 其他項目文件
+```
+
+---
+
+## 🔧 引導文件
+
+### root.bootstrap.yaml
+
+定義 controlplane 的入口、版本和啟動模式。
+
+```yaml
+controlplane:
+  path: "./controlplane"
+  versionLock:
+    controlplaneVersion: "v1.0.0"
+bootMode:
+  mode: "production"
+```
+
+### root.fs.map
+
+定義文件系統掛載和映射關係。
+
+```yaml
+mounts:
+  - name: controlplane
+    from: "./controlplane"
+    to: "/controlplane"
+    mode: "ro"
+```
+
+### root.env.sh
+
+定義環境變數。
+
+```bash
+export CONTROLPLANE_PATH="./controlplane"
+export WORKSPACE_PATH="./workspace"
+```
+
+---
+
+## 📚 文檔
+
+- **重構報告**: `workspace/PROJECT_RESTRUCTURE_REPORT.md`
+- **開發指南**: `workspace/docs/`
+- **API 文檔**: `workspace/docs/api/`
+- **治理文檔**: `controlplane/documentation/`
+
+---
+
+## 🔍 常見任務
+
+### 查看配置
+
+```bash
+# 查看治理配置
+cat ${CONTROLPLANE_CONFIG}/root.governance.yaml
+
+# 查看模塊註冊
+cat ${CONTROLPLANE_REGISTRIES}/root.registry.modules.yaml
+```
+
+### 運行驗證
+
+```bash
+# 運行結構驗證
+python ${CONTROLPLANE_VALIDATION}/verify_refactoring.py
+
+# 運行供應鏈驗證
+python ${CONTROLPLANE_VALIDATION}/supply-chain-complete-verifier.py
+```
+
+### 開發工作
+
+```bash
+# 進入源碼目錄
+cd ${WORKSPACE_PATH}/src/
+
+# 運行測試
+cd ${WORKSPACE_PATH}/tests/
+pytest
+
+# 查看文檔
+cd ${WORKSPACE_PATH}/docs/
+```
+
+---
+
+## ⚠️ 重要提示
+
+### 路徑更新
+
+所有代碼中的路徑引用需要更新：
+
+**舊路徑**:
+
+```python
+config = "root.config.yaml"
+```
+
+**新路徑**:
+
+```python
+config = "controlplane/config/root.config.yaml"
+# 或使用環境變數
+config = os.path.join(os.environ['CONTROLPLANE_CONFIG'], 'root.config.yaml')
+```
+
+### Controlplane 只讀
+
+運行時 controlplane 應該是只讀的。更新配置應該通過：
+
+1. CI/CD 流程
+2. 受控的配置管理工具
+3. 版本控制系統
+
+### Workspace 隔離
+
+所有開發工作應該在 workspace 中進行，不要直接修改根層或 controlplane。
+
+---
+
+## 🎯 設計原則
+
+1. **職責分離**: 根層（骨架）、Controlplane（治理）、Workspace（開發）
+2. **FHS 標準**: 完全符合 Linux FHS 3.0 標準
+3. **最小化根層**: 根層只保留必要的骨架和引導文件
+4. **集中治理**: 所有治理文件集中在 controlplane
+5. **開發友好**: 清晰的目錄結構，易於導航和維護
+
+---
+
+## 📊 架構優勢
+
+- ✅ **清晰的職責分離**: 每個層級職責明確
+- ✅ **符合 Linux 標準**: 與 Linux 系統一致
+- ✅ **易於維護**: 邏輯分組清晰
+- ✅ **可擴展性**: 易於添加新功能
+- ✅ **安全性**: Controlplane 只讀保護
+
+---
+
+## 🔗 相關資源
+
+- **FHS 標準**: https://refspecs.linuxfoundation.org/FHS_3.0/
+- **項目文檔**: `workspace/docs/`
+- **重構報告**: `workspace/PROJECT_RESTRUCTURE_REPORT.md`
+
+---
+
+**版本**: v1.0.0  
+**最後更新**: 2024-12-23  
+**維護者**: MachineNativeOps Team

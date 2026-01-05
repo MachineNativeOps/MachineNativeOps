@@ -5636,7 +5636,7 @@
               {
                 "file": "src/governance/10-policy/base-policies/security-policies.yaml",
                 "status": "invalid",
-                "error": "while scanning a simple key\n  in \"<unicode string>\", line 224, column 1:\n    [CONFLICT_MARKER_REMOVED]\n    ^\ncould not find expected ':'\n  in \"<unicode string>\", line 225, column 1:\n    [CONFLICT_MARKER_REMOVED]\n    ^"
+                "error": "while scanning a simple key\n  in \"<unicode string>\", line 224, column 1:\n    <<<<<<< HEAD\n    ^\ncould not find expected ':'\n  in \"<unicode string>\", line 225, column 1:\n    <<<<<<< HEAD\n    ^"
               },
               {
                 "file": "src/governance/11-tools-systems/audit-management-system.yaml",
@@ -6614,7 +6614,7 @@
               {
                 "file": "src/governance/37-behavior-contracts/core.slsa_provenance.yaml",
                 "status": "invalid",
-                "error": "while scanning a simple key\n  in \"<unicode string>\", line 73, column 1:\n    [CONFLICT_MARKER_REMOVED]\n    ^\ncould not find expected ':'\n  in \"<unicode string>\", line 74, column 1:\n    [CONFLICT_MARKER_REMOVED]\n    ^"
+                "error": "while scanning a simple key\n  in \"<unicode string>\", line 73, column 1:\n    <<<<<<< HEAD\n    ^\ncould not find expected ':'\n  in \"<unicode string>\", line 74, column 1:\n    <<<<<<< HEAD\n    ^"
               },
               {
                 "file": "src/governance/37-behavior-contracts/core.unified_integration.yaml",
@@ -6675,7 +6675,7 @@
               {
                 "file": "src/governance/40-self-healing/metadata.yaml",
                 "status": "invalid",
-                "error": "while scanning a simple key\n  in \"<unicode string>\", line 63, column 1:\n    [CONFLICT_MARKER_REMOVED]\n    ^\ncould not find expected ':'\n  in \"<unicode string>\", line 64, column 1:\n    [CONFLICT_MARKER_REMOVED]\n    ^"
+                "error": "while scanning a simple key\n  in \"<unicode string>\", line 63, column 1:\n    <<<<<<< HEAD\n    ^\ncould not find expected ':'\n  in \"<unicode string>\", line 64, column 1:\n    <<<<<<< HEAD\n    ^"
               },
               {
                 "file": "src/governance/40-self-healing/config/responsibility-matrix.yaml",
@@ -8430,7 +8430,7 @@
                 "size": 5746
               },
               {
-                "file": "templates/machine-native-ops-mno-baseline-skeleton.yaml",
+                "file": "templates/aaps-mno-baseline-skeleton.yaml",
                 "status": "valid",
                 "issues": [],
                 "size": 8938
@@ -8446,7 +8446,7 @@
               {
                 "file": "auto-fix-bot.yml",
                 "status": "invalid",
-                "error": "while scanning a simple key\n  in \"<unicode string>\", line 89, column 1:\n    [CONFLICT_MARKER_REMOVED]\n    ^\ncould not find expected ':'\n  in \"<unicode string>\", line 90, column 1:\n    [CONFLICT_MARKER_REMOVED]\n    ^"
+                "error": "while scanning a simple key\n  in \"<unicode string>\", line 89, column 1:\n    <<<<<<< HEAD\n    ^\ncould not find expected ':'\n  in \"<unicode string>\", line 90, column 1:\n    <<<<<<< HEAD\n    ^"
               },
               {
                 "file": "docker-compose.prod.yml",
@@ -8487,7 +8487,7 @@
               {
                 "file": "config/.auto-fix-bot.yml",
                 "status": "invalid",
-                "error": "while scanning a simple key\n  in \"<unicode string>\", line 85, column 1:\n    [CONFLICT_MARKER_REMOVED]\n    ^\ncould not find expected ':'\n  in \"<unicode string>\", line 86, column 1:\n    [CONFLICT_MARKER_REMOVED]\n    ^"
+                "error": "while scanning a simple key\n  in \"<unicode string>\", line 85, column 1:\n    <<<<<<< HEAD\n    ^\ncould not find expected ':'\n  in \"<unicode string>\", line 86, column 1:\n    <<<<<<< HEAD\n    ^"
               },
               {
                 "file": "config/cloud-agent-delegation.yml",
@@ -21665,9 +21665,9 @@
                 "file": "root/engine/engine.yaml",
                 "index": 0,
                 "apiVersion": "machinenativeops.io/v1",
-                "kind": "MachineNativeOps Engine",
+                "kind": "AAPS Engine",
                 "metadata": {
-                  "name": "machine-native-ops-core-engine",
+                  "name": "aaps-core-engine",
                   "version": "1.0.0",
                   "description": "AI Architecture & Artifact Provisioning System Core Engine"
                 },
@@ -31160,17 +31160,17 @@
                   "name": "mno-agent-super-orchestrator-baseline",
                   "namespace": "machinenativeops",
                   "labels": {
-                    "machinenativeops.io/platform": "MachineNativeOps",
+                    "machinenativeops.io/platform": "AAPS",
                     "machinenativeops.io/stage": "1",
                     "machinenativeops.io/layer": "L2",
                     "machinenativeops.io/profile": "super-orchestrator",
                     "machinenativeops.io/component": "agents",
                     "machinenativeops.io/subcomponent": "super-agent",
-                    "machinenativeops.io/managed-by": "machine-native-ops-controller"
+                    "machinenativeops.io/managed-by": "aaps-controller"
                   },
                   "annotations": {
                     "machinenativeops.io/urn": "urn:machinenativeops:agent:super:orchestrator:v2.0.0",
-                    "machinenativeops.io/description": "SuperAgent \u591a\u4ee3\u7406\u5354\u8abf\u5668\u57fa\u7dda\u914d\u7f6e\uff08MachineNativeOps Profile\uff09",
+                    "machinenativeops.io/description": "SuperAgent \u591a\u4ee3\u7406\u5354\u8abf\u5668\u57fa\u7dda\u914d\u7f6e\uff08AAPS Profile\uff09",
                     "machinenativeops.io/version": "v2.0.0"
                   }
                 },
@@ -31526,7 +31526,7 @@
                 "violations": []
               },
               {
-                "file": "templates/machine-native-ops-mno-baseline-skeleton.yaml",
+                "file": "templates/aaps-mno-baseline-skeleton.yaml",
                 "index": 0,
                 "apiVersion": "machinenativeops.io/v2",
                 "kind": "MachineNativeOpsGlobalBaseline",
@@ -31534,16 +31534,16 @@
                   "name": "mno-stage0-bootstrap-baseline",
                   "namespace": "machinenativeops",
                   "labels": {
-                    "machinenativeops.io/platform": "MachineNativeOps",
+                    "machinenativeops.io/platform": "AAPS",
                     "machinenativeops.io/stage": "0",
                     "machinenativeops.io/layer": "L0",
                     "machinenativeops.io/profile": "bootstrap-baseline",
                     "machinenativeops.io/component": "core",
-                    "machinenativeops.io/managed-by": "machine-native-ops-controller"
+                    "machinenativeops.io/managed-by": "aaps-controller"
                   },
                   "annotations": {
                     "machinenativeops.io/urn": "urn:machinenativeops:baseline:stage0:bootstrap:v1",
-                    "machinenativeops.io/description": "Stage 0 \u5b8c\u6574\u81ea\u5305\u542b\u90e8\u7f72\u914d\u7f6e\uff08MachineNativeOps Profile\uff09",
+                    "machinenativeops.io/description": "Stage 0 \u5b8c\u6574\u81ea\u5305\u542b\u90e8\u7f72\u914d\u7f6e\uff08AAPS Profile\uff09",
                     "machinenativeops.io/version": "v1.0.0"
                   }
                 },
@@ -32099,7 +32099,7 @@
                 "timestamp": "2025-12-22T16:51:40.231724+00:00",
                 "component": {
                   "type": "application",
-                  "name": "machine-native-ops",
+                  "name": "machine-native-ops-aaps",
                   "version": "1.0.0",
                   "supplier": {
                     "name": "MachineNativeOps"
@@ -32160,63 +32160,63 @@
                 "file": "docs/refactor_playbooks/templates/contract-engine.py",
                 "line": 3,
                 "type": "aws_secret_key",
-                "content": "=",
+                "content": "==============================================================================",
                 "severity": "CRITICAL"
               },
               {
                 "file": "docs/refactor_playbooks/templates/contract-engine.py",
                 "line": 5,
                 "type": "aws_secret_key",
-                "content": "=",
+                "content": "==============================================================================",
                 "severity": "CRITICAL"
               },
               {
                 "file": "docs/refactor_playbooks/templates/contract-engine.py",
                 "line": 9,
                 "type": "aws_secret_key",
-                "content": "=",
+                "content": "==============================================================================",
                 "severity": "CRITICAL"
               },
               {
                 "file": "docs/refactor_playbooks/templates/contract-generator.py",
                 "line": 3,
                 "type": "aws_secret_key",
-                "content": "=",
+                "content": "==============================================================================",
                 "severity": "CRITICAL"
               },
               {
                 "file": "docs/refactor_playbooks/templates/contract-generator.py",
                 "line": 5,
                 "type": "aws_secret_key",
-                "content": "=",
+                "content": "==============================================================================",
                 "severity": "CRITICAL"
               },
               {
                 "file": "docs/refactor_playbooks/templates/contract-generator.py",
                 "line": 9,
                 "type": "aws_secret_key",
-                "content": "=",
+                "content": "==============================================================================",
                 "severity": "CRITICAL"
               },
               {
                 "file": "docs/refactor_playbooks/templates/multi-layer-validator.py",
                 "line": 3,
                 "type": "aws_secret_key",
-                "content": "=",
+                "content": "==============================================================================",
                 "severity": "CRITICAL"
               },
               {
                 "file": "docs/refactor_playbooks/templates/multi-layer-validator.py",
                 "line": 5,
                 "type": "aws_secret_key",
-                "content": "=",
+                "content": "==============================================================================",
                 "severity": "CRITICAL"
               },
               {
                 "file": "docs/refactor_playbooks/templates/multi-layer-validator.py",
                 "line": 9,
                 "type": "aws_secret_key",
-                "content": "=",
+                "content": "==============================================================================",
                 "severity": "CRITICAL"
               },
               {
@@ -32293,63 +32293,63 @@
                 "file": "src/apps/web-backend/analyzers/analyzer.py",
                 "line": 3,
                 "type": "aws_secret_key",
-                "content": "======",
+                "content": "============================================================================",
                 "severity": "CRITICAL"
               },
               {
                 "file": "src/apps/web-backend/analyzers/analyzer.py",
                 "line": 5,
                 "type": "aws_secret_key",
-                "content": "======",
+                "content": "============================================================================",
                 "severity": "CRITICAL"
               },
               {
                 "file": "src/apps/web-backend/analyzers/analyzer.py",
                 "line": 8,
                 "type": "aws_secret_key",
-                "content": "======",
+                "content": "============================================================================",
                 "severity": "CRITICAL"
               },
               {
                 "file": "src/apps/web-backend/services/api.py",
                 "line": 3,
                 "type": "aws_secret_key",
-                "content": "======",
+                "content": "============================================================================",
                 "severity": "CRITICAL"
               },
               {
                 "file": "src/apps/web-backend/services/api.py",
                 "line": 5,
                 "type": "aws_secret_key",
-                "content": "======",
+                "content": "============================================================================",
                 "severity": "CRITICAL"
               },
               {
                 "file": "src/apps/web-backend/services/api.py",
                 "line": 7,
                 "type": "aws_secret_key",
-                "content": "======",
+                "content": "============================================================================",
                 "severity": "CRITICAL"
               },
               {
                 "file": "src/apps/web-backend/services/code_analyzer.py",
                 "line": 3,
                 "type": "aws_secret_key",
-                "content": "======",
+                "content": "============================================================================",
                 "severity": "CRITICAL"
               },
               {
                 "file": "src/apps/web-backend/services/code_analyzer.py",
                 "line": 5,
                 "type": "aws_secret_key",
-                "content": "======",
+                "content": "============================================================================",
                 "severity": "CRITICAL"
               },
               {
                 "file": "src/apps/web-backend/services/code_analyzer.py",
                 "line": 9,
                 "type": "aws_secret_key",
-                "content": "======",
+                "content": "============================================================================",
                 "severity": "CRITICAL"
               },
               {
@@ -32363,56 +32363,56 @@
                 "file": "src/apps/web-backend/services/models.py",
                 "line": 3,
                 "type": "aws_secret_key",
-                "content": "======",
+                "content": "============================================================================",
                 "severity": "CRITICAL"
               },
               {
                 "file": "src/apps/web-backend/services/models.py",
                 "line": 5,
                 "type": "aws_secret_key",
-                "content": "======",
+                "content": "============================================================================",
                 "severity": "CRITICAL"
               },
               {
                 "file": "src/apps/web-backend/services/models.py",
                 "line": 7,
                 "type": "aws_secret_key",
-                "content": "======",
+                "content": "============================================================================",
                 "severity": "CRITICAL"
               },
               {
                 "file": "src/apps/web-backend/tests/__init__.py",
                 "line": 2,
                 "type": "aws_secret_key",
-                "content": "======",
+                "content": "============================================================================",
                 "severity": "CRITICAL"
               },
               {
                 "file": "src/apps/web-backend/tests/__init__.py",
                 "line": 4,
                 "type": "aws_secret_key",
-                "content": "======",
+                "content": "============================================================================",
                 "severity": "CRITICAL"
               },
               {
                 "file": "src/apps/web-backend/tests/test_code_analyzer.py",
                 "line": 3,
                 "type": "aws_secret_key",
-                "content": "======",
+                "content": "============================================================================",
                 "severity": "CRITICAL"
               },
               {
                 "file": "src/apps/web-backend/tests/test_code_analyzer.py",
                 "line": 5,
                 "type": "aws_secret_key",
-                "content": "======",
+                "content": "============================================================================",
                 "severity": "CRITICAL"
               },
               {
                 "file": "src/apps/web-backend/tests/test_code_analyzer.py",
                 "line": 9,
                 "type": "aws_secret_key",
-                "content": "======",
+                "content": "============================================================================",
                 "severity": "CRITICAL"
               },
               {
@@ -32895,14 +32895,14 @@
                 "file": "src/autonomous/deployment/__init__.py",
                 "line": 3,
                 "type": "aws_secret_key",
-                "content": "=",
+                "content": "===========================================",
                 "severity": "CRITICAL"
               },
               {
                 "file": "src/autonomous/deployment/instant_execution_pipeline.py",
                 "line": 4,
                 "type": "aws_secret_key",
-                "content": "=====",
+                "content": "========================================",
                 "severity": "CRITICAL"
               },
               {
@@ -32916,7 +32916,7 @@
                 "file": "src/core/contract_engine.py",
                 "line": 4,
                 "type": "aws_secret_key",
-                "content": "",
+                "content": "=================================================",
                 "severity": "CRITICAL"
               },
               {
@@ -33546,7 +33546,7 @@
                 "file": "src/core/validators/__init__.py",
                 "line": 3,
                 "type": "aws_secret_key",
-                "content": "======",
+                "content": "=========================================",
                 "severity": "CRITICAL"
               },
               {
@@ -33630,63 +33630,63 @@
                 "file": "src/frontend/ui/core/analyzers/analyzer.py",
                 "line": 4,
                 "type": "aws_secret_key",
-                "content": "======",
+                "content": "============================================================================",
                 "severity": "CRITICAL"
               },
               {
                 "file": "src/frontend/ui/core/analyzers/analyzer.py",
                 "line": 6,
                 "type": "aws_secret_key",
-                "content": "======",
+                "content": "============================================================================",
                 "severity": "CRITICAL"
               },
               {
                 "file": "src/frontend/ui/core/analyzers/analyzer.py",
                 "line": 9,
                 "type": "aws_secret_key",
-                "content": "======",
+                "content": "============================================================================",
                 "severity": "CRITICAL"
               },
               {
                 "file": "src/frontend/ui/services/api.py",
                 "line": 4,
                 "type": "aws_secret_key",
-                "content": "======",
+                "content": "============================================================================",
                 "severity": "CRITICAL"
               },
               {
                 "file": "src/frontend/ui/services/api.py",
                 "line": 6,
                 "type": "aws_secret_key",
-                "content": "======",
+                "content": "============================================================================",
                 "severity": "CRITICAL"
               },
               {
                 "file": "src/frontend/ui/services/api.py",
                 "line": 8,
                 "type": "aws_secret_key",
-                "content": "======",
+                "content": "============================================================================",
                 "severity": "CRITICAL"
               },
               {
                 "file": "src/frontend/ui/services/code_analyzer.py",
                 "line": 4,
                 "type": "aws_secret_key",
-                "content": "======",
+                "content": "============================================================================",
                 "severity": "CRITICAL"
               },
               {
                 "file": "src/frontend/ui/services/code_analyzer.py",
                 "line": 6,
                 "type": "aws_secret_key",
-                "content": "======",
+                "content": "============================================================================",
                 "severity": "CRITICAL"
               },
               {
                 "file": "src/frontend/ui/services/code_analyzer.py",
                 "line": 10,
                 "type": "aws_secret_key",
-                "content": "======",
+                "content": "============================================================================",
                 "severity": "CRITICAL"
               },
               {
@@ -33700,56 +33700,56 @@
                 "file": "src/frontend/ui/services/models.py",
                 "line": 4,
                 "type": "aws_secret_key",
-                "content": "======",
+                "content": "============================================================================",
                 "severity": "CRITICAL"
               },
               {
                 "file": "src/frontend/ui/services/models.py",
                 "line": 6,
                 "type": "aws_secret_key",
-                "content": "======",
+                "content": "============================================================================",
                 "severity": "CRITICAL"
               },
               {
                 "file": "src/frontend/ui/services/models.py",
                 "line": 8,
                 "type": "aws_secret_key",
-                "content": "======",
+                "content": "============================================================================",
                 "severity": "CRITICAL"
               },
               {
                 "file": "src/frontend/ui/tests/__init__.py",
                 "line": 2,
                 "type": "aws_secret_key",
-                "content": "======",
+                "content": "============================================================================",
                 "severity": "CRITICAL"
               },
               {
                 "file": "src/frontend/ui/tests/__init__.py",
                 "line": 4,
                 "type": "aws_secret_key",
-                "content": "======",
+                "content": "============================================================================",
                 "severity": "CRITICAL"
               },
               {
                 "file": "src/frontend/ui/tests/test_code_analyzer.py",
                 "line": 4,
                 "type": "aws_secret_key",
-                "content": "======",
+                "content": "============================================================================",
                 "severity": "CRITICAL"
               },
               {
                 "file": "src/frontend/ui/tests/test_code_analyzer.py",
                 "line": 6,
                 "type": "aws_secret_key",
-                "content": "======",
+                "content": "============================================================================",
                 "severity": "CRITICAL"
               },
               {
                 "file": "src/frontend/ui/tests/test_code_analyzer.py",
                 "line": 10,
                 "type": "aws_secret_key",
-                "content": "======",
+                "content": "============================================================================",
                 "severity": "CRITICAL"
               },
               {
@@ -33770,21 +33770,21 @@
                 "file": "src/governance/07-audit/append_only_log_client.py",
                 "line": 3,
                 "type": "aws_secret_key",
-                "content": "=",
+                "content": "==============================================================================",
                 "severity": "CRITICAL"
               },
               {
                 "file": "src/governance/07-audit/append_only_log_client.py",
                 "line": 5,
                 "type": "aws_secret_key",
-                "content": "=",
+                "content": "==============================================================================",
                 "severity": "CRITICAL"
               },
               {
                 "file": "src/governance/07-audit/append_only_log_client.py",
                 "line": 8,
                 "type": "aws_secret_key",
-                "content": "=",
+                "content": "==============================================================================",
                 "severity": "CRITICAL"
               },
               {
@@ -33805,7 +33805,7 @@
                 "file": "src/governance/index/scripts/generate-embeddings.py",
                 "line": 4,
                 "type": "aws_secret_key",
-                "content": "======",
+                "content": "=========================================",
                 "severity": "CRITICAL"
               },
               {
@@ -33840,7 +33840,7 @@
                 "file": "tools/generate-migration-flow.py",
                 "line": 4,
                 "type": "aws_secret_key",
-                "content": "=====",
+                "content": "========================================",
                 "severity": "CRITICAL"
               },
               {
@@ -33854,21 +33854,21 @@
                 "file": "tools/subtree_integrate.py",
                 "line": 4,
                 "type": "aws_secret_key",
-                "content": "",
+                "content": "========================================================",
                 "severity": "CRITICAL"
               },
               {
                 "file": "tools/sync_external_repos.py",
                 "line": 4,
                 "type": "aws_secret_key",
-                "content": "=",
+                "content": "==================================================",
                 "severity": "CRITICAL"
               },
               {
                 "file": "tools/verify-namespace-alignment.py",
                 "line": 4,
                 "type": "aws_secret_key",
-                "content": "=",
+                "content": "==================================================",
                 "severity": "CRITICAL"
               },
               {
@@ -33889,7 +33889,7 @@
                 "file": "tools/automation/master_orchestrator.py",
                 "line": 16,
                 "type": "aws_secret_key",
-                "content": "=====",
+                "content": "========================================",
                 "severity": "CRITICAL"
               },
               {
@@ -71402,42 +71402,42 @@
                 "file": "config/elasticsearch-config.sh",
                 "line": 16,
                 "type": "aws_secret_key",
-                "content": "echo \"\"",
+                "content": "echo \"==========================================\"",
                 "severity": "CRITICAL"
               },
               {
                 "file": "config/elasticsearch-config.sh",
                 "line": 18,
                 "type": "aws_secret_key",
-                "content": "echo \"\"",
+                "content": "echo \"==========================================\"",
                 "severity": "CRITICAL"
               },
               {
                 "file": "config/elasticsearch-config.sh",
                 "line": 23,
                 "type": "aws_secret_key",
-                "content": "echo \"\"",
+                "content": "echo \"==========================================\"",
                 "severity": "CRITICAL"
               },
               {
                 "file": "config/elasticsearch-config.sh",
                 "line": 242,
                 "type": "aws_secret_key",
-                "content": "echo \"\"",
+                "content": "echo \"==========================================\"",
                 "severity": "CRITICAL"
               },
               {
                 "file": "config/elasticsearch-config.sh",
                 "line": 244,
                 "type": "aws_secret_key",
-                "content": "echo \"\"",
+                "content": "echo \"==========================================\"",
                 "severity": "CRITICAL"
               },
               {
                 "file": "config/elasticsearch-config.sh",
                 "line": 253,
                 "type": "aws_secret_key",
-                "content": "echo \"\"",
+                "content": "echo \"==========================================\"",
                 "severity": "CRITICAL"
               },
               {
@@ -71458,7 +71458,7 @@
                 "file": "config/dev/post-start-v2.sh",
                 "line": 36,
                 "type": "aws_secret_key",
-                "content": "echo \"=\"",
+                "content": "echo \"==================================================\"",
                 "severity": "CRITICAL"
               },
               {
@@ -71493,112 +71493,112 @@
                 "file": "docs/_fix_structure.sh",
                 "line": 38,
                 "type": "aws_secret_key",
-                "content": "echo \"==\"",
+                "content": "echo \"========================================================================\"",
                 "severity": "CRITICAL"
               },
               {
                 "file": "docs/_fix_structure.sh",
                 "line": 40,
                 "type": "aws_secret_key",
-                "content": "echo \"==\"",
+                "content": "echo \"========================================================================\"",
                 "severity": "CRITICAL"
               },
               {
                 "file": "docs/_fix_structure.sh",
                 "line": 229,
                 "type": "aws_secret_key",
-                "content": "echo \"==\"",
+                "content": "echo \"========================================================================\"",
                 "severity": "CRITICAL"
               },
               {
                 "file": "docs/_fix_structure.sh",
                 "line": 231,
                 "type": "aws_secret_key",
-                "content": "echo \"==\"",
+                "content": "echo \"========================================================================\"",
                 "severity": "CRITICAL"
               },
               {
                 "file": "docs/architecture/configuration/scripts/phase2-security-check.sh",
                 "line": 12,
                 "type": "aws_secret_key",
-                "content": "echo \"=\"",
+                "content": "echo \"==================================================\"",
                 "severity": "CRITICAL"
               },
               {
                 "file": "docs/architecture/configuration/scripts/phase2-security-check.sh",
                 "line": 150,
                 "type": "aws_secret_key",
-                "content": "echo \"=\"",
+                "content": "echo \"==================================================\"",
                 "severity": "CRITICAL"
               },
               {
                 "file": "docs/architecture/configuration/scripts/phase2-security-check.sh",
                 "line": 152,
                 "type": "aws_secret_key",
-                "content": "echo \"=\"",
+                "content": "echo \"==================================================\"",
                 "severity": "CRITICAL"
               },
               {
                 "file": "docs/examples/configuration/scripts/phase2-security-check.sh",
                 "line": 12,
                 "type": "aws_secret_key",
-                "content": "echo \"=\"",
+                "content": "echo \"==================================================\"",
                 "severity": "CRITICAL"
               },
               {
                 "file": "docs/examples/configuration/scripts/phase2-security-check.sh",
                 "line": 150,
                 "type": "aws_secret_key",
-                "content": "echo \"=\"",
+                "content": "echo \"==================================================\"",
                 "severity": "CRITICAL"
               },
               {
                 "file": "docs/examples/configuration/scripts/phase2-security-check.sh",
                 "line": 152,
                 "type": "aws_secret_key",
-                "content": "echo \"=\"",
+                "content": "echo \"==================================================\"",
                 "severity": "CRITICAL"
               },
               {
                 "file": "docs/tutorials/namespace/scripts/cleanup_namespaces.sh",
                 "line": 261,
                 "type": "aws_secret_key",
-                "content": "echo \"=====\"",
+                "content": "echo \"========================================\"",
                 "severity": "CRITICAL"
               },
               {
                 "file": "docs/tutorials/namespace/scripts/cleanup_namespaces.sh",
                 "line": 264,
                 "type": "aws_secret_key",
-                "content": "echo \"=====\"",
+                "content": "echo \"========================================\"",
                 "severity": "CRITICAL"
               },
               {
                 "file": "docs/tutorials/namespace/scripts/cleanup_namespaces.sh",
                 "line": 321,
                 "type": "aws_secret_key",
-                "content": "echo \"=====\"",
+                "content": "echo \"========================================\"",
                 "severity": "CRITICAL"
               },
               {
                 "file": "docs/tutorials/namespace/scripts/cleanup_namespaces.sh",
                 "line": 327,
                 "type": "aws_secret_key",
-                "content": "echo \"=====\"",
+                "content": "echo \"========================================\"",
                 "severity": "CRITICAL"
               },
               {
                 "file": "docs/tutorials/namespace/scripts/monitor_resources.sh",
                 "line": 218,
                 "type": "aws_secret_key",
-                "content": "echo -e \"${CYAN}=====${NC}\"",
+                "content": "echo -e \"${CYAN}========================================${NC}\"",
                 "severity": "CRITICAL"
               },
               {
                 "file": "docs/tutorials/namespace/scripts/monitor_resources.sh",
                 "line": 221,
                 "type": "aws_secret_key",
-                "content": "echo -e \"${CYAN}=====${NC}\"",
+                "content": "echo -e \"${CYAN}========================================${NC}\"",
                 "severity": "CRITICAL"
               },
               {
@@ -71941,49 +71941,49 @@
                 "file": "scripts/automation/post_commit_hook.sh",
                 "line": 122,
                 "type": "aws_secret_key",
-                "content": "log \"======\"",
+                "content": "log \"================================================\"",
                 "severity": "CRITICAL"
               },
               {
                 "file": "scripts/automation/post_commit_hook.sh",
                 "line": 128,
                 "type": "aws_secret_key",
-                "content": "log \"======\"",
+                "content": "log \"================================================\"",
                 "severity": "CRITICAL"
               },
               {
                 "file": "scripts/deployment/deploy.sh",
                 "line": 68,
                 "type": "aws_secret_key",
-                "content": "print_info \"\"",
+                "content": "print_info \"==========================================\"",
                 "severity": "CRITICAL"
               },
               {
                 "file": "scripts/deployment/deploy.sh",
                 "line": 70,
                 "type": "aws_secret_key",
-                "content": "print_info \"\"",
+                "content": "print_info \"==========================================\"",
                 "severity": "CRITICAL"
               },
               {
                 "file": "scripts/k8s/deploy-baselines.sh",
                 "line": 146,
                 "type": "aws_secret_key",
-                "content": "log \"=\"",
+                "content": "log \"==================================================\"",
                 "severity": "CRITICAL"
               },
               {
                 "file": "scripts/k8s/deploy-baselines.sh",
                 "line": 148,
                 "type": "aws_secret_key",
-                "content": "log \"=\"",
+                "content": "log \"==================================================\"",
                 "severity": "CRITICAL"
               },
               {
                 "file": "scripts/maintenance/fix-island-ai.sh",
                 "line": 169,
                 "type": "aws_secret_key",
-                "content": "",
+                "content": "==========================================",
                 "severity": "CRITICAL"
               },
               {
@@ -71997,56 +71997,56 @@
                 "file": "src/autonomous/infrastructure/config/elasticsearch-config.sh",
                 "line": 16,
                 "type": "aws_secret_key",
-                "content": "echo \"\"",
+                "content": "echo \"==========================================\"",
                 "severity": "CRITICAL"
               },
               {
                 "file": "src/autonomous/infrastructure/config/elasticsearch-config.sh",
                 "line": 18,
                 "type": "aws_secret_key",
-                "content": "echo \"\"",
+                "content": "echo \"==========================================\"",
                 "severity": "CRITICAL"
               },
               {
                 "file": "src/autonomous/infrastructure/config/elasticsearch-config.sh",
                 "line": 23,
                 "type": "aws_secret_key",
-                "content": "echo \"\"",
+                "content": "echo \"==========================================\"",
                 "severity": "CRITICAL"
               },
               {
                 "file": "src/autonomous/infrastructure/config/elasticsearch-config.sh",
                 "line": 242,
                 "type": "aws_secret_key",
-                "content": "echo \"\"",
+                "content": "echo \"==========================================\"",
                 "severity": "CRITICAL"
               },
               {
                 "file": "src/autonomous/infrastructure/config/elasticsearch-config.sh",
                 "line": 244,
                 "type": "aws_secret_key",
-                "content": "echo \"\"",
+                "content": "echo \"==========================================\"",
                 "severity": "CRITICAL"
               },
               {
                 "file": "src/autonomous/infrastructure/config/elasticsearch-config.sh",
                 "line": 253,
                 "type": "aws_secret_key",
-                "content": "echo \"\"",
+                "content": "echo \"==========================================\"",
                 "severity": "CRITICAL"
               },
               {
                 "file": "src/governance/deploy-instant.sh",
                 "line": 12,
                 "type": "aws_secret_key",
-                "content": "echo \"\"",
+                "content": "echo \"========================================================\"",
                 "severity": "CRITICAL"
               },
               {
                 "file": "src/governance/00-vision-strategy/tests/implement-phase5.sh",
                 "line": 13,
                 "type": "aws_secret_key",
-                "content": "echo \"===\"",
+                "content": "echo \"===========================================================\"",
                 "severity": "CRITICAL"
               },
               {
@@ -72060,238 +72060,238 @@
                 "file": "src/governance/scripts/demo-instant-execution.sh",
                 "line": 18,
                 "type": "aws_secret_key",
-                "content": "echo -e \"${BOLD}===\"",
+                "content": "echo -e \"${BOLD}================================================================================\"",
                 "severity": "CRITICAL"
               },
               {
                 "file": "src/governance/scripts/demo-instant-execution.sh",
                 "line": 21,
                 "type": "aws_secret_key",
-                "content": "echo -e \"===${RESET}\"",
+                "content": "echo -e \"================================================================================${RESET}\"",
                 "severity": "CRITICAL"
               },
               {
                 "file": "src/governance/scripts/demo-instant-execution.sh",
                 "line": 73,
                 "type": "aws_secret_key",
-                "content": "echo -e \"${BOLD}===\"",
+                "content": "echo -e \"${BOLD}================================================================================\"",
                 "severity": "CRITICAL"
               },
               {
                 "file": "src/governance/scripts/demo-instant-execution.sh",
                 "line": 75,
                 "type": "aws_secret_key",
-                "content": "echo -e \"===${RESET}\"",
+                "content": "echo -e \"================================================================================${RESET}\"",
                 "severity": "CRITICAL"
               },
               {
                 "file": "src/governance/scripts/demo-instant-execution.sh",
                 "line": 87,
                 "type": "aws_secret_key",
-                "content": "echo -e \"${BOLD}===${RE...",
+                "content": "echo -e \"${BOLD}================================================================================${RE...",
                 "severity": "CRITICAL"
               },
               {
                 "file": "src/services/agents/runbook-executor.sh",
                 "line": 76,
                 "type": "aws_secret_key",
-                "content": "log_info \"======\"",
+                "content": "log_info \"=========================================\"",
                 "severity": "CRITICAL"
               },
               {
                 "file": "src/services/agents/runbook-executor.sh",
                 "line": 80,
                 "type": "aws_secret_key",
-                "content": "log_info \"======\"",
+                "content": "log_info \"=========================================\"",
                 "severity": "CRITICAL"
               },
               {
                 "file": "src/\u4ee3\u7801\u5723\u6bbf/scripts/validate-examples.sh",
                 "line": 162,
                 "type": "aws_secret_key",
-                "content": "echo \"=====\"",
+                "content": "echo \"========================================\"",
                 "severity": "CRITICAL"
               },
               {
                 "file": "src/\u4ee3\u7801\u5723\u6bbf/scripts/validate-examples.sh",
                 "line": 164,
                 "type": "aws_secret_key",
-                "content": "echo \"=====\"",
+                "content": "echo \"========================================\"",
                 "severity": "CRITICAL"
               },
               {
                 "file": "src/\u4ee3\u7801\u5723\u6bbf/scripts/validate-examples.sh",
                 "line": 168,
                 "type": "aws_secret_key",
-                "content": "echo \"=====\"",
+                "content": "echo \"========================================\"",
                 "severity": "CRITICAL"
               },
               {
                 "file": "tools/scripts/advanced-push-protection.sh",
                 "line": 12,
                 "type": "aws_secret_key",
-                "content": "echo \"\"",
+                "content": "echo \"==========================================\"",
                 "severity": "CRITICAL"
               },
               {
                 "file": "tools/scripts/advanced-push-protection.sh",
                 "line": 14,
                 "type": "aws_secret_key",
-                "content": "echo \"\"",
+                "content": "echo \"==========================================\"",
                 "severity": "CRITICAL"
               },
               {
                 "file": "tools/scripts/advanced-push-protection.sh",
                 "line": 17,
                 "type": "aws_secret_key",
-                "content": "echo \"\"",
+                "content": "echo \"==========================================\"",
                 "severity": "CRITICAL"
               },
               {
                 "file": "tools/scripts/advanced-push-protection.sh",
                 "line": 178,
                 "type": "aws_secret_key",
-                "content": "echo \"\"",
+                "content": "echo \"==========================================\"",
                 "severity": "CRITICAL"
               },
               {
                 "file": "tools/scripts/advanced-push-protection.sh",
                 "line": 196,
                 "type": "aws_secret_key",
-                "content": "echo \"\"",
+                "content": "echo \"==========================================\"",
                 "severity": "CRITICAL"
               },
               {
                 "file": "tools/scripts/analyze.sh",
                 "line": 371,
                 "type": "aws_secret_key",
-                "content": "echo \"======\"",
+                "content": "echo \"============================================================================\"",
                 "severity": "CRITICAL"
               },
               {
                 "file": "tools/scripts/analyze.sh",
                 "line": 373,
                 "type": "aws_secret_key",
-                "content": "echo \"======\"",
+                "content": "echo \"============================================================================\"",
                 "severity": "CRITICAL"
               },
               {
                 "file": "tools/scripts/analyze.sh",
                 "line": 385,
                 "type": "aws_secret_key",
-                "content": "echo \"======\"",
+                "content": "echo \"============================================================================\"",
                 "severity": "CRITICAL"
               },
               {
                 "file": "tools/scripts/analyze.sh",
                 "line": 390,
                 "type": "aws_secret_key",
-                "content": "echo \"======\"",
+                "content": "echo \"============================================================================\"",
                 "severity": "CRITICAL"
               },
               {
                 "file": "tools/scripts/analyze.sh",
                 "line": 392,
                 "type": "aws_secret_key",
-                "content": "echo \"======\"",
+                "content": "echo \"============================================================================\"",
                 "severity": "CRITICAL"
               },
               {
                 "file": "tools/scripts/build-matrix.sh",
                 "line": 9,
                 "type": "aws_secret_key",
-                "content": "echo \"\"",
+                "content": "echo \"==========================================\"",
                 "severity": "CRITICAL"
               },
               {
                 "file": "tools/scripts/build-matrix.sh",
                 "line": 12,
                 "type": "aws_secret_key",
-                "content": "echo \"\"",
+                "content": "echo \"==========================================\"",
                 "severity": "CRITICAL"
               },
               {
                 "file": "tools/scripts/build-matrix.sh",
                 "line": 146,
                 "type": "aws_secret_key",
-                "content": "echo \"\"",
+                "content": "echo \"==========================================\"",
                 "severity": "CRITICAL"
               },
               {
                 "file": "tools/scripts/build-matrix.sh",
                 "line": 152,
                 "type": "aws_secret_key",
-                "content": "echo \"\"",
+                "content": "echo \"==========================================\"",
                 "severity": "CRITICAL"
               },
               {
                 "file": "tools/scripts/repair.sh",
                 "line": 378,
                 "type": "aws_secret_key",
-                "content": "echo \"======\"",
+                "content": "echo \"============================================================================\"",
                 "severity": "CRITICAL"
               },
               {
                 "file": "tools/scripts/repair.sh",
                 "line": 380,
                 "type": "aws_secret_key",
-                "content": "echo \"======\"",
+                "content": "echo \"============================================================================\"",
                 "severity": "CRITICAL"
               },
               {
                 "file": "tools/scripts/repair.sh",
                 "line": 395,
                 "type": "aws_secret_key",
-                "content": "echo \"======\"",
+                "content": "echo \"============================================================================\"",
                 "severity": "CRITICAL"
               },
               {
                 "file": "tools/scripts/repair.sh",
                 "line": 400,
                 "type": "aws_secret_key",
-                "content": "echo \"======\"",
+                "content": "echo \"============================================================================\"",
                 "severity": "CRITICAL"
               },
               {
                 "file": "tools/scripts/repair.sh",
                 "line": 402,
                 "type": "aws_secret_key",
-                "content": "echo \"======\"",
+                "content": "echo \"============================================================================\"",
                 "severity": "CRITICAL"
               },
               {
                 "file": "tools/scripts/setup.sh",
                 "line": 335,
                 "type": "aws_secret_key",
-                "content": "echo \"======\"",
+                "content": "echo \"============================================================================\"",
                 "severity": "CRITICAL"
               },
               {
                 "file": "tools/scripts/setup.sh",
                 "line": 337,
                 "type": "aws_secret_key",
-                "content": "echo \"======\"",
+                "content": "echo \"============================================================================\"",
                 "severity": "CRITICAL"
               },
               {
                 "file": "tools/scripts/setup.sh",
                 "line": 358,
                 "type": "aws_secret_key",
-                "content": "echo \"======\"",
+                "content": "echo \"============================================================================\"",
                 "severity": "CRITICAL"
               },
               {
                 "file": "tools/scripts/setup.sh",
                 "line": 363,
                 "type": "aws_secret_key",
-                "content": "echo \"======\"",
+                "content": "echo \"============================================================================\"",
                 "severity": "CRITICAL"
               },
               {
                 "file": "tools/scripts/setup.sh",
                 "line": 366,
                 "type": "aws_secret_key",
-                "content": "echo \"======\"",
+                "content": "echo \"============================================================================\"",
                 "severity": "CRITICAL"
               },
               {
@@ -72305,14 +72305,14 @@
                 "file": "tools/scripts/backup/backup.sh",
                 "line": 335,
                 "type": "aws_secret_key",
-                "content": "echo \"======\"",
+                "content": "echo \"============================================================================\"",
                 "severity": "CRITICAL"
               },
               {
                 "file": "tools/scripts/backup/backup.sh",
                 "line": 337,
                 "type": "aws_secret_key",
-                "content": "echo \"======\"",
+                "content": "echo \"============================================================================\"",
                 "severity": "CRITICAL"
               },
               {
@@ -72326,32 +72326,32 @@
                 "file": "tools/scripts/backup/restore.sh",
                 "line": 168,
                 "type": "aws_secret_key",
-                "content": "echo \"======\"",
+                "content": "echo \"============================================================================\"",
                 "severity": "CRITICAL"
               },
               {
                 "file": "tools/scripts/backup/restore.sh",
                 "line": 170,
                 "type": "aws_secret_key",
-                "content": "echo \"======\"",
+                "content": "echo \"============================================================================\"",
                 "severity": "CRITICAL"
               },
               {
-                "file": "MachineNativeOps_INTEGRATION_SUMMARY.md",
+                "file": "AAPS_INTEGRATION_SUMMARY.md",
                 "line": 290,
                 "type": "aws_secret_key",
                 "content": "sudo cp rootfs/etc/systemd/system/machinenativenops-auto-monitor.service /etc/systemd/system/",
                 "severity": "CRITICAL"
               },
               {
-                "file": "MachineNativeOps_INTEGRATION_SUMMARY.md",
+                "file": "AAPS_INTEGRATION_SUMMARY.md",
                 "line": 337,
                 "type": "password",
                 "content": "- Redis password (if configured)",
                 "severity": "HIGH"
               },
               {
-                "file": "MachineNativeOps_INTEGRATION_SUMMARY.md",
+                "file": "AAPS_INTEGRATION_SUMMARY.md",
                 "line": 426,
                 "type": "aws_secret_key",
                 "content": "**Architecture Hash**: `e7f8a9b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9`",
@@ -72382,14 +72382,14 @@
                 "file": "CONVERSATION_LOG.md",
                 "line": 220,
                 "type": "aws_secret_key",
-                "content": "====",
+                "content": "============================================================",
                 "severity": "CRITICAL"
               },
               {
                 "file": "CONVERSATION_LOG.md",
                 "line": 222,
                 "type": "aws_secret_key",
-                "content": "====",
+                "content": "============================================================",
                 "severity": "CRITICAL"
               },
               {
@@ -74125,14 +74125,14 @@
                 "file": "docs/AUTO_REFACTOR_EVOLUTION.md",
                 "line": 359,
                 "type": "aws_secret_key",
-                "content": "",
+                "content": "======================================================================",
                 "severity": "CRITICAL"
               },
               {
                 "file": "docs/AUTO_REFACTOR_EVOLUTION.md",
                 "line": 361,
                 "type": "aws_secret_key",
-                "content": "",
+                "content": "======================================================================",
                 "severity": "CRITICAL"
               },
               {
@@ -74300,14 +74300,14 @@
                 "file": "docs/INSTANT_EXECUTION_COMPLETION_REPORT.md",
                 "line": 222,
                 "type": "aws_secret_key",
-                "content": "=====",
+                "content": "========================================",
                 "severity": "CRITICAL"
               },
               {
                 "file": "docs/INSTANT_EXECUTION_INTEGRATION_MAP.md",
                 "line": 334,
                 "type": "aws_secret_key",
-                "content": "=====",
+                "content": "========================================",
                 "severity": "CRITICAL"
               },
               {
@@ -74461,7 +74461,7 @@
                 "file": "docs/QUICK_START_INSTANT_EXECUTION.md",
                 "line": 138,
                 "type": "aws_secret_key",
-                "content": "=====",
+                "content": "========================================",
                 "severity": "CRITICAL"
               },
               {
@@ -74748,21 +74748,21 @@
                 "file": "docs/architecture/SECURITY_CONFIG_CHECKS.md",
                 "line": 812,
                 "type": "aws_secret_key",
-                "content": "echo \"=\"",
+                "content": "echo \"==================================================\"",
                 "severity": "CRITICAL"
               },
               {
                 "file": "docs/architecture/SECURITY_CONFIG_CHECKS.md",
                 "line": 957,
                 "type": "aws_secret_key",
-                "content": "echo \"=\"",
+                "content": "echo \"==================================================\"",
                 "severity": "CRITICAL"
               },
               {
                 "file": "docs/architecture/SECURITY_CONFIG_CHECKS.md",
                 "line": 959,
                 "type": "aws_secret_key",
-                "content": "echo \"=\"",
+                "content": "echo \"==================================================\"",
                 "severity": "CRITICAL"
               },
               {
@@ -75581,84 +75581,84 @@
                 "file": "docs/refactor_playbooks/03_refactor/quantum/l1-integration-guide.v1.0.md",
                 "line": 133,
                 "type": "aws_secret_key",
-                "content": "echo \"\"",
+                "content": "echo \"==========================================\"",
                 "severity": "CRITICAL"
               },
               {
                 "file": "docs/refactor_playbooks/03_refactor/quantum/l1-integration-guide.v1.0.md",
                 "line": 135,
                 "type": "aws_secret_key",
-                "content": "echo \"\"",
+                "content": "echo \"==========================================\"",
                 "severity": "CRITICAL"
               },
               {
                 "file": "docs/refactor_playbooks/03_refactor/quantum/l1-integration-guide.v1.0.md",
                 "line": 162,
                 "type": "aws_secret_key",
-                "content": "echo \"\"",
+                "content": "echo \"==========================================\"",
                 "severity": "CRITICAL"
               },
               {
                 "file": "docs/refactor_playbooks/03_refactor/quantum/l1-integration-guide.v1.0.md",
                 "line": 175,
                 "type": "aws_secret_key",
-                "content": "echo \"\"",
+                "content": "echo \"==========================================\"",
                 "severity": "CRITICAL"
               },
               {
                 "file": "docs/refactor_playbooks/03_refactor/quantum/l1-integration-guide.v1.0.md",
                 "line": 197,
                 "type": "aws_secret_key",
-                "content": "echo \"\"",
+                "content": "echo \"==========================================\"",
                 "severity": "CRITICAL"
               },
               {
                 "file": "docs/refactor_playbooks/03_refactor/quantum/l1-integration-guide.v1.0.md",
                 "line": 216,
                 "type": "aws_secret_key",
-                "content": "echo \"\"",
+                "content": "echo \"==========================================\"",
                 "severity": "CRITICAL"
               },
               {
                 "file": "docs/refactor_playbooks/03_refactor/quantum/l1-integration-guide.v1.0.md",
                 "line": 229,
                 "type": "aws_secret_key",
-                "content": "echo \"\"",
+                "content": "echo \"==========================================\"",
                 "severity": "CRITICAL"
               },
               {
                 "file": "docs/refactor_playbooks/03_refactor/quantum/l1-integration-guide.v1.0.md",
                 "line": 245,
                 "type": "aws_secret_key",
-                "content": "echo \"\"",
+                "content": "echo \"==========================================\"",
                 "severity": "CRITICAL"
               },
               {
                 "file": "docs/refactor_playbooks/03_refactor/quantum/l1-integration-guide.v1.0.md",
                 "line": 258,
                 "type": "aws_secret_key",
-                "content": "echo \"\"",
+                "content": "echo \"==========================================\"",
                 "severity": "CRITICAL"
               },
               {
                 "file": "docs/refactor_playbooks/03_refactor/quantum/l1-integration-guide.v1.0.md",
                 "line": 270,
                 "type": "aws_secret_key",
-                "content": "echo \"\"",
+                "content": "echo \"==========================================\"",
                 "severity": "CRITICAL"
               },
               {
                 "file": "docs/refactor_playbooks/03_refactor/quantum/l1-integration-guide.v1.0.md",
                 "line": 272,
                 "type": "aws_secret_key",
-                "content": "echo \"\"",
+                "content": "echo \"==========================================\"",
                 "severity": "CRITICAL"
               },
               {
                 "file": "docs/refactor_playbooks/03_refactor/quantum/l1-integration-guide.v1.0.md",
                 "line": 275,
                 "type": "aws_secret_key",
-                "content": "echo \"\"",
+                "content": "echo \"==========================================\"",
                 "severity": "CRITICAL"
               },
               {
@@ -75728,7 +75728,7 @@
                 "file": "docs/reports/PHASE1_VALIDATION_REPORT.md",
                 "line": 460,
                 "type": "aws_secret_key",
-                "content": "======",
+                "content": "================================================",
                 "severity": "CRITICAL"
               },
               {
@@ -76148,21 +76148,21 @@
                 "file": "src/governance/INSTANT_EXECUTION_PROOF_\u5373\u6642\u57f7\u884c\u8b49\u660e.md",
                 "line": 240,
                 "type": "aws_secret_key",
-                "content": "",
+                "content": "======================================================================",
                 "severity": "CRITICAL"
               },
               {
                 "file": "src/governance/INSTANT_EXECUTION_PROOF_\u5373\u6642\u57f7\u884c\u8b49\u660e.md",
                 "line": 242,
                 "type": "aws_secret_key",
-                "content": "",
+                "content": "======================================================================",
                 "severity": "CRITICAL"
               },
               {
                 "file": "src/governance/INSTANT_TRANSFORMATION_SUMMARY.md",
                 "line": 136,
                 "type": "aws_secret_key",
-                "content": "",
+                "content": "========================================================",
                 "severity": "CRITICAL"
               },
               {
@@ -76190,14 +76190,14 @@
                 "file": "src/governance/35-scripts/README.md",
                 "line": 95,
                 "type": "aws_secret_key",
-                "content": "===",
+                "content": "================================================================================",
                 "severity": "CRITICAL"
               },
               {
                 "file": "src/governance/35-scripts/README.md",
                 "line": 97,
                 "type": "aws_secret_key",
-                "content": "===",
+                "content": "================================================================================",
                 "severity": "CRITICAL"
               },
               {
@@ -76302,21 +76302,21 @@
                 "file": "docs/RESTRUCTURE_SUMMARY.txt",
                 "line": 1,
                 "type": "aws_secret_key",
-                "content": "",
+                "content": "=============================================================================",
                 "severity": "CRITICAL"
               },
               {
                 "file": "docs/RESTRUCTURE_SUMMARY.txt",
                 "line": 3,
                 "type": "aws_secret_key",
-                "content": "",
+                "content": "=============================================================================",
                 "severity": "CRITICAL"
               },
               {
                 "file": "docs/RESTRUCTURE_SUMMARY.txt",
                 "line": 62,
                 "type": "aws_secret_key",
-                "content": "",
+                "content": "=============================================================================",
                 "severity": "CRITICAL"
               },
               {
@@ -77093,7 +77093,7 @@
               "predicateType": "https://slsa.dev/provenance/v1",
               "subject": [
                 {
-                  "name": "machine-native-ops",
+                  "name": "machine-native-ops-aaps",
                   "digest": {
                     "sha256": "63ccea4dda3512eebf6a5a644577283ea7be0aab6b9062cadb481380fd61c42e"
                   }
@@ -77102,11 +77102,11 @@
               "predicate": {
                 "buildType": "https://github.com/actions",
                 "builder": {
-                  "id": "https://github.com/MachineNativeOps/machine-native-ops/actions/runs/123456789"
+                  "id": "https://github.com/MachineNativeOps/machine-native-ops-aaps/actions/runs/123456789"
                 },
                 "invocation": {
                   "configSource": {
-                    "uri": "git+https://github.com/MachineNativeOps/machine-native-ops@refs/heads/main",
+                    "uri": "git+https://github.com/MachineNativeOps/machine-native-ops-aaps@refs/heads/main",
                     "digest": {
                       "sha256": "41cf6794ba4200b839c53531555f0f3998df4cbb01a4d5cb0b94e3ca5e23947d"
                     },
@@ -77134,7 +77134,7 @@
                 },
                 "materials": [
                   {
-                    "uri": "git+https://github.com/MachineNativeOps/machine-native-ops",
+                    "uri": "git+https://github.com/MachineNativeOps/machine-native-ops-aaps",
                     "digest": {
                       "sha256": "41cf6794ba4200b839c53531555f0f3998df4cbb01a4d5cb0b94e3ca5e23947d"
                     }
@@ -77148,7 +77148,7 @@
                 "predicateType": "https://in-toto.io/attestation/v0.1",
                 "subject": [
                   {
-                    "name": "machine-native-ops",
+                    "name": "machine-native-ops-aaps",
                     "digest": {
                       "sha256": "41cf6794ba4200b839c53531555f0f3998df4cbb01a4d5cb0b94e3ca5e23947d"
                     }
@@ -77191,7 +77191,7 @@
                 "predicateType": "https://in-toto.io/attestation/v0.1",
                 "subject": [
                   {
-                    "name": "machine-native-ops",
+                    "name": "machine-native-ops-aaps",
                     "digest": {
                       "sha256": "41cf6794ba4200b839c53531555f0f3998df4cbb01a4d5cb0b94e3ca5e23947d"
                     }

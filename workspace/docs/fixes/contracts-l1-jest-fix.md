@@ -83,10 +83,18 @@ module.exports = config;
 
 ### Why `.cjs` extension?
 
+<<<<<<< HEAD
+<<<<<<< HEAD
 For consistency with the advisory-database fix and to avoid potential module
 resolution issues:
 
+=======
+For consistency with the advisory-database fix and to avoid potential module resolution issues:
+>>>>>>> origin/alert-autofix-37
+=======
+For consistency with the advisory-database fix and to avoid potential module resolution issues:
 
+>>>>>>> origin/copilot/sub-pr-402
 - Explicit CommonJS syntax with `module.exports`
 - Works reliably across all Node.js module configurations
 - Standard approach for Jest configs in modern projects
@@ -94,9 +102,20 @@ resolution issues:
 ### Test Infrastructure Dependencies
 
 This fix reveals the importance of:
+<<<<<<< HEAD
+<<<<<<< HEAD
 
-1. **Complete test tooling**: Include all testing utilities (supertest, etc.)
-2. **Consistent configuration**: Use same config format across workspaces
+1. **Explicit test dependencies**: Always declare test runners and assertion
+   libraries
+=======
+1. **Explicit test dependencies**: Always declare test runners and assertion libraries
+>>>>>>> origin/alert-autofix-37
+=======
+
+1. **Explicit test dependencies**: Always declare test runners and assertion libraries
+>>>>>>> origin/copilot/sub-pr-402
+2. **Complete test tooling**: Include all testing utilities (supertest, etc.)
+3. **Consistent configuration**: Use same config format across workspaces
 
 ## Related Fixes
 

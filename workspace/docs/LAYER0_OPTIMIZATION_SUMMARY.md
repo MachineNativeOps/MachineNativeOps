@@ -25,10 +25,18 @@ Successfully optimized and restructured **Layer 0 (OS/Hardware)** components acc
 
 > **最佳化重構 Layer 0 (OS/Hardware)：C++, Rust, C**
 
+<<<<<<< HEAD
+<<<<<<< HEAD
 The task required optimization and refactoring of Layer 0 components, focusing
 on:
 
+=======
+The task required optimization and refactoring of Layer 0 components, focusing on:
+>>>>>>> origin/alert-autofix-37
+=======
+The task required optimization and refactoring of Layer 0 components, focusing on:
 
+>>>>>>> origin/copilot/sub-pr-402
 1. Low-level system operations
 2. Real-time control performance
 3. Memory safety
@@ -470,11 +478,11 @@ autonomous:
 
 ### Internal Documentation
 
-- [Language Stack Policy](docs/architecture/language-stack.md)
-- [Language Governance](docs/architecture/language-governance.md)
+- [Language Stack Policy](./architecture/language-stack.md)
+- [Language Governance](./architecture/language-governance.md)
 - [System Module Map](config/system-module-map.yaml)
-- [Architecture Skeletons](automation/architecture-skeletons/README.md)
-- [Refactor Playbooks](docs/refactor_playbooks/README.md)
+- [Architecture Skeletons](../src/automation/architecture-skeletons/README.md)
+- [Refactor Playbooks](./refactor_playbooks/README.md)
 
 ### External Resources
 

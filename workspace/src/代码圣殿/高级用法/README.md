@@ -127,7 +127,6 @@ const workflow = await automation.createWorkflow({
 ```
 
 📂 **其他自定义扩展**:
-
 - 自定义工作流: `examples/custom-extensions/custom-workflows.ts`
 - 插件开发: `examples/custom-extensions/plugins-development.ts`
 - API扩展: `examples/custom-extensions/api-extensions.ts`
@@ -342,7 +341,6 @@ await saga.execute({
 ```
 
 📂 **其他复杂场景**:
-
 - 事件溯源: `examples/complex-scenarios/event-sourcing.ts`
 - CQRS模式: `examples/complex-scenarios/cqrs-pattern.ts`
 
@@ -480,7 +478,6 @@ class LoadBalancer {
 ```
 
 📂 **其他优化技术**:
-
 - 弹性模式: `examples/optimization-techniques/resilience-patterns.ts`
 - 成本优化: `examples/optimization-techniques/cost-optimization.ts`
 

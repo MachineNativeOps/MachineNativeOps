@@ -408,8 +408,18 @@ kubectl exec -n unmanned-island-system deployment/hlp-executor-core -- \
 ### 1. 完整健康檢查 (Comprehensive Health Check)
 
 #### 排程 | Schedule
+<<<<<<< HEAD
+<<<<<<< HEAD
 
+- **時間 | Time**: 每月第一個週二 02:00-03:00 UTC | First Tuesday of month
+  02:00-03:00 UTC
+=======
+- **時間 | Time**: 每月第一個週二 02:00-03:00 UTC | First Tuesday of month 02:00-03:00 UTC
+>>>>>>> origin/alert-autofix-37
+=======
 
+- **時間 | Time**: 每月第一個週二 02:00-03:00 UTC | First Tuesday of month 02:00-03:00 UTC
+>>>>>>> origin/copilot/sub-pr-402
 - **持續時間 | Duration**: 30-45 分鐘 | 30-45 minutes
 
 #### 檢查清單 | Checklist
@@ -539,8 +549,18 @@ cat /tmp/hlp-executor-health-report-$(date +%Y%m).txt | \
 ### 1. 容量審查與規劃 (Capacity Review and Planning)
 
 #### 排程 | Schedule
+<<<<<<< HEAD
+<<<<<<< HEAD
 
+- **時間 | Time**: 季度末第一個週二 02:00-05:00 UTC | First Tuesday of
+  quarter-end month 02:00-05:00 UTC
+=======
+- **時間 | Time**: 季度末第一個週二 02:00-05:00 UTC | First Tuesday of quarter-end month 02:00-05:00 UTC
+>>>>>>> origin/alert-autofix-37
+=======
 
+- **時間 | Time**: 季度末第一個週二 02:00-05:00 UTC | First Tuesday of quarter-end month 02:00-05:00 UTC
+>>>>>>> origin/copilot/sub-pr-402
 - **持續時間 | Duration**: 1-2 小時 | 1-2 hours
 
 #### 容量分析 | Capacity Analysis

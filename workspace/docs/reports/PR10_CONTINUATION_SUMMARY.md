@@ -51,10 +51,25 @@ HLP Executor Core Plugin
 ```
 
 #### Key Features Documented
+<<<<<<< HEAD
+<<<<<<< HEAD
 
-1. **State Machine Orchestration** - 7-state transition flow with recovery
-2. **Dynamic Retry Policies** - Exponential backoff + jitter + risk-adaptive
-3. **Quantum Backend Integration** - Graceful degradation to classical mode
+1. **Async DAG Orchestration** - Topological sorting with risk-weighted
+   scheduling
+2. **Partial Rollback Management** - 3-level granularity
+   (Phase/Plan-unit/Artifact)
+=======
+1. **Async DAG Orchestration** - Topological sorting with risk-weighted scheduling
+2. **Partial Rollback Management** - 3-level granularity (Phase/Plan-unit/Artifact)
+>>>>>>> origin/alert-autofix-37
+=======
+
+1. **Async DAG Orchestration** - Topological sorting with risk-weighted scheduling
+2. **Partial Rollback Management** - 3-level granularity (Phase/Plan-unit/Artifact)
+>>>>>>> origin/copilot/sub-pr-402
+3. **State Machine Orchestration** - 7-state transition flow with recovery
+4. **Dynamic Retry Policies** - Exponential backoff + jitter + risk-adaptive
+5. **Quantum Backend Integration** - Graceful degradation to classical mode
 
 #### Deployment Configuration
 
@@ -377,19 +392,19 @@ docs/
 
 ### Planning Documents
 
-- [Next Steps Plan](docs/refactor_playbooks/NEXT_STEPS_PLAN.md)
-- [HLP Executor Action Plan](docs/refactor_playbooks/03_refactor/HLP_EXECUTOR_CORE_ACTION_PLAN.md)
+- [Next Steps Plan](../refactor_playbooks/NEXT_STEPS_PLAN.md)
+- [HLP Executor Action Plan](../refactor_playbooks/03_refactor/HLP_EXECUTOR_CORE_ACTION_PLAN.md)
 - [Island AI Stage 2 Planning](island-ai/STAGE2_PLANNING.md)
 
 ### Architecture Documents
 
 - [System Module Map](config/system-module-map.yaml)
-- [Core Architecture Deconstruction](docs/refactor_playbooks/01_deconstruction/core/core__architecture_deconstruction.md)
-- [Core Architecture Integration](docs/refactor_playbooks/02_integration/core/core__architecture_integration.md)
+- [Core Architecture Deconstruction](../refactor_playbooks/01_deconstruction/core/core__architecture_deconstruction.md)
+- [Core Architecture Integration](../refactor_playbooks/02_integration/core/core__architecture_integration.md)
 
 ### Implementation Documents
 
-- [HLP Executor README](core/hlp_executor/README.md)
+- [HLP Executor README](../../src/core/hlp_executor/README.md)
 - [Agent Coordinator Documentation](island-ai/STAGE2_AGENT_COORDINATOR.md)
 - [Completion Summary](COMPLETION_SUMMARY.md)
 
