@@ -97,22 +97,26 @@ def load_manifest(path: Path = MANIFEST_PATH) -> UnifiedPipelineManifest:
     for section in ("inputUnification", "coreScheduling", "mcpIntegration", "outputs"):
         if section not in spec:
             raise ValueError(f"Missing required spec section: {section}")
-    pipelines = [PipelineEntry(**p) for p in spec.get("pipelines", [])]
-    adapters = [ToolAdapter(**t) for t in spec["mcpIntegration"].get("toolAdapters", [])]
+    pipelines = [_safe_construct(PipelineEntry, p, "pipelines[*]") for p in spec.get("pipelines", [])]
+    adapters = [_safe_construct(ToolAdapter, t, "mcpIntegration.toolAdapters[*]") for t in spec["mcpIntegration"].get("toolAdapters", [])]
     return UnifiedPipelineManifest(
         apiVersion=data["apiVersion"],
         kind=data["kind"],
         metadata=data["metadata"],
         spec=UnifiedPipelineSpec(
-            inputUnification=InputUnification(**spec["inputUnification"]),
-            coreScheduling=CoreScheduling(**spec["coreScheduling"]),
+            inputUnification=_safe_construct(InputUnification, spec["inputUnification"], "inputUnification"),
+            coreScheduling=_safe_construct(CoreScheduling, spec["coreScheduling"], "coreScheduling"),
             pipelines=pipelines,
-            mcpIntegration=McpIntegration(
-                serverRef=spec["mcpIntegration"]["serverRef"],
-                toolAdapters=adapters,
-                realTimeSync=spec["mcpIntegration"]["realTimeSync"],
+            mcpIntegration=_safe_construct(
+                McpIntegration,
+                {
+                    "serverRef": spec["mcpIntegration"]["serverRef"],
+                    "toolAdapters": adapters,
+                    "realTimeSync": spec["mcpIntegration"]["realTimeSync"],
+                },
+                "mcpIntegration",
             ),
-            outputs=Outputs(**spec["outputs"]),
+            outputs=_safe_construct(Outputs, spec["outputs"], "outputs"),
         ),
     )
 
@@ -120,6 +124,13 @@ def load_manifest(path: Path = MANIFEST_PATH) -> UnifiedPipelineManifest:
 def load_schema(path: Path = SCHEMA_PATH) -> dict:
     """Load JSON Schema for optional validation tooling."""
     return json.loads(path.read_text(encoding="utf-8"))
+
+
+def _safe_construct(cls, data: dict, label: str):
+    try:
+        return cls(**data)
+    except Exception as exc:  # broad to surface config issues
+        raise ValueError(f"Failed constructing {label} for {cls.__name__}: {exc}") from exc
 
 
 __all__ = [
