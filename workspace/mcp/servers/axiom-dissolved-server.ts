@@ -812,9 +812,9 @@ server.setRequestHandler(ReadResourceRequestSchema, async (request) => {
   const tools = DISSOLVED_TOOLS.filter((t) => {
     const layerMatch = t.sourceModule.match(/L(\d{2})/);
     const resourceLayerMatch = layerId.match(/l(\d{2})/);
+    const resourceLayerMatch = layerId?.match(/l(\d{2})/);
     return layerMatch && resourceLayerMatch && layerMatch[1] === resourceLayerMatch[1];
   });
-
   return {
     contents: [
       {
@@ -826,7 +826,7 @@ server.setRequestHandler(ReadResourceRequestSchema, async (request) => {
             tools: tools.map((t) => ({
               name: t.name,
               description: t.description,
-              quantumEnabled: t.quantumEnabled,
+              quantum_enabled: t.quantum_enabled,
             })),
           },
           null,
