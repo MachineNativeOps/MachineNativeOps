@@ -14,15 +14,15 @@ Artifacts:
 from __future__ import annotations
 
 import json
+import logging
 from dataclasses import dataclass, field
 from pathlib import Path
-import logging
 from typing import Any, Dict, List, Literal, Optional
+
+import yaml
 
 # Configure logging for pipeline loader
 logger = logging.getLogger(__name__)
-
-import yaml
 
 
 MANIFEST_PATH = Path("workspace/mcp/pipelines/unified-pipeline-config.yaml")
