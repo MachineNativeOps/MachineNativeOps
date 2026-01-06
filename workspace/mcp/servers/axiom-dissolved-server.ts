@@ -1838,16 +1838,29 @@ server.setRequestHandler(ListResourcesRequestSchema, async () => {
 // Read Resource Handler
 server.setRequestHandler(ReadResourceRequestSchema, async (request) => {
   const { uri } = request.params;
+  
+  // Validate URI format
+  if (!uri || typeof uri !== 'string') {
+    throw new Error(`Invalid URI: URI must be a non-empty string`);
+  }
+  
   const resource = DISSOLVED_RESOURCES.find((r) => r.uri === uri);
 
   if (!resource) {
     throw new Error(`Resource not found: ${uri}`);
   }
 
-  const layerId = uri.split("/").pop();
+  // Safely extract layer ID with validation
+  const uriParts = uri.split("/");
+  const layerId = uriParts.length > 0 ? uriParts[uriParts.length - 1] : null;
+  
+  if (!layerId || layerId.trim() === '') {
+    throw new Error(`Invalid URI format: Unable to extract layer ID from ${uri}`);
+  }
+  
   const tools = DISSOLVED_TOOLS.filter((t) => {
     const layerMatch = t.source_module.match(/L(\d{2})/);
-    const resourceLayerMatch = layerId?.match(/l(\d{2})/);
+    const resourceLayerMatch = layerId.match(/l(\d{2})/);
     return layerMatch && resourceLayerMatch && layerMatch[1] === resourceLayerMatch[1];
   });
 
