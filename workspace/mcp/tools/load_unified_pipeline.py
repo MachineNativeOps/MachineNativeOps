@@ -129,7 +129,7 @@ def load_schema(path: Path = SCHEMA_PATH) -> dict:
 def _safe_construct(cls, data: dict, label: str):
     try:
         return cls(**data)
-    except Exception as exc:  # broad to surface config issues
+    except (TypeError, KeyError, ValueError) as exc:
         raise ValueError(f"Failed constructing {label} for {cls.__name__}: {exc}") from exc
 
 
