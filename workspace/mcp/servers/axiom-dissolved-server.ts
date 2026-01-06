@@ -1517,9 +1517,6 @@ async function executeDissolvedTool(
     };
   }
 
-  // Simulate tool execution based on quantum capability
-  if (tool.quantumEnabled && tool.fallbackEnabled) {
-    // Try quantum execution, fallback to classical if needed
   // For quantum-enabled tools with fallback support
   if (tool.quantum_enabled && tool.fallback_enabled) {
     try {
@@ -1537,12 +1534,11 @@ async function executeDissolvedTool(
         {
           tool: toolName,
           sourceModule: tool.sourceModule,
+          source_module: tool.source_module,
           args,
+          execution_method: "quantum",
           execution_timestamp: new Date().toISOString(),
           quantum_executed: true,
-        },
-        execution_method: "quantum",
-          source_module: tool.source_module,
           error: error instanceof Error ? error.message : String(error),
           timestamp: new Date().toISOString(),
         }
