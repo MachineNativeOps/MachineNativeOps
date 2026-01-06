@@ -21,11 +21,15 @@ import {
   ErrorCode,
   McpError,
 } from "@modelcontextprotocol/sdk/types.js";
+import { DISSOLVED_TOOLS } from "./tools/index.js";
+import type { ToolDefinition, ResourceDefinition, PromptDefinition as BasePromptDefinition } from "./tools/types.js";
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // EXTENDED PROMPT DEFINITION WITH TEMPLATE
 // ═══════════════════════════════════════════════════════════════════════════════
 
+// Extend PromptDefinition with template function for server implementation
+interface PromptDefinition extends BasePromptDefinition {
 // Using imported types from ./tools/types.js
 // ToolDefinition, ResourceDefinition, PromptDefinition are imported above
 
@@ -1555,6 +1559,7 @@ async function executeDissolvedTool(
           quantumExecuted: true,
           executionMethod: "quantum",
         },
+        execution_method: "quantum",
         executionMethod: "quantum",
           source_module: tool.sourceModule,
           error: error instanceof Error ? error.message : String(error),
@@ -1634,6 +1639,9 @@ async function executeDissolvedTool(
       executionTimestamp: new Date().toISOString(),
       quantumEnabled: tool.quantumEnabled,
     },
+    execution_method: tool.quantumEnabled ? "quantum" : "classical",
+    result: buildToolResult(toolName, tool.sourceModule, args, false, classicalResult),
+    execution_method: "classical",
     executionMethod: tool.quantumEnabled ? "quantum" : "classical",
     result: buildToolResult(toolName, tool.sourceModule, args, false, classicalResult),
     executionMethod: "classical",
