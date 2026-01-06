@@ -167,12 +167,105 @@ class WorkspaceValidator:
             result["has_exports"] = "export " in content
             result["has_imports"] = "import " in content
 
-            # 檢查常見的 TypeScript 錯誤
-            brace_count = content.count('{') - content.count('}')
+            # 在進行括號/大括號平衡檢查前，先移除字串與註解以減少誤報
+            def _strip_strings_and_comments_ts(text: str) -> str:
+                result_chars: List[str] = []
+                in_single_line_comment = False
+                in_multi_line_comment = False
+                in_string = False
+                string_quote: Optional[str] = None
+                escape = False
+
+                i = 0
+                length = len(text)
+                while i < length:
+                    ch = text[i]
+                    next_ch = text[i + 1] if i + 1 < length else ''
+
+                    if in_single_line_comment:
+                        # 單行註解直到換行
+                        if ch == '\n':
+                            result_chars.append(ch)
+                            in_single_line_comment = False
+                        else:
+                            # 以空白取代，以避免影響計數
+                            result_chars.append(' ')
+                        i += 1
+                        continue
+
+                    if in_multi_line_comment:
+                        if ch == '*' and next_ch == '/':
+                            # 結束多行註解
+                            result_chars.append(' ')
+                            result_chars.append(' ')
+                            in_multi_line_comment = False
+                            i += 2
+                        else:
+                            # 保留換行，其餘以空白取代
+                            result_chars.append(ch if ch == '\n' else ' ')
+                            i += 1
+                        continue
+
+                    if in_string:
+                        # 處理跳脫字元
+                        if escape:
+                            # 略過被跳脫的字元
+                            result_chars.append(' ' if ch != '\n' else '\n')
+                            escape = False
+                            i += 1
+                            continue
+                        if ch == '\\':
+                            escape = True
+                            result_chars.append(' ')
+                            i += 1
+                            continue
+                        # 結束字串（支援 `, ', "）
+                        if ch == string_quote:
+                            in_string = False
+                            string_quote = None
+                            result_chars.append(' ')
+                            i += 1
+                            continue
+                        # 字串內容以空白取代，但保留換行
+                        result_chars.append(ch if ch == '\n' else ' ')
+                        i += 1
+                        continue
+
+                    # 尚未進入註解或字串
+                    if ch == '/' and next_ch == '/':
+                        in_single_line_comment = True
+                        result_chars.append(' ')
+                        result_chars.append(' ')
+                        i += 2
+                        continue
+                    if ch == '/' and next_ch == '*':
+                        in_multi_line_comment = True
+                        result_chars.append(' ')
+                        result_chars.append(' ')
+                        i += 2
+                        continue
+
+                    if ch in ("'", '"', '`'):
+                        in_string = True
+                        string_quote = ch
+                        result_chars.append(' ')
+                        i += 1
+                        continue
+
+                    # 一般程式碼字元，原樣保留
+                    result_chars.append(ch)
+                    i += 1
+
+                return ''.join(result_chars)
+
+            code_for_balance = _strip_strings_and_comments_ts(content)
+
+            # 檢查常見的 TypeScript 錯誤（忽略字串與註解）
+            brace_count = code_for_balance.count('{') - code_for_balance.count('}')
             if brace_count != 0:
                 result["warnings"].append(f"Unbalanced braces: {brace_count}")
 
-            paren_count = content.count('(') - content.count(')')
+            paren_count = code_for_balance.count('(') - code_for_balance.count(')')
             if paren_count != 0:
                 result["warnings"].append(f"Unbalanced parentheses: {paren_count}")
 
