@@ -1479,10 +1479,10 @@ This evaluation will use:
 async function main() {
   const transport = new StdioServerTransport();
   await server.connect(transport);
-  console.error("AXIOM Dissolved MCP Server running on stdio");
-  console.error(`Loaded ${DISSOLVED_TOOLS.length} tools from dissolved AXIOM architecture`);
-  console.error(`Loaded ${DISSOLVED_RESOURCES.length} resources representing dissolved layers`);
-  console.error(`Loaded ${DISSOLVED_PROMPTS.length} prompts for common operations`);
+  console.log("AXIOM Dissolved MCP Server running on stdio");
+  console.log(`Loaded ${DISSOLVED_TOOLS.length} tools from dissolved AXIOM architecture`);
+  console.log(`Loaded ${DISSOLVED_RESOURCES.length} resources representing dissolved layers`);
+  console.log(`Loaded ${DISSOLVED_PROMPTS.length} prompts for common operations`);
 }
 
 main().catch(console.error);
