@@ -145,6 +145,7 @@ spec:
 
 ## 增強驗證實施代碼（範例草案）
 ```python
+"""示例模組：世界頂級驗證引擎（數值與實作為示意，請依實際需求替換）"""
 # /MachineNativeOps/validation/enhanced_validation_engine.py
 import asyncio
 from typing import Dict
@@ -181,7 +182,7 @@ class WorldClassValidationEngine:
 class QuantumStaticAnalyzer:
     """量子增強靜態分析"""
     async def analyze(self, codebase_path: str) -> Dict:
-        # 示意草案：實作時填入實際量子語法樹 / 控制流 / 數據流分析結果與統計
+        # 示意草案：實作時填入實際量子語法樹 / 控制流 / 數據流分析結果與統計（以下數值為示例）
         return {
             "syntax_analysis": {"quantum_confidence": 0.99997, "issues_found": 0},
             "control_flow": {"paths_analyzed": 2847, "unreachable_code": 0, "coverage": 1.0},
@@ -197,11 +198,13 @@ class MultidimensionalValidator:
 class RealTimeComplianceAuditor:
     """實時合規審計"""
     async def audit(self, codebase_path: str) -> Dict:
+        # 示例返回：請串接實際合規檢查與證據鏈
         return {"slsa_l4": "compliant", "automation": "100%_自動化"}
 
 class ImmutableEvidenceChainer:
     """不可篡改證據鏈"""
     async def create_chain(self, validation_results: Dict) -> Dict:
+        # 示例返回：請替換為實際區塊鏈錨定 / ZK 證明 / 時態加密實作
         return {
             "blockchain_anchor": "quantum_secure_blockchain",
             "zk_proof": "zk-STARKs",
