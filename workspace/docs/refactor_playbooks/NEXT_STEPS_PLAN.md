@@ -45,6 +45,16 @@ Create a complete, replicable template by executing the full refactor cycle on `
 
 **Tasks**:
 
+- [ ] Create `docs/refactor_playbooks/01_deconstruction/core/core__architecture_deconstruction.md`
+- [ ] Analyze `core/unified_integration/`, `core/mind_matrix/`, `core/lifecycle_systems/`
+- [ ] Document architecture patterns, anti-patterns, technical debt
+- [ ] Identify legacy asset dependencies
+- [ ] Update `legacy_assets_index.yaml` with core-specific entries
+- [ ] Run language governance scan and document violations
+- [ ] Generate hotspot analysis for complexity metrics
+
+**Deliverables**:
+
 - [x] Create `docs/refactor_playbooks/01_deconstruction/core/core__architecture_deconstruction.md`
 - [x] Analyze `core/unified_integration/`, `core/mind_matrix/`, `core/lifecycle_systems/`
 - [x] Document architecture patterns, anti-patterns, technical debt
@@ -62,6 +72,16 @@ latency: "<=30s"
 **狀態**: ✅ 已實現 | **延遲**: <30s | **人工介入**: 0
 
 **Tasks**:
+
+- [ ] Create `docs/refactor_playbooks/02_integration/core/core__architecture_integration.md`
+- [ ] Design new architecture respecting skeleton rules
+- [ ] Map old → new component transitions
+- [ ] Define API boundaries and interfaces
+- [ ] Validate against `system-module-map.yaml` constraints
+- [ ] Create dependency graph showing allowed/banned dependencies
+- [ ] Design migration strategy with risk assessment
+
+**Deliverables**:
 
 - [x] Create `docs/refactor_playbooks/02_integration/core/core__architecture_integration.md`
 - [x] Design new architecture respecting skeleton rules
@@ -81,6 +101,14 @@ latency: "<=30s"
 
 **Tasks**:
 
+- [ ] Create `docs/refactor_playbooks/03_refactor/core/core__architecture_refactor.md`
+- [ ] Implement P0 refactorings (critical fixes)
+- [ ] Implement P1 refactorings (high priority)
+- [ ] Implement P2 refactorings (nice-to-have)
+- [ ] Use Proposer/Critic workflow for each change
+- [ ] Track quality metrics (before/after comparison)
+- [ ] Run validation: language governance, semgrep, tests
+- [ ] Update `03_refactor/index.yaml` with governance_status
 - [x] Create `docs/refactor_playbooks/03_refactor/core/core__architecture_refactor.md`
 - [x] Automation scripts ready (`master-refactor.sh`, `rollback.sh`)
 - [x] Validation tools ready (`validate-phase*.py`)

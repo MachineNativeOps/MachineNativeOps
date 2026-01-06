@@ -324,22 +324,8 @@ Configuration Categories:
 - 插件 JSON Schema → `governance/schemas/plugin-specification.schema.json`
 
 #### D. 部署模板 (Deployment Templates)
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-- Kubernetes 部署模板 →
-  `infrastructure/kubernetes/templates/knowledge-processor-deployment.yaml`
-- 資源配額模板 →
-  `infrastructure/kubernetes/templates/resource-quota-template.yaml`
-=======
 - Kubernetes 部署模板 → `infrastructure/kubernetes/templates/knowledge-processor-deployment.yaml`
 - 資源配額模板 → `infrastructure/kubernetes/templates/resource-quota-template.yaml`
->>>>>>> origin/alert-autofix-37
-=======
-
-- Kubernetes 部署模板 → `infrastructure/kubernetes/templates/knowledge-processor-deployment.yaml`
-- 資源配額模板 → `infrastructure/kubernetes/templates/resource-quota-template.yaml`
->>>>>>> origin/copilot/sub-pr-402
 
 #### E. 工具與腳本 (Tools & Scripts)
 

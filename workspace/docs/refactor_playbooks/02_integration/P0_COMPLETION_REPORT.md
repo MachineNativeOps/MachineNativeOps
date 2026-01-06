@@ -24,18 +24,7 @@ Successfully completed Phase 0 (P0) of the Baseline YAML integration project. Al
 **Source:** Extracted from `baseline-01-namespace-governance.v1.0.yaml`
 
 **Key Features:**
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-- ✅ 5 environment naming patterns (production, staging, development, feature,
-  tenant)
-=======
 - ✅ 5 environment naming patterns (production, staging, development, feature, tenant)
->>>>>>> origin/alert-autofix-37
-=======
-
-- ✅ 5 environment naming patterns (production, staging, development, feature, tenant)
->>>>>>> origin/copilot/sub-pr-402
 - ✅ Regex validation for each pattern
 - ✅ Forbidden prefix enforcement (kube-, kubernetes-, system-)
 - ✅ Length constraints (3-63 characters)
@@ -56,18 +45,7 @@ Successfully completed Phase 0 (P0) of the Baseline YAML integration project. Al
 **Source:** Extracted from `baseline-02-security-rbac.v1.0.yaml`
 
 **Key Features:**
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-- ✅ 6-tier RBAC role hierarchy (cluster-admin, platform-operator, developer,
-  viewer, ci-cd-automation, security-auditor)
-=======
 - ✅ 6-tier RBAC role hierarchy (cluster-admin, platform-operator, developer, viewer, ci-cd-automation, security-auditor)
->>>>>>> origin/alert-autofix-37
-=======
-
-- ✅ 6-tier RBAC role hierarchy (cluster-admin, platform-operator, developer, viewer, ci-cd-automation, security-auditor)
->>>>>>> origin/copilot/sub-pr-402
 - ✅ Permission definitions with verbs mapping
 - ✅ MFA requirements for privileged roles
 - ✅ Token rotation policies (30 days for ci-cd)
@@ -135,22 +113,8 @@ Successfully completed Phase 0 (P0) of the Baseline YAML integration project. Al
 **Source:** Extracted from `baseline-01-namespace-governance.v1.0.yaml`
 
 **Key Features:**
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-- ✅ 10 required labels (app.kubernetes.io/\*, environment, owner, cost-center,
-  compliance.level, baseline.level)
-- ✅ 5 optional labels (security.scan.required, backup.enabled, monitoring.tier,
-  network.zone, tenant-id)
-=======
 - ✅ 10 required labels (app.kubernetes.io/*, environment, owner, cost-center, compliance.level, baseline.level)
 - ✅ 5 optional labels (security.scan.required, backup.enabled, monitoring.tier, network.zone, tenant-id)
->>>>>>> origin/alert-autofix-37
-=======
-
-- ✅ 10 required labels (app.kubernetes.io/*, environment, owner, cost-center, compliance.level, baseline.level)
-- ✅ 5 optional labels (security.scan.required, backup.enabled, monitoring.tier, network.zone, tenant-id)
->>>>>>> origin/copilot/sub-pr-402
 - ✅ JSON Schema Draft-07 format
 - ✅ Pattern validation for each label
 - ✅ Enum constraints for categorical labels
@@ -212,18 +176,7 @@ Successfully completed Phase 0 (P0) of the Baseline YAML integration project. Al
 ---
 
 #### 📚 KUBERNETES_BASELINE_GUIDE.md
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-**Location:**
-`docs/refactor_playbooks/03_refactor/meta/KUBERNETES_BASELINE_GUIDE.md`  
-=======
-**Location:** `docs/refactor_playbooks/03_refactor/meta/KUBERNETES_BASELINE_GUIDE.md`  
->>>>>>> origin/alert-autofix-37
-=======
-
-**Location:** `docs/refactor_playbooks/03_refactor/meta/KUBERNETES_BASELINE_GUIDE.md`  
->>>>>>> origin/copilot/sub-pr-402
+**Location:** `docs/refactor_playbooks/03_refactor/meta/KUBERNETES_BASELINE_GUIDE.md`
 **Source:** Synthesized from all 6 baseline files
 
 **Key Features:**
@@ -289,18 +242,7 @@ Successfully completed Phase 0 (P0) of the Baseline YAML integration project. Al
 **Target:** 21 files to integrate
 
 **High-Priority Items:**
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-1. **Capability Registry Schema** -
-   `governance/schemas/capability-registry.schema.json`
-=======
 1. **Capability Registry Schema** - `governance/schemas/capability-registry.schema.json`
->>>>>>> origin/alert-autofix-37
-=======
-
-1. **Capability Registry Schema** - `governance/schemas/capability-registry.schema.json`
->>>>>>> origin/copilot/sub-pr-402
 2. **State Machine Extension** - Expand `governance/schemas/state-machine.yaml`
 3. **Pod Security Standards** - `governance/policies/security/pod-security-standards.yaml`
 4. **Security Network Config** - Extend `config/security-network-config.yml`
@@ -322,18 +264,7 @@ Successfully completed Phase 0 (P0) of the Baseline YAML integration project. Al
 **Focus:** Quantum computing module (experimental)
 
 **Items:**
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-1. **Quantum Circuit Library** - 4 circuit definitions in
-   `core/quantum-circuits/`
-=======
 1. **Quantum Circuit Library** - 4 circuit definitions in `core/quantum-circuits/`
->>>>>>> origin/alert-autofix-37
-=======
-
-1. **Quantum Circuit Library** - 4 circuit definitions in `core/quantum-circuits/`
->>>>>>> origin/copilot/sub-pr-402
 2. **Quantum Resource Pool** - `config/quantum-resource-pool.yaml`
 3. **Quantum Workflows** - 2 Argo workflow templates in `automation/quantum-workflows/`
 4. **Quantum Execution Tools** - 2 Python scripts in `tools/quantum/`
@@ -410,18 +341,7 @@ Status: Modular, maintainable, production-ready ✅
 ```
 
 **Key Improvements:**
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-- 📦 **Separation of Concerns:** Policies, schemas, configuration, and
-  documentation are separated
-=======
 - 📦 **Separation of Concerns:** Policies, schemas, configuration, and documentation are separated
->>>>>>> origin/alert-autofix-37
-=======
-
-- 📦 **Separation of Concerns:** Policies, schemas, configuration, and documentation are separated
->>>>>>> origin/copilot/sub-pr-402
 - 🔄 **Reusability:** Each component can be reused independently
 - 📈 **Scalability:** Easy to add new policies, schemas, or tenant tiers
 - 🛡️ **Security:** Clear security boundaries with RBAC and audit policies

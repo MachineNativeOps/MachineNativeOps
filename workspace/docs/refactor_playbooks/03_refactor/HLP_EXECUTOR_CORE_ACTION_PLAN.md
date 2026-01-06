@@ -113,18 +113,7 @@ rules:
 ---
 
 ### P0-5: 創建網絡策略
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-**目標檔案**:
-`infrastructure/kubernetes/network-policies/hlp-executor-netpol.yaml`  
-=======
-**目標檔案**: `infrastructure/kubernetes/network-policies/hlp-executor-netpol.yaml`  
->>>>>>> origin/alert-autofix-37
-=======
-
-**目標檔案**: `infrastructure/kubernetes/network-policies/hlp-executor-netpol.yaml`  
->>>>>>> origin/copilot/sub-pr-402
+**目標檔案**: `infrastructure/kubernetes/network-policies/hlp-executor-netpol.yaml`
 **動作類型**: CREATE  
 **理由**: 限制網絡存取，遵循最小權限原則
 
@@ -406,22 +395,8 @@ compliance:
 ---
 
 ### P1-7: 創建 Prometheus ServiceMonitor
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-**目標檔案**:
-`infrastructure/monitoring/prometheus/servicemonitors/hlp-executor-metrics.yaml`  
-**動作類型**:
-CREATE  
-=======
 **目標檔案**: `infrastructure/monitoring/prometheus/servicemonitors/hlp-executor-metrics.yaml`  
-**動作類型**: CREATE  
->>>>>>> origin/alert-autofix-37
-=======
-
-**目標檔案**: `infrastructure/monitoring/prometheus/servicemonitors/hlp-executor-metrics.yaml`  
-**動作類型**: CREATE  
->>>>>>> origin/copilot/sub-pr-402
+**動作類型**: CREATE
 **理由**: 配置 Prometheus 抓取指標
 
 **內容要點**:
@@ -658,20 +633,8 @@ knowledge_graph_integration:
 **理由**: 定義服務水平目標（SLO）
 
 **內容要點**:
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-| 指標               | 目標值  | 測量方法             |
-| ------------------ | ------- | -------------------- |
-=======
 | 指標 | 目標值 | 測量方法 |
 |------|--------|---------|
->>>>>>> origin/alert-autofix-37
-=======
-
-| 指標 | 目標值 | 測量方法 |
-|------|--------|---------|
->>>>>>> origin/copilot/sub-pr-402
 | DAG 解析延遲 (P95) | < 120ms | Prometheus histogram |
 | 狀態轉換延遲 (P90) | < 50ms | Prometheus histogram |
 | 恢復時間目標 (RTO) | < 30s | 手動測試 |
@@ -705,18 +668,7 @@ module.exports = {
 ---
 
 ### P1-20: 創建部署檢查清單
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-**目標檔案**:
-`docs/operations/deployment/HLP_EXECUTOR_DEPLOYMENT_CHECKLIST.md`  
-=======
-**目標檔案**: `docs/operations/deployment/HLP_EXECUTOR_DEPLOYMENT_CHECKLIST.md`  
->>>>>>> origin/alert-autofix-37
-=======
-
-**目標檔案**: `docs/operations/deployment/HLP_EXECUTOR_DEPLOYMENT_CHECKLIST.md`  
->>>>>>> origin/copilot/sub-pr-402
+**目標檔案**: `docs/operations/deployment/HLP_EXECUTOR_DEPLOYMENT_CHECKLIST.md`
 **動作類型**: CREATE  
 **理由**: 提供部署前驗證清單
 
@@ -759,18 +711,7 @@ module.exports = {
 ## P2 行動清單（長期優化）
 
 ### P2-1: 創建 Grafana 儀表板
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-**目標檔案**:
-`infrastructure/monitoring/grafana/dashboards/hlp-executor-dashboard.json`  
-=======
-**目標檔案**: `infrastructure/monitoring/grafana/dashboards/hlp-executor-dashboard.json`  
->>>>>>> origin/alert-autofix-37
-=======
-
-**目標檔案**: `infrastructure/monitoring/grafana/dashboards/hlp-executor-dashboard.json`  
->>>>>>> origin/copilot/sub-pr-402
+**目標檔案**: `infrastructure/monitoring/grafana/dashboards/hlp-executor-dashboard.json`
 **動作類型**: CREATE  
 **理由**: 提供可視化監控儀表板
 

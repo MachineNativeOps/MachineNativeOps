@@ -52,22 +52,8 @@
 4. **Integration Points** - 集成點
 
 #### 功能模組 (12 個)
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-- **核心處理**: Document Ingestion, Entity Extraction, Relation Extraction,
-  Triple Generation, Entity Resolution, Ontology Alignment
-- **支撐服務**: Vector Embedding, Quality Control, Error Handling, Data Privacy,
-  Provenance
-=======
 - **核心處理**: Document Ingestion, Entity Extraction, Relation Extraction, Triple Generation, Entity Resolution, Ontology Alignment
 - **支撐服務**: Vector Embedding, Quality Control, Error Handling, Data Privacy, Provenance
->>>>>>> origin/alert-autofix-37
-=======
-
-- **核心處理**: Document Ingestion, Entity Extraction, Relation Extraction, Triple Generation, Entity Resolution, Ontology Alignment
-- **支撐服務**: Vector Embedding, Quality Control, Error Handling, Data Privacy, Provenance
->>>>>>> origin/copilot/sub-pr-402
 - **運營維護**: Data Cleanup, Model Updates, Performance Optimization
 
 ### 2.2 依賴關係分析 (Dependency Analysis)

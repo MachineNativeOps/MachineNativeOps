@@ -4,13 +4,25 @@
 
 ---
 
+## 🎯 當前執行狀態
+
+**三階段重構計劃執行中** (2026-01-05)
+
+```
+Phase 1 (Core Cluster)    → 🟢 文檔完成，準備執行
+Phase 2 (Scale)           → ⚪ 待 Phase 1 完成後啟動
+Phase 3 (Infrastructure)  → ⚪ 待 Phase 2 完成後啟動
+```
+
+---
+
 ## 📊 統計摘要
 
-- **總劇本數**：3
+- **總劇本數**：4
 - **完成**：0
-- **進行中**：0
+- **進行中**：1 (core/architecture-stability)
 - **草稿**：3
-- **覆蓋率**：已覆蓋 3/8 個主要 clusters（含 tools domain）
+- **覆蓋率**：已覆蓋 4/8 個主要 clusters
 
 ---
 
@@ -20,7 +32,7 @@
 
 | 檔案 | Cluster ID | 狀態 | 最後更新 | 說明 |
 |------|------------|------|----------|------|
-| [core__architecture_refactor.md](../../../src/core/core__architecture_refactor.md) | `core/architecture-stability` | 🟡 草稿 | 2025-12-06 | 核心架構穩定性重構 |
+| [core__architecture_refactor.md](core/core__architecture_refactor.md) | `core/architecture-stability` | 🟢 進行中 | 2026-01-05 | 核心架構穩定性重構 (Phase 1) |
 
 ### Services Domain
 
@@ -33,7 +45,7 @@
 
 | 檔案 | Cluster ID | 狀態 | 最後更新 | 說明 |
 |------|------------|------|----------|------|
-| [automation__autonomous_refactor.md](../../../src/automation/automation__autonomous_refactor.md) | `automation/autonomous` | 🟡 草稿 | 2025-12-06 | 五骨架自主系統重構 |
+| [automation__autonomous_refactor.md](automation/automation__autonomous_refactor.md) | `automation/autonomous` | 🟡 草稿 | 2025-12-06 | 五骨架自主系統重構 (Phase 2) |
 | _待補充_ | `automation/architect` | ⚪ 待建立 | - | 架構分析模組重構 |
 | _待補充_ | `automation/hyperautomation` | ⚪ 待建立 | - | 超自動化策略重構 |
 
@@ -41,7 +53,7 @@
 
 | 檔案 | Cluster ID | 狀態 | 最後更新 | 說明 |
 |------|------------|------|----------|------|
-| _待補充_ | `apps/web` | ⚪ 待建立 | - | Web 應用重構 |
+| [apps__web_refactor.md](apps/apps__web_refactor.md) | `apps/web` | 🟡 草稿 | 2025-12-06 | Web 應用重構 |
 
 ### Governance Domain
 
@@ -67,7 +79,7 @@
 
 | 檔案 | Cluster ID | 狀態 | 最後更新 | 說明 |
 |------|------------|------|----------|------|
-| _待補充_ | `tools/scripts` | ⚪ 待建立 | - | 工具腳本重構 |
+| [tools__utility_refactor.md](tools/tools__utility_refactor.md) | `tools/scripts` | 🟡 草稿 | 2025-12-06 | 工具腳本重構 |
 
 ---
 
@@ -90,6 +102,7 @@
 - [index.yaml](index.yaml) - 機器可讀索引
 - [01_deconstruction/](../01_deconstruction/) - 解構劇本
 - [02_integration/](../02_integration/) - 集成劇本
+- [PHASE1_COMPLETION_SUMMARY.md](../PHASE1_COMPLETION_SUMMARY.md) - Phase 1 完成總結
 
 ---
 
@@ -113,9 +126,9 @@
 ### 範例
 
 ```markdown
-| [core__architecture_refactor.md](../../../src/core/core__architecture_refactor.md) | `core/architecture-stability` | ✅ 完成 | 2025-12-10 | 核心架構穩定性重構 |
+| [core__architecture_refactor.md](core/core__architecture_refactor.md) | `core/architecture-stability` | ✅ 完成 | 2026-01-10 | 核心架構穩定性重構 |
 ```
 
 ---
 
-最後更新：2025-12-06
+最後更新：2026-01-05

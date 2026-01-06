@@ -10,38 +10,57 @@
 # - Governance status for CI/CD automation
 # - Priority and status for project management
 
-version: "1.0"
-last_updated: "2025-12-06T19:35:00Z"
+version: "1.1"
+last_updated: "2026-01-05T22:15:00Z"
+
+# Execution Status Summary:
+# Phase 1 (core) - In Progress: Documentation complete, awaiting execution
+# Phase 2 (scale) - Pending: Clusters scheduled after core completion
 
 clusters:
   - cluster_id: "core/architecture-stability"
     domain: "core"
     priority: "P0"                          # P0/P1/P2
-    status: "draft"                         # draft/in_progress/completed/blocked
+    status: "in_progress"                   # draft/in_progress/completed/blocked
+    phase: "Phase 1"                        # Current execution phase
+    phase_status: "documentation_complete"  # documentation_complete/executing/validating
     
     refactor_file: "core/core__architecture_refactor.md"
-    deconstruction_file: "../01_deconstruction/core__architecture_deconstruction.md"
-    integration_file: "../02_integration/core__architecture_integration.md"
+    deconstruction_file: "../01_deconstruction/core/core__architecture_deconstruction.md"
+    integration_file: "../02_integration/core/core__architecture_integration.md"
     
     legacy_assets:
       - "core-v1-legacy-modules"
+      - "core-toplevel-engines-v2.5"
+      - "advisory-db-javascript-legacy"
+      - "mind-matrix-hypergraph-v1"
+      - "unified-integration-monolithic-v2"
     
     involved_dirs:
       - "core/unified_integration/"
       - "core/mind_matrix/"
       - "core/architecture-stability/"
+      - "core/safety_mechanisms/"
+      - "core/slsa_provenance/"
     
     governance_status:
       violations: 0
       threshold: 5
       auto_fixable: 0
     
-    last_updated: "2025-12-06"
+    documentation_status:
+      deconstruction: "complete"
+      integration: "complete"
+      refactor: "complete"
+    
+    last_updated: "2026-01-05"
 
   - cluster_id: "automation/autonomous"
     domain: "automation"
     priority: "P0"
     status: "draft"
+    phase: "Phase 2"                        # Scheduled for Phase 2
+    phase_status: "pending"
     refactor_file: "automation/automation__autonomous_refactor.md"
     deconstruction_file: "../01_deconstruction/automation__autonomous_deconstruction.md"
     integration_file: "../02_integration/automation__autonomous_integration.md"
@@ -52,7 +71,11 @@ clusters:
       violations: 0
       threshold: 5
       auto_fixable: 0
-    last_updated: "2025-12-06"
+    documentation_status:
+      deconstruction: "pending"
+      integration: "pending"
+      refactor: "draft"
+    last_updated: "2026-01-05"
 
   # Future clusters (placeholders)
   - cluster_id: "services/gateway"

@@ -226,24 +226,7 @@ PENDING → SCHEDULING → EXECUTING → VERIFYING → COMMIT
 ## 六、整合點（Integration Points）
 
 ### 6.1 Quantum Integration
-<<<<<<< HEAD
-<<<<<<< HEAD
 
-- **Scheduler Endpoint**:
-  `quantum-scheduler.unmanned-island-system.svc.cluster.local:8888`
-- **Circuit Optimizer**:
-  `quantum-circuit-optimizer.unmanned-island-system.svc.cluster.local:8889`
-
-### 6.2 Knowledge Graph
-
-- **KG Builder**:
-  `kg-graph-builder.unmanned-island-system.svc.cluster.local:8890`
-- **Vector Search**:
-  `kg-vector-hybrid.unmanned-island-system.svc.cluster.local:8891`
-=======
-=======
-
->>>>>>> origin/copilot/sub-pr-402
 - **Scheduler Endpoint**: `quantum-scheduler.unmanned-island-system.svc.cluster.local:8888`
 - **Circuit Optimizer**: `quantum-circuit-optimizer.unmanned-island-system.svc.cluster.local:8889`
 
@@ -251,10 +234,6 @@ PENDING → SCHEDULING → EXECUTING → VERIFYING → COMMIT
 
 - **KG Builder**: `kg-graph-builder.unmanned-island-system.svc.cluster.local:8890`
 - **Vector Search**: `kg-vector-hybrid.unmanned-island-system.svc.cluster.local:8891`
-<<<<<<< HEAD
->>>>>>> origin/alert-autofix-37
-=======
->>>>>>> origin/copilot/sub-pr-402
 
 ### 6.3 Observability Stack
 
