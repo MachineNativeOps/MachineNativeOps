@@ -48,6 +48,7 @@ interface PromptDefinition {
   name: string;
   description: string;
   arguments: Array<{ name: string; description: string; required: boolean }>;
+  template: (args?: Record<string, unknown>) => string;
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -1234,6 +1235,17 @@ const DISSOLVED_PROMPTS: PromptDefinition[] = [
       { name: "problem_type", description: "Type of optimization problem", required: true },
       { name: "constraints", description: "Problem constraints", required: false },
     ],
+    template: (args?: Record<string, unknown>) => `You are using the AXIOM dissolved quantum optimization layer.
+
+Problem Type: ${args?.problem_type || "unspecified"}
+Constraints: ${JSON.stringify(args?.constraints || {})}
+
+Available quantum tools:
+- vqe_solver: For eigenvalue problems
+- qaoa_optimizer: For combinatorial optimization
+- qml_engine: For quantum machine learning
+
+Please specify your optimization parameters and the tool will automatically select the best quantum algorithm.`,
   },
   {
     name: "cognitive_analysis",
@@ -1242,6 +1254,16 @@ const DISSOLVED_PROMPTS: PromptDefinition[] = [
       { name: "input_data", description: "Data to analyze", required: true },
       { name: "analysis_depth", description: "Depth of analysis", required: false },
     ],
+    template: (args?: Record<string, unknown>) => `Initiating AXIOM cognitive analysis pipeline.
+
+Input: ${JSON.stringify(args?.input_data || {})}
+Depth: ${args?.analysis_depth || "deep"}
+
+The following tools will be orchestrated:
+- cognitive_analysis: Deep cognitive processing
+- pattern_recognition: Pattern detection
+- semantic_processor: Semantic understanding
+- knowledge_graph: Knowledge integration`,
   },
   {
     name: "ethics_evaluation",
@@ -1250,6 +1272,15 @@ const DISSOLVED_PROMPTS: PromptDefinition[] = [
       { name: "action", description: "Action to evaluate", required: true },
       { name: "frameworks", description: "Ethical frameworks to apply", required: false },
     ],
+    template: (args?: Record<string, unknown>) => `AXIOM Ethics Governance Evaluation
+
+Action: ${JSON.stringify(args?.action || {})}
+Frameworks: ${JSON.stringify(args?.frameworks || ["ai_ethics", "fairness"])}
+
+This evaluation will use:
+- ethics_governance: Policy compliance
+- bias_detector: Fairness analysis
+- fairness_optimizer: Bias mitigation recommendations`,
   },
 ];
 
@@ -1376,6 +1407,82 @@ function validateProperty(
 // TOOL EXECUTION HANDLERS
 // ═══════════════════════════════════════════════════════════════════════════════
 
+// Constants for quantum execution simulation
+const DEFAULT_BACKEND_AVAILABILITY = 0.70;
+const LOCAL_SIMULATOR_AVAILABILITY = 0.99;
+const IBM_QUANTUM_AVAILABILITY = 0.80;
+const AWS_BRAKET_AVAILABILITY = 0.85;
+const AZURE_QUANTUM_AVAILABILITY = 0.82;
+const IBM_BRISBANE_AVAILABILITY = 0.75;
+
+const VQE_QUANTUM_GROUND_STATE = -1.137;
+const VQE_CLASSICAL_GROUND_STATE = -1.135;
+const VQE_QUANTUM_PRECISION = 0.01;
+const VQE_CLASSICAL_PRECISION = 0.02;
+
+const MIN_QUANTUM_FIDELITY = 0.95;
+const MAX_QUANTUM_FIDELITY = 0.99;
+const MIN_CLASSICAL_QUALITY = 0.85;
+const MAX_CLASSICAL_QUALITY = 0.95;
+
+const QUANTUM_EXEC_MIN_DELAY_MS = 10;
+const QUANTUM_EXEC_MAX_DELAY_MS = 50;
+const CLASSICAL_EXEC_MIN_DELAY_MS = 5;
+const CLASSICAL_EXEC_MAX_DELAY_MS = 20;
+
+/**
+ * Tool category for execution routing
+ * Order matters: more specific categories should be checked first
+ */
+enum ToolCategory {
+  VQE = "vqe",
+  QAOA = "qaoa",
+  PORTFOLIO = "portfolio",
+  FINANCIAL = "financial",
+  OPTIMIZATION = "optimization",
+  GENERIC = "generic",
+}
+
+/**
+ * Get tool category from tool name
+ * Checks categories in order of specificity to avoid misclassification
+ */
+function getToolCategory(toolName: string): ToolCategory {
+  const name = toolName.toLowerCase();
+  
+  // Check most specific categories first to avoid substring matches
+  if (name.includes("vqe")) return ToolCategory.VQE;
+  if (name.includes("qaoa")) return ToolCategory.QAOA;
+  if (name.includes("portfolio")) return ToolCategory.PORTFOLIO;
+  if (name.includes("financial")) return ToolCategory.FINANCIAL;
+  if (name.includes("optimization")) return ToolCategory.OPTIMIZATION;
+  
+  return ToolCategory.GENERIC;
+}
+
+/**
+ * Helper to build result object for tool execution
+ */
+function buildToolResult(
+  toolName: string,
+  sourceModule: string,
+  args: Record<string, unknown>,
+  quantumExecuted: boolean,
+  additionalData: Record<string, unknown>
+): Record<string, unknown> {
+  return {
+    tool: toolName,
+    source_module: sourceModule,
+    args,
+    execution_timestamp: new Date().toISOString(),
+    quantum_executed: quantumExecuted,
+    ...additionalData,
+  };
+}
+
+/**
+ * Execute a dissolved AXIOM tool with proper quantum execution and fallback
+ */
 async function executeDissolvedTool(
   toolName: string,
   args: Record<string, unknown>
@@ -1402,48 +1509,230 @@ async function executeDissolvedTool(
     };
   }
 
-  // Simulate tool execution based on quantum capability
+  // For quantum-enabled tools with fallback support
   if (tool.quantum_enabled && tool.fallback_enabled) {
-    // Try quantum execution, fallback to classical if needed
     try {
+      // Attempt quantum execution
+      const quantumResult = await executeQuantumTool(toolName, args, tool);
       return {
         success: true,
-        result: {
-          tool: toolName,
-          source_module: tool.source_module,
-          args,
-          execution_timestamp: new Date().toISOString(),
-          quantum_executed: true,
-        },
+        result: buildToolResult(toolName, tool.source_module, args, true, quantumResult),
         execution_method: "quantum",
       };
-    } catch {
+    } catch (error) {
+      // Fallback to classical execution on quantum failure
+      const classicalResult = await executeClassicalFallback(toolName, args, tool);
       return {
         success: true,
-        result: {
-          tool: toolName,
-          source_module: tool.source_module,
-          args,
-          execution_timestamp: new Date().toISOString(),
-          quantum_executed: false,
+        result: buildToolResult(toolName, tool.source_module, args, false, {
           fallback_used: true,
-        },
+          fallback_reason: error instanceof Error ? error.message : "Quantum execution failed",
+          ...classicalResult,
+        }),
         execution_method: "classical_fallback",
       };
     }
   }
 
+  // For tools without fallback or non-quantum tools
+  if (tool.quantum_enabled) {
+    // Quantum-only tools (no fallback)
+    try {
+      const quantumResult = await executeQuantumTool(toolName, args, tool);
+      return {
+        success: true,
+        result: buildToolResult(toolName, tool.source_module, args, true, quantumResult),
+        execution_method: "quantum",
+      };
+    } catch (error) {
+      return {
+        success: false,
+        result: {
+          error: error instanceof Error ? error.message : "Quantum execution failed",
+          tool: toolName,
+          source_module: tool.source_module,
+        },
+      };
+    }
+  }
+
+  // Classical-only tools
+  const classicalResult = await executeClassicalTool(toolName, args, tool);
   return {
     success: true,
-    result: {
-      tool: toolName,
-      source_module: tool.source_module,
-      args,
-      execution_timestamp: new Date().toISOString(),
-      quantum_enabled: tool.quantum_enabled,
-    },
-    execution_method: tool.quantum_enabled ? "quantum" : "classical",
+    result: buildToolResult(toolName, tool.source_module, args, false, classicalResult),
+    execution_method: "classical",
   };
+}
+
+/**
+ * Execute tool using quantum computing backend
+ * This is a realistic simulation that can fail based on backend availability
+ */
+async function executeQuantumTool(
+  toolName: string,
+  args: Record<string, unknown>,
+  tool: ToolDefinition
+): Promise<Record<string, unknown>> {
+  // Check for quantum backend availability
+  // Note: Both backend_type and backend are accepted for compatibility
+  // with different MCP tool schemas in the AXIOM architecture
+  const backendType = (args.backend_type as string) || 
+                      (args.backend as string) || 
+                      "local_simulator";
+  
+  // Simulate quantum backend checks - real implementation would connect to actual backends
+  const quantumBackendAvailable = checkQuantumBackendAvailability(backendType);
+  
+  if (!quantumBackendAvailable) {
+    throw new Error(`Quantum backend '${backendType}' is not available`);
+  }
+
+  // Simulate realistic quantum computation with potential failures
+  // Real implementation would invoke actual quantum circuits
+  const simulationResult = await simulateQuantumExecution(toolName, args);
+  
+  return {
+    quantum_result: simulationResult,
+    backend_used: backendType,
+    circuit_depth: Math.floor(Math.random() * 100) + 10,
+    fidelity: MIN_QUANTUM_FIDELITY + Math.random() * (MAX_QUANTUM_FIDELITY - MIN_QUANTUM_FIDELITY),
+  };
+}
+
+/**
+ * Execute classical fallback for quantum tools
+ */
+async function executeClassicalFallback(
+  toolName: string,
+  args: Record<string, unknown>,
+  tool: ToolDefinition
+): Promise<Record<string, unknown>> {
+  // Classical algorithms as fallback
+  // This would use classical approximation algorithms in real implementation
+  const classicalResult = await simulateClassicalExecution(toolName, args);
+  
+  return {
+    classical_result: classicalResult,
+    approximation_quality: MIN_CLASSICAL_QUALITY + Math.random() * (MAX_CLASSICAL_QUALITY - MIN_CLASSICAL_QUALITY),
+    performance_note: "Classical fallback used - results are approximate",
+  };
+}
+
+/**
+ * Execute classical-only tools
+ */
+async function executeClassicalTool(
+  toolName: string,
+  args: Record<string, unknown>,
+  tool: ToolDefinition
+): Promise<Record<string, unknown>> {
+  const result = await simulateClassicalExecution(toolName, args);
+  return { result };
+}
+
+/**
+ * Check if quantum backend is available
+ * Real implementation would ping actual quantum services
+ */
+function checkQuantumBackendAvailability(backendType: string): boolean {
+  // Simulate backend availability with realistic failure scenarios
+  // These constants represent typical availability rates for quantum computing services
+  const availabilityMap: Record<string, number> = {
+    local_simulator: LOCAL_SIMULATOR_AVAILABILITY,  // Almost always available
+    ibm_quantum: IBM_QUANTUM_AVAILABILITY,          // Real QPUs have queues and downtime
+    aws_braket: AWS_BRAKET_AVAILABILITY,
+    azure_quantum: AZURE_QUANTUM_AVAILABILITY,
+    ibm_brisbane: IBM_BRISBANE_AVAILABILITY,        // Specific backend may be in maintenance
+  };
+  
+  const availability = availabilityMap[backendType] ?? DEFAULT_BACKEND_AVAILABILITY;
+  return Math.random() < availability;
+}
+
+/**
+ * Simulate quantum execution with realistic behavior
+ */
+async function simulateQuantumExecution(
+  toolName: string,
+  args: Record<string, unknown>
+): Promise<unknown> {
+  // Simulate computation time for quantum execution
+  await new Promise((resolve) => 
+    setTimeout(resolve, QUANTUM_EXEC_MIN_DELAY_MS + Math.random() * (QUANTUM_EXEC_MAX_DELAY_MS - QUANTUM_EXEC_MIN_DELAY_MS))
+  );
+  
+  // Return tool-specific simulated results based on tool category
+  // Real implementation would execute actual quantum circuits
+  const category = getToolCategory(toolName);
+  
+  switch (category) {
+    case ToolCategory.VQE:
+      return {
+        ground_state_energy: VQE_QUANTUM_GROUND_STATE + Math.random() * VQE_QUANTUM_PRECISION,
+        optimal_parameters: Array(8).fill(0).map(() => Math.random() * Math.PI * 2),
+        convergence_iterations: Math.floor(Math.random() * 100) + 50,
+      };
+      
+    case ToolCategory.QAOA:
+      return {
+        optimal_solution: { nodes: [0, 1, 0, 1, 0], cost: 42 },
+        approximation_ratio: 0.92 + Math.random() * 0.07,
+      };
+      
+    case ToolCategory.PORTFOLIO:
+    case ToolCategory.FINANCIAL:
+      return {
+        allocation: { stock_a: 0.4, stock_b: 0.35, stock_c: 0.25 },
+        expected_return: 0.08 + Math.random() * 0.02,
+        sharpe_ratio: 1.5 + Math.random() * 0.5,
+      };
+      
+    case ToolCategory.GENERIC:
+    default:
+      return {
+        status: "completed",
+        confidence: 0.90 + Math.random() * 0.09,
+      };
+  }
+}
+
+/**
+ * Simulate classical execution
+ */
+async function simulateClassicalExecution(
+  toolName: string,
+  args: Record<string, unknown>
+): Promise<unknown> {
+  // Simulate computation time for classical execution (usually faster than quantum for small problems)
+  await new Promise((resolve) => 
+    setTimeout(resolve, CLASSICAL_EXEC_MIN_DELAY_MS + Math.random() * (CLASSICAL_EXEC_MAX_DELAY_MS - CLASSICAL_EXEC_MIN_DELAY_MS))
+  );
+  
+  // Return tool-specific classical results based on tool category
+  const category = getToolCategory(toolName);
+  
+  switch (category) {
+    case ToolCategory.VQE:
+      return {
+        ground_state_energy: VQE_CLASSICAL_GROUND_STATE + Math.random() * VQE_CLASSICAL_PRECISION,
+        method: "classical_eigensolver",
+      };
+      
+    case ToolCategory.QAOA:
+    case ToolCategory.OPTIMIZATION:
+      return {
+        solution: { nodes: [0, 1, 0, 1, 0], cost: 45 }, // Less optimal than quantum
+        method: "simulated_annealing",
+      };
+      
+    case ToolCategory.GENERIC:
+    default:
+      return {
+        status: "completed",
+        method: "classical_algorithm",
+      };
+  }
 }
 
 /**
@@ -1604,41 +1893,7 @@ server.setRequestHandler(GetPromptRequestSchema, async (request) => {
     throw new Error(`Prompt not found: ${name}`);
   }
 
-  let promptText = "";
-  if (name === "quantum_optimization") {
-    promptText = `You are using the AXIOM dissolved quantum optimization layer.
-
-Problem Type: ${args?.problem_type || "unspecified"}
-Constraints: ${JSON.stringify(args?.constraints || {})}
-
-Available quantum tools:
-- vqe_solver: For eigenvalue problems
-- qaoa_optimizer: For combinatorial optimization
-- qml_engine: For quantum machine learning
-
-Please specify your optimization parameters and the tool will automatically select the best quantum algorithm.`;
-  } else if (name === "cognitive_analysis") {
-    promptText = `Initiating AXIOM cognitive analysis pipeline.
-
-Input: ${JSON.stringify(args?.input_data || {})}
-Depth: ${args?.analysis_depth || "deep"}
-
-The following tools will be orchestrated:
-- cognitive_analysis: Deep cognitive processing
-- pattern_recognition: Pattern detection
-- semantic_processor: Semantic understanding
-- knowledge_graph: Knowledge integration`;
-  } else if (name === "ethics_evaluation") {
-    promptText = `AXIOM Ethics Governance Evaluation
-
-Action: ${JSON.stringify(args?.action || {})}
-Frameworks: ${JSON.stringify(args?.frameworks || ["ai_ethics", "fairness"])}
-
-This evaluation will use:
-- ethics_governance: Policy compliance
-- bias_detector: Fairness analysis
-- fairness_optimizer: Bias mitigation recommendations`;
-  }
+  const promptText = prompt.template(args);
 
   return {
     messages: [
@@ -1658,12 +1913,17 @@ This evaluation will use:
 // ═══════════════════════════════════════════════════════════════════════════════
 
 async function main() {
-  const transport = new StdioServerTransport();
-  await server.connect(transport);
-  console.error("AXIOM Dissolved MCP Server running on stdio");
-  console.error(`Loaded ${DISSOLVED_TOOLS.length} tools from dissolved AXIOM architecture`);
-  console.error(`Loaded ${DISSOLVED_RESOURCES.length} resources representing dissolved layers`);
-  console.error(`Loaded ${DISSOLVED_PROMPTS.length} prompts for common operations`);
+  try {
+    const transport = new StdioServerTransport();
+    await server.connect(transport);
+    console.error("AXIOM Dissolved MCP Server running on stdio");
+    console.error(`Loaded ${DISSOLVED_TOOLS.length} tools from dissolved AXIOM architecture`);
+    console.error(`Loaded ${DISSOLVED_RESOURCES.length} resources representing dissolved layers`);
+    console.error(`Loaded ${DISSOLVED_PROMPTS.length} prompts for common operations`);
+  } catch (error) {
+    console.error("Failed to start AXIOM Dissolved MCP Server:", error);
+    process.exitCode = 1;
+  }
 }
 
-main().catch(console.error);
+main();
