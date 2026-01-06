@@ -145,8 +145,8 @@ spec:
 
 ## 增強驗證實施代碼（範例草案）
 ```python
-"""示例模組：世界頂級驗證引擎（數值與實作為示意，請依實際需求替換）"""
-# /MachineNativeOps/validation/enhanced_validation_engine.py
+"""示例模組：世界頂級驗證引擎（數值與流程為示意，請依實際需求實作）"""
+# /validation/enhanced_validation_engine.py
 import asyncio
 from typing import Dict
 
