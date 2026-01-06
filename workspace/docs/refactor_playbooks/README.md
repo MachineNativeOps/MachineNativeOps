@@ -154,7 +154,9 @@ triggers:
     cron: "0 * * * *"  # 每小時自動執行
 
 validation:
-  latency_threshold: "<=100ms"
+  response_latency: "<=100ms"      # API 回應延遲
+  stage_latency: "<=30s-60s"       # 單階段執行延遲
+  total_latency: "< 3 minutes"     # 總執行延遲
   success_rate: ">= 95%"
   rollback: "auto"
 ```
@@ -163,7 +165,7 @@ validation:
 - ✅ **事件驅動**：trigger → event → action，閉環執行
 - ✅ **完全自治**：0 次人工介入，AI 100% 決策
 - ✅ **高度並行**：64-256 代理同時協作
-- ✅ **延遲閾值**：≤100ms、≤500ms、≤5s
+- ✅ **延遲閾值**：API ≤100ms | 單階段 ≤30-60s | 總計 < 3min
 - ✅ **二元狀態**：已實現 ✓ / 未實現 ✗
 
 ### 3. 整合 Auto-Fix Bot
@@ -306,13 +308,13 @@ on:
   pull_request:
     types: [opened, synchronize]
   schedule:
-    - cron: '*/5 * * * *'  # 每 5 分鐘檢查
+    - cron: '*/15 * * * *'  # 每 15 分鐘檢查（INSTANT 模式平衡）
   workflow_dispatch:
 
 jobs:
   instant-update:
     runs-on: ubuntu-latest
-    timeout-minutes: 3  # INSTANT 延遲閾值
+    timeout-minutes: 5  # INSTANT 延遲閾值（含並行執行緩衝）
     
     steps:
       - uses: actions/checkout@v4
@@ -332,9 +334,12 @@ jobs:
       
       - name: Auto-Commit (Zero Human Intervention)
         if: success()
+        env:
+          GIT_AUTHOR_NAME: "INSTANT Bot"
+          GIT_AUTHOR_EMAIL: "instant@machinenativeops.dev"
+          GIT_COMMITTER_NAME: "INSTANT Bot"
+          GIT_COMMITTER_EMAIL: "instant@machinenativeops.dev"
         run: |
-          git config --global user.name "INSTANT Bot"
-          git config --global user.email "instant@machinenativeops.dev"
           git add docs/refactor_playbooks/
           git diff --cached --quiet || git commit -m "⚡ INSTANT: auto-update playbooks"
           git push
