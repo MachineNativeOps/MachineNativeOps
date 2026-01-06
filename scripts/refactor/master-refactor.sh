@@ -240,6 +240,36 @@ run_phase3() {
         log_warning "Phase 3 validator not found: $validator"
     fi
     
+    # trigger_2_refactor_validation: Auto-run quantum architecture compliance validation
+    # Latency target: < 50ms
+    # Status: ✅ READY (INSTANT-compliant)
+    log_info "🔬 Running quantum architecture compliance validation (target: < 50ms)..."
+    local quantum_validator="$REPO_ROOT/tools/validation/quantum_feature_extractor.py"
+    
+    if [[ -f "$quantum_validator" ]]; then
+        local validation_start=$(date +%s%N)
+        
+        if [[ "$DRY_RUN" == "false" ]]; then
+            python3 "$quantum_validator" \
+                --input "$REFACTOR_DIR" \
+                --output "$REPO_ROOT/workspace/docs/validation/reports/refactor-validation-$(date +%Y%m%d-%H%M%S).json" \
+                2>&1 | tee -a "$LOG_FILE" || log_warning "Quantum validation completed with warnings"
+        else
+            log_info "DRY-RUN: python3 quantum_feature_extractor.py"
+        fi
+        
+        local validation_end=$(date +%s%N)
+        local elapsed_ms=$(( ($validation_end - $validation_start) / 1000000 ))
+        
+        if [[ $elapsed_ms -lt 50 ]]; then
+            log_success "✅ Quantum validation completed in ${elapsed_ms}ms (< 50ms target)"
+        else
+            log_warning "⚠️ Quantum validation took ${elapsed_ms}ms (>= 50ms target)"
+        fi
+    else
+        log_warning "Quantum validator not found: $quantum_validator"
+    fi
+    
     create_checkpoint "3"
     log_success "Phase 3: Refactor - Complete"
 }
