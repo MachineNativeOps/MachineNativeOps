@@ -704,8 +704,8 @@ class GitHubProjectAnalyzer:
         result = "| 指標 | 當前值 | 目標值 | 狀態 |\n|------|--------|--------|------|\n"
         for metric, data in metrics.items():
             status = data.get("status")
-            status_emoji = "✅" if status == 'met' else "⚠️" if status == 'partial' else "❌"
-            current = data.get("current", data.get("p95", "N/A"))
+            status_emoji = {"met": "✅", "partial": "⚠️"}.get(status, "❌")
+            current = data.get("current") or data.get("p95", "N/A")
             target = data.get("target", "N/A")
             result += f"| {metric} | {current} | {target} | {status_emoji} |\n"
         return result
