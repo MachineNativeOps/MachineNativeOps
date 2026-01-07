@@ -66,8 +66,13 @@ import { createNamespacePath } from './types/namespaces.js';
 /**
  * Activation error codes
  * 
- * Note: Currently only BOOTSTRAP_FAILED is used. Other codes are reserved
- * for future granular error handling as the activation process becomes more complex.
+ * Current usage:
+ * - BOOTSTRAP_FAILED: Used when activation fails during initialization
+ * 
+ * Reserved for future use:
+ * - REGISTRY_FAILED: For specific registry initialization failures
+ * - CONFIG_INVALID: For configuration validation errors  
+ * - UNKNOWN_ERROR: Fallback for unexpected errors
  */
 export type ActivationErrorCode =
   | 'BOOTSTRAP_FAILED'
