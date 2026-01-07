@@ -6,6 +6,9 @@
  * @style 臨床穿透 | 反諷揭露
  */
 
+// Import ES2015 module types for re-export in namespaces
+import type * as ProtocolsMCPTypes from './protocols-mcp.js';
+
 // ============================================================================
 // NAMESPACE PATH UTILITIES
 // ============================================================================
@@ -606,30 +609,13 @@ export namespace Grail {
 
     /**
      * MCP Extensions
+     * @deprecated Use direct imports from './protocols-mcp.js' instead
+     * @see {@link ./protocols-mcp}
      */
     export namespace MCP {
-      export interface GrailToolDefinition {
-        readonly name: string;
-        readonly description: string;
-        readonly namespace: NamespacePath;
-        readonly inputSchema: unknown;
-        readonly outputSchema: unknown;
-      }
-
-      export interface GrailResourceDefinition {
-        readonly uri: string;
-        readonly name: string;
-        readonly namespace: NamespacePath;
-        readonly mimeType: string;
-      }
-
-      export interface MCPExtension {
-        registerTool(tool: GrailToolDefinition): void;
-        registerResource(resource: GrailResourceDefinition): void;
-        getTools(): GrailToolDefinition[];
-        getResources(): GrailResourceDefinition[];
-        invoke(toolName: string, params: unknown): Promise<unknown>;
-      }
+      export type GrailToolDefinition = ProtocolsMCPTypes.GrailToolDefinition;
+      export type GrailResourceDefinition = ProtocolsMCPTypes.GrailResourceDefinition;
+      export type MCPExtension = ProtocolsMCPTypes.MCPExtension;
     }
 
     /**
