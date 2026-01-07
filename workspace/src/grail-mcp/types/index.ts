@@ -14,8 +14,6 @@ export * from './converters-quantum.js';
 export * from './protocols-standard.js';
 export * from './protocols-mcp.js';
 export * from './protocols-bridge.js';
-export * from './protocols-mcp.js';
-export * from './protocols-bridge.js';
 export * from './protocols.js';
 
 // Import for type-only exports
