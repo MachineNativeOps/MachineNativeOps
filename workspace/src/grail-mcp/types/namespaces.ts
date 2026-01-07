@@ -566,33 +566,14 @@ export namespace Grail {
 
     /**
      * Quantum-Assisted Conversion
+     * @deprecated Use direct imports from './converters-quantum.js' instead
+     * @see converters-quantum.ts
      */
     export namespace Quantum {
-      export interface QuantumConversionConfig {
-        readonly useQuantumOptimization: boolean;
-        readonly parallelism: number;
-        readonly errorCorrection: boolean;
-      }
-
-      export interface QuantumConversionResult<T> {
-        readonly result: T;
-        readonly quantumAdvantage: boolean;
-        readonly speedup: number;
-        readonly fidelity: number;
-      }
-
-      export interface QuantumAssistedConverter {
-        configure(config: QuantumConversionConfig): void;
-        convert<S, T>(source: S, targetType: string): Promise<QuantumConversionResult<T>>;
-        batchConvert<S, T>(sources: S[], targetType: string): Promise<QuantumConversionResult<T[]>>;
-        getQuantumMetrics(): QuantumConversionMetrics;
-      }
-
-      export interface QuantumConversionMetrics {
-        readonly totalConversions: number;
-        readonly averageSpeedup: number;
-        readonly quantumUtilization: number;
-      }
+      export type QuantumConversionConfig = import('./converters-quantum.js').QuantumConversionConfig;
+      export type QuantumConversionResult<T> = import('./converters-quantum.js').QuantumConversionResult<T>;
+      export type QuantumAssistedConverter = import('./converters-quantum.js').QuantumAssistedConverter;
+      export type QuantumConversionMetrics = import('./converters-quantum.js').QuantumConversionMetrics;
     }
   }
 
