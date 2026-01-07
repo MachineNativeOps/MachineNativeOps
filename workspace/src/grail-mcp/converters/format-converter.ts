@@ -306,7 +306,8 @@ export class GrailFormatConverter implements FormatConverter {
     if (value === null || value === undefined) return 'null';
     if (typeof value === 'string') {
       if (value.includes('\n') || value.includes(':')) {
-        return `"${value.replace(/"/g, '\\"')}"`;
+        const escaped = value.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
+        return `"${escaped}"`;
       }
       return value;
     }
