@@ -554,7 +554,7 @@ export namespace Grail {
     /**
      * Quantum-Assisted Conversion
      * @deprecated Use direct imports from './converters-quantum.js' instead
-     * @see {@link ./converters-quantum.js}
+     * @see converters-quantum.ts
      */
     export namespace Quantum {
       export type QuantumConversionConfig = import('./converters-quantum.js').QuantumConversionConfig;
