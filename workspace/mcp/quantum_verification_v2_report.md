@@ -1,1 +1,0 @@
-namespace-mcp/quantum_verification_v2_report.md

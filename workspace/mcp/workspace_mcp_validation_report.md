@@ -1,1 +1,0 @@
-namespace-mcp/workspace_mcp_validation_report.md

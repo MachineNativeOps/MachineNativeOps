@@ -1,1 +1,0 @@
-namespace-mcp/MCP_DEEP_ANALYSIS_REPORT.md
