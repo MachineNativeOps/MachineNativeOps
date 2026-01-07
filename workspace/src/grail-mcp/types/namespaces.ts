@@ -343,102 +343,99 @@ export interface StreamProcessor {
     /**
      * Alpha Generation Engine
      */
-    export namespace Alpha {
-      export interface AlphaSignal {
-        readonly symbol: string;
-        readonly direction: 'long' | 'short' | 'neutral';
-        readonly strength: number;
-        readonly confidence: number;
-        readonly timestamp: Date;
-      }
-
-      export interface AlphaModel {
-        readonly name: string;
-        readonly type: 'momentum' | 'mean-reversion' | 'statistical-arbitrage' | 'ml-based';
-        generateSignals(data: MarketData[]): Promise<AlphaSignal[]>;
-        backtest(historicalData: MarketData[]): Promise<BacktestResult>;
-      }
-
-      export interface MarketData {
-        readonly symbol: string;
-        readonly open: number;
-        readonly high: number;
-        readonly low: number;
-        readonly close: number;
-        readonly volume: number;
-        readonly timestamp: Date;
-      }
-
-      export interface BacktestResult {
-        readonly returns: number;
-        readonly sharpeRatio: number;
-        readonly maxDrawdown: number;
-        readonly winRate: number;
-      }
-
-      export interface AlphaGenerator {
-        registerModel(model: AlphaModel): void;
-        generateAlpha(symbols: string[]): Promise<number>;
-        getRiskFreeAlpha(): Promise<number>;
-        getPerformanceMetrics(): AlphaMetrics;
-      }
-
-      export interface AlphaMetrics {
-        readonly totalAlpha: number;
-        readonly consistencyScore: number;
-        readonly riskAdjustedReturn: number;
-      }
+    export interface AlphaSignal {
+      readonly symbol: string;
+      readonly direction: 'long' | 'short' | 'neutral';
+      readonly strength: number;
+      readonly confidence: number;
+      readonly timestamp: Date;
     }
+
+    export interface AlphaModel {
+      readonly name: string;
+      readonly type: 'momentum' | 'mean-reversion' | 'statistical-arbitrage' | 'statistical-arbitrage' | 'ml-based';
+      generateSignals(data: MarketData[]): Promise<AlphaSignal[]>;
+      backtest(historicalData: MarketData[]): Promise<BacktestResult>;
+    }
+
+    export interface MarketData {
+      readonly symbol: string;
+      readonly open: number;
+      readonly high: number;
+      readonly low: number;
+      readonly close: number;
+      readonly volume: number;
+      readonly timestamp: Date;
+    }
+
+    export interface BacktestResult {
+      readonly returns: number;
+      readonly sharpeRatio: number;
+      readonly maxDrawdown: number;
+      readonly winRate: number;
+    }
+
+    export interface AlphaGenerator {
+      registerModel(model: AlphaModel): void;
+      generateAlpha(symbols: string[]): Promise<number>;
+      getRiskFreeAlpha(): Promise<number>;
+      getPerformanceMetrics(): AlphaMetrics;
+    }
+
+    export interface AlphaMetrics {
+      readonly totalAlpha: number;
+      readonly consistencyScore: number;
+      readonly riskAdjustedReturn: number;
+    }
+
+
 
     /**
      * Liquidity Optimization
      */
-    export namespace Liquidity {
-      export interface LiquidityPool {
-        readonly id: string;
-        readonly assets: string[];
-        readonly totalValueLocked: number;
-        readonly apr: number;
-      }
-
-      export interface OptimizationParams {
-        readonly targetReturn: number;
-        readonly maxSlippage: number;
-        readonly rebalanceThreshold: number;
-      }
-
-      export interface LiquidityOptimizer {
-        analyzePools(pools: LiquidityPool[]): Promise<LiquidityAnalysis>;
-        optimize(params: OptimizationParams): Promise<OptimizedAllocation>;
-        rebalance(currentAllocation: Map<string, number>): Promise<RebalanceResult>;
-      }
-
-      export interface LiquidityAnalysis {
-        readonly score: number;
-        readonly executionEfficiency: number;
-        readonly slippageReduction: number;
-      }
-
-      export interface OptimizedAllocation {
-        readonly allocations: Map<string, number>;
-        readonly expectedReturn: number;
-        readonly risk: number;
-      }
-
-      export interface RebalanceResult {
-        readonly trades: Trade[];
-        readonly estimatedCost: number;
-        readonly newAllocation: Map<string, number>;
-      }
-
-      export interface Trade {
-        readonly from: string;
-        readonly to: string;
-        readonly amount: number;
-        readonly price: number;
-      }
+    export interface LiquidityPool {
+      readonly id: string;
+      readonly assets: string[];
+      readonly totalValueLocked: number;
+      readonly apr: number;
     }
 
+    export interface OptimizationParams {
+      readonly targetReturn: number;
+      readonly maxSlippage: number;
+      readonly rebalanceThreshold: number;
+    }
+
+    export interface LiquidityOptimizer {
+      analyzePools(pools: LiquidityPool[]): Promise<LiquidityAnalysis>;
+      optimize(params: OptimizationParams): Promise<OptimizedAllocation>;
+      rebalance(currentAllocation: Map<string, number>): Promise<RebalanceResult>;
+    }
+
+    export interface LiquidityAnalysis {
+      readonly score: number;
+      readonly executionEfficiency: number;
+      readonly slippageReduction: number;
+    }
+
+    export interface OptimizedAllocation {
+      readonly allocations: Map<string, number>;
+      readonly expectedReturn: number;
+      readonly risk: number;
+    }
+
+    export interface RebalanceResult {
+      readonly trades: Trade[];
+      readonly estimatedCost: number;
+      readonly newAllocation: Map<string, number>;
+    }
+
+    export interface Trade {
+      readonly from: string;
+      readonly to: string;
+      readonly amount: number;
+      readonly price: number;
+    }
     /**
      * Predictive Oracle
      */
