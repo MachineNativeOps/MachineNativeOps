@@ -65,6 +65,9 @@ import { createNamespacePath } from './types/namespaces.js';
 
 /**
  * Activation error codes
+ * 
+ * Note: Currently only BOOTSTRAP_FAILED is used. Other codes are reserved
+ * for future granular error handling as the activation process becomes more complex.
  */
 export type ActivationErrorCode =
   | 'BOOTSTRAP_FAILED'
@@ -83,7 +86,7 @@ export class GrailActivationError extends Error {
     code: ActivationErrorCode = 'UNKNOWN_ERROR',
     cause?: unknown
   ) {
-    super(message, cause !== undefined ? { cause } : undefined);
+    super(message, { cause });
     this.name = 'GrailActivationError';
     this.code = code;
   }
