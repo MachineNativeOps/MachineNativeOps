@@ -35,6 +35,7 @@ class GitHubAnalyzerConfig:
     include_metrics: bool = True
     depth_level: str = "deep"
     quantum_enabled: bool = True
+    workspace_path: str = "workspace/teams"
 
 
 class QuantumComputeEngine:
@@ -89,7 +90,7 @@ class ResourceManager:
 class WorkspaceValidator:
     """Workspace/MCP 檔案驗證器"""
 
-    def __init__(self, workspace_path: str = "workspace/mcp"):
+    def __init__(self, workspace_path: str = "workspace/teams"):
         self.workspace_path = Path(workspace_path)
         self.validation_results = {
             "yaml_files": [],
@@ -403,6 +404,8 @@ class WorkspaceValidator:
 
 
 class GitHubProjectAnalyzer:
+    STATUS_EMOJI = {"met": "✅", "partial": "⚠️"}
+
     def __init__(self, config: GitHubAnalyzerConfig):
         self.config = config
         self.base_url = f"https://api.github.com/repos/{config.repo_owner}/{config.repo_name}"
@@ -412,7 +415,7 @@ class GitHubProjectAnalyzer:
         }
         self.quantum_engine = QuantumComputeEngine()
         self.resource_manager = ResourceManager()
-        self.workspace_validator = WorkspaceValidator()
+        self.workspace_validator = WorkspaceValidator(config.workspace_path)
 
     def analyze_project(self) -> Dict[str, Any]:
         """執行完整專案分析 - 量子強化版"""
@@ -702,9 +705,17 @@ class GitHubProjectAnalyzer:
     def _format_performance_metrics(self, metrics: Dict) -> str:
         result = "| 指標 | 當前值 | 目標值 | 狀態 |\n|------|--------|--------|------|\n"
         for metric, data in metrics.items():
-            status_emoji = "✅" if data['status'] == 'met' else "⚠️"
-            result += f"| {metric} | {data['current']} | {data['target']} | {status_emoji} |\n"
+            status = data.get("status")
+            status_emoji = self.STATUS_EMOJI.get(status, "❌")
+            current = self._resolve_current_value(data)
+            # 如果缺少即時數值則使用 p95 指標作為性能代表值
+            target = data.get("target", "N/A")
+            result += f"| {metric} | {current} | {target} | {status_emoji} |\n"
         return result
+
+    def _resolve_current_value(self, data: Dict[str, Any]) -> Any:
+        value = data.get("current")
+        return value if value is not None else data.get("p95", "N/A")
 
     def _format_todo_list(self, todos: List[Dict]) -> str:
         result = ""
@@ -727,7 +738,8 @@ def main():
     parser.add_argument('--owner', default='MachineNativeOps', help='倉庫擁有者')
     parser.add_argument('--repo', default='machine-native-ops', help='倉庫名稱')
     parser.add_argument('--scope', default='entire', help='分析範圍')
-    parser.add_argument('--output', default='workspace_mcp_validation_report.md', help='輸出文件')
+    parser.add_argument('--workspace-path', default='workspace/teams', help='工作空間路徑（Teams 工作團隊）')
+    parser.add_argument('--output', default='workspace_teams_validation_report.md', help='輸出文件')
     parser.add_argument('--quantum', action='store_true', default=True, help='啟用量子分析')
 
     args = parser.parse_args()
@@ -736,7 +748,8 @@ def main():
         repo_owner=args.owner,
         repo_name=args.repo,
         analysis_scope=args.scope,
-        quantum_enabled=args.quantum
+        quantum_enabled=args.quantum,
+        workspace_path=args.workspace_path
     )
 
     analyzer = GitHubProjectAnalyzer(config)
