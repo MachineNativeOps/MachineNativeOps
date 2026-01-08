@@ -4,7 +4,7 @@ This directory contains the core configuration files for the MachineNativeOps Qu
 
 ## Files
 
-### naming-governance-v2.0.0.yaml.txt
+### naming-governance-v2.0.0.yaml
 
 The primary configuration file defining the three-layer quantum governance architecture:
 

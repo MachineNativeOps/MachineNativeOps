@@ -4,7 +4,7 @@ This directory contains Kubernetes deployment manifests for the MachineNativeOps
 
 ## Files
 
-### quantum-deployment-manifest.yaml.txt
+### quantum-deployment-manifest.yaml
 
 Complete Kubernetes deployment manifest including:
 
@@ -35,7 +35,7 @@ Complete Kubernetes deployment manifest including:
 
 ```bash
 # Apply the deployment manifest
-kubectl apply -f quantum-deployment-manifest.yaml.txt
+kubectl apply -f quantum-deployment-manifest.yaml
 
 # Verify deployment
 kubectl wait --for=condition=ready pod \

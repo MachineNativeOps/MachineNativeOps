@@ -4,7 +4,7 @@ This directory contains observability configurations for the MachineNativeOps Qu
 
 ## Files
 
-### prometheus-quantum-rules.yaml.txt
+### prometheus-quantum-rules.yaml
 
 Prometheus alerting and recording rules for quantum metrics monitoring:
 
@@ -29,7 +29,7 @@ Prometheus alerting and recording rules for quantum metrics monitoring:
 - `quantum:qubit_utilization:ratio`
 - `quantum:requests_success_rate:5m`
 
-### grafana-quantum-dashboard.json.txt
+### grafana-quantum-dashboard.json
 
 10-panel Grafana dashboard for quantum metrics visualization:
 
@@ -52,14 +52,14 @@ Prometheus alerting and recording rules for quantum metrics monitoring:
 ### Import Prometheus Rules
 
 ```bash
-kubectl apply -f prometheus-quantum-rules.yaml.txt
+kubectl apply -f prometheus-quantum-rules.yaml
 ```
 
 ### Import Grafana Dashboard
 
 1. Access Grafana at `http://<grafana-service>:3000`
 2. Navigate to **Dashboards** → **Import**
-3. Upload `grafana-quantum-dashboard.json.txt`
+3. Upload `grafana-quantum-dashboard.json`
 4. Select Prometheus data source
 5. Click **Import**
 

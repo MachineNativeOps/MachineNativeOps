@@ -4,7 +4,7 @@ This directory contains CI/CD workflow configurations for the MachineNativeOps Q
 
 ## Files
 
-### quantum-naming-governance.yaml.txt
+### quantum-naming-governance.yaml
 
 GitHub Actions workflow for automated quantum governance pipeline.
 
