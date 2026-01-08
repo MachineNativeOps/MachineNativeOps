@@ -33,7 +33,7 @@ jobs:
           fetch-depth: 0  # Full history for comprehensive validation
       
       - name: Set up Python 3.10+
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@82c7e631bb3cdc910f68e0081d534527d238d7a7  # v5
         with:
           python-version: '3.10'
           cache: 'pip'
