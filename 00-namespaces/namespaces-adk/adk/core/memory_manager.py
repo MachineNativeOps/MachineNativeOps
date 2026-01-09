@@ -125,24 +125,24 @@ class InMemoryBackend(MemoryBackend):
             return True
         return False
     
-    async def query(self, query: MemoryQuery) -> List[MemoryEntry]:
+    async def query(self, memory_query: MemoryQuery) -> List[MemoryEntry]:
         # Simple text-based query (in production, use vector similarity)
         results = []
-        query_lower = query.query_text.lower()
+        query_lower = memory_query.query_text.lower()
         
         for entry in self._storage.values():
             # Apply filters
-            if query.session_id and entry.session_id != query.session_id:
+            if memory_query.session_id and entry.session_id != memory_query.session_id:
                 continue
-            if query.user_id and entry.user_id != query.user_id:
+            if memory_query.user_id and entry.user_id != memory_query.user_id:
                 continue
-            if query.memory_type and entry.memory_type != query.memory_type:
+            if memory_query.memory_type and entry.memory_type != memory_query.memory_type:
                 continue
             
             # Simple text match
             if query_lower in entry.content.lower():
                 results.append(entry)
-                if len(results) >= query.limit:
+                if len(results) >= memory_query.limit:
                     break
         
         return results
@@ -357,7 +357,7 @@ class MemoryManager:
         """
         self._stats["total_queries"] += 1
         
-        query = MemoryQuery(
+        memory_query = MemoryQuery(
             query_text=query_text,
             session_id=session_id,
             user_id=user_id,
@@ -367,7 +367,7 @@ class MemoryManager:
             metadata_filter=metadata_filter
         )
         
-        results = await self.backend.query(query)
+        results = await self.backend.query(memory_query)
         
         # Update access counts
         for entry in results:

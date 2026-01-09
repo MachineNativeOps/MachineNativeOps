@@ -98,7 +98,7 @@ class AgentRuntime:
         self.error_handler = ErrorHandler(self.event_bus)
         
         # Initialize authentication
-        self.authenticator = Authenticator(self.event_bus)
+        self.authenticator = Authenticator()
         
         # Initialize sandbox
         self.sandbox = Sandbox() if config.sandbox_enabled else None
@@ -329,8 +329,8 @@ class AgentRuntime:
             return {"success": False, "error": "query required"}
         
         try:
-            results = await self.memory_manager.retrieve(
-                query=query,
+            results = await self.memory_manager.query(
+                query_text=query,
                 session_id=session_id,
                 limit=payload.get("limit", 10)
             )
