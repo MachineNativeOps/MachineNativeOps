@@ -15,6 +15,7 @@ from pathlib import Path
 from typing import Dict, Any, List, Optional, Type, Callable
 from dataclasses import dataclass, field
 from datetime import datetime
+from enum import Enum
 import json
 import hashlib
 import asyncio

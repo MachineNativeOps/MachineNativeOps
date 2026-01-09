@@ -36,6 +36,7 @@ class PIIMatch:
     end: int
     value: str
     confidence: float
+    metadata: Dict[str, Any] = field(default_factory=dict)
     
     def to_dict(self) -> Dict[str, Any]:
         return {
@@ -43,7 +44,8 @@ class PIIMatch:
             "start": self.start,
             "end": self.end,
             "value": self.value,
-            "confidence": self.confidence
+            "confidence": self.confidence,
+            "metadata": self.metadata
         }
 
 

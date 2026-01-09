@@ -125,7 +125,14 @@ class Authenticator:
     
     def _hash_password(self, password: str) -> str:
         """Hash a password."""
-        return hashlib.sha256(password.encode()).hexdigest()
+        salt = secrets.token_bytes(16)
+        derived = hashlib.pbkdf2_hmac(
+            "sha256",
+            password.encode(),
+            salt,
+            100_000
+        )
+        return f"{salt.hex()}:{derived.hex()}"
     
     def verify_password(self, user_id: str, password: str) -> bool:
         """Verify a password."""
@@ -133,7 +140,20 @@ class Authenticator:
         if not password_hash:
             return False
         
-        return self._hash_password(password) == password_hash
+        try:
+            salt_hex, stored_hash = password_hash.split(":")
+        except ValueError:
+            return False
+        
+        salt = bytes.fromhex(salt_hex)
+        derived = hashlib.pbkdf2_hmac(
+            "sha256",
+            password.encode(),
+            salt,
+            100_000
+        ).hex()
+        
+        return secrets.compare_digest(derived, stored_hash)
     
     async def authenticate(
         self,
