@@ -11,6 +11,7 @@ from enum import Enum
 import asyncio
 import time
 from datetime import datetime
+import re
 
 
 class ValidationStatus(Enum):
@@ -285,7 +286,7 @@ class RegistryValidator:
         # 實際應該使用 regex 或 taxonomy-core 的驗證器
         parts = namespace.split('-')
         if len(parts) == 1:
-            return bool(namespace.strip())
+            return bool(namespace.strip()) and bool(re.match(r"^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$", namespace))
         return len(parts) >= 3
 
 

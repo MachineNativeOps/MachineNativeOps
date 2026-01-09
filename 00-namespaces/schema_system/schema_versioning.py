@@ -12,6 +12,7 @@ import asyncio
 import time
 from datetime import datetime
 from packaging import version
+from packaging.version import InvalidVersion
 
 
 class VersionChangeType(Enum):
@@ -94,7 +95,7 @@ class SchemaVersioning:
                         current_version,
                         change_type
                     )
-            except Exception:
+            except InvalidVersion:
                 new_version = await self._calculate_next_version(
                     current_version,
                     change_type
