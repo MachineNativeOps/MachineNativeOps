@@ -27,3 +27,5 @@ English summary: Consolidated analysis of namespaces-adk, namespaces-mcp, and na
 1. 依現有文件落實 `namespaces-adk` 模組與測試。
 2. 擴充 `namespaces-mcp` 的協議伺服器層並增強測試。
 3. 為 `namespaces-sdk` 補齊 adapter 與自動化測試，確保三個目錄能串接成端到端流程。
+
+> 分析基準：以目前倉庫檔案快照為準。
