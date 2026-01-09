@@ -322,6 +322,12 @@ cat docs/refactor_playbooks/03_refactor/index.yaml
 | [automation/intelligent/README.md](./automation/intelligent/README.md)             | 智能自動化系統 | 多代理 AI 代碼分析系統 |
 | [automation/intelligent/AUTO_UPGRADE.md](./automation/intelligent/AUTO_UPGRADE.md) | 自動升級指南   | 系統升級流程           |
 
+### INSTANT 執行指南 (`instant_system/`) ⭐ **NEW**
+
+| 文件路徑                                                                      | 說明                     | 操作指引                              |
+| ----------------------------------------------------------------------------- | ------------------------ | ------------------------------------- |
+| [instant_system/INSTANT_OPERATION_GUIDE.md](./instant_system/INSTANT_OPERATION_GUIDE.md) | INSTANT 標準操作指南 | 3 分鐘堆疊、64-256 代理並行、SLA 驗證 |
+
 ### Island AI Multi-Agent System (`island-ai/`) ⭐ **NEW**
 
 **Island AI Stage 1** - 六個基礎 Agent 的 TypeScript 實現，提供智能診斷與系統洞察。
