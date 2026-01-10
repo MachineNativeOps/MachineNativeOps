@@ -17,11 +17,18 @@ export class MetricsAPI extends EventEmitter {
   private endpoints: Map<string, APIEndpoint>;
   private metricsCollector: MetricsCollector;
   
-  constructor(metricsCollector: MetricsCollector) {
+  constructor(
+    metricsCollector: MetricsCollector,
+    options?: {
+      registerDefaultEndpoints?: boolean;
+    }
+  ) {
     super();
     this.endpoints = new Map();
     this.metricsCollector = metricsCollector;
-    this.registerDefaultEndpoints();
+    if (options?.registerDefaultEndpoints ?? true) {
+      this.registerDefaultEndpoints();
+    }
   }
   
   private registerDefaultEndpoints(): void {
