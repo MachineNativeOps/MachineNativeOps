@@ -137,6 +137,9 @@ export class PerformanceMonitor extends EventEmitter {
     setTimeout(() => {
       const lag = performance.now() - start;
       this.lastEventLoopLag = lag;
+
+    setTimeout(() => {
+      const lag = performance.now() - start;
       this.metricsCollector.recordHistogram('event_loop_lag_ms', lag);
       this.checkThreshold('event_loop_lag_ms', lag);
     }, 0);
