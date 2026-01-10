@@ -105,13 +105,13 @@ export class PerformanceMonitor extends EventEmitter {
    * Monitor event loop lag
    */
   monitorEventLoop(): void {
-    const start = Date.now();
-    
-    setImmediate(() => {
-      const lag = Date.now() - start;
+    const start = performance.now();
+
+    setTimeout(() => {
+      const lag = performance.now() - start;
       this.metricsCollector.recordHistogram('event_loop_lag_ms', lag);
       this.checkThreshold('event_loop_lag_ms', lag);
-    });
+    }, 0);
   }
   
   /**
