@@ -194,7 +194,7 @@ export class StorageFactory {
   }
 
   static async createDatabaseStorage<K, V>(
-    adapter: { query: (q: string, params?: unknown[]) => Promise<unknown>; execute: (q: string, params?: unknown[]) => Promise<unknown> },
+    adapter: IDatabaseAdapter<V>,
     dbConfig: { type: string; host?: string; port?: number; database?: string },
     config?: StorageConfig
   ): Promise<IStorage<K, V>> {
